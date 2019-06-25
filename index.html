@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>EditPhoto.Club</title>
+    <title>SSB System</title>
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport"
         content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -12,13 +12,80 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body>
-    <div id="main_menu">
+<body id="body" class="display-flex flex-column">
+    <header id="page_header" class="display-flex">
+        <div class="header-item flex-1">
 
+        </div>
+        <div class="header-item flex-1">
+
+        </div>
+        <div class="header-item flex-1">
+
+        </div>
+    </header>
+    <div id="content_frame" class="flex-1 display-flex flex-row">
+        <div id="main_menu">
+            <div id="finance" onclick="menuItemClick(this.id)"
+                class="menu-item display-flex flex-column menu-item-active">
+                <div class="text-center">
+                    <div>
+                        <div class="icon-own-general-ledger item-icon"></div>
+                    </div>
+                    <div>
+                        <h6 class="menu-item-text unselectable">Pénzügy</h6>
+                    </div>
+                </div>
+            </div>
+            <div id="processes" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+                <div class="text-center">
+                    <div>
+                        <div class="icon-own-flow-chart item-icon"></div>
+                    </div>
+                    <div>
+                        <h6 class="menu-item-text unselectable">Folyamatok</h6>
+                    </div>
+                </div>
+            </div>
+            <div id="products" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+                <div class="text-center">
+                    <div>
+                        <div class="icon-own-product-documents item-icon"></div>
+                    </div>
+                    <div>
+                        <h6 class="menu-item-text unselectable">Termékek</h6>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resources" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+                <div class="text-center">
+                    <div>
+                        <div class="icon-own-work item-icon"></div>
+                    </div>
+                    <div>
+                        <h6 class="menu-item-text unselectable">Erőforrások</h6>
+                    </div>
+                </div>
+            </div>
+            <div id="settings" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+                <div class="text-center">
+                    <div>
+                        <div class="icon-own-services item-icon"></div>
+                    </div>
+                    <div>
+                        <h6 class="menu-item-text unselectable">Beállítások</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content_shell" class="full-screen">
+            <div id="content">
+
+            </div>
+        </div>
     </div>
-    <div id="content_frame">
-        
-    </div>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
