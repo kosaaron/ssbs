@@ -36,7 +36,7 @@ function generateFilter() {
 
 /* Dávid end */
 /* Ádam */
-/** Adatok **/
+/** Data **/
 var activeTables = ["table 1", "table 2"];
 var activeTableData;
 var activeTableFilters;
