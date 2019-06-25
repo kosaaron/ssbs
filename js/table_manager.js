@@ -1,4 +1,38 @@
 /* Dávid */
+//Filter generate
+function generateFilter() {
+    let dropdownHtml = "";
+    for (var i = 0; i < activeTableFilters.length; i++) {
+        if (i % 3 == 0) {
+        dropdownHtml += '<div class="row">';
+        }
+        dropdownHtml += '<div class="col-4 text-center">';
+        if (activeTableFilters[i].Type == "Write") {
+        dropdownHtml += '<div class="my-3"><input type="text" class="form-control col-5" placeholder="' +
+        activeTableFilters[i].Name + '" aria-label="' + activeTableFilters[i].Name + '" aria-describedby="addon-wrapping"></div>';
+        } 
+        else {
+            dropdownHtml += '<div class="dropdown my-3">';
+            dropdownHtml += '<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+            dropdownHtml += activeTableFilters[i].Name;
+            dropdownHtml += '</button>';
+            dropdownHtml += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
+            if (activeTableFilters[i].hasOwnProperty('Opportunities')) {
+                for (let j = 0; j < activeTableFilters[i].Opportunities.length; j++) {
+                    dropdownHtml += '<a class="dropdown-item" href="#">';
+                    dropdownHtml += activeTableFilters[i].Opportunities[j];
+                    dropdownHtml += '</a>';
+                }
+            }
+            dropdownHtml += '</div></div>';
+        }
+        dropdownHtml += '</div>';
+        if (i % 3 == 2) {
+            dropdownHtml += '</div>';
+        }
+    }
+    document.getElementById('customtable').innerHTML = dropdownHtml;
+}
 
 /* Dávid end */
 /* Ádam */
@@ -12,8 +46,26 @@ activeTableFilters = [
         Name:"Kategória",
         Type:"Select",
         Default:"Sajt",
-        Opportunities = ["Sajt","Karalábé","Csoki"]
-    }, 
+        Opportunities: ["Sajt","Karalábé","Csoki"]
+    },
+    {
+        Name:"Raktár",
+        Type:"Select",
+        Default:"Sajt",
+        Opportunities: ["Raktár1","Raktár2","Raktár3"]
+    },
+    {
+        Name:"Kategória",
+        Type:"Select",
+        Default:"Sajt",
+        Opportunities: ["Sajt","Karalábé","Csoki"]
+    },
+    {
+        Name:"Kategória",
+        Type:"Select",
+        Default:"Sajt",
+        Opportunities: ["Sajt","Karalábé","Csoki"]
+    },
     {
         Name:"Típus",
         Type:"Write",
