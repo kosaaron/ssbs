@@ -11,7 +11,7 @@ function generateFilter() {
         dropdownHtml += '<div class="my-3"><input type="text" class="form-control col-5" placeholder="' +
         activeTableFilters[i].Name + '" aria-label="' + activeTableFilters[i].Name + '" aria-describedby="addon-wrapping"></div>';
         } 
-        else {
+        else if (activeTableFilters[i].Type == "Dropdown") {
             dropdownHtml += '<div class="dropdown my-3">';
             dropdownHtml += '<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
             dropdownHtml += activeTableFilters[i].Name;
@@ -26,13 +26,27 @@ function generateFilter() {
             }
             dropdownHtml += '</div></div>';
         }
+        else {
+            dropdownHtml += '<div class="form-group form-inline">';
+            dropdownHtml += '<label class="mr-3">' + activeTableFilters[i].Name + '</label>';
+            dropdownHtml += '<select class="selectpicker my-3 form-control" data-live-search="true">';
+            for (let k = 0; k < activeTableFilters[i].Opportunities.length; k++) {
+                dropdownHtml += '<option>' + activeTableFilters[i].Opportunities[k] + '</option>';
+            }
+            dropdownHtml += '</select></div>';
+        }
         dropdownHtml += '</div>';
         if (i % 3 == 2) {
             dropdownHtml += '</div>';
         }
     }
     document.getElementById('customtable').innerHTML = dropdownHtml;
+    $('.selectpicker').selectpicker('refresh');
 }
+
+$(document).ready(function() {
+    generateFilter();
+});
 
 /* Dávid end */
 /* Ádam */
@@ -51,13 +65,13 @@ activeTableFilters = [
     {
         Name:"Raktár",
         Type:"Select",
-        Default:"Sajt",
+        Default:"Raktár3",
         Opportunities: ["Raktár1","Raktár2","Raktár3"]
     },
     {
         Name:"Kategória",
         Type:"Select",
-        Default:"Sajt",
+        Default:"Karalábé",
         Opportunities: ["Sajt","Karalábé","Csoki"]
     },
     {
