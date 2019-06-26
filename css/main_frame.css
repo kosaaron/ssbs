@@ -5,9 +5,20 @@ html, body {
     height: 100%;
 }
 
+h7 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
 .full-screen {
     height: 100%;
     width: 100%;
+}
+
+.display-none {
+    display: none;
 }
 
 .unselectable {
@@ -68,6 +79,16 @@ html, body {
     background: #fff;
 }
 
+#finance {
+    height: 100%;
+    width: 100%;
+    background: #fff;
+}
+
+#finance_menu {
+    background: transparent;
+}
+
 .menu-item {
     background: #fff;
     width: 100%;
@@ -92,7 +113,36 @@ html, body {
     padding-top: 3px;
 }
 
-@media only screen and (max-width: 800px) {
+.submenu {
+    width: 200px;
+    position: absolute;
+    margin-top: 30px;
+}
+
+.submenu-item {
+    height: 45px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    padding-left: 25px;
+    justify-content: center;
+    background-image: linear-gradient(to right, #fff, transparent);
+    color: #007bff;
+    -webkit-box-shadow: inset 110px 0px 100px -150px #007bff;
+    -moz-box-shadow: inset 110px 0px 100px -150px #007bff;
+    box-shadow: inset 110px 0px 100px -150px #007bff;
+}
+
+.submenu-item-active {
+    color: #555;
+    cursor: pointer;
+}
+
+.submenu-item:hover {
+    color: #555;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 900px) {
     .item-icon {
         font-size: 40px;
     }
@@ -105,6 +155,7 @@ html, body {
 }
 
 @media only screen and (max-width: 630px) {
+    /* menu */
     #main_menu {
         position: fixed;
         display: flex;
@@ -114,8 +165,7 @@ html, body {
         border-right: 0;
         border-top: 1px solid #bbb;
     }
-
-    #settings {
+    #tab_settings {
         display: none;
     }
     .menu-item {
@@ -132,6 +182,43 @@ html, body {
         padding-top: 2px;
         font-size: 13px;
         margin: 0;
+    }
+    /* submenu */
+    .submenu {
+        width: 100%;
+        height: 45px;
+        margin: 0;
+        border-bottom: 1px solid #ddd;
+        /* OLD - iOS 6-, Safari 3.1-6 */
+        display: -moz-box;
+        /* OLD - Firefox 19- (buggy but mostly works) */
+        display: -ms-flexbox;
+        /* TWEENER - IE 10 */
+        display: -webkit-flex;
+        /* NEW - Chrome */
+        display: flex;
+        /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    }
+    .submenu-item {
+        padding: 0;
+        background: inherit;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        -webkit-box-flex: 1;
+        /* OLD - iOS 6-, Safari 3.1-6 */
+        -moz-box-flex: 1;
+        /* OLD - Firefox 19- */
+        -webkit-flex: 1;
+        /* Chrome */
+        -ms-flex: 1;
+        /* IE 10 */
+        flex: 1;
+        /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    }
+    .submenu-border {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
     }
 }
 
@@ -152,5 +239,8 @@ html, body {
         padding-top: 1px;
         font-size: 11px;
         margin-bottom: 2px;
+    }
+    h7 {
+        font-size: 0.9rem;
     }
 }

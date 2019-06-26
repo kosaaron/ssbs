@@ -26,7 +26,7 @@
     </header>
     <div id="content_frame" class="flex-1 display-flex flex-row">
         <div id="main_menu">
-            <div id="finance" onclick="menuItemClick(this.id)"
+            <div id="tab_finance" onclick="menuItemClick(this.id)"
                 class="menu-item display-flex flex-column menu-item-active">
                 <div class="text-center">
                     <div>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div id="processes" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+            <div id="tab_processes" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
                 <div class="text-center">
                     <div>
                         <div class="icon-own-flow-chart item-icon"></div>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div id="products" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+            <div id="tab_products" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
                 <div class="text-center">
                     <div>
                         <div class="icon-own-product-documents item-icon"></div>
@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            <div id="resources" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+            <div id="tab_resources" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
                 <div class="text-center">
                     <div>
                         <div class="icon-own-work item-icon"></div>
@@ -68,20 +68,53 @@
                     </div>
                 </div>
             </div>
-            <div id="settings" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+            <div id="tab_settings" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
                 <div class="text-center">
                     <div>
                         <div class="icon-own-services item-icon"></div>
                     </div>
                     <div>
-                        <h6 class="menu-item-text unselectable">Beállítások</h6>
+                        <h6 class="menu-item-text unselectable">Alkalmazás</h6>
                     </div>
                 </div>
             </div>
         </div>
         <div id="content_shell" class="full-screen">
             <div id="content">
+                <div id="finance">
+                    <div id="finance_menu" class="submenu">
+                        <div class="submenu-item display-flex flex-column submenu-item-active">
+                            <h7 class="unselectable">Áttekintés</h7>
+                        </div>
+                        <div class="submenu-item display-flex flex-column">
+                            <h7 class="unselectable submenu-border">Bevételek</h7>
+                        </div>
+                        <div class="submenu-item display-flex flex-column">
+                            <h7 class="unselectable">Költségek</h7>
+                        </div>
+                    </div>
+                    <div>
 
+                    </div>
+                </div>
+                <div id="processes" class="display-none">
+
+                </div>
+                <div id="products" class="display-none">
+                    <div id="finance_menu">
+                        <div class="submenu-item"></div>
+                    </div>
+                </div>
+                <div id="resources" class="display-none">
+                    <div id="finance_menu">
+                        <div class="submenu-item"></div>
+                    </div>
+                </div>
+                <div id="settings" class="display-none">
+                    <div id="finance_menu">
+                        <div class="submenu-item"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
