@@ -1,26 +1,27 @@
 /* Dávid */
+
 //Filter generate
-function generateFilter() {
+function generateFilter(filters) {
     let dropdownHtml = "";
-    for (var i = 0; i < activeTableFilters.length; i++) {
+    for (var i = 0; i < filters.length; i++) {
         if (i % 3 == 0) {
         dropdownHtml += '<div class="row">';
         }
         dropdownHtml += '<div class="col-4 text-center">';
-        if (activeTableFilters[i].Type == "Write") {
+        if (filters[i].Type == "Write") {
         dropdownHtml += '<div class="my-3"><input type="text" class="form-control col-5" placeholder="' +
-        activeTableFilters[i].Name + '" aria-label="' + activeTableFilters[i].Name + '" aria-describedby="addon-wrapping"></div>';
+        filters[i].Name + '" aria-label="' + filters[i].Name + '" aria-describedby="addon-wrapping"></div>';
         } 
-        else if (activeTableFilters[i].Type == "Dropdown") {
+        else if (filters[i].Type == "Dropdown") {
             dropdownHtml += '<div class="dropdown my-3">';
             dropdownHtml += '<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-            dropdownHtml += activeTableFilters[i].Name;
+            dropdownHtml += filters[i].Name;
             dropdownHtml += '</button>';
             dropdownHtml += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
-            if (activeTableFilters[i].hasOwnProperty('Opportunities')) {
-                for (let j = 0; j < activeTableFilters[i].Opportunities.length; j++) {
+            if (filters[i].hasOwnProperty('Opportunities')) {
+                for (let j = 0; j < filters[i].Opportunities.length; j++) {
                     dropdownHtml += '<a class="dropdown-item" href="#">';
-                    dropdownHtml += activeTableFilters[i].Opportunities[j];
+                    dropdownHtml += filters[i].Opportunities[j];
                     dropdownHtml += '</a>';
                 }
             }
@@ -28,10 +29,10 @@ function generateFilter() {
         }
         else {
             dropdownHtml += '<div class="form-group form-inline">';
-            dropdownHtml += '<label class="mr-3">' + activeTableFilters[i].Name + '</label>';
+            dropdownHtml += '<label class="mr-3">' + filters[i].Name + '</label>';
             dropdownHtml += '<select class="selectpicker my-3 form-control" data-live-search="true">';
-            for (let k = 0; k < activeTableFilters[i].Opportunities.length; k++) {
-                dropdownHtml += '<option>' + activeTableFilters[i].Opportunities[k] + '</option>';
+            for (let k = 0; k < filters[i].Opportunities.length; k++) {
+                dropdownHtml += '<option>' + filters[i].Opportunities[k] + '</option>';
             }
             dropdownHtml += '</select></div>';
         }
@@ -40,12 +41,50 @@ function generateFilter() {
             dropdownHtml += '</div>';
         }
     }
-    document.getElementById('customtable').innerHTML = dropdownHtml;
+    document.getElementById('filters').innerHTML = dropdownHtml;
     $('.selectpicker').selectpicker('refresh');
 }
 
+function generateTable(head, width, data) {
+    let dataProps = Object.getOwnPropertyNames(data[0]);
+    let table = '';
+    table += '<div class="container-fluid"><table class="table table-hover mb-0"><thead class="thead-light"><thead class="thead-light"><tr class="row m-0">';
+    for (let i = 0; i < head.length; i++) {
+        table += '<th class="d-inline-block ' + width[i] + '">' + head[i] + '</th>'
+    }
+    table += '</tr></thead></table>'
+    table += ' <table class="table table-hover"><tbody>';
+    for (let j = 0; j < data.length; j++) {
+        table += '<tr class="row m-0">';
+        for (let k = 0; k < dataProps.length; k++) {
+            table += '<td class="d-inline-block ' + width[k] + '">';
+            if (typeof data[j][dataProps[k]] == "boolean") {
+                table += '<div class="form-check text-center"><input class="form-check-input" type="checkbox"';
+                if (data[j][dataProps[k]]) table += 'checked';
+                table += '></div>'
+            }
+            else {
+                table += data[j][dataProps[k]];
+            }
+            table += '</td>'
+        }
+    }
+
+
+
+    document.getElementById('customtable').innerHTML += table;
+}
+
+tableHeaderText = ["Beszállító", "Termék", "Raktár", "Készlet", "Kihelyezve"];
+tableColWidth = ["col-2", "col-3", "col-2", "col-2", "col-2", "col-1"];
+
+
 $(document).ready(function() {
-    generateFilter();
+    generateFilter(activeTableFilters);
+});
+
+$(document).ready(function() {
+    generateTable(tableHeaderText, tableColWidth, activeTableData);
 });
 
 /* Dávid end */
