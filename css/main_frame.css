@@ -55,17 +55,16 @@ h7 {
     /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 #page_header {
-    background: #3B4372;
+    background: #e1e7e9;
     width: 100%;
     height: 8%;
-    border-bottom:2px solid #bbb;
+    border-bottom: 2px solid #b2bec3;
 }
 
 #main_menu {
     background: #555;
     width: 180px;
     height: 100%;
-    border-right: 1px solid #bbb;
 }
 
 #content_frame {
@@ -89,19 +88,20 @@ h7 {
 }
 
 .menu-item {
-    background: #F0F1F2;
+    background: #dfe6e9;
     width: 100%;
     height: 20%;
-    justify-content: center
+    justify-content: center;
+    color: #97a1a5;
 }
 
 .menu-item:hover {
-    color: #636D8C;
+    color: #023E8C;
     cursor: pointer;
 }
 
 .menu-item-active {
-    color: #636D8C;
+    color: #023E8C;
 }
 
 .item-icon {
@@ -116,13 +116,12 @@ h7 {
     width: 200px;
     position: absolute;
     margin-top: 0px;
-    background-color: #555;
     height: 92%;
-    background-color: #333;
-    background-image: linear-gradient(to left, #555, transparent);
-    -webkit-box-shadow: inset 110px 0px 100px -150px #555;
-    -moz-box-shadow: inset 110px 0px 100px -150px #555;
-    box-shadow: inset 110px 0px 100px -150px #555;
+background-color: #55efc4;
+    background-image: linear-gradient(to left, #b2bec3, transparent);
+    -webkit-box-shadow: inset 110px 0px 100px -150px #b2bec3;
+    -moz-box-shadow: inset 110px 0px 100px -150px #b2bec3;
+    box-shadow: inset 110px 0px 100px -150px #b2bec3;
 }
 
 .submenu-item {
@@ -131,19 +130,20 @@ h7 {
     margin: 10px;
     justify-content: center;
     color: #555;
-    border-left: 8px solid #01043F;
+    border-left: 8px solid #b2bec3;
     background-color: #F0F1F2;
 }
 
 .submenu-item-active {
     color: #636D8C;
     cursor: pointer;
-    border-left: 8px solid #01043F;
+    border-left: 8px solid #023E8C;
 }
 
 .submenu-item:hover {
     color: #636D8C;
     cursor: pointer;
+    border-left: 8px solid #023E8C;
 }
 
 @media only screen and (max-width: 900px) {
