@@ -42,7 +42,6 @@ h7 {
     display: flex;
     /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
-
 .flex-1 {
     -webkit-box-flex: 1;
     /* OLD - iOS 6-, Safari 3.1-6 */
@@ -55,11 +54,11 @@ h7 {
     flex: 1;
     /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
-
 #page_header {
-    background: #59C9FF;
+    background: #3B4372;
     width: 100%;
     height: 8%;
+    border-bottom:2px solid #bbb;
 }
 
 #main_menu {
@@ -76,13 +75,13 @@ h7 {
 #content {
     height: 100%;
     width: 100%;
-    background: #eee;
+    background: #F0F1F2;
 }
 
 #finance {
     height: 100%;
     width: 100%;
-    background: #eee;
+    background: #F0F1F2;
 }
 
 #finance_menu {
@@ -90,19 +89,19 @@ h7 {
 }
 
 .menu-item {
-    background: #eee;
+    background: #F0F1F2;
     width: 100%;
     height: 20%;
     justify-content: center
 }
 
 .menu-item:hover {
-    color: #59C9FF;
+    color: #636D8C;
     cursor: pointer;
 }
 
 .menu-item-active {
-    color: #59C9FF;
+    color: #636D8C;
 }
 
 .item-icon {
@@ -132,18 +131,18 @@ h7 {
     margin: 10px;
     justify-content: center;
     color: #555;
-    border-left: 8px solid #59C9FF;
-    border-radius: 6px;
-    background-color: #eee;
+    border-left: 8px solid #01043F;
+    background-color: #F0F1F2;
 }
 
 .submenu-item-active {
-    color: #59C9FF;
+    color: #636D8C;
     cursor: pointer;
+    border-left: 8px solid #01043F;
 }
 
 .submenu-item:hover {
-    color: #59C9FF;
+    color: #636D8C;
     cursor: pointer;
 }
 
