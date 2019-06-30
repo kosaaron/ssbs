@@ -55,10 +55,10 @@ h7 {
     /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 #page_header {
-    background: #e1e7e9;
+    background: #3B4372;
     width: 100%;
     height: 8%;
-    border-bottom: 2px solid #b2bec3;
+    border-bottom: 3px solid #3B4372;
 }
 
 #main_menu {
@@ -74,13 +74,13 @@ h7 {
 #content {
     height: 100%;
     width: 100%;
-    background: #F0F1F2;
+    background: #FFFEFC;
 }
 
 #finance {
     height: 100%;
     width: 100%;
-    background: #F0F1F2;
+    background: #FFFEFC;
 }
 
 #finance_menu {
@@ -88,20 +88,20 @@ h7 {
 }
 
 .menu-item {
-    background: #dfe6e9;
+    background: #FFFEFC;
     width: 100%;
     height: 20%;
     justify-content: center;
-    color: #97a1a5;
+    color: #01043F;
 }
 
 .menu-item:hover {
-    color: #023E8C;
+    color: #0067A5;
     cursor: pointer;
 }
 
 .menu-item-active {
-    color: #023E8C;
+    color: #0067A5;
 }
 
 .item-icon {
@@ -118,20 +118,20 @@ h7 {
     margin-top: 0px;
     height: 92%;
 background-color: #55efc4;
-    background-image: linear-gradient(to left, #b2bec3, transparent);
-    -webkit-box-shadow: inset 110px 0px 100px -150px #b2bec3;
-    -moz-box-shadow: inset 110px 0px 100px -150px #b2bec3;
-    box-shadow: inset 110px 0px 100px -150px #b2bec3;
+    background-image: linear-gradient(to left, #01043F, transparent);
+    -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
+    -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
+    box-shadow: inset 110px 0px 100px -180px #01043F;
 }
 
 .submenu-item {
     height: 45px;
     text-align: center;
-    margin: 10px;
+    margin: 7px;
     justify-content: center;
     color: #555;
     border-left: 8px solid #b2bec3;
-    background-color: #F0F1F2;
+    background-color: #FFFEFC;
 }
 
 .submenu-item-active {
