@@ -65,5 +65,9 @@ body::-webkit-scrollbar-thumb {
     font-weight: 600;
 }
 #tablemargin{
-    padding-left: 40px;
+    padding-left: 30px;
+}
+#details-table{
+    margin: none;
+    padding: none;
 }
