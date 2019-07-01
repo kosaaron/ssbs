@@ -55,5 +55,20 @@ function menuItemClick(id) {
             break;
     }
 }
+/**
+ * 
+ */
+function processesModulClick(id) {
+    document.getElementById("processes_menu").style.display = "none";
+    document.getElementById("processes_content").style.display = "block";
+
+    switch (id) {
+        case "processes_overview":
+            
+            break;
+        default:
+            break;
+    }
+}
 /** Click events end */
 /** Events end */
