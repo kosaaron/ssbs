@@ -17,6 +17,10 @@ h7 {
     width: 100%;
 }
 
+.align-center {
+    text-align: center;
+}
+
 .display-none {
     display: none;
 }
@@ -146,6 +150,71 @@ h7 {
     cursor: pointer;
     border-left: 8px solid #023E8C;
 }
+
+.menu-content {
+    width: 100%;
+    height: 100%;
+}
+
+.tile_menu {
+    overflow: auto;
+    padding: 2%;
+}
+
+.one-tile {
+    height: 50%;
+    float: left;
+    padding: 1%;
+}
+
+.one-tile .content {
+    height: 100%;
+    width: 100%;
+    border: 1px solid #01043F;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.one-tile .content:hover {
+    color: #0067A5;
+}
+
+.tile-icon {
+    font-size: 15vh;
+}
+
+.tile-icon-shell {
+    height: 60%;
+    justify-content: center;
+    border-bottom: 1px solid #01043F;
+}
+
+.tile-btn {
+    text-align: center;
+    padding: 3% 4%;
+    overflow: hidden;
+    height: 40%;
+}
+
+.tile-description {
+    line-height: 1.3;
+    color: #aaa;
+}
+
+/* ratio of 1:1
+.one-tile:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+.one-tile .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}*/
 
 @media only screen and (max-width: 900px) {
     .item-icon {
