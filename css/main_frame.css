@@ -42,6 +42,7 @@ h7 {
     display: flex;
     /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
+
 .flex-1 {
     -webkit-box-flex: 1;
     /* OLD - iOS 6-, Safari 3.1-6 */
@@ -54,6 +55,7 @@ h7 {
     flex: 1;
     /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
+
 #page_header {
     background: #3B4372;
     width: 100%;
@@ -65,6 +67,7 @@ h7 {
     background: #555;
     width: 180px;
     height: 100%;
+    border-right: 1px solid #cfd3e6;
 }
 
 #content_frame {
@@ -117,8 +120,6 @@ h7 {
     position: absolute;
     margin-top: 0px;
     height: 92%;
-background-color: #55efc4;
-    background-image: linear-gradient(to left, #01043F, transparent);
     -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
     -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
     box-shadow: inset 110px 0px 100px -180px #01043F;
@@ -193,7 +194,8 @@ background-color: #55efc4;
         height: 45px;
         margin: 0;
         background-image: none;
-        box-shadow: none; /*Ez talán csak a chrome-nál működik, pls help*/
+        box-shadow: none;
+        /*Ez talán csak a chrome-nál működik, pls help*/
         border-bottom: 1px solid #ddd;
         /* OLD - iOS 6-, Safari 3.1-6 */
         display: -moz-box;

@@ -79,40 +79,85 @@
                 </div>
             </div>
         </div>
-        <div id="content_shell" class="full-screen">
+        <div id="content_shell" class="flex-1">
             <div id="content">
-                <div id="finance">
+                <div id="finance" class="menu-content">
                     <div id="finance_menu" class="submenu">
-                        <div class="submenu-item display-flex flex-column submenu-item-active">
+                        <div class="submenu-item display-flex flex-column submenu-item-active" onclick="">
                             <h7 class="unselectable">ÁTTEKINTÉS</h7>
                         </div>
-                        <div class="submenu-item display-flex flex-column">
+                        <div class="submenu-item display-flex flex-column" onclick="">
                             <h7 class="unselectable submenu-border">BEVÉTELEK</h7>
                         </div>
-                        <div class="submenu-item display-flex flex-column">
+                        <div class="submenu-item display-flex flex-column" onclick="">
                             <h7 class="unselectable">KÖLTSÉGEK</h7>
                         </div>
                     </div>
-                    <div>
+                    <div id="finance_content">
+                        <div id="finance_income">
 
-                    </div>
-                </div>
-                <div id="processes" class="display-none">
+                        </div>
+                        <div id="finance_income">
 
-                </div>
-                <div id="products" class="display-none">
-                    <div id="finance_menu">
-                        <div class="submenu-item"></div>
+                        </div>
+                        <div id="finance_outgoings">
+
+                        </div>
                     </div>
                 </div>
-                <div id="resources" class="display-none">
-                    <div id="finance_menu">
-                        <div class="submenu-item"></div>
+                <div id="processes" class="menu-content display-none">
+                </div>
+                <div id="products" class="menu-content display-none">
+                    <div id="products_menu" class="submenu">
+                        <div class="submenu-item display-flex flex-column submenu-item-active" onclick="">
+                            <h7 class="unselectable">ÁTTEKINTÉS</h7>
+                        </div>
+                        <div class="submenu-item display-flex flex-column" onclick="">
+                            <h7 class="unselectable submenu-border">KÖVETÉS</h7>
+                        </div>
+                        <div class="submenu-item display-flex flex-column" onclick="">
+                            <h7 class="unselectable">OPTIMALIZÁLÁS</h7>
+                        </div>
+                    </div>
+                    <div id="products_content">
+                        <div id="products_income">
+
+                        </div>
+                        <div id="products_income">
+
+                        </div>
+                        <div id="products_outgoings">
+
+                        </div>
                     </div>
                 </div>
-                <div id="settings" class="display-none">
-                    <div id="finance_menu">
-                        <div class="submenu-item"></div>
+                <div id="resources" class="menu-content display-none">
+                    <div id="resources_menu" class="submenu">
+                        <div class="submenu-item display-flex flex-column submenu-item-active" onclick="">
+                            <h7 class="unselectable">EMBEREK</h7>
+                        </div>
+                        <div class="submenu-item display-flex flex-column" onclick="">
+                            <h7 class="unselectable submenu-border">ESZKÖZÖK</h7>
+                        </div>
+                        <div class="submenu-item display-flex flex-column" onclick="">
+                            <h7 class="unselectable">ELOSZTÁS</h7>
+                        </div>
+                    </div>
+                    <div id="resources_content">
+                        <div id="resources_income">
+
+                        </div>
+                        <div id="resources_income">
+
+                        </div>
+                        <div id="resources_outgoings">
+
+                        </div>
+                    </div>
+                </div>
+                <div id="settings" class="menu-content display-none">
+                    <div class="settings_card">
+
                     </div>
                 </div>
             </div>
