@@ -70,5 +70,12 @@ function processesModulClick(id) {
             break;
     }
 }
+/**
+ * 
+ */
+function backToProcessesMenu() {
+    document.getElementById("processes_menu").style.display = "block";
+    document.getElementById("processes_content").style.display = "none";
+}
 /** Click events end */
 /** Events end */
