@@ -1,5 +1,1 @@
-#PRÓBA
-as
-davidii
-halika
-Szia Dádiiid!!!
+Feladatkezelés az nekem nagyon bejön szép munka :D -- D.
