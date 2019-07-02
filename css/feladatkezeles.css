@@ -14,10 +14,15 @@
     z-index: 1;
     background-color: #0067A5;
     border: none;
+    font-size: 20px;
+}
+.fixedaddbutton:hover {
+    background-color: rgb(18, 128, 197);
+    font-size:22px;
 }
 
 .taskcard {
-    height: 150px;
+    height: 100px;
     margin-bottom: 30px;
     padding: 0px;
     position: relative;
@@ -27,9 +32,9 @@
 
 .taskcard:hover {
     cursor: pointer;
-    -webkit-box-shadow: 2px 1px 6px 1px rgba(0, 103, 165, 0.75);
-    -moz-box-shadow: 2px 1px 6px 1px rgba(0, 103, 165, 0.75);
-    box-shadow: 2px 1px 6px 1px rgba(0, 103, 165, 0.75);
+    -webkit-box-shadow: 2px 1px 6px 1px #3B4372;
+    -moz-box-shadow: 2px 1px 6px 1px #3B4372;
+    box-shadow: 2px 1px 6px 1px #3B4372;
 }
 
 .next-button {
@@ -37,7 +42,7 @@
     bottom: 15px;
     right: 15px;
     color: #fff;
-    background-color: #555;
+    background-color: #3B4372;
     border: none;
 }
 
