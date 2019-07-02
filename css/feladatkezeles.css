@@ -1,0 +1,80 @@
+#card-container {
+    padding-top: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    overflow-y: scroll;
+}
+.fixedaddbutton {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
+    bottom: 8%;
+    right: 30%;
+    z-index: 1;
+    background-color: #0067A5;
+    border: none;
+}
+
+.taskcard {
+    height: 150px;
+    margin-bottom: 30px;
+    padding: 0px;
+    position: relative;
+    border: 1px solid #0067A5;
+    background-color: #fff;
+}
+
+.taskcard:hover {
+    cursor: pointer;
+    -webkit-box-shadow: 2px 1px 6px 1px rgba(0, 103, 165, 0.75);
+    -moz-box-shadow: 2px 1px 6px 1px rgba(0, 103, 165, 0.75);
+    box-shadow: 2px 1px 6px 1px rgba(0, 103, 165, 0.75);
+}
+
+.next-button {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    color: #fff;
+    background-color: #555;
+    border: none;
+}
+
+.next-button:hover {
+    background-color: #333;
+}
+
+.title-text {
+    color: #0067A5;
+    font-weight: 600;
+    margin-bottom: 0em;
+}
+
+#tablemargin {
+    padding-left: 30px;
+}
+
+#details p {
+    margin-bottom: 0;
+}
+
+#details h2 {
+    margin-bottom: 0.4em;
+}
+
+.filter-box {
+    width: 200px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 8px 4px rgba(255, 255, 255, 0.9);
+    z-index: 800;
+}
+
+.filtered-table {
+    padding: 0 0 0 0;
+    overflow: hidden;
+}
+
+.filtered-table-fade {
+    position: absolute;
+}

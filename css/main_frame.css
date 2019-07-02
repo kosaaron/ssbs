@@ -3,6 +3,8 @@
 html, body {
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    background-color: #fff;
 }
 
 h7 {
@@ -12,9 +14,36 @@ h7 {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background-color: #aaa;
+    border-radius: 6px;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: #606060;
+    border: 1px solid #888;
+    border-radius: 6px;
+}
+
+iframe[seamless] {
+    border: none;
+}
+
 .full-screen {
     height: 100%;
     width: 100%;
+}
+
+.align-center {
+    text-align: center;
 }
 
 .display-none {
@@ -57,32 +86,35 @@ h7 {
 }
 
 #page_header {
-    background: rgb(78, 74, 78);
+    background: #3B4372;
     width: 100%;
-    height: 45px;
+    height: 7%;
+    border-bottom: 1px solid #b2bec3;
 }
 
 #main_menu {
-    background: #555;
     width: 180px;
     height: 100%;
-    border-right: 1px solid #bbb;
+    z-index: 900;
+    background: #fff;
+    border-right: 1px solid #cfd3e6;
 }
 
 #content_frame {
+    overflow: hidden;
     background: rgb(161, 4, 154);
 }
 
 #content {
     height: 100%;
     width: 100%;
-    background: #fff;
+    background: #FFFEFC;
 }
 
 #finance {
     height: 100%;
     width: 100%;
-    background: #fff;
+    background: #FFFEFC;
 }
 
 #finance_menu {
@@ -90,19 +122,20 @@ h7 {
 }
 
 .menu-item {
-    background: #fff;
+    background: #FFFEFC;
     width: 100%;
     height: 20%;
-    justify-content: center
+    justify-content: center;
+    color: #01043F;
 }
 
 .menu-item:hover {
-    color: #007bff;
+    color: #0067A5;
     cursor: pointer;
 }
 
 .menu-item-active {
-    color: #007bff;
+    color: #0067A5;
 }
 
 .item-icon {
@@ -116,31 +149,116 @@ h7 {
 .submenu {
     width: 200px;
     position: absolute;
-    margin-top: 30px;
+    margin-top: 0px;
+    height: 92%;
+    -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
+    -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
+    box-shadow: inset 110px 0px 100px -180px #01043F;
 }
 
 .submenu-item {
     height: 45px;
     text-align: center;
-    border-top: 1px solid #ddd;
-    padding-left: 25px;
+    margin: 7px;
     justify-content: center;
-    background-image: linear-gradient(to right, #fff, transparent);
-    color: #007bff;
-    -webkit-box-shadow: inset 110px 0px 100px -150px #007bff;
-    -moz-box-shadow: inset 110px 0px 100px -150px #007bff;
-    box-shadow: inset 110px 0px 100px -150px #007bff;
+    color: #555;
+    border-left: 8px solid #b2bec3;
+    background-color: #FFFEFC;
 }
 
 .submenu-item-active {
-    color: #555;
+    color: #636D8C;
     cursor: pointer;
+    border-left: 8px solid #023E8C;
 }
 
 .submenu-item:hover {
-    color: #555;
+    color: #636D8C;
     cursor: pointer;
+    border-left: 8px solid #023E8C;
 }
+
+.menu-content {
+    width: 100%;
+    height: 100%;
+}
+
+.tile_menu {
+    overflow: auto;
+    padding: 2%;
+}
+
+.one-tile {
+    height: 50%;
+    float: left;
+    padding: 1%;
+}
+
+.one-tile .content {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    background-color: rgb(109, 117, 163);
+    color: #FFFEFC;
+}
+.one-tile .content:hover{
+    background-color: rgb(75, 83, 129);
+}
+.tile-icon {
+    font-size: 15vh;
+}
+
+.tile-icon-shell {
+    height: 60%;
+    justify-content: center;
+
+}
+
+.tile-btn {
+    text-align: center;
+    padding: 3% 4%;
+    overflow: hidden;
+    height: 40%;
+}
+
+.tile-description {
+    line-height: 1.3;
+    color: #FFFEFC;
+}
+
+.modul-title {
+    padding: 0.5% 1%;
+    color: #6c757d
+}
+
+.modul-title-text {
+    padding-left: 1rem;
+}
+
+#processes_back_to_menu {
+    cursor: pointer;
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.modul-content {
+    overflow: hidden;
+}
+
+/* ratio of 1:1
+.one-tile:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+.one-tile .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}*/
 
 @media only screen and (max-width: 900px) {
     .item-icon {
@@ -188,6 +306,9 @@ h7 {
         width: 100%;
         height: 45px;
         margin: 0;
+        background-image: none;
+        box-shadow: none;
+        /*Ez talán csak a chrome-nál működik, pls help*/
         border-bottom: 1px solid #ddd;
         /* OLD - iOS 6-, Safari 3.1-6 */
         display: -moz-box;
@@ -201,7 +322,8 @@ h7 {
     }
     .submenu-item {
         padding: 0;
-        background: inherit;
+        height: 30px;
+        border: none;
         -webkit-box-shadow: none;
         -moz-box-shadow: none;
         box-shadow: none;
