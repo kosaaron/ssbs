@@ -1,7 +1,7 @@
 #card-container {
+    padding-top: 15px;
     padding-left: 30px;
     padding-right: 30px;
-    height: 380px;
     overflow-y: scroll;
 }
 
@@ -78,4 +78,19 @@ body::-webkit-scrollbar-thumb {
 
 #details h2 {
     margin-bottom: 0.4em;
+}
+
+.filter-box {
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 8px 4px rgba(255, 255, 255, 0.9);
+    z-index: 800;
+}
+
+.filtered-table {
+    padding: 0 0 0 0;
+    overflow: hidden;
+}
+
+.filtered-table-fade {
+    position: absolute;
 }

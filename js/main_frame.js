@@ -62,9 +62,21 @@ function processesModulClick(id) {
     document.getElementById("processes_menu").style.display = "none";
     document.getElementById("processes_content").style.display = "block";
 
+    document.getElementById("modul_content").innerHTML="";
+    //document.getElementById(elementID).innerHTML
+
     switch (id) {
         case "processes_overview_btn":
-            //document.getElementById("modul_content").load("../feladatkezeles.html");
+            
+            break;
+        case "tasks_manager_btn":
+            var iframe = document.createElement('iframe');
+            iframe.src="feladatkezeles.html";
+            iframe.className="full-screen";
+            iframe.frameBorder="0";
+            
+            document.getElementById("modul_content").appendChild(iframe);
+            
             break;
         default:
             break;
