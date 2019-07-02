@@ -63,8 +63,8 @@ function processesModulClick(id) {
     document.getElementById("processes_content").style.display = "block";
 
     switch (id) {
-        case "processes_overview":
-            
+        case "processes_overview_btn":
+            //document.getElementById("modul_content").load("../feladatkezeles.html");
             break;
         default:
             break;
