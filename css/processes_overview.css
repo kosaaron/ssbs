@@ -1,0 +1,23 @@
+/** processes_overview.css */
+/* General */
+#processes_overview {
+
+}
+
+#processes_overview_header {
+    height: 12%;
+    background: #666;
+}
+
+#processes_overview_content {
+    background: rgb(148, 14, 14);
+}
+
+#processes_column_title {
+    height: 100%;
+    background: #222;
+}
+
+#processes_state_percent_title {
+    
+}

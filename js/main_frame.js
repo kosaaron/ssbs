@@ -65,18 +65,18 @@ function processesModulClick(id) {
     document.getElementById("modul_content").innerHTML="";
     //document.getElementById(elementID).innerHTML
 
+    var iframe = document.createElement('iframe');
+    iframe.className="full-screen";
+    iframe.frameBorder="0";
+
     switch (id) {
         case "processes_overview_btn":
-            
+                iframe.src="folyamatok_attekintese.html";
+                document.getElementById("modul_content").appendChild(iframe);
             break;
         case "tasks_manager_btn":
-            var iframe = document.createElement('iframe');
-            iframe.src="feladatkezeles.html";
-            iframe.className="full-screen";
-            iframe.frameBorder="0";
-            
-            document.getElementById("modul_content").appendChild(iframe);
-            
+                iframe.src="feladatkezeles.html";
+                document.getElementById("modul_content").appendChild(iframe);
             break;
         default:
             break;
