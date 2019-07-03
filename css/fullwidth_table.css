@@ -1,0 +1,4 @@
+.fullwidth-table > .row,
+.filter-container > .row {
+    margin:0;
+}

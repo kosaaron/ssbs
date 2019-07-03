@@ -48,14 +48,14 @@ function generateFilter(filters) {
 function generateTable(head, width, data) {
     let dataProps = Object.getOwnPropertyNames(data[0]);
     let table = '';
-    table += '<div class="container-fluid"><table class="table table-hover mb-0"><thead class="thead-light"><thead class="thead-light"><tr class="row m-0">';
+    table += '<div class="container-fluid row"><table class="table table-hover mb-0 col-11"><thead class="thead-light"><thead class="thead-light"><tr class="row m-0">';
     for (let i = 0; i < head.length; i++) {
         table += '<th class="d-inline-block ' + width[i] + '">' + head[i] + '</th>'
     }
     table += '</tr></thead></table>'
-    table += ' <table class="table table-hover"><tbody>';
     for (let j = 0; j < data.length; j++) {
-        table += '<tr class="row m-0">';
+        table += ' <table class="table table-hover mb-0 col-11"><tbody>';        
+        table += '<tr class="col-11 m-0">';
         for (let k = 0; k < dataProps.length; k++) {
             table += '<td class="d-inline-block ' + width[k] + '">';
             if (typeof data[j][dataProps[k]] == "boolean") {
@@ -68,6 +68,9 @@ function generateTable(head, width, data) {
             }
             table += '</td>'
         }
+        
+        table += '</tr></tbody></table>';
+        table += '<div class="col-1"><i class="fas fa-chart-line" style="font-size:24px" data-toggle="collapse"data-target="#collapseExample' + j + '" aria-expanded="false" aria-controls="collapseExample' + j + '"></i></div>';
     }
 
 
@@ -76,7 +79,7 @@ function generateTable(head, width, data) {
 }
 
 tableHeaderText = ["Beszállító", "Termék", "Raktár", "Készlet", "Kihelyezve"];
-tableColWidth = ["col-2", "col-3", "col-2", "col-2", "col-2", "col-1"];
+tableColWidth = ["col-2", "col-3", "col-2", "col-2", "col-2"];
 
 
 $(document).ready(function() {
