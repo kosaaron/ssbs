@@ -53,7 +53,7 @@
 .title-text {
     color: #0067A5;
     font-weight: 600;
-    margin-bottom: 0em;
+    font-size: 1.1rem;
 }
 
 #tablemargin {
@@ -73,13 +73,35 @@
     border-bottom: 1px solid #ddd;
     box-shadow: 0 8px 4px rgba(255, 255, 255, 0.9);
     z-index: 800;
+    -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
+    -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
+    box-shadow: inset 110px 0px 100px -180px #01043F;
 }
-
+.taskfilter-label{
+    color: #555;
+    margin: 2px;
+}
+.taskfilter{
+    padding: 2px;
+    height: calc(1.1em + 0.75rem + 2px);
+}
+.taskfilter-title{
+    color: #0067A5;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    margin-top: 0.4rem;
+    font-size: 1.1rem;
+}
+.taskfilter-title i{
+    padding-right: 5px;
+}
 .filtered-table {
     padding: 0 0 0 0;
     overflow: hidden;
 }
-
 .filtered-table-fade {
     position: absolute;
+}
+.task-filters{
+    border-bottom: 1px solid #ddd;
 }
