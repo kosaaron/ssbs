@@ -252,7 +252,7 @@ iframe[seamless] {
     text-align: center;
 }
 #back_to_menu_header{
-    background-color: #D9D9D9;
+    background-color: rgb(241, 241, 241);
     margin-bottom: 5px;
 }
 #back_to_menu_text{
