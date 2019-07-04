@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <title>SBSS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <div id="tasks_manager" class="d-flex display-flex flex-row full-screen">
+        <div class="flex-fill col-3"></div>
+        <div class="flex-fill new-task-form">
+            <form>
+                <h1>+ Feladat hozzáadása</h1>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputTaskType">Feladat típusa:</label>
+                        <select id="inputTaskType" class="form-control">
+                            <option selected>Choose...</option>
+                            <option>...</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputProcurer">Megrendelő:</label>
+                        <select id="inputProcurer" class="form-control">
+                            <option selected>Choose...</option>
+                            <option>...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputDeadline">Határidő:</label>
+                        <input type="date">
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="inputDescription">Feladat leírása:</label>
+                        <textarea class="form-control" id="inputDescription" rows="3" maxlength="200"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Cím(utca, házszám):</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="Fővám tér 8.">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputCity">Város:</label>
+                        <input type="text" class="form-control" id="inputCity">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputState">Ország:</label>
+                        <select id="inputState" class="form-control">
+                            <option selected>Magyarország</option>
+                            <option>...</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputZip">Irányító szám:</label>
+                        <input type="text" class="form-control" id="inputZip">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">+Hozzáad</button>
+            </form>
+        </div>
+        <div class="flex-fill col-3"></div>
+    </div>
+</body>
+
+</html>
