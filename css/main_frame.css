@@ -16,6 +16,7 @@ h7 {
 
 ::-webkit-scrollbar {
     width: 12px;
+    height: 8px;
 }
 
 /* Track */
@@ -56,6 +57,14 @@ iframe[seamless] {
 
 .display-none {
     display: none;
+}
+
+.p-relative {
+    position: relative;
+}
+
+.margin-auto {
+    margin: auto;
 }
 
 .unselectable {
@@ -210,9 +219,11 @@ iframe[seamless] {
     background-color: rgb(109, 117, 163);
     color: #FFFEFC;
 }
-.one-tile .content:hover{
+
+.one-tile .content:hover {
     background-color: rgb(75, 83, 129);
 }
+
 .tile-icon {
     font-size: 15vh;
 }
@@ -220,7 +231,6 @@ iframe[seamless] {
 .tile-icon-shell {
     height: 60%;
     justify-content: center;
-
 }
 
 .tile-btn {
@@ -251,17 +261,20 @@ iframe[seamless] {
     color: #404040;
     text-align: center;
 }
-#back_to_menu_header{
+
+#back_to_menu_header {
     background-color: rgb(241, 241, 241);
     margin-bottom: 5px;
 }
-#back_to_menu_text{
+
+#back_to_menu_text {
     color: #404040;
     font-size: 1.4rem;
-    padding:none;
+    padding: none;
     margin: none;
     width: 100%;
 }
+
 .modul-content {
     overflow: hidden;
     margin-bottom: 5px;

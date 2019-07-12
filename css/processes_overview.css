@@ -1,16 +1,22 @@
 /** processes_overview.css */
-/* General */
-#processes_overview {
 
+/* General */
+
+#processes_overview {
+    padding: 1%;
 }
 
 #processes_overview_header {
-    height: 12%;
-    background: #666;
+    width: 25%;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 #processes_overview_content {
-    background: rgb(148, 14, 14);
+    width: 75%;
+    height: 100%;
+    overflow: auto;
+    border: 1px solid #ddd;
 }
 
 #processes_column_title {
@@ -18,6 +24,71 @@
     background: #222;
 }
 
-#processes_state_percent_title {
-    
+.processes-table {
+    line-height: 1;
+    text-align: center;
+}
+
+.processes-table-table {
+    font-size: 13px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+#processes_table_data {
+    height: 8%;
+}
+
+table, td {
+    border-collapse: collapse;
+}
+
+.processes-table-table-td {
+    width: 3.3333%;
+}
+
+.process-start-td {
+    padding: 8px 0;
+}
+
+.process-start-line {
+    border-radius: 20px 0 0 20px;
+    background-color: #229933;
+}
+
+.process-line-td {
+    padding: 8px 0;
+    border-left: 1px solid #229933;
+    border-right: 1px solid #229933;
+}
+
+.processes-data-line {
+    background-color: #229933;
+}
+
+.process-end-td {
+    padding: 8px 0;
+}
+
+.process-end-line {
+    border-radius: 0 20px 20px 0;
+    background-color: #229933;
+}
+
+#processes_overview_header_title {
+    height: 77px;
+    border-bottom: 1px solid #ddd;
+}
+
+#process_names_box {}
+
+.process-names-box {}
+
+.process-names-box-item {
+    height: 25px;
+    font-size: 14px;
+    color: #222;
+    padding-left: 8px;
+    border-bottom: 1px solid #ddd;
 }
