@@ -1,0 +1,16 @@
+.periodic-page{
+    margin: 1.5%;
+}
+.periodic-menu-btn{
+    width: 100px;
+}
+#periodic_tasks_list{
+    margin: 2%;
+    overflow-y: scroll;
+}
+#menu_button_left{
+    border-radius: 0.3rem 0 0 0.3rem;
+}
+#menu_button_right{
+    border-radius: 0 0.3rem 0.3rem 0;
+}
