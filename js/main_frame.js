@@ -58,6 +58,13 @@ function menuItemClick(id) {
 /**
  * 
  */
+function createIframe() {
+    let iframe = document.createElement('iframe');
+    iframe.className="full-screen";
+    iframe.frameBorder="0";
+    return iframe;
+}
+ 
 function processesModulClick(id) {
     document.getElementById("processes_menu").style.display = "none";
     document.getElementById("processes_content").style.display = "block";
@@ -65,9 +72,7 @@ function processesModulClick(id) {
     document.getElementById("modul_content").innerHTML="";
     //document.getElementById(elementID).innerHTML
 
-    var iframe = document.createElement('iframe');
-    iframe.className="full-screen";
-    iframe.frameBorder="0";
+    const iframe = createIframe();
 
     switch (id) {
         case "processes_overview_btn":
