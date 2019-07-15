@@ -526,7 +526,6 @@ function addMonthBefor(date, processesData) {
  * @param {Integer} numOfMonth Number of month that will be generated
  */
 function addSubProject(parentId, processesData, firthMonth, numOfMonth) {
-    let dateNow = new Date();
     let processesTTTbody = document.getElementById('processes_t_t_tbody');
 
     // processes box
