@@ -67,6 +67,12 @@ iframe[seamless] {
     margin: auto;
 }
 
+.text-o-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -277,7 +283,6 @@ iframe[seamless] {
 
 .modul-content {
     overflow: hidden;
-    margin-bottom: 5px;
 }
 
 /* ratio of 1:1

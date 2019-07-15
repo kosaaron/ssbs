@@ -44,27 +44,29 @@ table, td {
     border-collapse: collapse;
 }
 
-.processes-table-table-td {
-    width: 3.3333%;
-}
+.processes-table-table-td {}
 
 .process-start-td {
     padding: 8px 0;
+    border-right: 1px solid #43e05b;
 }
 
 .process-start-line {
     border-radius: 20px 0 0 20px;
-    background-color: #229933;
 }
 
 .process-line-td {
     padding: 8px 0;
-    border-left: 1px solid #229933;
-    border-right: 1px solid #229933;
+    border-left: 1px solid #43e05b;
+    border-right: 1px solid #43e05b;
 }
 
-.processes-data-line {
+.processes-data-line-green {
     background-color: #229933;
+}
+
+.processes-data-line-blue {
+    background-color: #332baa;
 }
 
 .process-end-td {
@@ -73,7 +75,10 @@ table, td {
 
 .process-end-line {
     border-radius: 0 20px 20px 0;
-    background-color: #229933;
+}
+
+.process-one-line {
+    border-radius: 20px 20px 20px 20px;
 }
 
 #processes_overview_header_title {
@@ -90,5 +95,34 @@ table, td {
     font-size: 14px;
     color: #222;
     padding-left: 8px;
+    padding-right: 5px;
     border-bottom: 1px solid #ddd;
+}
+
+#tasks_table_td_today {
+    background: #3B4372;
+    color:#fff;
+}
+
+@media only screen and (max-width: 1000px) {
+    .process-names-box-item {
+        height: 21px;
+        margin: 4px 0;
+        border: 0;
+        background: #00000066;
+        color: #fff;
+        border-radius: 0 30px 30px 0;
+    }
+    #processes_overview_header_title {
+        visibility: hidden;
+        width: 0;
+    }
+    #processes_overview_header {
+        position: absolute;
+        width: 140px;
+        border: 0;
+    }
+    #processes_overview_content {
+        width: 100%;
+    }
 }
