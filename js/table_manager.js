@@ -45,17 +45,17 @@ function generateFilter(filters) {
     $('.selectpicker').selectpicker('refresh');
 }
 
-function generateTable(head, width, data) {
+function generateTable(head, width, data, collapseData = true) {
     let dataProps = Object.getOwnPropertyNames(data[0]);
     let table = '';
-    table += '<div class="container-fluid row"><table class="table table-hover mb-0 col-11"><thead class="thead-light"><thead class="thead-light"><tr class="row m-0">';
+    table += '<div class="container-fluid row"><table class="table table-hover mb-0 col-12"><thead class="thead-light"><thead class="thead-light"><tr class="row m-0">';
     for (let i = 0; i < head.length; i++) {
         table += '<th class="d-inline-block ' + width[i] + '">' + head[i] + '</th>'
     }
-    table += '</tr></thead></table>'
+    table += '</tr></thead></table>';
+    table += ' <table class="table table-hover mb-0 col-12" id="data-table"><tbody>';     
     for (let j = 0; j < data.length; j++) {
-        table += ' <table class="table table-hover mb-0 col-11"><tbody>';        
-        table += '<tr class="col-11 m-0">';
+        table += '<tr class="m-0 data-row">';
         for (let k = 0; k < dataProps.length; k++) {
             table += '<td class="d-inline-block ' + width[k] + '">';
             if (typeof data[j][dataProps[k]] == "boolean") {
@@ -69,17 +69,45 @@ function generateTable(head, width, data) {
             table += '</td>'
         }
         
-        table += '</tr></tbody></table>';
-        table += '<div class="col-1"><i class="fas fa-chart-line" style="font-size:24px" data-toggle="collapse"data-target="#collapseExample' + j + '" aria-expanded="false" aria-controls="collapseExample' + j + '"></i></div>';
+        table += '</tr>';
+        
     }
-
-
-
+    table += '</tbody></table>';
     document.getElementById('customtable').innerHTML += table;
+    
+    if (collapseData) {
+        const ROWS = document.getElementsByClassName("data-row");
+        for (let i = 0; i < ROWS.length; i++) {
+            ROWS[i].addEventListener("click", function(e) {
+                const PARENT = e.target.parentNode;
+                if (!PARENT.hasAttribute("data-toggle")) { 
+                    $(PARENT).attr(
+                        {
+                        "data-toggle": "collapse", 
+                        "data-target": "#row"+ i,
+                        "aria-expanded": "false",
+                        "aria-controls": "row"+ i
+                    });
+                    let table = document.getElementById("data-table");
+                    let collapseAble = table.insertRow(PARENT.rowIndex+1);
+                    $(collapseAble).attr(
+                        {
+                            "class": "collapse",
+                            "id": "row"+i
+                    });
+                    collapseAble.innerHTML = `<div class="card card-body">
+                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson 
+                                                    ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                            </div>`;
+                }
+            });
+        }
+        
+    }
 }
 
 tableHeaderText = ["Beszállító", "Termék", "Raktár", "Készlet", "Kihelyezve"];
-tableColWidth = ["col-2", "col-3", "col-2", "col-2", "col-2"];
+tableColWidth = ["col-3", "col-3", "col-2", "col-2", "col-2"];
 
 
 $(document).ready(function() {
