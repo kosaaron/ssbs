@@ -5,7 +5,8 @@
     width: 100px;
 }
 #periodic_tasks_list{
-    margin: 2%;
+    padding: 2%;
+    height: 100%;
     overflow-y: scroll;
 }
 #menu_button_left{

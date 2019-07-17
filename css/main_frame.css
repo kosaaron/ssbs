@@ -300,7 +300,7 @@ iframe[seamless] {
     right: 0;
 }*/
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 992px) {
     .item-icon {
         font-size: 40px;
     }
@@ -309,6 +309,12 @@ iframe[seamless] {
     }
     .menu-item-text {
         font-size: 14px;
+    }
+    .one-tile{
+        height: 33%
+    }
+    .tile-description{
+        display: none;
     }
 }
 
@@ -384,7 +390,7 @@ iframe[seamless] {
     }
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 576px) {
     #main_menu {
         height: 45px;
     }
@@ -404,5 +410,12 @@ iframe[seamless] {
     }
     h7 {
         font-size: 0.9rem;
+    }
+
+    .one-tile{
+        height: 25%;
+    }
+    .tile-icon{
+        font-size: 3.5rem;
     }
 }
