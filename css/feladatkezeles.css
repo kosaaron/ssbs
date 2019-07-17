@@ -4,24 +4,26 @@
     padding-right: 30px;
     overflow-y: scroll;
 }
+
 .fixedaddbutton {
     position: fixed;
     width: 60px;
     height: 60px;
     border-radius: 60px;
     bottom: 8%;
-    right: 25%;
+    right: 33%;
     z-index: 1;
     background-color: #0067A5;
     border: none;
     font-size: 20px;
-    -webkit-box-shadow: 2px 2px 10px 5px rgba(255,255,255,0.72);
-    -moz-box-shadow: 2px 2px 10px 5px rgba(255,255,255,0.72);
-    box-shadow: 2px 2px 10px 5px rgba(255,255,255,0.72)
+    -webkit-box-shadow: 2px 2px 10px 5px rgba(255, 255, 255, 0.72);
+    -moz-box-shadow: 2px 2px 10px 5px rgba(255, 255, 255, 0.72);
+    box-shadow: 2px 2px 10px 5px rgba(255, 255, 255, 0.72)
 }
+
 .fixedaddbutton:hover {
     background-color: rgb(18, 128, 197);
-    font-size:22px;
+    font-size: 22px;
 }
 
 .taskcard {
@@ -81,31 +83,42 @@
     -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
     box-shadow: inset 110px 0px 100px -180px #01043F;
 }
-.taskfilter-label{
+
+.taskfilter-label {
     color: #555;
     margin: 2px;
 }
-.taskfilter{
+
+.taskfilter {
     padding: 2px;
     height: calc(1.1em + 0.75rem + 2px);
 }
-.taskfilter-title{
+
+.taskfilter-title {
     color: #0067A5;
     font-weight: 600;
     margin-bottom: 0.4rem;
     margin-top: 0.4rem;
     font-size: 1.1rem;
 }
-.taskfilter-title i{
+
+.taskfilter-title i {
     padding-right: 5px;
 }
+
 .filtered-table {
     padding: 0 0 0 0;
     overflow: hidden;
 }
+
 .filtered-table-fade {
     position: absolute;
 }
-.task-filters{
+
+.task-filters {
     border-bottom: 1px solid #ddd;
+}
+
+#tasks_manager {
+    padding-top: 5px;
 }
