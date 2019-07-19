@@ -56,14 +56,23 @@ processesDataArray = [
         FinishDate: new Date('2019.07.16 00:00:00')
     }
 ]
+/**
+ * 1. Global varibles
+ * 2. Load default processes.
+ * 3. Add month to view (after)
+ * 4. Add month to view (befor)
+ * 5. Date functions
+ * 6. Load framework
+ */
 
 /** 
  * Global varibles
 */
 var tasksTableTdWidth = 25;
 var taskLevels = [];
-
-loadProcessesTable(processesDataArray);
+var gTimeLineStart;
+var gTimeLineEnd;
+var gTimeLineLength;
 
 /**
  * Load default processes
@@ -245,13 +254,6 @@ function loadProcessesTable(processesData) {
 
         processesTTTbody.appendChild(tasksTableTr4);
     }
-    addMonthAfter(new Date("2019.8.01"), processesData);
-    addMonthBefor(new Date("2019.6.01"), processesData);
-    addSubProject(111, processesData, new Date("2019.6.01"), 3);
-    addSubProject(113, processesData, new Date("2019.6.01"), 3);
-
-    var tasksTableTdToday = document.getElementById("tasks_table_td_today");
-    tasksTableTdToday.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 }
 
 /**
@@ -558,7 +560,7 @@ function addSubProject(parentId, processesData, firthMonth, numOfMonth) {
         pNBoxItemText.className = "full-width margin-auto text-o-ellipsis";
         pNBoxItemText.textContent = process.Name;
 
-        let pNamesBoxRef=document.getElementById(parentId);
+        let pNamesBoxRef = document.getElementById(parentId);
         processNamesBoxItem.appendChild(pNBoxItemText);
         processNamesBox.insertBefore(processNamesBoxItem, pNamesBoxRef.nextSibling);
 
@@ -639,6 +641,7 @@ function addSubProject(parentId, processesData, firthMonth, numOfMonth) {
     }
 }
 
+/** Date functions */
 /**
  * Simple date formatter
  * @param {Date} date 
@@ -723,4 +726,37 @@ function mondayIsFirthDay(day) {
     } else {
         return day - 1;
     }
+}
+
+/**
+ * Load framework
+ */
+function loadProcessesOverview() {
+    // Framework
+    var framework = '<div id="processes_overview" class="full-screen display-flex"> <div id="processes_overview_header" class="display-flex flex-column"> <div id="processes_overview_header_title" class="display-flex"> <div class="margin-auto">Feladatok</div></div><div id="process_names_box" class="flex-1"> </div></div><div id="processes_overview_content"> <div class="display-flex full-screen align-center"> <table border="1" style="border: 1px solid transparent; border-bottom: #ddd"> <tbody> <tr> <td style="padding: 0;"> <table id="processes_table_table" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"> <tbody id="processes_t_t_tbody"> </tbody> </table> </td></tr></tbody> </table> </div></div>';
+    document.getElementById("process_modul_content").innerHTML = framework;
+
+    // Content
+    // now
+    var dateNow = new Date();
+
+    // default table 
+    loadProcessesTable(processesDataArray);
+
+    if (dateNow.getDate() < 10) {
+        gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth() - 1, 1);
+        gTimeLineLength = 3;
+        addMonthBefor(gTimeLineStart, processesDataArray);
+    } else {
+        gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
+        gTimeLineLength = 2;
+    }
+
+    gTimeLineEnd = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
+    addMonthAfter(gTimeLineEnd, processesDataArray);
+    addSubProject(111, processesDataArray, gTimeLineStart, gTimeLineLength);
+    addSubProject(113, processesDataArray, gTimeLineStart, gTimeLineLength);
+
+    var tasksTableTdToday = document.getElementById("tasks_table_td_today");
+    tasksTableTdToday.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 }
