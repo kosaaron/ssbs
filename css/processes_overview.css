@@ -10,13 +10,26 @@
     width: 25%;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    overflow: hidden;
 }
 
 #processes_overview_content {
     width: 75%;
     height: 100%;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     border: 1px solid #ddd;
+}
+
+#processes_t_scroll_table {
+    overflow: auto;
+    display: block;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}
+
+#processes_t_scroll_table::-webkit-scrollbar {
+    width: 0 !important
 }
 
 #processes_column_title {
@@ -82,13 +95,18 @@ table, td {
 }
 
 #processes_overview_header_title {
-    height: 77px;
+    min-height: 77px;
+    max-height: 77px;
     border-bottom: 1px solid #ddd;
 }
 
-#process_names_box {}
-
-.process-names-box {}
+#process_names_box {
+    height: 100%;
+    overflow: auto;
+    direction: rtl;
+    padding-bottom: 7px;
+    margin-top: 1px;
+}
 
 .process-names-box-item {
     height: 25px;
@@ -101,7 +119,7 @@ table, td {
 
 #tasks_table_td_today {
     background: #3B4372;
-    color:#fff;
+    color: #fff;
 }
 
 @media only screen and (max-width: 1000px) {

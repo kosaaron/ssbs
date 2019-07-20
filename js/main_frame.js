@@ -3,6 +3,7 @@
  * General functions
  * Events
  *  - Click events
+ *  - Resize window
  */
 
 /** General functions */
@@ -74,15 +75,15 @@ function processesModulClick(id) {
     document.getElementById("processes_content").style.display = "block";
 
     document.getElementById("process_modul_content").innerHTML = "";
-    
+
     const iframe = createIframe();
 
     switch (id) {
         case "processes_overview_btn":
-            
+
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
-            
+
             loadProcessesOverview();
             break;
         case "tasks_manager_btn":
@@ -120,3 +121,9 @@ function backToProcessesMenu() {
 }
 /** Click events end */
 /** Events end */
+
+/** Resize window */
+window.onresize = function (event) {
+    resizeProcessesOverview();
+};
+
