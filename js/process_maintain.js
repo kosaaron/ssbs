@@ -2,7 +2,7 @@
 function generateProcessList(data) {
     let container = `<div class="row">`;
     for (let i = 0; i < data.length; i++) {
-        container += `<div class="col-sm-6"><div class="card taskcard"><div class="card-body">`;
+        container += `<div class="col-lg-6"><div class="card taskcard"><div class="card-body">`;
         container += `<h5 class="card-title">${data[i].Name}</h5>`;
         container += `<p class="card-text">${data[i].Megrendelő}</p>`;
         container += `<a href="#" class="btn btn-primary next-button show-detail" data-show-details="${data[i].Id}"><i class="fas fa-arrow-right"></i></a>`;
