@@ -5,33 +5,50 @@
     <title>SSB System</title>
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous">
+        </script>
+    <script src="jquery.scrollsync.js"></script>
     <meta charset="utf-8">
 </head>
 
 <body>
-    <div id="processes_overview" class="full-screen display-flex">
-        <div id="processes_overview_header" class="display-flex flex-column">
-            <div id="processes_overview_header_title" class="display-flex">
-                <div class="margin-auto">Feladatok</div>
+    <div id="process_modul_content" class="full-screen">
+        <div id="processes_overview" class="full-screen display-flex">
+            <div id="processes_overview_header" class="display-flex flex-column">
+                <div id="processes_overview_header_title" class="display-flex">
+                    <div class="margin-auto">Feladatok</div>
+                </div>
+                <div id="process_names_box" class="flex-1" onscroll="scrollHeadProcessesO()">
+                </div>
             </div>
-            <div id="process_names_box" class="flex-1">
-            </div>
-        </div>
-        <div id="processes_overview_content">
-            <div class="display-flex full-screen align-center">
-                <table border="1" style="border: 1px solid transparent; border-bottom: #ddd">
-                    <tbody>
-                        <tr>
-                            <td style="padding: 0;">
-                                <table id="processes_table_table" border="1" style="border-color: #ddd;"
-                                    class="full-screen processes-table-table">
-                                    <tbody id="processes_t_t_tbody">
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div id="processes_overview_content">
+                <div id="processes_table_shell" class="display-flex full-screen align-center">
+                    <table id="processes_table" border="1" style="border: 1px solid transparent; border-bottom: #ddd">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0;">
+                                    <table id="processes_table_table1" border="1" style="border-color: #ddd;"
+                                        class="full-screen processes-table-table">
+                                        <thead id="processes_t_t_thead">
+                                        </thead>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0;">
+                                    <div id="processes_t_scroll_table" onscroll="scrollContentProcessesO()">
+                                        <table id="processes_table_table2" border="1" style="border-color: #ddd;"
+                                            class="full-screen processes-table-table">
+                                            <tbody id="processes_t_t_tbody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -54,6 +54,83 @@ processesDataArray = [
         Parent: 113,
         StartDate: new Date('2019.07.16 00:00:00'),
         FinishDate: new Date('2019.07.16 00:00:00')
+    },
+    {
+        Id: 119,
+        Name: "Első projekt",
+        Parent: null,
+        StartDate: new Date('2019.06.11 00:00:00'),
+        FinishDate: new Date('2019.08.16 00:00:00')
+    },
+    {
+        Id: 120,
+        Name: "Második projekt",
+        Parent: 111,
+        StartDate: new Date('2019.07.13 00:00:00'),
+        FinishDate: new Date('2019.07.14 00:00:00')
+    },
+    {
+        Id: 121,
+        Name: "Harmadik projekt",
+        Parent: 111,
+        StartDate: new Date('2019.07.14 00:00:00'),
+        FinishDate: new Date('2019.07.16 00:00:00')
+    },
+    {
+        Id: 122,
+        Name: "Negyedik projekt",
+        Parent: null,
+        StartDate: new Date('2019.07.16 00:00:00'),
+        FinishDate: new Date('2019.07.16 00:00:00')
+    },
+    {
+        Id: 123,
+        Name: "Öt projekt",
+        Parent: null,
+        StartDate: new Date('2019.07.03 00:00:00'),
+        FinishDate: new Date('2019.07.16 00:00:00')
+    },
+    {
+        Id: 124,
+        Name: "Hat projekt",
+        Parent: 111,
+        StartDate: new Date('2019.07.13 00:00:00'),
+        FinishDate: new Date('2019.07.14 00:00:00')
+    },
+    {
+        Id: 125,
+        Name: "Hét projekt",
+        Parent: 111,
+        StartDate: new Date('2019.07.14 00:00:00'),
+        FinishDate: new Date('2019.07.16 00:00:00')
+    },
+    {
+        Id: 126,
+        Name: "Nyolc projekt",
+        Parent: 113,
+        StartDate: new Date('2019.07.16 00:00:00'),
+        FinishDate: new Date('2019.07.16 00:00:00')
+    },
+    {
+        Id: 127,
+        Name: "Hat projekt",
+        Parent: 111,
+        StartDate: new Date('2019.07.13 00:00:00'),
+        FinishDate: new Date('2019.07.14 00:00:00')
+    },
+    {
+        Id: 128,
+        Name: "Hét projekt",
+        Parent: 111,
+        StartDate: new Date('2019.07.14 00:00:00'),
+        FinishDate: new Date('2019.07.16 00:00:00')
+    },
+    {
+        Id: 129,
+        Name: "Nyolc projekt",
+        Parent: 113,
+        StartDate: new Date('2019.07.16 00:00:00'),
+        FinishDate: new Date('2019.07.16 00:00:00')
     }
 ]
 /**
@@ -63,6 +140,8 @@ processesDataArray = [
  * 4. Add month to view (befor)
  * 5. Date functions
  * 6. Load framework
+ * 7. Processes overview resize event
+ * 8. Processes overview scroll events
  */
 
 /** 
@@ -73,6 +152,8 @@ var taskLevels = [];
 var gTimeLineStart;
 var gTimeLineEnd;
 var gTimeLineLength;
+
+loadProcessesOverview();
 
 /**
  * Load default processes
@@ -87,8 +168,9 @@ function loadProcessesTable(processesData) {
     tasksTableWidth = monthDays;
 
     // Tasks table header
-    let processesTTable = document.getElementById('processes_table_table');
+    let processesTTable = document.getElementById('processes_table_table1');
     let processesTTTbody = document.getElementById('processes_t_t_tbody');
+    let processesTTThead = document.getElementById('processes_t_t_thead');
 
     // level 1
     // row
@@ -102,7 +184,7 @@ function loadProcessesTable(processesData) {
     tasksTableTd.textContent = startDate.getFullYear() + ". " + fullMonthDate(startDate);
 
     tasksTableTr.appendChild(tasksTableTd);
-    processesTTTbody.appendChild(tasksTableTr);
+    processesTTThead.appendChild(tasksTableTr);
 
     // level 2
     //row
@@ -139,7 +221,7 @@ function loadProcessesTable(processesData) {
         }
     }
 
-    processesTTTbody.appendChild(tasksTableTr2);
+    processesTTThead.appendChild(tasksTableTr2);
 
     // level 3
     // row 
@@ -158,7 +240,7 @@ function loadProcessesTable(processesData) {
         tasksTableTr3.appendChild(tasksTableTd3);
     }
 
-    processesTTTbody.appendChild(tasksTableTr3);
+    processesTTThead.appendChild(tasksTableTr3);
     processesTTable.style = "width: " + tasksTableTdWidth * monthDays + "px; border-color: #ddd;";
 
     // processes box
@@ -268,7 +350,7 @@ function addMonthAfter(date, processesData) {
     tasksTableWidth += monthDays;
 
     // Tasks table header
-    let processesTTable = document.getElementById('processes_table_table');
+    let processesTTable = document.getElementById('processes_table_table1');
 
     processesTTable.style = "width: " + (processesTTable.clientWidth + tasksTableTdWidth * monthDays) + "px; border-color: #ddd;";
 
@@ -322,9 +404,16 @@ function addMonthAfter(date, processesData) {
     }
 
     // Processes box
-    for (var index = 3; index < tasksTableTr.length; index++) {
+    //tasksTableTr counter
+    var counter = 2;
+    for (var index = 0; index < processesData.length; index++) {
         // Task names
-        const process = processesData[index - 3];
+        const process = processesData[index];
+
+        if (process.Parent !== null)
+            continue;
+
+        counter++;
 
         let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
 
@@ -340,7 +429,7 @@ function addMonthAfter(date, processesData) {
 
             if (isThisMonth) {
                 tasksTableTd4.className = "processes-table-table-td";
-                tasksTableTr[index].appendChild(tasksTableTd4);
+                tasksTableTr[counter].appendChild(tasksTableTd4);
                 continue;
             } else if (isBeforMonth && isAfterMonth) {
                 tasksTableTd4.className = "processes-table-table-td process-line-td";
@@ -348,7 +437,7 @@ function addMonthAfter(date, processesData) {
                 let tasksTableDiv4 = document.createElement("div");
                 tasksTableDiv4.className = "full-screen  processes-data-line-green";
                 tasksTableTd4.appendChild(tasksTableDiv4);
-                tasksTableTr[index].appendChild(tasksTableTd4);
+                tasksTableTr[counter].appendChild(tasksTableTd4);
                 continue;
             }
 
@@ -383,7 +472,7 @@ function addMonthAfter(date, processesData) {
                 tasksTableTd4.className = "processes-table-table-td";
             }
 
-            tasksTableTr[index].appendChild(tasksTableTd4);
+            tasksTableTr[counter].appendChild(tasksTableTd4);
         }
     }
 }
@@ -400,7 +489,7 @@ function addMonthBefor(date, processesData) {
     tasksTableWidth += monthDays;
 
     // Tasks table header
-    let processesTTable = document.getElementById('processes_table_table');
+    let processesTTable = document.getElementById('processes_table_table1');
 
     processesTTable.style = "width: " + (processesTTable.clientWidth + tasksTableTdWidth * monthDays) + "px; border-color: #ddd;";
 
@@ -454,9 +543,16 @@ function addMonthBefor(date, processesData) {
     }
 
     // Processes box
-    for (var index = 3; index < tasksTableTr.length; index++) {
+    //tasksTableTr counter
+    var counter = 2;
+    for (var index = 0; index < processesData.length; index++) {
         // Task names
-        const process = processesData[index - 3];
+        const process = processesData[index];
+
+        if (process.Parent !== null)
+            continue;
+
+        counter++;
 
         let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
 
@@ -472,7 +568,7 @@ function addMonthBefor(date, processesData) {
 
             if (isThisMonth) {
                 tasksTableTd4.className = "processes-table-table-td";
-                tasksTableTr[index].insertBefore(tasksTableTd4, tasksTableTr[index].childNodes[index2 - 1]);
+                tasksTableTr[counter].insertBefore(tasksTableTd4, tasksTableTr[counter].childNodes[index2 - 1]);
                 continue;
             } else if (isBeforMonth && isAfterMonth) {
                 tasksTableTd4.className = "processes-table-table-td process-line-td";
@@ -480,7 +576,7 @@ function addMonthBefor(date, processesData) {
                 let tasksTableDiv4 = document.createElement("div");
                 tasksTableDiv4.className = "full-screen  processes-data-line-green";
                 tasksTableTd4.appendChild(tasksTableDiv4);
-                tasksTableTr[index].insertBefore(tasksTableTd4, tasksTableTr[index].childNodes[index2 - 1]);
+                tasksTableTr[counter].insertBefore(tasksTableTd4, tasksTableTr[counter].childNodes[index2 - 1]);
                 continue;
             }
 
@@ -515,7 +611,7 @@ function addMonthBefor(date, processesData) {
                 tasksTableTd4.className = "processes-table-table-td";
             }
 
-            tasksTableTr[index].insertBefore(tasksTableTd4, tasksTableTr[index].childNodes[index2 - 1]);
+            tasksTableTr[counter].insertBefore(tasksTableTd4, tasksTableTr[counter].childNodes[index2 - 1]);
         }
     }
 }
@@ -571,7 +667,6 @@ function addSubProject(parentId, processesData, firthMonth, numOfMonth) {
         tasksTableTr4.style = "height: " + tasksTableTdWidth + "px;";
 
         for (let index3 = 0; index3 < numOfMonth; index3++) {
-
             let startDate = new Date(firthMonth.getFullYear(), firthMonth.getMonth() + index3, 1);
             let monthDays = daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
             tasksTableWidth = monthDays;
@@ -733,7 +828,7 @@ function mondayIsFirthDay(day) {
  */
 function loadProcessesOverview() {
     // Framework
-    var framework = '<div id="processes_overview" class="full-screen display-flex"> <div id="processes_overview_header" class="display-flex flex-column"> <div id="processes_overview_header_title" class="display-flex"> <div class="margin-auto">Feladatok</div></div><div id="process_names_box" class="flex-1"> </div></div><div id="processes_overview_content"> <div class="display-flex full-screen align-center"> <table border="1" style="border: 1px solid transparent; border-bottom: #ddd"> <tbody> <tr> <td style="padding: 0;"> <table id="processes_table_table" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"> <tbody id="processes_t_t_tbody"> </tbody> </table> </td></tr></tbody> </table> </div></div>';
+    var framework = '<div id="process_modul_content" class="full-screen"><div id="processes_overview" class="full-screen display-flex"><div id="processes_overview_header" class="display-flex flex-column"><div id="processes_overview_header_title" class="display-flex"><div class="margin-auto">Feladatok</div></div><div id="process_names_box" class="flex-1" onscroll="scrollHeadProcessesO()"></div></div><div id="processes_overview_content"><div id="processes_table_shell" class="display-flex full-screen align-center"><table id="processes_table" border="1" style="border: 1px solid transparent; border-bottom: #ddd"><tbody><tr><td style="padding: 0;"><table id="processes_table_table1" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><thead id="processes_t_t_thead"></thead></table></td></tr><tr><td style="padding: 0;"><div id="processes_t_scroll_table" onscroll="scrollContentProcessesO()"><table id="processes_table_table2" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><tbody id="processes_t_t_tbody"></tbody></table></div></td></tr></tbody></table></div></div></div></div>';
     document.getElementById("process_modul_content").innerHTML = framework;
 
     // Content
@@ -757,6 +852,56 @@ function loadProcessesOverview() {
     addSubProject(111, processesDataArray, gTimeLineStart, gTimeLineLength);
     addSubProject(113, processesDataArray, gTimeLineStart, gTimeLineLength);
 
+    resizeProcessesOverview();
+
     var tasksTableTdToday = document.getElementById("tasks_table_td_today");
-    tasksTableTdToday.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+    var processesOverviewContent = document.getElementById("processes_overview_content");
+    processesOverviewContent.scrollLeft = tasksTableTdToday.offsetLeft + 2;
+    
+    let processesTScrollTable = document.getElementById('processes_t_scroll_table');
+    let processNamesBox = document.getElementById('process_names_box');
+
+    processesTScrollTable.addEventListener("wheel", processesTWheel);
+    processNamesBox.addEventListener("wheel", processesTWheel);
+
+    function processesTWheel(event) {
+        const delta = Math.sign(event.deltaY);
+        if (delta === 1) {
+            processNamesBox.scrollTop += 20;
+        } else {
+            processNamesBox.scrollTop -= 20;
+        }
+    }
 }
+
+/**
+ * Processes overview resize event
+ */
+function resizeProcessesOverview() {
+    // Y scroll on the table
+    let processesTScrollTable = document.getElementById('processes_t_scroll_table');
+    let processesTableShell = document.getElementById('processes_table_shell');
+    let processesTTable = document.getElementById('processes_table_table1');
+    processesTScrollTable.style = "";
+    if (processesTableShell.clientHeight - processesTTable.clientHeight - 2 < processesTScrollTable.clientHeight) {
+        processesTScrollTable.style = "height: " + (processesTableShell.clientHeight - processesTTable.clientHeight - 2) + "px";
+    }
+}
+
+/**
+ * Processes overview scroll events
+ */
+function scrollHeadProcessesO() {
+    let processesTScrollTable = document.getElementById('processes_t_scroll_table');
+    let processNamesBox = document.getElementById('process_names_box');
+
+    processesTScrollTable.scrollTop = processNamesBox.scrollTop;
+}
+
+function scrollContentProcessesO() {
+    let processesTScrollTable = document.getElementById('processes_t_scroll_table');
+    let processNamesBox = document.getElementById('process_names_box');
+
+    processesTScrollTable.scrollTop = processNamesBox.scrollTop;
+}
+
