@@ -20,7 +20,7 @@ function showDetail() {
             for (let j = 0; j < process_maintain_list.length; j++) {
                 const process = process_maintain_list[j];
                 if(process.Id == this.getAttribute("data-show-details")) {
-                    side_box.getElementsByTagName('h2').innerHTML = process.Name;
+                    side_box.getElementsByTagName('h2')[0].innerHTML = process.Name;
                     let labels = side_box.getElementsByTagName('label');
                     let props = [];
                     for (var key in process) {

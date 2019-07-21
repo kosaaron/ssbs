@@ -83,7 +83,9 @@ function generateTable(head, width, data, collapseData = true) {
                 if (!PARENT.hasAttribute("data-toggle")) { 
                     $(PARENT).attr(
                         {
-                        "data-toggle": "collapse", 
+                        "class": "collapsed",
+                        "role": "button",
+                        "data-toggle": "collapse",
                         "data-target": "#row"+ i,
                         "aria-expanded": "false",
                         "aria-controls": "row"+ i
@@ -93,7 +95,8 @@ function generateTable(head, width, data, collapseData = true) {
                     $(collapseAble).attr(
                         {
                             "class": "collapse",
-                            "id": "row"+i
+                            "id": "row"+i,
+                            "data-parent": "#customtable"
                     });
                     collapseAble.innerHTML = `<div class="card card-body">
                                                     Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson 
