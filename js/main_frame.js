@@ -80,7 +80,6 @@ function processesModulClick(id) {
 
     switch (id) {
         case "processes_overview_btn":
-
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
 
@@ -89,6 +88,12 @@ function processesModulClick(id) {
         case "tasks_manager_btn":
             iframe.src = "feladatkezeles.html";
             document.getElementById("process_modul_content").appendChild(iframe);
+            break;
+        case "partners_manager_btn":
+            iframe.src = "folyamatok_attekintese.html";
+            //document.getElementById("process_modul_content").appendChild(iframe);
+
+            //loadProcessesOverview();
             break;
         default:
             break;
