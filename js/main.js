@@ -14,16 +14,17 @@ document.head.appendChild(processes_overview);
 
 /**
  * Common
- */
+ 
 var common = document.createElement('script');
 common.src = "js/common.js";
 document.head.appendChild(common);
-
+*/
 /**
  * Partners managers
  */
 var partners_manager = document.createElement('script');
-partners_manager.src = "js/partners_manager.js";
+partners_manager.src = "js/partners_manager.js"
+partners_manager.type="module";
 document.head.appendChild(partners_manager);
 
 /*

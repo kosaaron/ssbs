@@ -1,7 +1,7 @@
 /** common.js */
 /** Card container with details */
 
-var cardContainerADetails = {
+let cardContainerADetails = {
     /**
      * Generate card container
      * **use**
@@ -87,3 +87,5 @@ var cardContainerADetails = {
         document.getElementById(shellId).innerHTML = container;
     }
 };
+
+export default cardContainerADetails;

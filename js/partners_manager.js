@@ -1,3 +1,5 @@
+import cardContainerADetails from './common.js';
+
 function getPartnersMCard() {
     let container = "";
     container += '<div class="col-lg-6"><div class="card taskcard"><div class="card-body">';
