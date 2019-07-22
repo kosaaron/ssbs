@@ -1,25 +1,9 @@
-let partner_m_structure = [
-    "Name",
-    "Megrendelő",
-    "Id"
-];
-
-let partner_m_structure_2 = [
-    "Name",
-    "Type",
-    "Megrendelő",
-    null, //"Létrehozás",
-    "Határidő",
-    "Cím",
-    "Leírás"
-];
-
 function getPartnersMCard() {
     let container = "";
     container += '<div class="col-lg-6"><div class="card taskcard"><div class="card-body">';
     container += '!<h5 class="card-title">*</h5>';
     container += '!<p class="card-text">*</p>';
-    container += `!<a href="#" class="btn btn-primary next-button show-detail" onclick='generateDetailById("*")'><i class="fas fa-arrow-right"></i></a></div></div></div>`;
+    container += `!<a href="#" class="btn btn-primary next-button show-detail" onclick='partnerMCardClick("*")'><i class="fas fa-arrow-right"></i></a></div></div></div>`;
 
     return container;
 }
@@ -38,80 +22,15 @@ function getPartnersMDetail() {
     return container;
 }
 
-/**
- * Folyamatok/feladatok modul
- * @param {Array} data Items data
- * @param {Array} structure Card data structure
- * @param {String} card 
- * @param {String} shellId 
- */
-function generateCardContainer(data, structure, card, shellId) {
-    let cardBlock = card.split('!');
-
-    let container = "";
-    for (let i = 0; i < data.length; i++) {
-        const elementI = data[i];
-
-        let c = 0;
-        for (let j = 0; j < cardBlock.length; j++) {
-            const elementJ = cardBlock[j];
-            const elementC = structure[c];
-            let elementX = elementJ.split('*');
-
-            if (elementX.length === 1) {
-                container += elementJ;
-
-            } else {
-                if (elementC !== null) {
-                    container += elementX[0];
-                    container += elementI[elementC];
-                    container += elementX[1];
-                }
-                c++;
-            }
-        }
-    }
-    document.getElementById(shellId).innerHTML = container;
-
-    showDetail();
-}
-
-function generateDetailById(cardId) {
+function partnerMCardClick(cardId) {
     let data = process_maintain_list;
     let structure = partner_m_structure_2;
     let card = getPartnersMDetail();
     let shellId = "details";
 
-    let cardBlock = card.split('!');
-
-    let container = "";
-    for (let i = 0; i < data.length; i++) {
-        const elementI = data[i];
-
-        if (cardId === elementI.Id) {
-            let c = 0;
-            for (let j = 0; j < cardBlock.length; j++) {
-                const elementJ = cardBlock[j];
-                const elementC = structure[c];
-                let elementX = elementJ.split('*');
-
-                if (elementX.length === 1) {
-                    container += elementJ;
-
-                } else {
-                    if (elementC !== null) {
-                        container += elementX[0];
-                        container += elementI[elementC];
-                        container += elementX[1];
-                    }
-                    c++;
-                }
-            }
-            break;
-        }
-    }
-    document.getElementById(shellId).innerHTML = container;
+    cardContainerADetails.generateDetailById(cardId, data, structure, card, shellId);
 }
+
 /*
 function showDetail() {
     const side_box = document.getElementById('details');
@@ -143,10 +62,31 @@ function showDetail() {
 }*/
 
 $(document).ready(function () {
-    generateCardContainer(process_maintain_list, partner_m_structure, getPartnersMCard(), "card_container_r");
+    // Load card container
+    let data = process_maintain_list;
+    let cardStructure = partner_m_structure;
+    let cardDesign = getPartnersMCard();
+    let cardContainer = "card_container_r";
+    cardContainerADetails.generateCardContainer(data, cardStructure, cardDesign, cardContainer);
 });
 
-let process_maintain_list = [
+var partner_m_structure = [
+    "Name",
+    "Megrendelő",
+    "Id"
+];
+
+var partner_m_structure_2 = [
+    "Name",
+    "Type",
+    "Megrendelő",
+    null, //"Létrehozás",
+    "Határidő",
+    "Cím",
+    "Leírás"
+];
+
+var process_maintain_list = [
     {
         Id: 'fjh7zd3w',
         Name: 'Nyomtató szervíz',
