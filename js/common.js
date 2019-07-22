@@ -41,8 +41,6 @@ let cardContainerADetails = {
             }
         }
         document.getElementById(shellId).innerHTML = container;
-
-        showDetail();
     },
     /**
      * Generate detail by id
