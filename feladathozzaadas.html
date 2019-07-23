@@ -10,101 +10,52 @@
 
 <body>
     <div id="tasks_manager" class="d-flex display-flex flex-row full-screen">
-        <div class="flex-fill col-3"></div>
-        <div class="flex-fill new-task-form">
-            <form>
-                <h1>+ Feladat hozzáadása</h1>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputTaskType">Feladat típusa:</label>
-                        <div class="row">
-                            <div class="col-2">
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary addnewtask-button" data-toggle="modal"
-                                    data-target="#exampleModalCenter">
-                                    <i class="fas fa-plus"></i>
-                                </button></div>
-                            <div class="col-10">
-                                <select id="inputTaskType" class="form-control">
-                                    <option selected>Choose...</option>
-                                    <option>...</option>
-                                </select>
-                            </div>
-                        </div>
-
+        <div class="flex-fill col-1"></div>
+        <div class="flex-fill col-10 new-task-form">
+            <div class="row page-header">
+                <h1>+ Új feladat létrehozása</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-12 right-border-form">
+                    <h2 class="task-subtitle">Adatok</h2>
+                    <div class="form-group">
+                        <label for="taskName" class="newtask-label">Feladat neve:</label>
+                        <input type="text" id="taskName" class="newtask-formcontrol">
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="inputProcurer">Megrendelő:</label>
-                        <select id="inputProcurer" class="form-control">
+                    <div class="form-group">
+                        <label for="taskCat" class="newtask-label">Feladat típusa:</label>
+                        <select id="taskCat" class="newtask-formcontrol">
                             <option selected>Choose...</option>
                             <option>...</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="inputDeadline">Határidő:</label>
-                        <input type="date">
+                    <div class="form-group">
+                        <label for="taskDate" class="newtask-label">Feladat típusa:</label>
+                        <input type="date" id="taskDate" class="newtask-formcontrol">
                     </div>
-                    <div class="form-group col-md-8">
-                        <label for="inputDescription">Feladat leírása:</label>
-                        <textarea class="form-control" id="inputDescription" rows="3" maxlength="200"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputAddress">Cím(utca, házszám):</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Fővám tér 8.">
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputCity">Város:</label>
-                        <input type="text" class="form-control" id="inputCity" placeholder="Budapest">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="inputState">Ország:</label>
-                        <select id="inputState" class="form-control">
-                            <option selected>Magyarország</option>
+
+                    <div class="form-group">
+                        <label for="taskProject" class="newtask-label">Projekthez rendelés:</label>
+                        <select id="taskProject" class="newtask-formcontrol">
+                            <option selected>Choose...</option>
                             <option>...</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-2">
-                        <label for="inputZip">Ir. szám:</label>
-                        <input type="text" class="form-control" id="inputZip">
-                    </div>
+
                 </div>
-                <div class="float-right">
-                    <button type="submit" class="btn btn-primary addnewtask-button">Hozzáad</button>
+                <div class="col-md-6 col-12">
+                    <h2 class="task-subtitle">Feladat lépései</h2>
                 </div>
-            </form>
-        </div>
-        <div class="flex-fill col-3"></div>
-    </div>
-    <footer>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Új feladattípus</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="inputAddress">Új feladattípus neve:</label>
-                            <input type="text" class="form-control" id="inputAddress">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-12 newtask-buttoncontainer">
+                    <button type="reset" id="cancel_button" class="btn btn-primary addnewtask-button">Mégse</button>
+                    <button type="submit" class="btn btn-primary addnewtask-button">Létrehoz</button>
                 </div>
             </div>
         </div>
-    </footer>
+        <div class="flex-fill col-1"></div>
+    </div>
 </body>
 
 </html>
