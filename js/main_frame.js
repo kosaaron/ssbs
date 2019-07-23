@@ -3,6 +3,7 @@
  * General functions
  * Events
  *  - Click events
+ *  - Resize window
  */
 
 /** General functions */
@@ -56,32 +57,43 @@ function menuItemClick(id) {
     }
 }
 /**
- * 
+ * Create iframe element
  */
 function createIframe() {
     let iframe = document.createElement('iframe');
-    iframe.className="full-screen";
-    iframe.frameBorder="0";
+    iframe.className = "full-screen";
+    iframe.frameBorder = "0";
     return iframe;
 }
- 
+
+/**
+ * Modul click in Processes
+ * @param {Integer} id Modul id
+ */
 function processesModulClick(id) {
     document.getElementById("processes_menu").style.display = "none";
     document.getElementById("processes_content").style.display = "block";
 
-    document.getElementById("process_modul_content").innerHTML="";
-    //document.getElementById(elementID).innerHTML
+    document.getElementById("process_modul_content").innerHTML = "";
 
     const iframe = createIframe();
 
     switch (id) {
         case "processes_overview_btn":
-                iframe.src="folyamatok_attekintese.html";
-                document.getElementById("process_modul_content").appendChild(iframe);
+            iframe.src = "folyamatok_attekintese.html";
+            //document.getElementById("process_modul_content").appendChild(iframe);
+
+            loadProcessesOverview();
             break;
         case "tasks_manager_btn":
-                iframe.src="feladatkezeles.html";
-                document.getElementById("process_modul_content").appendChild(iframe);
+            iframe.src = "feladatkezeles.html";
+            document.getElementById("process_modul_content").appendChild(iframe);
+            break;
+        case "partners_manager_btn":
+            iframe.src = "folyamatok_attekintese.html";
+            //document.getElementById("process_modul_content").appendChild(iframe);
+
+            //loadProcessesOverview();
             break;
         default:
             break;
@@ -92,15 +104,14 @@ function prodMenuChange(id) {
     document.getElementById("products_menu").style.display = "none";
     document.getElementById("products_content").style.display = "block";
 
-    document.getElementById("products_modul_content").innerHTML="";
+    document.getElementById("products_modul_content").innerHTML = "";
 
     const iframe = createIframe();
 
     switch (id) {
         case "prod_placement_btn":
-                iframe.src="készletkövetés.html";
-                document.getElementById("products_modul_content").appendChild(iframe);
-                
+            iframe.src = "készletkövetés.html";
+            document.getElementById("products_modul_content").appendChild(iframe);
             break;
         default:
             break;
@@ -115,3 +126,9 @@ function backToProcessesMenu() {
 }
 /** Click events end */
 /** Events end */
+
+/** Resize window */
+window.onresize = function (event) {
+    resizeProcessesOverview();
+};
+

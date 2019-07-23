@@ -5,308 +5,52 @@
     <title>SSB System</title>
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous">
+        </script>
+    <script src="jquery.scrollsync.js"></script>
+    <meta charset="utf-8">
 </head>
 
 <body>
-    <div id="processes_overview" class="full-screen display-flex">
-        <div id="processes_overview_header" class="display-flex flex-column">
-            <div id="processes_overview_header_title" class="display-flex">
-                <div class="margin-auto">Feladatok</div>
-            </div>
-            <div id="process_names_box" class="flex-1">
-                <!--
-                <div class="process-names-box-item display-flex">
-                    <div class="full-width margin-auto">Első projekt</div>
+    <div id="process_modul_content" class="full-screen">
+        <div id="processes_overview" class="full-screen display-flex">
+            <div id="processes_overview_header" class="display-flex flex-column">
+                <div id="processes_overview_header_title" class="display-flex">
+                    <div class="margin-auto">Feladatok</div>
                 </div>
-                <div class="process-names-box-item display-flex">
-                    <div class="full-width margin-auto">Második projekt</div>
-                </div>-->
+                <div id="process_names_box" class="flex-1" onscroll="scrollHeadProcessesO()">
+                </div>
             </div>
-        </div>
-        <div id="processes_overview_content">
-            <div class="display-flex full-screen align-center">
-                <table border="1" style="border: 1px solid transparent; border-bottom: #ddd">
-                    <tbody>
-                        <tr>
-                            <td style="padding: 0;">
-                                <table id="processes_table_table" border="1" style="border-color: #ddd;"
-                                    class="full-screen processes-table-table">
-                                    <tbody id="processes_t_t_tbody">
-                                        <!--
-                                        <tr class="full-width" style="height: 25px;">
-                                            <td colspan="30" class="full-width">
-                                                nnnnnnnnnnnnnnnnnnnnnnnnnnnnn
-                                            </td>
-                                        </tr>
-                                        <tr class="full-width" style="height: 25px;">
-                                            <td colspan="2">k</td>
-                                            <td colspan="7">kkkkkkkk</td>
-                                            <td colspan="7">kkkkkkkk</td>
-                                            <td colspan="7">kkkkkkkk</td>
-                                            <td colspan="7">kkkkkkkk</td>
-                                        </tr>
-                                        <tr class="full-width" style="height: 25px;">
-                                            <td class="processes-table-table-td">1</td>
-                                            <td class="processes-table-table-td">2</td>
-                                            <td class="processes-table-table-td">3</td>
-                                            <td class="processes-table-table-td">4</td>
-                                            <td class="processes-table-table-td">5</td>
-                                            <td class="processes-table-table-td">6</td>
-                                            <td class="processes-table-table-td">7</td>
-                                            <td class="processes-table-table-td">8</td>
-                                            <td class="processes-table-table-td">9</td>
-                                            <td class="processes-table-table-td">10</td>
-                                            <td class="processes-table-table-td">11</td>
-                                            <td class="processes-table-table-td">12</td>
-                                            <td class="processes-table-table-td">13</td>
-                                            <td class="processes-table-table-td">14</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                        </tr>
-                                        <tr style="height: 25px;" class="full-width">
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td process-start-td">
-                                                <div class="full-screen process-start-line"></div>
-                                            </td>
-                                            <td class="processes-table-table-td process-line-td">
-                                                <div class="full-screen processes-data-line"></div>
-                                            </td>
-                                            <td class="processes-table-table-td process-end-td">
-                                                <div class="full-screen process-end-line"></div>
-                                            </td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                        </tr>
-                                        <tr style="height: 25px;" class="full-width">
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td process-start-td">
-                                                <div class="full-screen process-start-line"></div>
-                                            </td>
-                                            <td class="processes-table-table-td process-line-td">
-                                                <div class="full-screen processes-data-line"></div>
-                                            </td>
-                                            <td class="processes-table-table-td process-line-td">
-                                                <div class="full-screen processes-data-line"></div>
-                                            </td>
-                                            <td class="processes-table-table-td process-line-td">
-                                                <div class="full-screen processes-data-line"></div>
-                                            </td>
-                                            <td class="processes-table-table-td process-line-td">
-                                                <div class="full-screen processes-data-line"></div>
-                                            </td>
-                                            <td class="processes-table-table-td process-end-td">
-                                                <div class="full-screen process-end-line"></div>
-                                            </td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                            <td class="processes-table-table-td"></td>
-                                        </tr>-->
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!--
-                    <table class="full-screen processes-table">
-                        <tr height="12%">
-                            <td width="22%">
-                                <h6>Tasks</h6>
-                            </td>
-                            <td width="6%">
-                                <h6>%</h6>
-                            </td>
-                            <td width="72%" style="padding: 0;">
-                                <table class="full-screen processes-table-table">
-                                    <tbody>
-                                        <tr class="full-width">
-                                            <td colspan="30" class="full-width">nnnnnnnnnnnnnnnnnnnnnnnnnnnnn</td>
-                                        </tr>
-                                        <tr class="full-width">
-                                            <td colspan="2">k</td>
-                                            <td colspan="7">kkkkkkkk</td>
-                                            <td colspan="7">kkkkkkkk</td>
-                                            <td colspan="7">kkkkkkkk</td>
-                                            <td colspan="7">kkkkkkkk</td>
-                                        </tr>
-                                        <tr class="full-width">
-                                            <td class="processes-table-table-td">1</td>
-                                            <td class="processes-table-table-td">2</td>
-                                            <td class="processes-table-table-td">3</td>
-                                            <td class="processes-table-table-td">4</td>
-                                            <td class="processes-table-table-td">5</td>
-                                            <td class="processes-table-table-td">6</td>
-                                            <td class="processes-table-table-td">7</td>
-                                            <td class="processes-table-table-td">8</td>
-                                            <td class="processes-table-table-td">9</td>
-                                            <td class="processes-table-table-td">10</td>
-                                            <td class="processes-table-table-td">11</td>
-                                            <td class="processes-table-table-td">12</td>
-                                            <td class="processes-table-table-td">13</td>
-                                            <td class="processes-table-table-td">14</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                            <td class="processes-table-table-td">15</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr height="88%">
-                            <td width="22%"></td>
-                            <td width="6%"></td>
-                            <td width="72%" style="padding: 0;">
-                                <div style="width:100%; height:100%; overflow:auto;">
-                                    <table class="full-screen processes-table-table">
-                                        <tbody>
-                                            <tr class="full-width">
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                                <td class="processes-table-table-td"></td>
-                                            </tr>
-                                        </tbody>
+            <div id="processes_overview_content">
+                <div id="processes_table_shell" class="display-flex full-screen align-center">
+                    <table id="processes_table" border="1" style="border: 1px solid transparent; border-bottom: #ddd">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0;">
+                                    <table id="processes_table_table1" border="1" style="border-color: #ddd;"
+                                        class="full-screen processes-table-table">
+                                        <thead id="processes_t_t_thead">
+                                        </thead>
                                     </table>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>-->
-        </div>
-        <!--
-            <div id="processes_overview_content" class="full-screen">
-                <div class="full-screen">
-                    <table id="processes_table_data" class="full-width">
-                        <tr class="full-width">
-                            <td width="100%">
-                                <div class="display-flex full-screen">
-                                    <div style="width: 22%" class="full-height"></div>
-                                    <div style="width: 6%" class="full-height"></div>
-                                    <div style="width: 4.8%" class="full-height"></div>
-                                    <div style="width: 2.4%" class="full-height">
-                                        <div class="full-screen processes_data_doing"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0;">
+                                    <div id="processes_t_scroll_table" onscroll="scrollContentProcessesO()">
+                                        <table id="processes_table_table2" border="1" style="border-color: #ddd;"
+                                            class="full-screen processes-table-table">
+                                            <tbody id="processes_t_t_tbody">
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div style="width: 24%" class="full-height"></div>
-                                    <div style="width: 2.4%" class="full-height">
-                                        <div class="full-screen processes_data_doing"></div>
-                                    </div>
-                                    <div style="width: 24%" class="full-height"></div>
-                                    <div style="width: 2.4%" class="full-height">
-                                        <div class="full-screen processes_data_doing"></div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="full-width">
-                            <td width="100%">
-                                <div width="22%"></div>
-                                <div width="6%"></div>
-                                <div width="4.8%"></div>
-                                <div width="2.4%">
-                                    <div class="full-screen processes_data_doing"></div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
-            </div>-->
+            </div>
+        </div>
     </div>
     <script src="js/main.js"></script>
 </body>

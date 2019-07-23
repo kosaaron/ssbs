@@ -260,6 +260,10 @@ iframe[seamless] {
     padding-left: 1rem;
 }
 
+#content_shell {
+    overflow: hidden;
+}
+
 #processes_back_to_menu {
     cursor: pointer;
     font-size: 1.4rem;
