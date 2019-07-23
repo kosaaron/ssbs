@@ -414,11 +414,13 @@ iframe[seamless] {
     h7 {
         font-size: 0.9rem;
     }
-
     .one-tile{
         height: 25%;
     }
     .tile-icon{
-        font-size: 3.5rem;
+        font-size: 3.2rem;
+    }
+    .menu-tile-title{
+        font-size: 1.2em;
     }
 }
