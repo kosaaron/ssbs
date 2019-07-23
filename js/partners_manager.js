@@ -5,7 +5,7 @@ function getPartnersMCard() {
     container += '<div class="col-lg-6"><div class="card taskcard"><div class="card-body">';
     container += '!<h5 class="card-title">*</h5>';
     container += '!<p class="card-text">*</p>';
-    container += `!<a href="#" class="btn btn-primary next-button show-detail" onclick='partnerMCardClick("*")'><i class="fas fa-arrow-right"></i></a></div></div></div>`;
+    container += `!<a href="#" class="btn btn-primary next-button show-detail" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div>`;
 
     return container;
 }
@@ -70,6 +70,12 @@ $(document).ready(function () {
     let cardDesign = getPartnersMCard();
     let cardContainer = "card_container_r";
     cardContainerADetails.generateCardContainer(data, cardStructure, cardDesign, cardContainer);
+    let buttons = document.getElementsByClassName('show-detail');
+    for(let i=0; i<buttons.length; i++) {
+        buttons[i].addEventListener('click', function() {
+            partnerMCardClick(this.id);
+        })
+    }
 });
 
 var partner_m_structure = [
