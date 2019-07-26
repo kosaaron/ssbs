@@ -118,7 +118,6 @@ function processesModulClick(id) {
 }
 
 function prodMenuChange(id) {
-    document.getElementById("products_menu").style.display = "none";
     document.getElementById("products_content").style.display = "block";
 
     document.getElementById("products_modul_content").innerHTML = "";
