@@ -1,15 +1,30 @@
+/** partners_manager.js */
+/**
+ * 1. Imports
+ * 2. Loacal functions
+ * 3. Public functions
+ *    -  Partners manager
+ */
+/** Imports */
 import cardContainerADetails from './common.js';
 
+/** Loacal functions */
+/**
+ * Partners manager card template
+ */
 function getPartnersMCard() {
     let container = "";
     container += '<div class="col-lg-6"><div class="card taskcard"><div class="card-body">';
     container += '!<h5 class="card-title">*</h5>';
     container += '!<p class="card-text">*</p>';
-    container += `!<a href="#" class="btn btn-primary next-button show-detail" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div>`;
+    container += `!<a href="#" class="btn btn-primary next-button show-details" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div>`;
 
     return container;
 }
 
+/**
+ * Partners manager details template
+ */
 function getPartnersMDetail() {
     let container = "";
 
@@ -24,59 +39,37 @@ function getPartnersMDetail() {
     return container;
 }
 
+/**
+ * Card click event
+ * @param {Integer} cardId Card id
+ */
 function partnerMCardClick(cardId) {
     let data = process_maintain_list;
     let structure = partner_m_structure_2;
     let card = getPartnersMDetail();
-    let shellId = "details";
+    let shellId = "partners_m_details";
 
     cardContainerADetails.generateDetailById(cardId, data, structure, card, shellId);
 }
 
-/*
-function showDetail() {
-    const side_box = document.getElementById('details');
-    const DETAIL = document.getElementsByClassName('show-detail');
-    for (let i = 0; i < DETAIL.length; i++) {
-        DETAIL[i].addEventListener("click", function () {
-            for (let j = 0; j < process_maintain_list.length; j++) {
-                const process = process_maintain_list[j];
-                if (process.Id == this.getAttribute("data-show-details")) {
-                    side_box.getElementsByTagName('h2')[0].innerHTML = process.Name;
-                    let labels = side_box.getElementsByTagName('label');
-                    let props = [];
-                    for (var key in process) {
-                        if (process.hasOwnProperty(key)) {
-                            props.push(key);
-                        }
-                    }
-                    for (let k = 1, l = 2; k < labels.length; k += 2, l++) {
-                        labels[k].innerHTML = process[props[l]];
-                    }
-                    document.getElementById('detail-placeholder').style.display = "none";
-                    side_box.style.display = "block";
-
-                    return;
-                }
-            }
-        })
+/** Public functions */
+var partnersManager = {
+    loadPartnersManager: function () {        
+        // Load framework
+        let framework='<div id="partners_manager" class="d-flex display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <div class="task-filters"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label for="" class="taskfilter-label">Live-search</label> <select name="" id="" class="selectpicker my-0 form-control taskfilter" data-live-search="true"> <option value="">Első</option> <option value="">Második</option> <option value="">Harmadik</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő3</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő4</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div id="card-container" class="col-8"> <div id="card_container_r" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="partners_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
+        document.getElementById("process_modul_content").innerHTML = framework;
+    
+        // Load card container
+        let data = process_maintain_list;
+        let cardStructure = partner_m_structure;
+        let cardDesign = getPartnersMCard();
+        let cardContainer = "card_container_r";
+        cardContainerADetails.generateCardContainer(data, cardStructure, cardDesign, cardContainer);
+        cardContainerADetails.generateClickableCard(partnerMCardClick);
     }
-}*/
+};
 
-$(document).ready(function () {
-    // Load card container
-    let data = process_maintain_list;
-    let cardStructure = partner_m_structure;
-    let cardDesign = getPartnersMCard();
-    let cardContainer = "card_container_r";
-    cardContainerADetails.generateCardContainer(data, cardStructure, cardDesign, cardContainer);
-    let buttons = document.getElementsByClassName('show-detail');
-    for(let i=0; i<buttons.length; i++) {
-        buttons[i].addEventListener('click', function() {
-            partnerMCardClick(this.id);
-        })
-    }
-});
+export default partnersManager;
 
 var partner_m_structure = [
     "Name",

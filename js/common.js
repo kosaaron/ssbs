@@ -41,7 +41,7 @@ let cardContainerADetails = {
             }
         }
         document.getElementById(shellId).innerHTML = container;
-       
+
     },
     /**
      * Generate detail by id
@@ -84,6 +84,18 @@ let cardContainerADetails = {
             }
         }
         document.getElementById(shellId).innerHTML = container;
+    },
+    /**
+     * 
+     * @param {Function} clickEvent 
+     */
+    generateClickableCard: function (clickEvent) {
+        let buttons = document.getElementsByClassName('show-details');
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', function () {
+                clickEvent(this.id);
+            });
+        }
     }
 };
 

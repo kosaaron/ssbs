@@ -1,11 +1,15 @@
 /** main_frame.js */
 /**
+ * Improts
  * General functions
  * Events
  *  - Click events
  *  - Resize window
+ *  - Ready document
  */
 
+/** Imports */
+import partnersManager from './partners_manager.js';
 /** General functions */
 /**
  * Remove all active items from menu
@@ -21,6 +25,20 @@ function menuItemsClear() {
 function clearContent() {
     for (let index = 0; index < document.getElementsByClassName("menu-content").length; index++) {
         document.getElementsByClassName("menu-content")[index].style.display = "none";
+    }
+}
+/**
+ * Add click event to elements
+ * Call the specified function with id parameter (it can be null)
+ * @param {Function} eventFunction Event function
+ * @param {String} className Class name of elements
+ */
+function addClickEvents(eventFunction, className) {
+    let clickedElements = document.getElementsByClassName(className);
+    for (let i = 0; i < clickedElements.length; i++) {
+        clickedElements[i].addEventListener('click', function () {
+            eventFunction(clickedElements[i].id);
+        });
     }
 }
 /** General functions end */
@@ -92,8 +110,7 @@ function processesModulClick(id) {
         case "partners_manager_btn":
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
-
-            //loadProcessesOverview();
+            partnersManager.loadPartnersManager();
             break;
         default:
             break;
@@ -125,10 +142,18 @@ function backToProcessesMenu() {
     document.getElementById("processes_content").style.display = "none";
 }
 /** Click events end */
-/** Events end */
+
 
 /** Resize window */
 window.onresize = function (event) {
     resizeProcessesOverview();
 };
 
+/** Ready document */
+$(document).ready(function () {     
+    addClickEvents(menuItemClick, "menu-item");
+    addClickEvents(processesModulClick, "processes-mo-click");
+    addClickEvents(backToProcessesMenu, "processes-back-to-menu");
+    addClickEvents(prodMenuChange, "prod-subm-i");
+});
+/** Events end */

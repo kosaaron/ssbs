@@ -3,6 +3,7 @@
  */
 var main_frame = document.createElement('script');
 main_frame.src = "js/main_frame.js";
+main_frame.type="module";
 document.head.appendChild(main_frame);
 
 /**

@@ -18,6 +18,9 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
     <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon"> - Ádám: kell ikon-->
     <link rel="stylesheet" href="css/main.css">
 </head>
@@ -36,8 +39,7 @@
     </header>
     <div id="content_frame" class="flex-1 display-flex flex-row">
         <div id="main_menu">
-            <div id="tab_finance" onclick="menuItemClick(this.id)"
-                class="menu-item display-flex flex-column menu-item-active">
+            <div id="tab_finance" class="menu-item display-flex flex-column menu-item-active">
                 <div class="text-center">
                     <div>
                         <div class="icon-own-general-ledger item-icon"></div>
@@ -47,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <div id="tab_processes" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+            <div id="tab_processes" class="menu-item display-flex flex-column">
                 <div class="text-center">
                     <div>
                         <div class="icon-own-flow-chart item-icon"></div>
@@ -57,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div id="tab_products" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+            <div id="tab_products" class="menu-item display-flex flex-column">
                 <div class="text-center">
                     <div>
                         <div class="icon-own-product-documents item-icon"></div>
@@ -68,7 +70,7 @@
                 </div>
             </div>
 
-            <div id="tab_resources" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+            <div id="tab_resources" class="menu-item display-flex flex-column">
                 <div class="text-center">
                     <div>
                         <div class="icon-own-work item-icon"></div>
@@ -78,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div id="tab_settings" onclick="menuItemClick(this.id)" class="menu-item display-flex flex-column">
+            <div id="tab_settings" class="menu-item display-flex flex-column">
                 <div class="text-center">
                     <div>
                         <div class="icon-own-services item-icon"></div>
@@ -118,7 +120,7 @@
                 <div id="processes" class="menu-content display-none">
                     <div id="processes_menu" class="tile_menu full-screen">
                         <div class="one-tile col-6 col-md-4 col-lg-3">
-                            <div id="processes_overview_btn" class="content" onclick="processesModulClick(this.id)">
+                            <div id="processes_overview_btn" class="content processes-mo-click">
                                 <div class="tile-icon-shell display-flex flex-column">
                                     <i class="tile-icon align-center fas fa-project-diagram"></i>
                                 </div>
@@ -130,7 +132,7 @@
                             </div>
                         </div>
                         <div class="one-tile col-6 col-md-4 col-lg-3">
-                            <div id="tasks_manager_btn" class="content" onclick="processesModulClick(this.id)">
+                            <div id="tasks_manager_btn" class="content processes-mo-click">
                                 <div class="tile-icon-shell display-flex flex-column">
                                     <div class="icon-own-general-ledger tile-icon align-center"></div>
                                 </div>
@@ -142,7 +144,7 @@
                             </div>
                         </div>
                         <div class="one-tile col-6 col-md-4 col-lg-3">
-                            <div id="partners_manager_btn" class="content">
+                            <div id="partners_manager_btn" class="content processes-mo-click">
                                 <div class="tile-icon-shell display-flex flex-column">
                                     <div class="icon-own-general-ledger tile-icon align-center"></div>
                                 </div>
@@ -217,7 +219,7 @@
                     <div id="processes_content" class="full-screen">
                         <div class="display-flex flex-column full-screen">
                             <div id="back_to_menu_header" class="modul-title display-flex">
-                                <div id="processes_back_to_menu" onclick="backToProcessesMenu()">
+                                <div class="processes-back-to-menu">
                                     <i class="fas fa-arrow-left align-middle"></i>
                                 </div>
                                 <div class="modul-title-text">
@@ -234,15 +236,14 @@
 
                 <div id="products" class="menu-content display-none">
                     <div id="products_menu" class="submenu">
-                        <div id="prod_overview_btn" class="submenu-item display-flex flex-column submenu-item-active"
-                            onclick="">
+                        <div id="prod_overview_btn"
+                            class="prod-subm-i submenu-item display-flex flex-column submenu-item-active">
                             <h7 class="unselectable">ÁTTEKINTÉS</h7>
                         </div>
-                        <div id="prod_placement_btn" class="submenu-item display-flex flex-column"
-                            onclick="prodMenuChange(this.id)">
+                        <div id="prod_placement_btn" class="prod-subm-i submenu-item display-flex flex-column">
                             <h7 class="unselectable submenu-border">KÖVETÉS</h7>
                         </div>
-                        <div class="submenu-item display-flex flex-column" onclick="">
+                        <div class="prod-subm-i submenu-item display-flex flex-column" onclick="">
                             <h7 class="unselectable">OPTIMALIZÁLÁS</h7>
                         </div>
                     </div>
