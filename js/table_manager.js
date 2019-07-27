@@ -49,7 +49,7 @@ function generateFilter(filters, currentTable) {
     addListener('selectpicker', 'change', setFilter);
 }
 
-function generateTable(head, width, data, collapseData = true) {
+function generateTable(head, width, data, currentTable, collapseData = true) {
     let dataProps = Object.getOwnPropertyNames(data[0]);
     let table = '';
     table += '<div class="container-fluid row"><table class="table table-hover mb-0 col-12"><thead class="thead-light"><thead class="thead-light"><tr class="row m-0">';
@@ -57,7 +57,7 @@ function generateTable(head, width, data, collapseData = true) {
         table += '<th class="d-inline-block ' + width[i] + '">' + head[i] + '</th>'
     }
     table += '</tr></thead></table>';
-    table += ' <table class="table table-hover mb-0 col-12" id="data-table"><tbody>';     
+    table += ' <table class="table table-hover mb-0 col-12" id="' + currentTable + '"><tbody>';     
     for (let j = 0; j < data.length; j++) {
         table += '<tr class="m-0 data-row">';
         for (let k = 0; k < dataProps.length; k++) {
@@ -94,7 +94,7 @@ function generateTable(head, width, data, collapseData = true) {
                         "aria-expanded": "false",
                         "aria-controls": "row"+ i
                     });
-                    let table = document.getElementById("data-table");
+                    let table = document.getElementById("' + currentTable + '");
                     let collapseAble = table.insertRow(PARENT.rowIndex+1);
                     $(collapseAble).attr(
                         {
@@ -122,7 +122,7 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    generateTable(tableHeaderText, tableColWidth, activeTableData);
+    generateTable(tableHeaderText, tableColWidth, activeTableData, activeTable);
 });
 
 /* Dávid end */

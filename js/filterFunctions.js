@@ -1,7 +1,15 @@
+/**
+ * 
+ * @param {String} place táblázat azonosító
+ * @param {String} Id input azonosító
+ */
 function setFilter(place, Id) {
     return filterFunctions[place][Id];
 }
 
+/**
+ * táblázat és inputid alapján adja a funkciót
+ */
 let filterFunctions = {
     'keszletkovetes': {
         get Kategória() {console.log('működik 1');},
