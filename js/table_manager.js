@@ -1,7 +1,9 @@
 /* Dávid */
+import {addListener} from './common.js';
+import setFilter from './filterFunctions.js';
 
 //Filter generate
-function generateFilter(filters) {
+function generateFilter(filters, currentTable) {
     let dropdownHtml = "";
     dropdownHtml += '<div class="flex-fill col-2 filter-box">';
     dropdownHtml += '<div class="task-filters">';
@@ -9,12 +11,12 @@ function generateFilter(filters) {
         
        
         if (filters[i].Type == "Write") {
-        dropdownHtml += '<div class="my-3"><input type="text" class="form-control col-5" placeholder="' +
+        dropdownHtml += '<div class="my-3"><input type="text" class="form-control col-5" id="' + filters[i].Name + '" data-place="' + currentTable + '" placeholder="' +
         filters[i].Name + '" aria-label="' + filters[i].Name + '" aria-describedby="addon-wrapping"></div>';
         } 
         else if (filters[i].Type == "Dropdown") {
             dropdownHtml += '<div class="dropdown my-3">';
-            dropdownHtml += '<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+            dropdownHtml += '<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" data-place="' + currentTable + '" aria-haspopup="true" aria-expanded="false">';
             dropdownHtml += filters[i].Name;
             dropdownHtml += '</button>';
             dropdownHtml += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
@@ -30,7 +32,7 @@ function generateFilter(filters) {
         else {
             dropdownHtml += '<div class="form-group">';
             dropdownHtml += '<label class="taskfilter-label">' + filters[i].Name + '</label>';
-            dropdownHtml += '<select class="selectpicker my-0 form-control taskfilter" data-live-search="true">';
+            dropdownHtml += '<select class="selectpicker my-0 form-control taskfilter" id="' + filters[i].Name + '" data-live-search="true" data-place="' + currentTable + '">';
             for (let k = 0; k < filters[i].Opportunities.length; k++) {
                 dropdownHtml += '<option>' + filters[i].Opportunities[k] + '</option>';
             }
@@ -43,6 +45,8 @@ function generateFilter(filters) {
     dropdownHtml += '</div>';
     document.getElementById('filters').innerHTML = dropdownHtml;
     $('.selectpicker').selectpicker('refresh');
+    
+    addListener('selectpicker', 'change', setFilter);
 }
 
 function generateTable(head, width, data, collapseData = true) {
@@ -109,12 +113,12 @@ function generateTable(head, width, data, collapseData = true) {
     }
 }
 
-tableHeaderText = ["Beszállító", "Termék", "Raktár", "Készlet", "Kihelyezve"];
-tableColWidth = ["col-3", "col-3", "col-2", "col-2", "col-2"];
+let tableHeaderText = ["Beszállító", "Termék", "Raktár", "Készlet", "Kihelyezve"];
+let tableColWidth = ["col-3", "col-3", "col-2", "col-2", "col-2"];
 
 
 $(document).ready(function() {
-    generateFilter(activeTableFilters);
+    generateFilter(activeTableFilters, activeTable);
 });
 
 $(document).ready(function() {
@@ -124,7 +128,7 @@ $(document).ready(function() {
 /* Dávid end */
 /* Ádam */
 /** Data **/
-var activeTables = ["table 1", "table 2"];
+var activeTable = "keszletkovetes";
 var activeTableData;
 var activeTableFilters;
 
@@ -142,19 +146,19 @@ activeTableFilters = [
         Opportunities: ["Raktár1","Raktár2","Raktár3"]
     },
     {
-        Name:"Kategória",
+        Name:"Harmadik",
         Type:"Select",
         Default:"Karalábé",
         Opportunities: ["Sajt","Karalábé","Csoki"]
     },
     {
-        Name:"Kategória",
+        Name:"Negyedik",
         Type:"Select",
         Default:"Sajt",
         Opportunities: ["Sajt","Karalábé","Csoki"]
     },
     {
-        Name:"Típus",
+        Name:"Ötödik",
         Type:"Write",
         Default:"",
     },

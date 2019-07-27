@@ -51,6 +51,12 @@ iframe[seamless] {
     width: 100%;
 }
 
+.not-full-width {
+    position: relative;
+    left: 200px;
+    width: calc(100% - 200px);
+}
+
 .align-center {
     text-align: center;
 }

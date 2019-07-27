@@ -1,5 +1,6 @@
 /** common.js */
 /** Card container with details */
+import setFilter from './filterFunctions.js';
 
 let cardContainerADetails = {
     /**
@@ -99,4 +100,21 @@ let cardContainerADetails = {
     }
 };
 
-export default cardContainerADetails;
+/**
+ * @param {String} className
+ * @param {String} eventType
+ * @param {Function} eventFunction 
+ */
+function addListener(className, eventType, eventFunction) {
+    let targets = document.getElementsByClassName(className);
+    for (let i = 0; i < targets.length; i++) {
+        targets[i].addEventListener(eventType, function () {
+            let place = this.getAttribute('data-place');
+            if (place) {
+                eventFunction(place, this.id);
+            }
+        });
+    }
+}
+
+export {cardContainerADetails as default, addListener};

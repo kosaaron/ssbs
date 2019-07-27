@@ -75,11 +75,11 @@ function menuItemClick(id) {
     }
 }
 /**
- * Create iframe element
+ * @param {String} className
  */
-function createIframe() {
+function createIframe(className) {
     let iframe = document.createElement('iframe');
-    iframe.className = "full-screen";
+    iframe.className = className;
     iframe.frameBorder = "0";
     return iframe;
 }
@@ -94,7 +94,7 @@ function processesModulClick(id) {
 
     document.getElementById("process_modul_content").innerHTML = "";
 
-    const iframe = createIframe();
+    const iframe = createIframe('full-screen');
 
     switch (id) {
         case "processes_overview_btn":
@@ -122,7 +122,7 @@ function prodMenuChange(id) {
 
     document.getElementById("products_modul_content").innerHTML = "";
 
-    const iframe = createIframe();
+    const iframe = createIframe('full-screen not-full-width');
 
     switch (id) {
         case "prod_placement_btn":
