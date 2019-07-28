@@ -179,25 +179,31 @@ iframe[seamless] {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 4px;
-    border-bottom: 1px dashed #ccc;
 }
 .submenu {
     width: 170px;
-    position: absolute;
     margin-top: 0px;
-    height: 92%;
+    height: 100%;
     -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
     -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
     box-shadow: inset 110px 0px 100px -180px #01043F;
 }
-
+.nonlink-design{
+    text-decoration: none;
+    color: #404040;
+}
+.nonlink-design:hover{
+    text-decoration: none;
+    color: #606060;
+}
 .submenu-item {
     height: 38px;
     text-align: center;
     margin: 7px;
     justify-content: center;
     color: #555;
-    border-left: 8px solid #b2bec3;
+    border-left: 8px solid rgb(67, 75, 117);
+    background-color: rgba(67, 75, 117, 0.2);
 }
 
 .submenu-item-active {
@@ -209,20 +215,11 @@ iframe[seamless] {
 .submenu-item:hover {
     color: #636D8C;
     cursor: pointer;
-    border-left: 8px solid #023E8C;
+    border-left: 8px solid rgb(77, 99, 128);
+    background-color: rgba(77, 99, 128, 0.2);
 }
-.overview-submenuitem{
-    border-left: 8px solid rgb(21, 161, 248);
-    background-color: rgba(21, 161, 248, 0.2);
-
-}
-.income-submenuitem{
-    border-left: 8px solid rgb(5, 89, 199);
-    background-color: rgba(5, 89, 199, 0.2);
-}
-.outcome-submenuitem{
-    border-left: 8px solid rgb(67, 75, 117);
-    background-color: rgba(67, 75, 117, 0.2);
+.submenu-collapse{
+    border-top: 1px dashed #ccc;;
 }
 .menu-content {
     width: 100%;
