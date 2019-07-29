@@ -6,6 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/dragndrop.js"></script>
 </head>
 
 <body>
@@ -57,65 +60,79 @@
                 <div class="col-md-6 col-12">
                     <h2 class="task-subtitle">Feladat lépései</h2>
                     <div class="taskstep-container">
-                        <div class="row taskstep-card d-flex align-items-center">
-                            <i class="fas fa-plus taskstep-icon"></i>
-                            <select id="taskProject" class="taskstep-formcontrol">
-                                <option selected>Choose...</option>
-                                <option>...</option>
-                            </select>
-                        </div>
-                        <div class="row add-employee-card">
-                            <button type="button" class="btn btn-sm added-employee-button"><i
-                                    class="fas fa-user addemployee-icon"></i>Werner Ádám</button>
-                        </div>
-                        <div class="row add-employee-card">
-                            <button type="button" class="btn btn-sm add-employee-button"><i
-                                    class="fas fa-user-plus addemployee-icon"></i>Munkatárs
-                                hozzáadása</button>
-                        </div>
-                        <div class="row taskstep-card d-flex align-items-center">
-                            <i class="fas fa-plus taskstep-icon"></i>
-                            <select id="taskProject" class="taskstep-formcontrol">
-                                <option selected>Choose...</option>
-                                <option>...</option>
-                            </select>
-                        </div>
-                        <div class="row add-employee-card">
-                            <button type="button" class="btn btn-sm add-employee-button"><i
-                                    class="fas fa-user-plus addemployee-icon"></i>Munkatárs
-                                hozzáadása</button>
-                        </div>
-                        <div class="row taskstep-card d-flex align-items-center">
-                            <i class="fas fa-plus taskstep-icon"></i>
-                            <select id="taskProject" class="taskstep-formcontrol">
-                                <option selected>Choose...</option>
-                                <option>...</option>
-                            </select>
-                        </div>
-                        <div class="row add-employee-card">
-                            <button type="button" class="btn btn-sm add-employee-button"><i
-                                    class="fas fa-user-plus addemployee-icon"></i>Munkatárs
-                                hozzáadása</button>
-                        </div>
-                        <div class="row taskstep-card d-flex align-items-center">
-                            <i class="fas fa-plus taskstep-icon"></i>
-                            <select id="taskProject" class="taskstep-formcontrol">
-                                <option selected>Choose...</option>
-                                <option>...</option>
-                            </select>
-                        </div>
-                        <div class="row add-employee-card">
-                            <button type="button" class="btn btn-sm add-employee-button"><i
-                                    class="fas fa-user-plus addemployee-icon"></i>Munkatárs
-                                hozzáadása</button>
+                        <div class="slides">
+                            <div class="slide slide1">
+                                <div class="row taskstep-card d-flex align-items-center">
+                                    <i class="fas fa-plus taskstep-icon"></i>
+                                    <select id="taskProject" class="taskstep-formcontrol">
+                                        <option selected>Choose...</option>
+                                        <option>...</option>
+                                    </select>
+                                </div>
+                                <div class="row add-employee-card">
+                                    <button type="button" class="btn btn-sm added-employee-button"><i
+                                            class="fas fa-user addemployee-icon"></i>Werner Ádám</button>
+                                </div>
+                                <div class="row add-employee-card">
+                                    <button type="button" class="btn btn-sm add-employee-button"><i
+                                            class="fas fa-user-plus addemployee-icon"></i>Munkatárs
+                                        hozzáadása</button>
+                                </div>
+                            </div>
+                            <div class="slide slide2">
+                                <div class="row taskstep-card d-flex align-items-center">
+                                    <i class="fas fa-plus taskstep-icon"></i>
+                                    <select id="taskProject" class="taskstep-formcontrol">
+                                        <option selected>Choose...</option>
+                                        <option>...</option>
+                                    </select>
+                                </div>
+                                <div class="row add-employee-card">
+                                    <button type="button" class="btn btn-sm added-employee-button"><i
+                                            class="fas fa-user addemployee-icon"></i>Sági Dávid</button>
+
+                                </div>
+                                <div class="row add-employee-card">
+                                    <button type="button" class="btn btn-sm added-employee-button"><i
+                                            class="fas fa-user addemployee-icon"></i>Kósa Áron Balázs</button>
+
+                                </div>
+                                <div class="row add-employee-card">
+                                    <button type="button" class="btn btn-sm add-employee-button"><i
+                                            class="fas fa-user-plus addemployee-icon"></i>Munkatárs
+                                        hozzáadása</button>
+                                </div>
+                            </div>
+                            <div class="slide slide3">
+                                <div class="row taskstep-card d-flex align-items-center">
+                                    <i class="fas fa-plus taskstep-icon"></i>
+                                    <select id="taskProject" class="taskstep-formcontrol">
+                                        <option selected>Choose...</option>
+                                        <option>...</option>
+                                    </select>
+                                </div>
+                                <div class="row add-employee-card">
+                                    <button type="button" class="btn btn-sm added-employee-button"><i
+                                            class="fas fa-user addemployee-icon"></i>Werner Ádám</button>
+                                </div>
+                                <div class="row add-employee-card">
+                                    <button type="button" class="btn btn-sm add-employee-button"><i
+                                            class="fas fa-user-plus addemployee-icon"></i>Munkatárs
+                                        hozzáadása</button>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                 </div>
+
             </div>
         </div>
-        <div class="flex-fill col-1"></div>
     </div>
+    <div class="flex-fill col-1">
+
+    </div>
+
 </body>
 
 </html>

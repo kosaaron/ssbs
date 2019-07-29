@@ -106,3 +106,19 @@
 .page-content{
     height: 60%;
 }
+
+/*Drag and drop*/
+
+.slide-placeholder {
+    background: #DADADA;
+    position: relative;
+}
+.slide-placeholder:after {
+    content: " ";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 15px;
+    background-color: #FFF;
+}
