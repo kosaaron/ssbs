@@ -84,15 +84,17 @@
     padding: 2px 10px;
     border: 1px dashed #999;
     color: #999;
+    background-color: #fff;
 }
 .added-employee-button{
     font-size: 16px;
     border-radius: 30px;
     margin-left: 15%;
     padding: 2px 10px;
-    border: 1px dashed #495057;
+    border: 1px solid #777;
     color: #495057;
     margin-bottom: 10px;
+    background-color: #fff;
 }
 .addemployee-icon{
     padding-right: 10px;
@@ -109,11 +111,11 @@
 
 /*Drag and drop*/
 
-.slide-placeholder {
-    background: #DADADA;
+.slide-placeholder{
     position: relative;
+    border: 1px dashed #999;
 }
-.slide-placeholder:after {
+.slide-placeholder:after{
     content: " ";
     position: absolute;
     bottom: 0;
