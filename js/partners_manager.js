@@ -6,8 +6,9 @@
  *    -  Partners manager
  */
 /** Imports */
-import cardContainerADetails from './common.js';
-import generateFilters from './filterFunctions.js';
+import CardContainer from './moduls/CardContainer.js';
+import CardDetails from './moduls/CardDetails.js';
+import Filters from './moduls/Filters.js';
 
 /** Loacal functions */
 /**
@@ -50,7 +51,7 @@ function partnerMCardClick(cardId) {
     let card = getPartnersMDetail();
     let shellId = "partners_m_details";
 
-    cardContainerADetails.generateDetailById(cardId, data, structure, card, shellId);
+    CardDetails.Create(cardId, data, structure, card, shellId);
 }
 
 /** Public functions */
@@ -65,10 +66,10 @@ var partnersManager = {
         let cardStructure = partner_m_structure;
         let cardDesign = getPartnersMCard();
         let cardContainer = "card_container_r";
-        cardContainerADetails.generateCardContainer(data, cardStructure, cardDesign, cardContainer);
-        cardContainerADetails.generateClickableCard(partnerMCardClick);
+        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
+        CardContainer.ClickableCard(partnerMCardClick);
 
-        generateFilters(activeTableFilters, "partners_m_filters", partnersMFileterChange);
+        Filters.Create(activeTableFilters, "partners_m_filters", partnersMFileterChange);
     }
 };
 

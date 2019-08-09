@@ -1,7 +1,5 @@
 /** common.js */
 /** Card container with details */
-import setFilter from './filterFunctions.js';
-
 let cardContainerADetails = {
     /**
      * Generate card container
