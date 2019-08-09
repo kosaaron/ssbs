@@ -76,12 +76,20 @@
 
 .filter-box {
     width: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
     border-bottom: 1px solid #ddd;
     box-shadow: 0 8px 4px rgba(255, 255, 255, 0.9);
-    z-index: 800;
+    z-index: 700;
     -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
     -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
     box-shadow: inset 110px 0px 100px -180px #01043F;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}
+
+.filter-box::-webkit-scrollbar {
+    width: 0 !important
 }
 
 .taskfilter-label {

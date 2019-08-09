@@ -2,53 +2,6 @@
 import {addListener} from './common.js';
 import setFilter from './filterFunctions.js';
 
-//Filter generate
-function generateFilter(filters, currentTable) {
-    let dropdownHtml = "";
-    dropdownHtml += '<div class="flex-fill col-2 filter-box">';
-    dropdownHtml += '<div class="task-filters">';
-    for (var i = 0; i < filters.length; i++) {
-        
-       
-        if (filters[i].Type == "Write") {
-        dropdownHtml += '<div class="my-3"><input type="text" class="form-control col-5" id="' + filters[i].Name + '" data-place="' + currentTable + '" placeholder="' +
-        filters[i].Name + '" aria-label="' + filters[i].Name + '" aria-describedby="addon-wrapping"></div>';
-        } 
-        else if (filters[i].Type == "Dropdown") {
-            dropdownHtml += '<div class="dropdown my-3">';
-            dropdownHtml += '<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" data-place="' + currentTable + '" aria-haspopup="true" aria-expanded="false">';
-            dropdownHtml += filters[i].Name;
-            dropdownHtml += '</button>';
-            dropdownHtml += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
-            if (filters[i].hasOwnProperty('Opportunities')) {
-                for (let j = 0; j < filters[i].Opportunities.length; j++) {
-                    dropdownHtml += '<a class="dropdown-item" href="#">';
-                    dropdownHtml += filters[i].Opportunities[j];
-                    dropdownHtml += '</a>';
-                }
-            }
-            dropdownHtml += '</div></div>';
-        }
-        else {
-            dropdownHtml += '<div class="form-group">';
-            dropdownHtml += '<label class="taskfilter-label">' + filters[i].Name + '</label>';
-            dropdownHtml += '<select class="selectpicker my-0 form-control taskfilter" id="' + filters[i].Name + '" data-live-search="true" data-place="' + currentTable + '">';
-            for (let k = 0; k < filters[i].Opportunities.length; k++) {
-                dropdownHtml += '<option>' + filters[i].Opportunities[k] + '</option>';
-            }
-            dropdownHtml += '</select></div>';
-        }
-        
-        
-    }
-    dropdownHtml += '</div>';
-    dropdownHtml += '</div>';
-    document.getElementById('filters').innerHTML = dropdownHtml;
-    $('.selectpicker').selectpicker('refresh');
-    
-    addListener('selectpicker', 'change', setFilter);
-}
-
 function generateTable(head, width, data, currentTable, collapseData = true) {
     let dataProps = Object.getOwnPropertyNames(data[0]);
     let table = '';
@@ -162,7 +115,7 @@ activeTableFilters = [
         Type:"Write",
         Default:"",
     },
-]
+];
 
 activeTableData=[
     {				

@@ -7,6 +7,7 @@
  */
 /** Imports */
 import cardContainerADetails from './common.js';
+import generateFilters from './filterFunctions.js';
 
 /** Loacal functions */
 /**
@@ -56,7 +57,7 @@ function partnerMCardClick(cardId) {
 var partnersManager = {
     loadPartnersManager: function () {        
         // Load framework
-        let framework='<div id="partners_manager" class="d-flex display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <div class="task-filters"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label for="" class="taskfilter-label">Live-search</label> <select name="" id="" class="selectpicker my-0 form-control taskfilter" data-live-search="true"> <option value="">Első</option> <option value="">Második</option> <option value="">Harmadik</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő3</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő4</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div id="card-container" class="col-8"> <div id="card_container_r" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="partners_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
+        let framework='<div id="partners_manager" class="d-flex display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="partners_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div id="card-container" class="col-8"> <div id="card_container_r" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="partners_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
     
         // Load card container
@@ -66,8 +67,14 @@ var partnersManager = {
         let cardContainer = "card_container_r";
         cardContainerADetails.generateCardContainer(data, cardStructure, cardDesign, cardContainer);
         cardContainerADetails.generateClickableCard(partnerMCardClick);
+
+        generateFilters(activeTableFilters, "partners_m_filters", partnersMFileterChange);
     }
 };
+
+function partnersMFileterChange() {
+    
+}
 
 export default partnersManager;
 
@@ -85,6 +92,38 @@ var partner_m_structure_2 = [
     "Határidő",
     "Cím",
     "Leírás"
+];
+
+var activeTableFilters = [
+    {
+        Name:"Kategória",
+        Type:"Select",
+        Default:"Karalábé",
+        Opportunities: ["Sajt","Karalábé","Csoki"]
+    },
+    {
+        Name:"Raktár",
+        Type:"Select",
+        Default:"Raktár3",
+        Opportunities: ["Raktár1","Raktár2","Raktár3"]
+    },
+    {
+        Name:"Harmadik",
+        Type:"Select",
+        Default:"Karalábé",
+        Opportunities: ["Sajt","Karalábé","Csoki"]
+    },
+    {
+        Name:"Negyedik",
+        Type:"Select",
+        Default:"Sajt",
+        Opportunities: ["Sajt","Karalábé","Csoki"]
+    },
+    {
+        Name:"Ötödik",
+        Type:"Write",
+        Default:"",
+    },
 ];
 
 var process_maintain_list = [

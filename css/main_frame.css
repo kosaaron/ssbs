@@ -190,6 +190,7 @@ iframe[seamless] {
     position: relative;
     -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
     -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
+    -o-box-shadow: inset 110px 0px 100px -180px #01043F;
     box-shadow: inset 110px 0px 100px -180px #01043F;
 }
 
