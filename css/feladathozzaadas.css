@@ -121,20 +121,25 @@
     padding-right: 10px;
 }
 .taskstep-container{
+    display:block;
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 50%;
+    height: 300px;
     padding: 10px;
 
 }
-.taskstep-tools{
+.taskstep-saved{
     width: 100%;
     border: 1px solid #999;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0,0,0, 0.2); 
-    height: 22%;
+    height: 12%;
     padding: 10px;
     margin-bottom: 3%;
+}
+.taskstep-tools{
+    width: 100%;
+    padding-top:  20px;
 }
 .default-steps-label{
     line-height: calc(1.2em + .65rem + 2px);
