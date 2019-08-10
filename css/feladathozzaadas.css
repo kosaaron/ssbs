@@ -1,6 +1,3 @@
-.new-task-form{
-    margin-top: 5%;
-}
 .right-border-form{
     border-right: 1px solid #999;
 }
@@ -18,15 +15,21 @@
     height: calc(1.5em + 0.75rem + 2px);
     font-weight: 700;
     margin: 0.6rem;
+    width: 50%;
 }
 .addnewtask-button:hover{
     background-color: #333;
 }
-#cancel_button{
+.grey-button{
     background-color: #495057;
 }
-#cancel_button:hover{
+.grey-button:hover{
     background-color: #333;
+}
+#delete_button{
+    float: right;
+    outline: none;
+    border: none;
 }
 .newtask-formcontrol{
     width: 60%;
@@ -49,6 +52,24 @@
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
+}
+#taskCat{
+    width: 80%;
+    float: left;
+}
+#tasktype-group{
+    float: right;
+    width: 60%;
+}
+.tasktype-button{
+    width: 15%;
+    height: 15%;
+    float: right;
+    background-color: #3B4372;
+    outline: none;
+    border: none;
+    font-weight: 700;
+    text-align: center;
 }
 .task-subtitle{
     font-size: 1.4rem;
@@ -102,8 +123,21 @@
 .taskstep-container{
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 60%;
+    height: 50%;
+    padding: 10px;
 
+}
+.taskstep-tools{
+    width: 100%;
+    border: 1px solid #999;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0, 0.2); 
+    height: 22%;
+    padding: 10px;
+    margin-bottom: 3%;
+}
+.default-steps-label{
+    line-height: calc(1.2em + .65rem + 2px);
 }
 .page-content{
     height: 60%;
@@ -114,6 +148,7 @@
 .slide-placeholder{
     position: relative;
     border: 1px dashed #999;
+    border-radius: 4px;
 }
 .slide-placeholder:after{
     content: " ";

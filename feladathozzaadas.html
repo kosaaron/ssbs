@@ -11,19 +11,17 @@
 <body>
     <div id="tasks_manager" class="d-flex display-flex flex-row full-screen">
         <div class="flex-fill col-1"></div>
-        <div class="flex-fill col-10 new-task-form">
+        <div class="flex-fill col-10">
             <div class="row page-header d-flex align-items-center">
-                <div class="col-lg-8 col-sm-8 col-12">
+                <div class="col-lg-9 col-sm-7 col-12">
                     <h1 class="addtaskpage-title">+ Új feladat létrehozása</h1>
                 </div>
-                <div class="col-lg-2"></div>
-                <div class="col-lg-2 col-sm-4 col-12">
+                <div class="col-lg-3 col-sm-5 col-12">
                     <div class="newtask-buttoncontainer d-flex justify-content-between">
                         <button type="submit" class="btn btn-primary addnewtask-button">Létrehoz</button>
-                        <button type="reset" id="cancel_button" class="btn btn-primary addnewtask-button">Mégse</button>
+                        <button type="reset" class="btn btn-primary addnewtask-button grey-button">Mégse</button>
 
                     </div>
-
                 </div>
             </div>
             <div class="row page-content">
@@ -35,13 +33,27 @@
                     </div>
                     <div class="form-group">
                         <label for="taskCat" class="newtask-label">Feladat típusa:</label>
-                        <select id="taskCat" class="newtask-formcontrol">
-                            <option selected>Choose...</option>
-                            <option>...</option>
-                        </select>
+                        <div id="tasktype-group">
+                            <select id="taskCat" class="newtask-formcontrol">
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary tasktype-button" data-toggle="collapse"
+                                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fas fa-plus"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
+                            squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
+                            ea proident.
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="taskDate" class="newtask-label">Feladat típusa:</label>
+                        <label for="taskDate" class="newtask-label">Feladat határideje:</label>
                         <input type="date" id="taskDate" class="newtask-formcontrol">
                     </div>
 
@@ -56,6 +68,23 @@
                 </div>
                 <div class="col-md-6 col-12">
                     <h2 class="task-subtitle">Feladat lépései</h2>
+
+                    <div class="taskstep-tools">
+                            <div class="form-group">
+                                    <label for="saved_tasksteps" class="newtask-label">Mentett lépésorozatok:</label>
+                                    <select id="saved_tasksteps" class="newtask-formcontrol">
+                                            <option selected>Choose...</option>
+                                            <option>...</option>
+                                    </select>
+                                </div>
+                        <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                        </label>
+                        <span class="default-steps-label">Lépéssorozat mentése alapértelmezettként</span>
+                        <button type="reset" id="delete_button" class="btn btn-primary grey-button"><i class="fas fa-trash-alt"></i></button>
+
+                    </div>
                     <div class="taskstep-container">
                         <div class="slides">
                             <div class="slide slide1">
