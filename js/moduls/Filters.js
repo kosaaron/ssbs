@@ -1,6 +1,9 @@
 /** 
  * **Filters** 
  */
+/** Imports */
+import {addListener} from './../common.js';
+/** Filters */
 let Filters = {
     /**
      * **Create**

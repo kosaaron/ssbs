@@ -1,7 +1,8 @@
 /**
- * **Card container**
+ * **Fixed - changeable elements**
+ * Fixed -> changeable
  */
-let CardContainer = {
+let FixedChangeableElements = {
     /**
      * **Create**
      * Generate card container
@@ -13,10 +14,11 @@ let CardContainer = {
      * 5. Call this function
      * @param {Array} data Object list
      * @param {Array} structure Card data structure
-     * @param {String} card Card design
      * @param {String} shellId Shell id
+     * @param {String} card Card design
+     * @param {Function} secundCardF Secund card function with object parameter
      */
-    Create: function (data, structure, card, shellId) {
+    Create: function (data, structure, shellId, card, secundCardF) {
         let cardBlock = card.split('!');
         let container = "";
         for (let i = 0; i < data.length; i++) {
@@ -29,9 +31,10 @@ let CardContainer = {
                 let elementX = elementJ.split('*');
 
                 if (elementX.length === 1) {
+                    //simple html code
                     container += elementJ;
-
                 } else {
+                    //add data
                     if (elementC !== null) {
                         container += elementX[0];
                         container += elementI[elementC];
@@ -39,21 +42,12 @@ let CardContainer = {
                     }
                     c++;
                 }
+
+                container = container.replace("?", secundCardF(elementI));
             }
         }
         document.getElementById(shellId).innerHTML = container;
-    },
-    /**
-     * **Clickable card**
-     * @param {Function} clickEvent 
-     */
-    ClickableCard: function (clickEvent) {
-        let buttons = document.getElementsByClassName('show-details');
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener('click', function () {
-                clickEvent(this.id);
-            });
-        }
+
     }
 };
-export default CardContainer;
+export default FixedChangeableElements;

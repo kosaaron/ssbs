@@ -9,6 +9,8 @@
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
 import Filters from './moduls/Filters.js';
+import newPartner from './new_partner.js';
+import { addOneListener, removeOneListener, mainFrame } from './common.js';
 
 /** Loacal functions */
 /**
@@ -54,13 +56,25 @@ function partnerMCardClick(cardId) {
     CardDetails.Create(cardId, data, structure, card, shellId);
 }
 
+function partnersMFileterChange() {
+
+}
+
+function addPartner() {
+    newPartner.loadNewPartner();
+
+    removeOneListener("processes_back_to_menu");
+    addOneListener("processes_back_to_menu", "click", partnersManager.loadPartnersManager);
+}
+
 /** Public functions */
 var partnersManager = {
-    loadPartnersManager: function () {        
+    loadPartnersManager: function () {
         // Load framework
-        let framework='<div id="partners_manager" class="d-flex display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="partners_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div id="card-container" class="col-8"> <div id="card_container_r" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="partners_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
+        document.getElementById("back_to_menu_text").textContent = "Partnerek";
+        let framework = '<div id="partners_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="partners_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_partner_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div id="card-container" class="col-8"> <div id="card_container_r" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="partners_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
-    
+
         // Load card container
         let data = process_maintain_list;
         let cardStructure = partner_m_structure;
@@ -70,13 +84,11 @@ var partnersManager = {
         CardContainer.ClickableCard(partnerMCardClick);
 
         Filters.Create(activeTableFilters, "partners_m_filters", partnersMFileterChange);
+
+        addOneListener("proceses_add_partner_btn", "click", addPartner);
+        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
     }
 };
-
-function partnersMFileterChange() {
-    
-}
-
 export default partnersManager;
 
 var partner_m_structure = [
@@ -97,33 +109,33 @@ var partner_m_structure_2 = [
 
 var activeTableFilters = [
     {
-        Name:"Kategória",
-        Type:"Select",
-        Default:"Karalábé",
-        Opportunities: ["Sajt","Karalábé","Csoki"]
+        Name: "Kategória",
+        Type: "Select",
+        Default: "Karalábé",
+        Opportunities: ["Sajt", "Karalábé", "Csoki"]
     },
     {
-        Name:"Raktár",
-        Type:"Select",
-        Default:"Raktár3",
-        Opportunities: ["Raktár1","Raktár2","Raktár3"]
+        Name: "Raktár",
+        Type: "Select",
+        Default: "Raktár3",
+        Opportunities: ["Raktár1", "Raktár2", "Raktár3"]
     },
     {
-        Name:"Harmadik",
-        Type:"Select",
-        Default:"Karalábé",
-        Opportunities: ["Sajt","Karalábé","Csoki"]
+        Name: "Harmadik",
+        Type: "Select",
+        Default: "Karalábé",
+        Opportunities: ["Sajt", "Karalábé", "Csoki"]
     },
     {
-        Name:"Negyedik",
-        Type:"Select",
-        Default:"Sajt",
-        Opportunities: ["Sajt","Karalábé","Csoki"]
+        Name: "Negyedik",
+        Type: "Select",
+        Default: "Sajt",
+        Opportunities: ["Sajt", "Karalábé", "Csoki"]
     },
     {
-        Name:"Ötödik",
-        Type:"Write",
-        Default:"",
+        Name: "Ötödik",
+        Type: "Write",
+        Default: "",
     },
 ];
 

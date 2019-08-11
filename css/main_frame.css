@@ -297,7 +297,7 @@ iframe[seamless] {
     overflow: hidden;
 }
 
-.processes-back-to-menu {
+#processes_back_to_menu {
     cursor: pointer;
     font-size: 1.4rem;
     line-height: 1;

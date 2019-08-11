@@ -10,6 +10,8 @@
 
 /** Imports */
 import partnersManager from './partners_manager.js';
+import { addOneListener } from './common.js';
+
 /** General functions */
 /**
  * Remove all active items from menu
@@ -133,13 +135,6 @@ function prodMenuChange(id) {
             break;
     }
 }
-/**
- * 
- */
-function backToProcessesMenu() {
-    document.getElementById("processes_menu").style.display = "block";
-    document.getElementById("processes_content").style.display = "none";
-}
 /** Click events end */
 
 
@@ -149,10 +144,9 @@ window.onresize = function (event) {
 };
 
 /** Ready document */
-$(document).ready(function () {     
+$(document).ready(function () {
     addClickEvents(menuItemClick, "menu-item");
     addClickEvents(processesModulClick, "processes-mo-click");
-    addClickEvents(backToProcessesMenu, "processes-back-to-menu");
     addClickEvents(prodMenuChange, "prod-subm-i");
 });
 /** Events end */
