@@ -4,7 +4,7 @@ $(".slides").sortable({
     axis: "y",
     revert: 150,
     start: function (e, ui) {
-
+        
         placeholderHeight = 40;
         ui.placeholder.height(placeholderHeight + 15);
         $('<div class="slide-placeholder-animator" data-height="' + placeholderHeight + '"></div>').insertAfter(ui.placeholder);
