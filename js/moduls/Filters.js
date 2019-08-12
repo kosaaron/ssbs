@@ -2,7 +2,9 @@
  * **Filters** 
  */
 /** Imports */
-import {addListener} from './../common.js';
+import { addListener } from './../common.js';
+import CardContainerPlus from './CardContainerPlus.js';
+import FormElements from './FormElements.js';
 /** Filters */
 let Filters = {
     /**
@@ -18,42 +20,78 @@ let Filters = {
      * @param {Function} eventFunction Selectpicker change event
      */
     Create: function (filters, shellId, eventFunction) {
-        let dropdownHtml = "";
-        for (var i = 0; i < filters.length; i++) {
-            if (filters[i].Type == "Write") {
-                dropdownHtml += '<div class="my-3"><input type="text" class="form-control" id="' + filters[i].Name + '" data-place="' + shellId + '" placeholder="' +
-                    filters[i].Name + '" aria-label="' + filters[i].Name + '" aria-describedby="addon-wrapping"></div>';
-            }
-            else if (filters[i].Type == "Dropdown") {
-                dropdownHtml += '<div class="dropdown my-3">';
-                dropdownHtml += '<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" data-place="' + shellId + '" aria-haspopup="true" aria-expanded="false">';
-                dropdownHtml += filters[i].Name;
-                dropdownHtml += '</button>';
-                dropdownHtml += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
-                if (filters[i].hasOwnProperty('Opportunities')) {
-                    for (let j = 0; j < filters[i].Opportunities.length; j++) {
-                        dropdownHtml += '<a class="dropdown-item" href="#">';
-                        dropdownHtml += filters[i].Opportunities[j];
-                        dropdownHtml += '</a>';
-                    }
-                }
-                dropdownHtml += '</div></div>';
-            }
-            else {
-                dropdownHtml += '<div class="form-group">';
-                dropdownHtml += '<label class="taskfilter-label">' + filters[i].Name + '</label>';
-                dropdownHtml += '<select class="selectpicker my-0 form-control taskfilter" id="' + filters[i].Name + '" data-live-search="true" data-place="' + shellId + '">';
-                for (let k = 0; k < filters[i].Opportunities.length; k++) {
-                    dropdownHtml += '<option>' + filters[i].Opportunities[k] + '</option>';
-                }
-                dropdownHtml += '</select></div>';
-            }
-        }
+        let filterStructure = Local.getFilterStructure(shellId);
+        
+        let filterCard = Local.getFilterCard();
+        CardContainerPlus.Create(filters, shellId, filterCard, Local.getFilter);
 
-        document.getElementById(shellId).innerHTML = dropdownHtml;
         $('.selectpicker').selectpicker('refresh');
 
         addListener('selectpicker', 'change', eventFunction);
     }
 }
 export default Filters;
+
+/** Local functions */
+let Local = {
+    getFilter: function (objectItem) {
+
+        let ready = "";
+        switch (objectItem.Type) {
+            case "Write":
+                ready = FormElements.Write(objectItem.Id, objectItem.Name, "", "A")
+                break;
+            case "Select":
+                ready = FormElements.Something(objectItem.Id, objectItem.Name, "", objectItem.Opportunities, "A")
+                break;
+            default:
+                break;
+        }
+        return ready;
+    },
+    getFilterStructure: function (shellId) {
+        let filters = [
+            {
+                Id: "123",
+                Name: "Kategória",
+                Type: "Select",
+                Default: "Karalábé",
+                Opportunities: ["Sajt", "Karalábé", "Csoki"]
+            },
+            {
+                Id: "124",
+                Name: "Raktár",
+                Type: "Select",
+                Default: "Raktár3",
+                Opportunities: ["Raktár1", "Raktár2", "Raktár3"]
+            },
+            {
+                Id: "125",
+                Name: "Harmadik",
+                Type: "Select",
+                Default: "Karalábé",
+                Opportunities: ["Sajt", "Karalábé", "Csoki"]
+            },
+            {
+                Id: "126",
+                Name: "Negyedik",
+                Type: "Select",
+                Default: "Sajt",
+                Opportunities: ["Sajt", "Karalábé", "Csoki"]
+            },
+            {
+                Id: "127",
+                Name: "Ötödik",
+                Type: "Write",
+                Default: "",
+            },
+        ];
+
+        return filters;
+    },
+    getFilterCard: function () {
+        let card = '?';
+        return card;
+    }
+};
+

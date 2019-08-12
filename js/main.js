@@ -33,6 +33,11 @@ new_task.src = "js/new_task.js"
 new_task.type = "module";
 document.head.appendChild(new_task);
 
+var new_partner = document.createElement('script');
+new_partner.src = "js/new_partner.js"
+new_partner.type = "module";
+document.head.appendChild(new_partner);
+
 /*
 var tabel_manager = document.createElement('script');
 tabel_manager.src = "js/table_manager.js";

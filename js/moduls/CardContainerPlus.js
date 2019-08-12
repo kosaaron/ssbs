@@ -2,9 +2,32 @@
  * **Fixed - changeable elements**
  * Fixed -> changeable
  */
-let FixedChangeableElements = {
+let CardContainerPlus = {
     /**
      * **Create**
+     * Generate card container
+     * **use**
+     * 1. Create html shell
+     * 2. Get data from server
+     * 3. Create a card structure
+     * 4. Create card design
+     * 5. Call this function
+     * @param {Array} data Object list
+     * @param {String} shellId Shell id
+     * @param {String} card Card design
+     * @param {Function} secundCardF Secund card function with object parameter
+     */
+    Create: function (data, shellId, card, secundCardF) {
+        let container = "";
+        for (let i = 0; i < data.length; i++) {
+            const elementI = data[i];
+            container += card.replace("?", secundCardF(elementI));
+        }
+        document.getElementById(shellId).innerHTML = container;
+
+    },
+    /**
+     * **CreateWithData**
      * Generate card container
      * **use**
      * 1. Create html shell
@@ -18,7 +41,7 @@ let FixedChangeableElements = {
      * @param {String} card Card design
      * @param {Function} secundCardF Secund card function with object parameter
      */
-    Create: function (data, structure, shellId, card, secundCardF) {
+    CreateWithData: function (data, structure, shellId, card, secundCardF) {
         let cardBlock = card.split('!');
         let container = "";
         for (let i = 0; i < data.length; i++) {
@@ -42,7 +65,6 @@ let FixedChangeableElements = {
                     }
                     c++;
                 }
-
                 container = container.replace("?", secundCardF(elementI));
             }
         }
@@ -50,4 +72,4 @@ let FixedChangeableElements = {
 
     }
 };
-export default FixedChangeableElements;
+export default CardContainerPlus;

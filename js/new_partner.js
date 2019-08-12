@@ -22,7 +22,7 @@ var newPartner = {
         var processesNewPSlides = document.getElementById("processes_new_p_slides");
 
         new Sortable(processesNewPSlides, {
-            animation: 150,
+            animation: 150
         });
         //removeOneListener("processes_new_p_slides");
         
