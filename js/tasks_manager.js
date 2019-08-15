@@ -9,7 +9,7 @@
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
 import Filters from './moduls/Filters.js';
-import newPartner from './new_partner.js';
+import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
 
 
@@ -50,7 +50,7 @@ function getTasksMDetail() {
  */
 function taskMCardClick(cardId) {
     let data = process_maintain_list;
-    let structure = partner_m_structure_2;
+    let structure = tasks_m_structure_2;
     let card = getTasksMDetail();
     let shellId = "tasks_m_details";
 
@@ -61,7 +61,7 @@ function tasksMFilterChange(id) {
 }
 
 function addTask() {
-    newPartner.loadNewPartner();
+    newTask.loadNewTask();
 
     removeOneListener("processes_back_to_menu");
     addOneListener("processes_back_to_menu", "click", tasksManager.loadTasksManager);
@@ -99,6 +99,54 @@ var tasks_m_structure = [
     "Megrendelő",
     "Id"
 ];
+
+var tasks_m_structure_2 = [
+    "Name",
+    "Type",
+    "Megrendelő",
+    null, //"Létrehozás",
+    "Határidő",
+    "Cím",
+    "Leírás"
+];
+
+var activeTableFilters = [
+    {
+        Id: "11234",
+        Name: "Kategória",
+        Type: "Select",
+        Default: "Karalábé",
+        Opportunities: ["Sajt", "Karalábé", "Csoki"]
+    },
+    {
+        Id: "11235",
+        Name: "Raktár",
+        Type: "Select",
+        Default: "Raktár3",
+        Opportunities: ["Raktár1", "Raktár2", "Raktár3"]
+    },
+    {
+        Id: "11236",
+        Name: "Harmadik",
+        Type: "Select",
+        Default: "Karalábé",
+        Opportunities: ["Sajt", "Karalábé", "Csoki"]
+    },
+    {
+        Id: "11237",
+        Name: "Negyedik",
+        Type: "Select",
+        Default: "Sajt",
+        Opportunities: ["Sajt", "Karalábé", "Csoki"]
+    },
+    {
+        Id: "11238",
+        Name: "Ötödik",
+        Type: "Write",
+        Default: "",
+    },
+];
+
 
 var process_maintain_list = [
     {
