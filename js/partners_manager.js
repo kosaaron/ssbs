@@ -56,8 +56,8 @@ function partnerMCardClick(cardId) {
     CardDetails.Create(cardId, data, structure, card, shellId);
 }
 
-function partnersMFileterChange() {
-
+function partnersMFileterChange(id) {
+    alert(id);
 }
 
 function addPartner() {
@@ -82,6 +82,9 @@ var partnersManager = {
         let cardContainer = "card_container_r";
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(partnerMCardClick);
+        if (data[0].Id !== null) {
+            partnerMCardClick(data[0].Id);
+        }
 
         Filters.Create(activeTableFilters, "partners_m_filters", partnersMFileterChange);
 
@@ -109,30 +112,35 @@ var partner_m_structure_2 = [
 
 var activeTableFilters = [
     {
+        Id: "1234",
         Name: "Kategória",
         Type: "Select",
         Default: "Karalábé",
         Opportunities: ["Sajt", "Karalábé", "Csoki"]
     },
     {
+        Id: "1235",
         Name: "Raktár",
         Type: "Select",
         Default: "Raktár3",
         Opportunities: ["Raktár1", "Raktár2", "Raktár3"]
     },
     {
+        Id: "1236",
         Name: "Harmadik",
         Type: "Select",
         Default: "Karalábé",
         Opportunities: ["Sajt", "Karalábé", "Csoki"]
     },
     {
+        Id: "1237",
         Name: "Negyedik",
         Type: "Select",
         Default: "Sajt",
         Opportunities: ["Sajt", "Karalábé", "Csoki"]
     },
     {
+        Id: "1238",
         Name: "Ötödik",
         Type: "Write",
         Default: "",

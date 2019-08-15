@@ -67,7 +67,7 @@
     float: left;
 }
 
-#tasktype-group {
+.tasktype-group {
     float: right;
     width: 60%;
 }

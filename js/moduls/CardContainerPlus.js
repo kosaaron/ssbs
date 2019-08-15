@@ -21,7 +21,7 @@ let CardContainerPlus = {
         let container = "";
         for (let i = 0; i < data.length; i++) {
             const elementI = data[i];
-            container += card.replace("?", secundCardF(elementI));
+            container += card.replace("?", secundCardF(elementI, shellId));
         }
         document.getElementById(shellId).innerHTML = container;
 

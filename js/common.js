@@ -8,10 +8,16 @@ function addListener(className, eventType, eventFunction) {
     let targets = document.getElementsByClassName(className);
     for (let i = 0; i < targets.length; i++) {
         targets[i].addEventListener(eventType, function () {
-            let place = this.getAttribute('data-place');
-            if (place) {
-                eventFunction(place, this.id);
-            }
+            eventFunction(this.id);
+        });
+    }
+}
+
+function addListenerByAttr(shellId, eventType, eventFunction) {
+    let targets = document.querySelectorAll('[data-place=' + shellId + ']');
+    for (let i = 0; i < targets.length; i++) {
+        targets[i].addEventListener(eventType, function () {
+            eventFunction(this.id);
         });
     }
 }
@@ -37,4 +43,4 @@ let mainFrame = {
 }
 
 
-export { addListener, addOneListener, removeOneListener, mainFrame };
+export { addListener, addListenerByAttr, addOneListener, removeOneListener, mainFrame };
