@@ -38,6 +38,16 @@ new_partner.src = "js/new_partner.js"
 new_partner.type = "module";
 document.head.appendChild(new_partner);
 
+
+/**
+ * Tasks managers
+ */
+var tasks_manager = document.createElement('script');
+tasks_manager.src = "js/tasks_manager.js"
+tasks_manager.type = "module";
+document.head.appendChild(tasks_manager);
+
+
 /*
 var tabel_manager = document.createElement('script');
 tabel_manager.src = "js/table_manager.js";

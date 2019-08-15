@@ -10,6 +10,7 @@
 
 /** Imports */
 import partnersManager from './partners_manager.js';
+import tasksManager from './tasks_manager.js';
 import { addOneListener } from './common.js';
 
 /** General functions */
@@ -107,7 +108,8 @@ function processesModulClick(id) {
             break;
         case "tasks_manager_btn":
             iframe.src = "feladatkezeles.html";
-            document.getElementById("process_modul_content").appendChild(iframe);
+            //document.getElementById("process_modul_content").appendChild(iframe);
+            tasksManager.loadTasksManager();
             break;
         case "partners_manager_btn":
             iframe.src = "folyamatok_attekintese.html";
