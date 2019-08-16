@@ -88,7 +88,7 @@ var tasksManager = {
 
         Filters.Create(activeTableFilters, "tasks_m_filters", tasksMFilterChange);
 
-        addOneListener("processes_add_task_btn", "click", addTask);
+        addOneListener("proceses_add_task_btn", "click", addTask);
         addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
     }
 };
