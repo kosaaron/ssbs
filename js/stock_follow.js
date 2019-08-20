@@ -1,7 +1,30 @@
 /* Dávid */
-import {addListener} from './common.js';
-import setFilter from './filterFunctions.js';
+import TableCreator from './moduls/TableCreator.js';
 
+
+let tableStandardBody = `<div class="container-fluid row">
+                            <table class="table table-hover mb-0 col-12">
+                                <thead class="thead-light">
+                                    <tr class="row m-0">
+                                        !<th class="d-inline-block *'">*</th>!
+                                    </tr>
+                                </thead>
+                            </table>
+                            !<table class="table table-hover mb-0 col-12">
+                                <tbody>
+                                    !<tr class="m-0 data-row">
+                                        !<td class="d-inline-block *">?</td>
+                                    !</tr>!
+                                </tbody>
+                            </table>
+                        </div>`;
+
+let checkboxCell = `<div class="form-check text-center"><input class="form-check-input" type="checkbox" *></div>`
+
+$(document).ready(function() {
+    TableCreator.Create(activeTableData, tableHeaderText, tableStandardBody, activeTable, checkboxCell, tableWidths);
+});
+/*
 function generateTable(head, width, data, currentTable, collapseData = true) {
     let dataProps = Object.getOwnPropertyNames(data[0]);
     let table = '';
@@ -55,6 +78,7 @@ function generateTable(head, width, data, currentTable, collapseData = true) {
                             "id": "row"+i,
                             "data-parent": "#customtable"
                     });
+                    //Csak az itteni class érdekes style szempontból
                     collapseAble.innerHTML = `<div class="card card-body">
                                                     Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson 
                                                     ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
@@ -65,18 +89,11 @@ function generateTable(head, width, data, currentTable, collapseData = true) {
         
     }
 }
-
+*/
 let tableHeaderText = ["Beszállító", "Termék", "Raktár", "Készlet", "Kihelyezve"];
-let tableColWidth = ["col-3", "col-3", "col-2", "col-2", "col-2"];
+let tableWidths = ["col-3", "col-3", "col-2", "col-2", "col-2"];
 
 
-$(document).ready(function() {
-    generateFilter(activeTableFilters, activeTable);
-});
-
-$(document).ready(function() {
-    generateTable(tableHeaderText, tableColWidth, activeTableData, activeTable);
-});
 
 /* Dávid end */
 /* Ádam */
