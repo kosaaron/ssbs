@@ -69,6 +69,10 @@ iframe[seamless] {
     position: relative;
 }
 
+.justify-content-center{
+    justify-content: center;
+}
+
 .margin-auto {
     margin: auto;
 }

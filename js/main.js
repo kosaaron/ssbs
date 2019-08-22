@@ -6,6 +6,10 @@ main_frame.src = "js/main_frame.js";
 main_frame.type = "module";
 document.head.appendChild(main_frame);
 
+var ChartTest = document.createElement('script');
+ChartTest.src = "js/moduls/ChartTest.js";
+document.head.appendChild(ChartTest);
+
 /**
  * Processes overview
  */

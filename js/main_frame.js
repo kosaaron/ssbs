@@ -12,6 +12,7 @@
 import partnersManager from './partners_manager.js';
 import tasksManager from './tasks_manager.js';
 import { addOneListener } from './common.js';
+import financeLayout from './finance.js';
 
 /** General functions */
 /**
@@ -150,5 +151,6 @@ $(document).ready(function () {
     addClickEvents(menuItemClick, "menu-item");
     addClickEvents(processesModulClick, "processes-mo-click");
     addClickEvents(prodMenuChange, "prod-subm-i");
+    financeLayout.loadFinance();
 });
 /** Events end */
