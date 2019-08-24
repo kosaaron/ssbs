@@ -5,6 +5,10 @@
 }
 
 .partner-logo{
+    width: 100%;
+    height: auto;
+}
+.partner-logo-container{
     width: 30%;
     height: auto;
 }
@@ -28,7 +32,6 @@
 .partner-datas{
     padding: 10px;
     width: 60%;
-    border-right:1px solid #ddd;
 }
 .partner-name{
     padding-bottom: 10px;
