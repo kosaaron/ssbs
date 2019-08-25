@@ -18,10 +18,12 @@ import { addOneListener, removeOneListener, mainFrame } from './common.js';
  */
 function getPartnersMCard() {
     let container = "";
-    container += '<div class="col-lg-6"><div class="card taskcard"><div class="card-body">';
-    container += '!<h5 class="card-title">*</h5>';
-    container += '!<p class="card-text">*</p>';
-    container += `!<a href="#" class="btn btn-primary next-button show-details" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div>`;
+    container += '<div class="col-lg-12"><div class="card partnercard"><div class="card-body">';
+    container += '!<div class="display-flex justify-content-between"><div class="partner-logo-container display-flex align-items-center"><img class="partner-logo"src="*"></div>';
+    container += '!<div class="partner-datas"><h3 class="card-title partner-name">*</h3>';
+    container += '!<p><i class="fas fa-phone partnercard-logo"></i>*</p>';
+    container += '!<p><i class="far fa-envelope partnercard-logo"></i>*</p></div></div>';
+    container += '!<div class="display-flex flex-wrap tag-container"><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>IT cég</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Microsoft</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nemzetközi</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Kiemelt</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nemzetközi</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>IT cég</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Microsoft</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nagyobb cimke</button></div><a href="#" class="btn btn-primary next-button show-details" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div>';
 
     return container;
 }
@@ -33,14 +35,16 @@ function getPartnersMDetail() {
     let container = "";
 
     container += '<h2>*</h2>';
-    container += '!<p><label class="title-text">Feladat típusa:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Megrendelő:</label><br><label>*</label></p>';
+    container += '!<p><label class="title-text">Partner típusa:</label><br><label>*</label></p>';
+    container += '!<p><label class="title-text">Kapcsolattartó:</label><br><label>*</label></p>';
     container += '!<p><label class="title-text">Létrehozás:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Határidő:</label><br><label>*</label></p>';
+    container += '!<p><label class="title-text">Telefon:</label><br><label>*</label></p>';
+    container += '!<p><label class="title-text">Email:</label><br><label>*</label></p>';
     container += '!<p><label class="title-text">Cím:</label><br><label>*</label></p>';
     container += '!<p><label class="title-text">Leírás:</label><br><label>*</label></p>';
 
     return container;
+
 }
 
 /**
@@ -48,7 +52,7 @@ function getPartnersMDetail() {
  * @param {Integer} cardId Card id
  */
 function partnerMCardClick(cardId) {
-    let data = process_maintain_list;
+    let data = partners_list;
     let structure = partner_m_structure_2;
     let card = getPartnersMDetail();
     let shellId = "partners_m_details";
@@ -76,7 +80,7 @@ var partnersManager = {
         document.getElementById("process_modul_content").innerHTML = framework;
 
         // Load card container
-        let data = process_maintain_list;
+        let data = partners_list;
         let cardStructure = partner_m_structure;
         let cardDesign = getPartnersMCard();
         let cardContainer = "partners_card_container";
@@ -95,17 +99,20 @@ var partnersManager = {
 export default partnersManager;
 
 var partner_m_structure = [
+    "LogoSrc",
     "Name",
-    "Megrendelő",
+    "Telefon",
+    "Email",
     "Id"
 ];
 
 var partner_m_structure_2 = [
     "Name",
     "Type",
-    "Megrendelő",
+    "Kapcsolattartó",
     null, //"Létrehozás",
-    "Határidő",
+    "Telefon",
+    "Email",
     "Cím",
     "Leírás"
 ];
@@ -147,145 +154,158 @@ var activeTableFilters = [
     },
 ];
 
-var process_maintain_list = [
+var partners_list = [
     {
         Id: 'fjh7zd3w',
-        Name: 'Nyomtató szervíz',
-        Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Name: 'Microsoft Corporation',
+        Type: 'IT',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fjh7zd3',
-        Name: 'Nyomtató szervíz2',
-        Type: 'Szervíz2',
-        Megrendelő: 'Lajos Kft.2',
-        Létrehozás: '2019.06.24 2',
-        Határidő: '2019.06.30 2',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340 2',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje 2'
+        Name: 'Audi Hungária',
+        Type: 'Személygépjármű',
+        Email: 'hungaria@audi.com',
+        Telefon: '061 432 2222',
+        Kapcsolattartó: 'Rob Stark',
+        Cím: 'Győr, Audi utca 14., 3300',
+        Leírás: 'A magyar GDP-t itt gyártják',
+        LogoSrc: 'https://www.cascadezrt.hu/wp-content/uploads/2016/03/audi2.jpg'
     },
     {
         Id: 'fjh7zd',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fjh7z',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
-        Id: 'jh7zd3w',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'h7zd3w',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fjh7z3w',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fjh7d3w',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fjhzd3w',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fj7zd3w',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fh7zd3w',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fjh7zw',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fjh73w',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     },
     {
         Id: 'fjh3w',
-        Name: 'Nyomtató szervíz',
+        Name: 'Microsoft Corporation',
         Type: 'Szervíz',
-        Megrendelő: 'Lajos Kft.',
-        Létrehozás: '2019.06.24',
-        Határidő: '2019.06.30',
+        Email: 'microsoft@microsoft.com',
+        Telefon: '061 321 3232',
+        Kapcsolattartó: 'Tyrion Lannister',
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
+        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
+        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
     }
 ]
