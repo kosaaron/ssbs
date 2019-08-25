@@ -28,7 +28,7 @@ var newPartner = {
         let formData = Local.getFromData();
         let shellCard = Local.getShellCard();
         CardContainerPlus.Create(formData, shellId, shellCard, Local.getFromHTML);
-        addListenerByAttr("new_" + shellId, "click", Local.openCollapse)
+        addListenerByAttr("new_" + shellId, "click", Local.openCollapse);
     }
 };
 export default newPartner;
