@@ -22,6 +22,15 @@ function addListenerByAttr(shellId, eventType, eventFunction) {
     }
 }
 
+function addListenerByAttr2(shellId, eventType, eventFunction) {
+    let targets = document.querySelectorAll('[' + shellId + ']');
+    for (let i = 0; i < targets.length; i++) {
+        targets[i].addEventListener(eventType, function () {
+            eventFunction(this.getAttribute(shellId));
+        });
+    }
+}
+
 function addOneListener(id, eventType, eventFunction) {
     let target = document.getElementById(id);
     target.addEventListener(eventType, function () {
@@ -43,4 +52,4 @@ let mainFrame = {
 }
 
 
-export { addListener, addListenerByAttr, addOneListener, removeOneListener, mainFrame };
+export { addListener, addListenerByAttr, addListenerByAttr2, addOneListener, removeOneListener, mainFrame };

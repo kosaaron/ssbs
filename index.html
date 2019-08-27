@@ -71,6 +71,25 @@
                         <h6 class="menu-item-text unselectable">Termékek</h6>
                     </div>
                 </div>
+                <div class="float-submenu">
+                    <div class="ghost-elem">
+                    </div>
+                    <div smproducts="overwiew" class="submenu-shell">
+                        <div class="submenu-item display-flex flex-column submenu-item-active">
+                            <h7 class="unselectable">ÁTTEKINTÉS</h7>
+                        </div>
+                    </div>
+                    <div smproducts="tracking" class="submenu-shell">
+                        <div class="submenu-item display-flex flex-column">
+                            <h7 class="unselectable submenu-border">KÖVETÉS</h7>
+                        </div>
+                    </div>
+                    <div smproducts="optimization" class="submenu-shell">
+                        <div class="submenu-item display-flex flex-column">
+                            <h7 class="unselectable">OPTIMALIZÁLÁS</h7>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="tab_resources" class="menu-item display-flex flex-column">
@@ -80,6 +99,25 @@
                     </div>
                     <div>
                         <h6 class="menu-item-text unselectable">Erőforrások</h6>
+                    </div>
+                </div>
+                <div class="float-submenu">
+                    <div class="ghost-elem">
+                    </div>
+                    <div smresources="emlpoyees" class="submenu-shell">
+                        <div class="submenu-item display-flex flex-column">
+                            <h7 class="unselectable">ALKALMAZOTTAK</h7>
+                        </div>
+                    </div>
+                    <div smresources="tools" class="submenu-shell">
+                        <div class="submenu-item display-flex flex-column">
+                            <h7 class="unselectable submenu-border">ESZKÖZÖK</h7>
+                        </div>
+                    </div>
+                    <div smresources="allocation" class="submenu-shell">
+                        <div class="submenu-item display-flex flex-column">
+                            <h7 class="unselectable">ELOSZTÁS</h7>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,7 +135,7 @@
         <div id="content_shell" class="flex-1">
             <div id="content">
                 <div id="finance" class="menu-content">
-                    <div class="display-flex full-screen">
+                    <div class="finance-shell display-flex full-screen">
                         <div id="finance_menu" class="submenu">
                             <div class="submenu-title display-flex flex-column">
                                 <a class="nonlink-design" data-toggle="collapse" href="#collapseOverview" role="button"
@@ -159,17 +197,20 @@
                             </div>
                             <div class="collapse submenu-collapse show" id="collapseOutcome">
                                 <div class="submenu-shell">
-                                    <div id="chart_outcome_purch" class="chart-menu submenu-item display-flex flex-column">
+                                    <div id="chart_outcome_purch"
+                                        class="chart-menu submenu-item display-flex flex-column">
                                         <span>Vásárlások</span>
                                     </div>
                                 </div>
                                 <div class="submenu-shell">
-                                    <div id="chart_outcome_empl" class="chart-menu submenu-item display-flex flex-column">
+                                    <div id="chart_outcome_empl"
+                                        class="chart-menu submenu-item display-flex flex-column">
                                         <span>Dolgozók</span>
                                     </div>
                                 </div>
                                 <div class="submenu-shell">
-                                    <div id="chart_outcome_tools" class="chart-menu submenu-item display-flex flex-column">
+                                    <div id="chart_outcome_tools"
+                                        class="chart-menu submenu-item display-flex flex-column">
                                         <span>Eszközök</span>
                                     </div>
                                 </div>
@@ -324,32 +365,26 @@
                     </div>
                 </div>
                 <div id="resources" class="menu-content display-none">
-                    <div id="resources_menu" class="submenu">
-                        <div class="submenu-shell">
-                            <div class="submenu-item display-flex flex-column submenu-item-active" onclick="">
-                                <h7 class="unselectable">EMBEREK</h7>
+                    <div class="display-flex full-screen">
+                        <div class="submenu">
+                            <div class="submenu-shell">
+                                <div class="submenu-item display-flex flex-column submenu-item-active">
+                                    <h7 class="unselectable">EMBEREK</h7>
+                                </div>
+                            </div>
+                            <div class="submenu-shell">
+                                <div class="submenu-item display-flex flex-column">
+                                    <h7 class="unselectable submenu-border">ESZKÖZÖK</h7>
+                                </div>
+                            </div>
+                            <div class="submenu-shell">
+                                <div class="submenu-item display-flex flex-column">
+                                    <h7 class="unselectable">ELOSZTÁS</h7>
+                                </div>
                             </div>
                         </div>
-                        <div class="submenu-shell">
-                            <div class="submenu-item display-flex flex-column" onclick="">
-                                <h7 class="unselectable submenu-border">ESZKÖZÖK</h7>
-                            </div>
-                        </div>
-                        <div class="submenu-shell">
-                            <div class="submenu-item display-flex flex-column" onclick="">
-                                <h7 class="unselectable">ELOSZTÁS</h7>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="resources_content">
-                        <div id="resources_income">
-
-                        </div>
-                        <div id="resources_income">
-
-                        </div>
-                        <div id="resources_outgoings">
-
+                        <div id="resources_content" class="flex-1">
+                            
                         </div>
                     </div>
                 </div>

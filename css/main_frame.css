@@ -69,7 +69,7 @@ iframe[seamless] {
     position: relative;
 }
 
-.justify-content-center{
+.justify-content-center {
     justify-content: center;
 }
 
@@ -152,6 +152,7 @@ iframe[seamless] {
 }
 
 #finance_menu {
+    display: block;
     background: transparent;
 }
 
@@ -164,11 +165,17 @@ iframe[seamless] {
 }
 
 .menu-item:hover {
+    width: 105%;
+    border-radius: 5%;
+    border-right: 1px solid #ddd;
     color: #0067A5;
     cursor: pointer;
 }
 
 .menu-item-active {
+    width: 105%;
+    border-radius: 5%;
+    border-right: 1px solid #ddd;
     color: #0067A5;
 }
 
@@ -187,10 +194,11 @@ iframe[seamless] {
 }
 
 .submenu {
+    display: none;
     width: 170px;
     margin-top: 0px;
     height: 100%;
-    padding: 0 7px;
+    padding: 0 7px 0 2%;
     position: relative;
     -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
     -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
@@ -214,7 +222,7 @@ iframe[seamless] {
 
 .submenu-item {
     height: 38px;
-    text-align: center;
+    padding-left: 8px;
     justify-content: center;
     color: #555;
     border-left: 8px solid rgb(67, 75, 117);
@@ -340,6 +348,33 @@ iframe[seamless] {
     right: 0;
 }*/
 
+.float-submenu {
+    display: none;
+    box-shadow: 3px 0px 5px 0px #ddd;
+    background: #fff;
+    padding: 3px 10px 10px 10px;
+    border-radius: 14%;
+    position: absolute;
+    left: 190px;
+    width: 170px;
+    border: 1px solid #ddd;
+}
+
+.ghost-elem {
+    position: absolute;
+    left: -30%;
+    width: 35%;
+    height: 100%;
+}
+
+#tab_products:hover>.float-submenu {
+    display: block;
+}
+
+#tab_resources:hover>.float-submenu {
+    display: block;
+}
+
 @media only screen and (max-width: 992px) {
     .item-icon {
         font-size: 40px;
@@ -355,6 +390,9 @@ iframe[seamless] {
     }
     .tile-description {
         display: none;
+    }
+    .float-submenu {
+        left: 137px;
     }
 }
 
@@ -384,6 +422,16 @@ iframe[seamless] {
     .menu-item {
         position: relative;
         height: 100%;
+    }
+    .menu-item:hover {
+        width: 100%;
+        border-radius: initial;
+        border: none;
+    }
+    .menu-item-active {
+        width: 100%;
+        border-radius: initial;
+        border: none;
     }
     #content_shell {
         padding-bottom: 60px;
@@ -418,6 +466,7 @@ iframe[seamless] {
     }
     .submenu-item {
         padding: 0;
+        text-align: center;
         height: 30px;
         border: none;
         -webkit-box-shadow: none;
@@ -465,6 +514,24 @@ iframe[seamless] {
         -ms-flex: 1;
         /* IE 10 */
         flex: 1;
+        /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    }
+    #tab_products:hover>.float-submenu {
+        display: none;
+    }
+    #tab_resources:hover>.float-submenu {
+        display: none;
+    }
+    #finance_menu {
+        display: -webkit-box;
+        /* OLD - iOS 6-, Safari 3.1-6 */
+        display: -moz-box;
+        /* OLD - Firefox 19- (buggy but mostly works) */
+        display: -ms-flexbox;
+        /* TWEENER - IE 10 */
+        display: -webkit-flex;
+        /* NEW - Chrome */
+        display: flex;
         /* NEW, Spec - Opera 12.1, Firefox 20+ */
     }
 }

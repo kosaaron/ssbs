@@ -75,6 +75,7 @@
 }
 
 .filter-box {
+    padding: 0 1% 0 2%;
     width: 200px;
     overflow-y: auto;
     overflow-x: hidden;

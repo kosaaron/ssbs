@@ -11,8 +11,10 @@
 /** Imports */
 import partnersManager from './partners_manager.js';
 import tasksManager from './tasks_manager.js';
-import { addOneListener } from './common.js';
+import { addListenerByAttr2 } from './common.js';
 import financeLayout from './finance.js';
+import tools from './tools.js';
+
 
 /** General functions */
 /**
@@ -138,6 +140,46 @@ function prodMenuChange(id) {
             break;
     }
 }
+
+function addProductsClick() {
+    addListenerByAttr2("smproducts", "click", addProductsEvents);
+}
+
+function addProductsEvents(attr) {
+    switch (attr) {
+        case "overwiew":
+            alert();
+            break;
+        case "tracking":
+            alert();
+            break;
+        case "optimization":
+            alert();
+            break;
+        default:
+            break;
+    }
+}
+
+function addResourcesClick() {
+    addListenerByAttr2("smresources", "click", addResourcesEvents);
+}
+
+function addResourcesEvents(attr) {
+    switch (attr) {
+        case "emlpoyees":
+            alert();
+            break;
+        case "tools":
+            tools.loadTools();
+            break;
+        case "allocation":
+            alert();
+            break;
+        default:
+            break;
+    }
+}
 /** Click events end */
 
 
@@ -151,6 +193,8 @@ $(document).ready(function () {
     addClickEvents(menuItemClick, "menu-item");
     addClickEvents(processesModulClick, "processes-mo-click");
     addClickEvents(prodMenuChange, "prod-subm-i");
+    addProductsClick();
+    addResourcesClick();
     financeLayout.loadFinance();
 });
 /** Events end */
