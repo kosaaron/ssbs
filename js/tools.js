@@ -9,6 +9,7 @@
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
 import Filters from './moduls/Filters.js';
+import newTool from './new_tool.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
 
 
@@ -23,9 +24,9 @@ function getToolsCard() {
     container += '<div class="col-lg-12"><div class="card toolcard"><div class="card-body">';
     container += '!<div class="display-flex justify-content-between"><div class="tool-image-container display-flex align-items-center"><img class="tool-image"src="*"></div>';
     container += '!<div class="tool-datas"><h3 class="card-title tool-name">*</h3>';
-    container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> *</p>';
+    container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: *</p>';
     container += '!<button type="button" class="btn btn-primary tool-tag *"><i class="fas fa-check tool-tag-icon"></i>Elérhető</button>';
-    container += '!<a href="#" class="btn btn-primary next-button show-details" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div></div>';
+    container += '!<a href="#" class="btn btn-primary next-button show-details" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div></div></div>';
 
     return container;                            
                                         
@@ -39,16 +40,16 @@ function getToolDetail() {
     let container = "";
 
     container += '<h2>*</h2>';
-    container += '!<p><label class="title-text">Partner típusa:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Kapcsolattartó:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Létrehozás:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Telefon:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Email:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Cím:</label><br><label>*</label></p>';
+    container += '!<p><label>*</label></p>';
+    container += '!<p><label class="title-text">Helye:</label><br><label>*</label></p>';
+    container += '!<p><label class="title-text">Használatbavétel kezdete:</label><br><label>*</label></p>';
+    container += '!<p><label class="title-text">Karbantartást igényel:</label><br><label>*</label></p>';
     container += '!<p><label class="title-text">Leírás:</label><br><label>*</label></p>';
-
+    container += '!<p><label class="title-text">Megjegyzés:</label><br><label>*</label></p>';
+    container += '!<p><label class="title-text">Leírás:</label><br><label>*</label></p>';
+    container += '!<div class="tool-button-container justify-content-between"><button type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-calendar tool-tag-icon"></i>Naptár</button>';
+    container += '!<button type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
     return container;
-
 }
 
 /**
@@ -69,10 +70,9 @@ function toolFileterChange(id) {
 }
 
 function addTool() {
-    newPartner.loadNewPartner();
+    newTool.loadNewTool();
     /*Ezt még rendesen át kell alakítani*/
-    removeOneListener("processes_back_to_menu");
-    addOneListener("processes_back_to_menu", "click", partnersManager.loadPartnersManager);
+    addOneListener("back_to_tool", "click", tools.loadTools);
 }
 
 
@@ -98,183 +98,235 @@ var tools = {
         Filters.Create(activeTableFilters, "tool_filters", toolFileterChange);
 
         addOneListener("add_tool_btn", "click", addTool);
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
     }
 };
 export default tools;
 
 
 var tool_structure = [
-    "LogoSrc",
+    "ImgSrc",
     "Name",
-    "Telefon",
-    "Email",
+    "Helye",
+    "Állapot",
     "Id"
 ];
 
 var tool_structure_2 = [
     "Name",
     "Type",
-    "Kapcsolattartó",
-    null, //"Létrehozás",
-    "Telefon",
-    "Email",
-    "Cím",
-    "Leírás"
+    "Helye",
+    "Kezdés_dátum",
+    "Karbantartást_igényel",
+    "Leírás",
+    "Megjegyzés",
+    "Id",
+    null //"Létrehozás"
+];
+
+var activeTableFilters = [
+    {
+        Id: "1234",
+        Name: "Kategória",
+        Type: "Select",
+        Default: "Karalábé",
+        Opportunities: ["Sajt", "Karalábé", "Csoki"]
+    },
+    {
+        Id: "1235",
+        Name: "Raktár",
+        Type: "Select",
+        Default: "Raktár3",
+        Opportunities: ["Raktár1", "Raktár2", "Raktár3"]
+    },
+    {
+        Id: "1236",
+        Name: "Harmadik",
+        Type: "Select",
+        Default: "Karalábé",
+        Opportunities: ["Sajt", "Karalábé", "Csoki"]
+    },
+    {
+        Id: "1237",
+        Name: "Negyedik",
+        Type: "Select",
+        Default: "Sajt",
+        Opportunities: ["Sajt", "Karalábé", "Csoki"]
+    },
+    {
+        Id: "1238",
+        Name: "Ötödik",
+        Type: "Write",
+        Default: "",
+    },
 ];
 
 var tools_list = [
     {
         Id: 'fjh7zd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'IT',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'fjh7zd3',
-        Name: 'Audi Hungária',
-        Type: 'Személygépjármű',
-        Email: 'hungaria@audi.com',
-        Telefon: '061 432 2222',
-        Kapcsolattartó: 'Rob Stark',
-        Cím: 'Győr, Audi utca 14., 3300',
-        Leírás: 'A magyar GDP-t itt gyártják',
-        LogoSrc: 'https://www.cascadezrt.hu/wp-content/uploads/2016/03/audi2.jpg'
+        Name: 'Varázspálca',
+        Type: 'fegyver',
+        Helye: 'Harry Potter',
+        Leírás: 'sárkányszívizomhúr, 12.5 hüvely, fűzfa',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '180 naponta',
+        Állapot: 'tool-tag-reserved',
+        Megjegyzés: 'H.P.: ne használja már más pls (5 napja)',
+        ImgSrc: 'https://cdn.shopify.com/s/files/1/2597/5112/products/hpnbwandlurc_2_3e19f8c7-9d53-4a9b-94e6-53d5d675125e_1200x1200.jpg?v=1529653289'
     },
     {
         Id: 'fjh7zd',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bagoly',
+        Type: 'állatka',
+        Helye: '2-es raktár',
+        Leírás: 'Hedvignek hívják és hóbagoly',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '1 naponta',
+        Állapot: 'tool-tag-service',
+        Megjegyzés: 'K.Á.: nagyon hullik a tolla (3 órája)',
+        ImgSrc: 'https://vignette.wikia.nocookie.net/harrypotter/images/1/1e/Hedwig_Snowy_Owl_PM.png/revision/latest?cb=20161123234010'
     },
     {
         Id: 'fjh7z',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'h7zd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'fjh7z3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'fjh7d3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'fjhzd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'fj7zd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'fh7zd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'fjh7zw',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'fjh73w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     },
     {
         Id: 'fjh3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
+        Name: 'Bölcsek Köve',
+        Type: 'legendás tárgyi emlék',
+        Helye: '2-es raktár',
+        Leírás: 'Lehet vele örök életed, meg ilyenek',
+        Kezdés_dátum: '2019.01.31.',
+        Karbantartást_igényel: '365 naponta',
+        Állapot: 'tool-tag-available',
+        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
+        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
     }
 ]
