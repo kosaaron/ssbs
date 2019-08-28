@@ -28,9 +28,9 @@ function getToolsCard() {
     container += '!<button type="button" class="btn btn-primary tool-tag *"><i class="fas fa-check tool-tag-icon"></i>Elérhető</button>';
     container += '!<a href="#" class="btn btn-primary next-button show-details" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div></div></div>';
 
-    return container;                            
-                                        
-                                        
+    return container;
+
+
 }
 
 /**

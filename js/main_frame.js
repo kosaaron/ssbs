@@ -63,6 +63,7 @@ function menuItemClick(id) {
     switch (id) {
         case "tab_finance":
             document.getElementById("finance").style.display = "block";
+            $('.selectpicker').selectpicker('refresh');
             break;
         case "tab_processes":
             document.getElementById("processes").style.display = "block";
