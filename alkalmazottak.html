@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <title>SBSS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+        integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="partners_manager" class="display-flex flex-row full-screen">
+        <div class="flex-fill col-2 filter-box">
+            <div class="task-filters">
+                <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
+                <div class="form-group">
+                    <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő1</label>
+                    <select class="form-control taskfilter" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+
+
+                <!--JS fogja generálni-->
+                <div class="form-group">
+                    <label for="" class="taskfilter-label">Live-search</label>
+                    <select name="" id="" class="selectpicker my-0 form-control taskfilter" data-live-search="true">
+                        <option value="">Első</option>
+                        <option value="">Második</option>
+                        <option value="">Harmadik</option>
+                    </select>
+                </div>
+                <!---->
+
+                <div class="form-group">
+                    <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő2</label>
+                    <select class="form-control taskfilter" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő3</label>
+                    <select class="form-control taskfilter" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="taskfilter-label" for="exampleFormControlSelect1">Szűrő4</label>
+                    <select class="form-control taskfilter" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="task-orders">
+                <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
+                <div class="form-group">
+                    <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label>
+                    <select class="form-control taskfilter" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label>
+                    <select class="form-control taskfilter" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 filtered-table display-flex flex-1">
+            <button class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
+            <div class="col-8 card-container">
+                <div id="employees_card_container" class="row">
+                    <div class="col-lg-12">
+                        <div class="card employeecard">
+                            <div class="card-body">
+                                <div class="display-flex justify-content-between">
+                                    <div class="employee-image-container display-flex align-items-center">
+                                        <img class="employee-image"
+                                            src="https://lumiere-a.akamaihd.net/v1/images/luke-skywalker-i-am-a-jedi_fce1d84d.jpeg?region=204%2C0%2C414%2C413">
+                                    </div>
+                                    <div class="employee-datas">
+                                        <h3 class="card-title employee-name">Luke Skywalker</h3>
+                                        <span class="employee-rate"><i class="far fa-star"></i> 4,67</span>
+                                        <p class="employee-position">Jedilovag</p>
+                                        <p class="employee-detail">Összes költség: <span>768 950</span> forint/hó</p>
+                                        <a href="#" class="btn btn-primary message-button show-details"><i
+                                                class="fas fa-paper-plane"></i></a>
+                                        <a href="#" class="btn btn-primary next-button show-details" id="fjh7zd"><i
+                                                class="fas fa-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-4" id="detail-placeholder" style="display: none">
+                A részletekért válassz egy feladatot!
+            </div>
+            <div class="col-4" id="tools_details">
+                <h2>Luke Skywalker</h2>
+                <p><label class="employee-position">Jedilovag</label></p>
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    <label class="title-text">Elérhetőségek</label>
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-parent="#accordionExample">
+                            <div class="card-body collapse-card-body">
+                                <br><label><i class="fas fa-mobile-alt"></i> +36 30 123 12
+                                    12</label>
+                                <br><label><i class="far fa-envelope"></i>
+                                    swluke@rebelmail.com</label>
+                                <br><label><i class="fas fa-home"></i> Budapest, 1132, Pozsonyi
+                                    utca 45.</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <label class="title-text">Személyes adatok</label>
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                            data-parent="#accordionExample">
+                            <div class="card-body collapse-card-body">
+                                személyi, adószám, születési év, anyja neve, minden, ami ilyen hivatalos dolgokhoz kell
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <label class="title-text">Pénzügyek</label>
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                            data-parent="#accordionExample">
+                            <div class="card-body collapse-card-body">
+                                Fizetés, jutattások, egyéb felmerülő költségek(biztosítás), fizetett szabadságok száma
+                                stb.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tool-button-container justify-content-between">
+                    <button type="button" class="btn btn-primary tool-tag tool-button">
+                        <i class="fas fa-calendar tool-tag-icon"></i>Naptár</button>
+                    <button type="button" class="btn btn-primary tool-tag tool-button">
+                        <i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button>
+                </div>
+
+
+            </div>
+            <div class="filtered-table-fade flex-1"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
