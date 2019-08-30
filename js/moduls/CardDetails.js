@@ -24,19 +24,20 @@ let CardDetails = {
             if (cardId === elementI.Id) {
                 let c = 0;
                 for (let j = 0; j < cardBlock.length; j++) {
-                    const elementJ = cardBlock[j];
-                    const elementC = structure[c];
+                    let elementJ = cardBlock[j];
+                    const elementD = structure.Data[c];
+                    const elementN = structure.Names[c];
                     let elementX = elementJ.split('*');
 
                     if (elementX.length === 1) {
                         container += elementJ;
 
                     } else {
-                        if (elementC !== null) {
-                            container += elementX[0];
-                            container += elementI[elementC];
-                            container += elementX[1];
+                        if (elementJ.split('**').length !== 1) {
+                            elementJ = elementJ.replace("**", elementN);
                         }
+                        container += elementJ.replace("*", elementI[elementD]);
+
                         c++;
                     }
                 }

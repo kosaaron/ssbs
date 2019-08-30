@@ -34,14 +34,15 @@ function getTasksMDetail() {
     let container = "";
 
     container += '<h2>*</h2>';
-    container += '!<p><label class="title-text">Feladat típusa:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Megrendelő:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Létrehozás:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Határidő:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Cím:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Leírás:</label><br><label>*</label></p>';
+    for (let i = 0; i < getTasksMDStructure().Data.length-1; i++) {
+        container += '!<p><label class="title-text">**</label><br><label>*</label></p>';
+    }
 
     return container;
+}
+
+function getTasksMDStructure() {
+    return tasks_m_structure_2;
 }
 
 /**
@@ -100,15 +101,25 @@ var tasks_m_structure = [
     "Id"
 ];
 
-var tasks_m_structure_2 = [
-    "Name",
-    "Type",
-    "Megrendelő",
-    null, //"Létrehozás",
-    "Határidő",
-    "Cím",
-    "Leírás"
-];
+var tasks_m_structure_2 = {
+    Names: [
+        null,
+        "Feladat típusa",
+        "Megrendelő",
+        "Létrehozás dátuma",
+        "Határidő",
+        "Cím:",
+        "Leírás"
+    ],
+    Data: [
+        "Name",
+        "Type",
+        "Megrendelő",
+        "Létrehozás", //"Létrehozás",
+        "Határidő",
+        "Cím",
+        "Leírás"]
+};
 
 var activeTableFilters = [
     {
