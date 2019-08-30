@@ -347,6 +347,9 @@ iframe[seamless] {
     bottom: 0;
     right: 0;
 }*/
+#resources_content {
+    overflow: hidden;
+}
 
 .float-submenu {
     display: none;
