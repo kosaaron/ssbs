@@ -107,10 +107,11 @@
 #saved_toolimg{
     width: 40%;
 }
-.image-upload-button{
-    width: 40%;
+.image-upload{
+    width: 100%;
     height: 50px;
-    color: #3B4372;
-    border: 1px solid #3B4372;
-    border-radius: 5px;
+}
+.newtask-buttoncontainer
+{
+    padding-top: 20%;
 }
