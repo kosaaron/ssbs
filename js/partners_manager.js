@@ -35,16 +35,15 @@ function getPartnersMDetail() {
     let container = "";
 
     container += '<h2>*</h2>';
-    container += '!<p><label class="title-text">Partner típusa:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Kapcsolattartó:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Létrehozás:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Telefon:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Email:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Cím:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Leírás:</label><br><label>*</label></p>';
+    for (let i = 0; i < getPartnersMDStructure().Data.length - 1; i++) {
+        container += '!<p><label class="title-text">**</label><br><label>*</label></p>';
+    }
 
     return container;
+}
 
+function getPartnersMDStructure() {
+    return partner_m_structure_2;
 }
 
 /**
@@ -53,7 +52,7 @@ function getPartnersMDetail() {
  */
 function partnerMCardClick(cardId) {
     let data = partners_list;
-    let structure = partner_m_structure_2;
+    let structure = getPartnersMDStructure();
     let card = getPartnersMDetail();
     let shellId = "partners_m_details";
 
@@ -106,16 +105,25 @@ var partner_m_structure = [
     "Id"
 ];
 
-var partner_m_structure_2 = [
-    "Name",
-    "Type",
-    "Kapcsolattartó",
-    null, //"Létrehozás",
-    "Telefon",
-    "Email",
-    "Cím",
-    "Leírás"
-];
+var partner_m_structure_2 = {
+    Names: [
+        null,
+        "Partner típusa",
+        "Kapcsolattartó",
+        "Telefon",
+        "Email",
+        "Cím",
+        "Leírás"
+    ],
+    Data: [
+        "Name",
+        "Type",
+        "Kapcsolattartó",
+        "Telefon",
+        "Email",
+        "Cím",
+        "Leírás"]
+};
 
 var activeTableFilters = [
     {

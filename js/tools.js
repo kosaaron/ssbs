@@ -41,15 +41,17 @@ function getToolDetail() {
 
     container += '<h2>*</h2>';
     container += '!<p><label>*</label></p>';
-    container += '!<p><label class="title-text">Helye:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Használatbavétel kezdete:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Karbantartást igényel:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Leírás:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Megjegyzés:</label><br><label>*</label></p>';
-    container += '!<p><label class="title-text">Leírás:</label><br><label>*</label></p>';
-    container += '!<div class="tool-button-container justify-content-between"><button type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-calendar tool-tag-icon"></i>Naptár</button>';
-    container += '!<button type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
+    for (let i = 0; i < getToolsMDStructure().Data.length - 4; i++) {
+        container += '!<p><label class="title-text">**</label><br><label>*</label></p>';
+    }
+
+    container += '!<div class="tool-button-container justify-content-between"><button id="clnd_*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-calendar tool-tag-icon"></i>Naptár</button>';
+    container += '!<button id="edit_*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
     return container;
+}
+
+function getToolsMDStructure() {
+    return tool_structure_2;
 }
 
 /**
@@ -58,7 +60,7 @@ function getToolDetail() {
  */
 function toolCardClick(cardId) {
     let data = tools_list;
-    let structure = tool_structure_2;
+    let structure = getToolsMDStructure();
     let card = getToolDetail();
     let shellId = "tool_details";
 
@@ -111,17 +113,29 @@ var tool_structure = [
     "Id"
 ];
 
-var tool_structure_2 = [
-    "Name",
-    "Type",
-    "Helye",
-    "Kezdés_dátum",
-    "Karbantartást_igényel",
-    "Leírás",
-    "Megjegyzés",
-    "Id",
-    null //"Létrehozás"
-];
+var tool_structure_2 = {
+    Names: [
+        null,
+        null,
+        "Helye",
+        "Használatbavétel kezdete",
+        "Karbantartást igényel",
+        "Leírás",
+        "Megjegyzés",
+        null,
+        null
+    ],
+    Data: [
+        "Name",
+        "Type",
+        "Helye",
+        "Kezdés_dátum",
+        "Karbantartást_igényel",
+        "Leírás",
+        "Megjegyzés",
+        "Id",
+        "Id"]
+};
 
 var activeTableFilters = [
     {
