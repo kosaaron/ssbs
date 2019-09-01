@@ -14,6 +14,7 @@ import tasksManager from './tasks_manager.js';
 import { addListenerByAttr2 } from './common.js';
 import financeLayout from './finance.js';
 import tools from './tools.js';
+import employees from './employees.js';
 
 
 /** General functions */
@@ -168,8 +169,8 @@ function addResourcesClick() {
 
 function addResourcesEvents(attr) {
     switch (attr) {
-        case "emlpoyees":
-            alert();
+        case "employees":
+            employees.loadEmployees();
             break;
         case "tools":
             tools.loadTools();

@@ -73,7 +73,6 @@ function toolFileterChange(id) {
 
 function addTool() {
     newTool.loadNewTool();
-    /*Ezt még rendesen át kell alakítani*/
     addOneListener("back_to_tool", "click", tools.loadTools);
 }
 

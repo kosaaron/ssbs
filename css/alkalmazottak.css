@@ -1,5 +1,5 @@
 .employeecard{
-    height: 170px;
+    height: 200px;
     margin-bottom: 30px;
     margin-left:30px;
     margin-right: 30px;
@@ -46,6 +46,14 @@
     margin-bottom: 15px;
     color: #666;
 }
+.employee-detail-position{
+    margin-bottom: 0;
+    color: #666;
+}
+.employee-detail-name{
+    padding-top:10px;
+    margin-bottom: 0;
+}
 .message-button {
     position: absolute;
     bottom: 15px;
@@ -61,5 +69,45 @@
 
 .collapse-card-body{
     padding: 15px;
-    height: 250px;
+    height: 280px;
+}
+.employee-card-header{
+    padding: 2px 8px;
+}
+.employee-datatype{
+    font-weight: 600;
+    color: #777;
+}
+.employee-contact-icon{
+    padding-right: 5px;
+}
+.employee-button-container{
+    width: 100%;
+}
+.edit-employee-button{
+    background-color: #3B4372;
+    width: 45%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #fff;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+.employee-aggregated{
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+.cost-red-style{
+    color: red;
+}
+.income-green-style{
+    color: green;
+}
+.employee-detail-par{
+    margin: 0;
 }
