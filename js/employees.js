@@ -36,16 +36,28 @@ function getEmployeesCard() {
  */
 function getEmployeeDetail() {
     let container = "";
-
+    
     container += '<h2>*</h2>';
-    container += '!<p><label>*</label></p>';
-    for (let i = 0; i < getEmployeesMDStructure().Data.length - 4; i++) {
-        container += '!<p><label class="title-text">**</label><br><label>*</label></p>';
+    container += '!<p><label class="employee-position">*</label></p>';
+    container += '!<div class="card"><div class="card-header employee-card-header" id="headingOne"><h5 class="mb-0"><button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><label class="title-text">Elérhetőségek</label></button></h5></div><div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample"><div class="card-body collapse-card-body">';
+    container += '!<p class="employee-detail-par"><label><i class="fas fa-mobile-alt employee-contact-icon"></i> *</label></p>';
+    container += '!<p class="employee-detail-par"><label><i class="far fa-envelope employee-contact-icon"></i> *</label></p>';
+    container += '!<p class="employee-detail-par"><label><i class="fas fa-home employee-contact-icon"></i></i> *</label></p></div></div></div>';
+    container += '!<div class="card"><div class="card-header employee-card-header" id="headingTwo"><h5 class="mb-0"><button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><label class="title-text">Személyes adatok</label></button></h5></div><div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample"><div class="card-body collapse-card-body">';
+    for (let i = 0; i < 7; i++) {
+        container += '<p class="employee-detail-par"><label><span class="employee-datatype">**: </span>*</label></p>';
     }
-
-    container += '!<div class="tool-button-container justify-content-between"><button id="clnd_*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-calendar tool-tag-icon"></i>Naptár</button>';
-    container += '!<button id="edit_*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
+    container += '</div></div></div><div class="card"><div class="card-header employee-card-header" id="headingThree"><h5 class="mb-0"><button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><label class="title-text">Pénzügyek</label></button></h5></div><div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample"><div class="card-body collapse-card-body">';
+    for (let i = 0; i < 5; i++) {
+        container += '<p class="employee-detail-par"><label><span class="employee-datatype">**: </span>* Ft</label></p>';
+    }
+    container += '!<p class="employee-detail-par"><label class="employee-aggregated"><span class="employee-datatype">**: </span><span class="cost-red-style">* Ft</span></label></p>';
+    container += '!<p class="employee-detail-par"><label><span class="employee-datatype">**: </span><span class="income-green-style">* Ft</span></label></p>';
+    container += '!<p class="employee-detail-par"><label class="employee-aggregated"><span class="employee-datatype">**: </span><span class="income-green-style">* Ft</span></label></p></div></div></div></div>';
+    container += '!<div class="employee-button-container"><button id="edit_*" type="button" class="btn btn-primary  edit-employee-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
+    
     return container;
+
 }
 
 function getEmployeesMDStructure() {
@@ -108,23 +120,47 @@ var employee_structure_2 = {
     Names: [
         null,
         null,
-        "Helye",
-        "Használatbavétel kezdete",
-        "Karbantartást igényel",
-        "Leírás",
-        "Megjegyzés",
         null,
+        null,
+        null,
+        "Születési név",
+        "Neme",
+        "Személyig. száma",
+        "Adószám",
+        "Születési év",
+        "Születési hely",
+        "Anyja neve",
+        "Bruttó bér",
+        "Céges autó költségei",
+        "Telefonszámla",
+        "Egészségügyi kezelés",
+        "Biztosítás",
+        "Összes költség",
+        "Megtermelt bevétel",
+        "Mérleg",
         null
     ],
     Data: [
         "Name",
-        "Type",
-        "Helye",
-        "Kezdés_dátum",
-        "Karbantartást_igényel",
-        "Leírás",
-        "Megjegyzés",
-        "Id",
+        "Beosztás",
+        "Mobilszám",
+        "Email",
+        "Cím",
+        "Születési_név",
+        "Neme",
+        "Személyi_szám",
+        "Adószám",
+        "Születési_év",
+        "Születési_hely",
+        "Anyja_neve",
+        "Bruttó_bér",
+        "Céges_autó",
+        "Telefonszámla",
+        "Egészségügyi_kezelés",
+        "Biztosítás",
+        "Összes_költés",
+        "Megtermelt_bevétel",
+        "Mérleg",
         "Id"]
 };
 
@@ -183,6 +219,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -210,6 +248,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -235,6 +275,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -260,6 +302,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -285,6 +329,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -310,6 +356,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -335,6 +383,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -360,6 +410,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -385,6 +437,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -410,6 +464,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -435,6 +491,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -460,6 +518,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -485,6 +545,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
@@ -510,6 +572,8 @@ var employees_list = [
         Személyi_szám: '454512WE',
         Adószám: '123123123',
         Születési_év: '1987.03.15',
+        Születési_hely: 'Budapest',
+        Anyja_neve: 'Nagy Katalin',
         Bruttó_bér: '674 000 Ft',
         Céges_autó: '79 540 Ft',
         Telefonszámla: '4560 Ft',
