@@ -33,11 +33,12 @@ let CardDetails = {
                         container += elementJ;
 
                     } else {
-                        if (elementJ.split('**').length !== 1) {
-                            elementJ = elementJ.replace("**", elementN);
+                        if (elementD !== null) {
+                            if (elementJ.split('**').length !== 1) {
+                                elementJ = elementJ.replace("**", elementN);
+                            }
+                            container += elementJ.replace("*", elementI[elementD]);
                         }
-                        container += elementJ.replace("*", elementI[elementD]);
-
                         c++;
                     }
                 }
