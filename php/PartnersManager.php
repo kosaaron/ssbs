@@ -33,15 +33,9 @@ foreach ($cardCResult['Data'] as $row) {
 }
 
 /** Partner's manager details */
-$resultTDtlsStructure = $pdo->query('SELECT ColumnName, dtls_structures.Name FROM dtls_structures WHERE (' . $userId . '=EmployeeFK && Place="prtnrdtls") ORDER BY Number')->fetchAll();
-$structureTDtls = array();
-$namesTDtls = array();
-foreach ($resultTDtlsStructure as $row) {
-    array_push($structureTDtls, $row['ColumnName']);
-    array_push($namesTDtls, $row['Name']);
-}
-$main_data['DetailsStructure']['Data'] = $structureTDtls;
-$main_data['DetailsStructure']['Names'] = $namesTDtls;
+$cardCResult = $dataAndStructure->Details($userId, "prtnrdtls");
+$main_data['DetailsStructure']['Names'] = $cardCResult['Names'];
+$main_data['DetailsStructure']['Data'] = $cardCResult['Data'];
 
 /** Finish */
 $json = json_encode($main_data);
