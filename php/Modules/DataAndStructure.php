@@ -5,9 +5,11 @@
  */
 class DataAndStructure
 {
-    public function CardContainer($employee, $place, $table)
+    public function CardContainer($employee, $place, $table, $where = null)
     {
+        /** Includes */
         include('Connect.php');
+
         $main_data = array();
 
         $resultTDStructure = $pdo->query('SELECT cardc_structures.Number, ColumnName, Tables FROM cardc_structures WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number')->fetchAll();
@@ -27,7 +29,7 @@ class DataAndStructure
         }
 
         $queryByStructure = new QueryByStructure();
-        $partnerDataQuery = $queryByStructure->DefaultQuery($structureTD, $table, $tablesTD);
+        $partnerDataQuery = $queryByStructure->DefaultQuery($structureTD, $table, $tablesTD, $where);
         if ($partnerDataQuery) {
             $partnerDataResult = $pdo->query($partnerDataQuery)->fetchAll(PDO::FETCH_ASSOC);
             $main_data['Data'] = $partnerDataResult;

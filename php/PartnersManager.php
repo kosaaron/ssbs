@@ -23,7 +23,9 @@ $main_data['DataStructure'] = $cardCResult['DataStructure'];
 
 foreach ($cardCResult['Data'] as $row) {
     $tags = $pdo->query('SELECT PartnerTagId, partner_tags.Name FROM partner_tags WHERE (' . $row['PartnerId'] . '=PartnerFK)')->fetchAll(PDO::FETCH_ASSOC);
-    $contacts = $pdo->query('SELECT PartnerContactId, partner_contact.Name, Email, Phone, partner_contact.Address FROM partner_contact WHERE (' . $row['PartnerId'] . '=PartnerFK)')->fetchAll(PDO::FETCH_ASSOC);
+    
+    $contWhereCond='WHERE (' . $row['PartnerId'] . '=PartnerFK)';
+    $contacts = $dataAndStructure->CardContainer($userId, "prtnrdcnt", "partner_contact", $contWhereCond);
 
     $row['Tags'] = $tags;
     $row['Contacts'] = $contacts;
