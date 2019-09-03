@@ -21,8 +21,7 @@ class DataAndStructure
             array_push($tablesTD, $row['Tables']);
             if (!is_null($row['Number'])) {
                 $itemInStructure = array();
-                $itemInStructure['Place'] = $row['Number'];
-                $itemInStructure['Column'] = $row['ColumnName'];
+                $itemInStructure[$row['Number']] = $row['ColumnName'];
 
                 $main_data['DataStructure'][] = $itemInStructure;
             }
@@ -47,12 +46,12 @@ class DataAndStructure
 
         $main_data = array();
 
-        $resultTDtlsStructure = $pdo->query('SELECT ColumnName, dtls_structures.Name FROM dtls_structures WHERE (' . $employee . '=EmployeeFK && Place="'.$place.'") ORDER BY Number')->fetchAll();
+        $resultTDtlsStructure = $pdo->query('SELECT ColumnName, dtls_structures.Name, dtls_structures.Number FROM dtls_structures WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number')->fetchAll();
         $structureTDtls = array();
         $namesTDtls = array();
         foreach ($resultTDtlsStructure as $row) {
-            array_push($structureTDtls, $row['ColumnName']);
-            array_push($namesTDtls, $row['Name']);
+            $structureTDtls[$row['Number']] = $row['ColumnName'];
+            $namesTDtls[$row['Number']] = $row['Name'];
         }
         $main_data['Data'] = $structureTDtls;
         $main_data['Names'] = $namesTDtls;

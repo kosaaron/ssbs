@@ -13,12 +13,12 @@
     bottom: 8%;
     right: 33%;
     z-index: 1;
-    background-color: #0067A5;
+    background-color: #3b4372;
     border: none;
     font-size: 20px;
     -webkit-box-shadow: 2px 2px 10px 5px rgba(255, 255, 255, 0.72);
     -moz-box-shadow: 2px 2px 10px 5px rgba(255, 255, 255, 0.72);
-    box-shadow: 2px 2px 10px 5px rgba(255, 255, 255, 0.72)
+    box-shadow: 0px 0px 5px 6px #ddd;
 }
 
 .fixedaddbutton:hover {
