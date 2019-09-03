@@ -10,6 +10,7 @@ import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
 import Filters from './moduls/Filters.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
+import newEmployee from './new_employee.js';
 
 
 
@@ -78,9 +79,8 @@ function employeeFileterChange(id) {
 }
 
 function addEmployee() {
-    newTool.loadNewTool();
-    /*Ezt még rendesen át kell alakítani*/
-    addOneListener("back_to_tool", "click", tools.loadTools);
+    newEmployee.loadNewEmployee();
+    addOneListener("back_to_employee", "click", employees.loadEmployees);
 }
 
 var employees = {
