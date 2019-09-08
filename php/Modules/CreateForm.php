@@ -37,11 +37,14 @@ class CreateForm
             $oppStructure = $pdo->query($oppQuery)->fetchAll();
             if ($row['Type'] == 'S' || $row['Type'] == 'SN') {
                 $oppArr = array();
+                $i = 0;
                 foreach ($oppStructure as $row) {
-                    //array_push($oppArr, $row[0]);
+                    $oppSubArr = array();
                     for ($j = 0; $j < $columnCaunter; $j++) {
-                        $oppArr[$columns[$j]] = $row[$j];
+                        $oppSubArr[$columns[$j]] = $row[$j];
                     }
+                    $oppArr[$i] = $oppSubArr;
+                    ++$i;
                 }
                 $f_array['Opportunities'] = $oppArr;
             }
