@@ -9,7 +9,7 @@ class CreateForm
     {
         include('Connect.php');
 
-        $resultFltrStructure = $pdo->query('SELECT FormStructureId, form_structures.Name, form_structures.Type, DefaultValue, ColumnName, TableName FROM form_structures WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
+        $resultFltrStructure = $pdo->query('SELECT * FROM form_structures WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
 
         $fltrStructure = array();
         foreach ($resultFltrStructure as $row) {
@@ -19,6 +19,7 @@ class CreateForm
             $f_array['Type'] = $row['Type'];
             $f_array['DefaultValue'] = $row['DefaultValue'];
             $f_array['ColumnName'] = $row['ColumnName'];
+            $f_array['Required'] = $row['Required'];
 
             //$oppQuery = 'SELECT DISTINCT ' . $row['TableName'] . '.' . end($column) . ' FROM ' . $row['TableName'] . ';';
 
