@@ -4,6 +4,10 @@ export default class Month {
         this.monthId = monthId;
     }
 
+    get calendarEndPoints() {
+        return this.getCalendarEndPoints();
+    }
+
     get length() {
         return this.getMonthLength(this.monthId);
     }
@@ -13,7 +17,42 @@ export default class Month {
     }
 
     get rowNum() {
-        return this.defineRowNum(this.monthLength, this.firstDay);
+        return this.defineRowNum(this.length, this.firstDay);
+    }
+
+    get prevLength() {
+        return this.getMonthLength(this.monthId-1);
+    }
+
+    getCalendarEndPoints() {
+        let calendarStart = {};
+        let calendarEnd = {};
+
+        if (this.firstDay != 1) {
+            calendarStart.year = this.monthId == 0 ? this.year - 1 : this.year;
+            calendarStart.month = this.monthId == 0 ? 11 : this.monthId - 1;
+            calendarStart.day = this.prevLength - this.firstDay + 2;
+        }
+        else {
+            calendarStart.year = this.year;
+            calendarStart.month = this.monthId;
+            calendarStart.day = 1;
+        }
+
+        if (this.length + this.firstDay - 1 != this.rowNum * 7) {
+            calendarEnd.year = this.monthId == 11 ? this.year + 1 : this.year;
+            calendarEnd.month = this.monthId == 11 ? 0 : this.monthId + 1;
+            calendarEnd.day = this.rowNum * 7 - this.length - this.firstDay + 1;
+        }
+        else {
+            calendarEnd.year = this.year;
+            calendarEnd.month = this.monthId;
+            calendarEnd.day = this.length;
+        }
+        return {
+                "calendarStart" : calendarStart,
+                "calendarEnd": calendarEnd
+                };
     }
 
     getMonthLength(monthNum) {
@@ -28,7 +67,7 @@ export default class Month {
                 monthLength = 30;
                 break;
             case 1:
-                const year = new Date().getFullYear();
+                const year = new Date();
                 if((year.getFullYear() % 4 == 0) && (year.getFullYear() % 100 != 0)) {
                     monthLength = 29;
                 }
