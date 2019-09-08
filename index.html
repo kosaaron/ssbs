@@ -399,6 +399,25 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.js"></script>
     <script src="js/moduls/Sortable.js"></script>
     <script src="js/main.js"></script>
+    <script>
+            function showTimeline() {
+                document.getElementById('data-container').style.display = "none";
+                document.getElementById('timeline-container').style.display = "block";
+                var element = document.getElementById("detail_data_btn");
+                element.classList.remove("btn-detail-menu-active");
+                var element2 = document.getElementById("detail_timeline_btn");
+                element2.classList.add("btn-detail-menu-active");
+            }
+            function showData() {
+                document.getElementById('timeline-container').style.display = "none";
+                document.getElementById('data-container').style.display = "block";
+                var element = document.getElementById("detail_timeline_btn");
+                element.classList.remove("btn-detail-menu-active");
+                var element2 = document.getElementById("detail_data_btn");
+                element2.classList.add("btn-detail-menu-active");
+            }
+        
+        </script>
 </body>
 
 </html>

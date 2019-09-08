@@ -183,6 +183,10 @@
     height: 70%;
     overflow-y: scroll;
 }
+#data-container{
+    height: 70%;
+    overflow-y: scroll;
+}
 .timeline{
     width: 100%;
     height: auto;
@@ -234,4 +238,8 @@
  .timeline li .timeline-item a h3{
      font-size: 1.2rem;
      color: #555;
+ }
+ #data-container{
+     height: 70%;
+     overflow-y: scroll;
  }
