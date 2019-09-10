@@ -1,0 +1,17 @@
+.table-no-margin{
+    margin: 0;
+}
+.table-container{
+    width: 100%;
+    padding: 20px;
+    overflow-y: scroll;
+}
+.fixed-table-header{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.thead-design{
+    background-color: rgb(109, 117, 163, 0.5);
+    border: none;
+}
