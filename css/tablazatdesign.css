@@ -2,16 +2,32 @@
     margin: 0;
 }
 .table-container{
+    margin: 20px;
     width: 100%;
-    padding: 20px;
+    height: 80%;
     overflow-y: scroll;
 }
-.fixed-table-header{
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-.thead-design{
-    background-color: rgb(109, 117, 163, 0.5);
+.collapse-table-card{
     border: none;
+}
+.collapse-tabledata-container{
+    width: 40%;
+    height: auto;
+}
+.collapse-tablechart-container{
+    width: 60%;
+    height: 30%;
+}
+.tableFixHead{ 
+    overflow-y: auto;
+    height: 100%;
+}
+.tableFixHead thead th {
+    background-color: rgb(109, 117, 163);
+    z-index: 1;
+}
+.tableFixHead thead{
+    -webkit-box-shadow: 0px 7px 16px -4px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 7px 16px -4px rgba(255,255,255,1);
+    box-shadow: 0px 7px 16px -4px rgba(255,255,255,1);
 }
