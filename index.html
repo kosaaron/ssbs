@@ -384,7 +384,7 @@
                             </div>
                         </div>
                         <div id="resources_content" class="flex-1">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -400,24 +400,43 @@
     <script src="js/moduls/Sortable.js"></script>
     <script src="js/main.js"></script>
     <script>
-            function showTimeline() {
-                document.getElementById('data-container').style.display = "none";
-                document.getElementById('timeline-container').style.display = "block";
-                var element = document.getElementById("detail_data_btn");
-                element.classList.remove("btn-detail-menu-active");
-                var element2 = document.getElementById("detail_timeline_btn");
-                element2.classList.add("btn-detail-menu-active");
-            }
-            function showData() {
-                document.getElementById('timeline-container').style.display = "none";
-                document.getElementById('data-container').style.display = "block";
-                var element = document.getElementById("detail_timeline_btn");
-                element.classList.remove("btn-detail-menu-active");
-                var element2 = document.getElementById("detail_data_btn");
-                element2.classList.add("btn-detail-menu-active");
-            }
+        function showTimeline() {
+            document.getElementById('data-container').style.display = "none";
+            document.getElementById('timeline-container').style.display = "block";
+            var element = document.getElementById("detail_data_btn");
+            element.classList.remove("btn-detail-menu-active");
+            var element2 = document.getElementById("detail_timeline_btn");
+            element2.classList.add("btn-detail-menu-active");
+        }
+        function showData() {
+            document.getElementById('timeline-container').style.display = "none";
+            document.getElementById('data-container').style.display = "block";
+            var element = document.getElementById("detail_timeline_btn");
+            element.classList.remove("btn-detail-menu-active");
+            var element2 = document.getElementById("detail_data_btn");
+            element2.classList.add("btn-detail-menu-active");
+        }
+
+    </script>
+    <script>
         
-        </script>
+    /*
+            function imagePreview(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+    
+                    reader.onload = function (e) {
+                        $('#testImg').attr('src', e.target.result);
+                    }
+    
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+    
+            $("#exampleFormControlFile1").change(function () {
+                imagePreview(this);
+            });*/
+    </script>
 </body>
 
 </html>

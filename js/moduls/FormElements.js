@@ -2,10 +2,11 @@
  * **Form elements** 
  */
 /** Imports */
-/** Filters */
+/** Form elements */
 let FormElements = {
     /**
      * **Style: A**
+     * Filters
      */
     A: {
         /**
@@ -23,6 +24,13 @@ let FormElements = {
             readyHTML += '</div >';
             return readyHTML;
         },
+        /**
+         * Dropdown
+         * @param {String} id 
+         * @param {String} name 
+         * @param {String} shellId 
+         * @param {Array} opportunities 
+         */
         Dropdown: function (id, name, shellId, opportunities) {
             let readyHTML = "";
             readyHTML += '<div class="dropdown my-3">';
@@ -60,6 +68,10 @@ let FormElements = {
             return readyHTML;
         }
     },
+    /**
+     * **Style: B**
+     * Inputs
+     */
     B: {
         Write: function (id, name, shellId) {
             let readyHTML = "";
@@ -109,11 +121,40 @@ let FormElements = {
             readyHTML += '<input type="date" id="' + id + '" class="newtask-formcontrol" data-place="' + shellId + '">';
             readyHTML += '</div>';
             return readyHTML;
+        },
+        Image: function (shellId, inputId, previewId) {
+            let iconId = inputId + '_icon';
+
+            let readyHTML = "";
+            readyHTML += '<input type="file" id="' + inputId + '" class="img-input">';
+            readyHTML += '<img id="' + previewId + '" class="img_inp_preview">';
+            readyHTML += '<i id="' + iconId + '"class="fas fa-cloud-upload-alt img_input_icon"></i>';
+
+            document.getElementById(shellId).innerHTML = readyHTML;
+            $("#" + inputId).change(function () {
+                Local.imagePreview(this);
+                document.getElementById(iconId).style = 'display: none !important;';
+                document.getElementById(shellId).style = 'width: fit-content;';
+            });
+            $("#" + shellId).click(function () {
+                document.getElementById(inputId).click();
+            });
         }
     }
 }
 export default FormElements;
+
 /** Local functons */
 let Local = {
+    imagePreview: function (input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
+            reader.onload = function (e) {
+                $('#new_t_pic_prev').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 };

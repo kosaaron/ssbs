@@ -14,10 +14,8 @@ import { addListenerByAttr } from './common.js';
 var newTool = {
     loadNewTool: function () {
         // Load framework
-        let framework = '<div id="new_tool" class="display-flex flex-column full-screen"><div id="back_to_tool_header" class="modul-title display-flex"><div id="back_to_tool"><i class="fas fa-arrow-left align-middle"></i></div><div class="modul-title-text"><span id="back_to_tool_text" class="unselectable align-middle">Eszközök</span></div></div><div class="display-flex flex-fill"><div class="flex-fill col-1"></div><div class="flex-fill col-10"><div class="row page-content"> <div class="col-md-6 col-12 right-border-form"> <h2 class="task-subtitle">Adatok</h2> <div id="new_tool_data"></div> <div class="newtask-buttoncontainer d-flex justify-content-start"> <button type="submit" class="btn btn-primary addnewtask-button">Létrehoz</button> <button type="reset" class="btn btn-primary addnewtask-button grey-button">Mégse</button> </div></div><div class="col-md-6 col-12"><h2 class="task-subtitle">Kép hozzáadása</h2><div class="d-flex justify-content-between align-items-center"><div class="taskstep-saved"> <label for="saved_tasksteps" class="taskstep-saved-label">Feltöltött képek:</label> <select id="saved_toolimg" class="newtask-formcontrol"><option selected>Choose...</option><option>...</option></select> </div><button type="reset" id="delete_button" class="btn btn-primary grey-button"><i class="fas fa-trash-alt"></i></button></div>  <input type="file" id="exampleFormControlFile1" class="form-control-file image-upload-button"></div></div></div></div><div class="flex-fill col-1"> </div></div></div>';
+        let framework = '<div id="new_tool" class="display-flex flex-column full-screen"><div id="back_to_tool_header" class="modul-title display-flex"><div id="back_to_tool"><i class="fas fa-arrow-left align-middle"></i></div><div class="modul-title-text"><span id="back_to_tool_text" class="unselectable align-middle">Eszközök</span></div></div><div class="display-flex flex-fill"><div class="flex-fill col-1"></div><div class="flex-fill col-10"><div class="row page-content"> <div class="col-md-6 col-12 right-border-form"> <h2 class="task-subtitle">Adatok</h2> <div id="new_tool_data"></div> <div class="newtask-buttoncontainer d-flex justify-content-start"> <button type="submit" class="btn btn-primary addnewtask-button">Létrehoz</button> <button type="reset" class="btn btn-primary addnewtask-button grey-button">Mégse</button> </div></div><div class="col-md-6 col-12"><h2 class="task-subtitle">Kép hozzáadása</h2><div id="task_pic_shell" class="img_input_shell"><input type="file" id="new_task_pic" class="img-input"><img id="new_t_pic_prev" class="img_inp_preview"><i class="fas fa-cloud-upload-alt img_input_icon"></i></div></div></div></div></div><div class="flex-fill col-1"> </div></div></div>';
         document.getElementById("resources_content").innerHTML = framework;
-
-        //removeOneListener("processes_new_p_slides");
 
         // Load data entry form
         let shellId = "new_tool_data";
@@ -25,6 +23,10 @@ var newTool = {
         let shellCard = Local.getShellCard();
         CardContainerPlus.Create(formData, shellId, shellCard, Local.getFromHTML);
         addListenerByAttr("new_" + shellId, "click", Local.openCollapse);
+
+        FormElements.B.Image('task_pic_shell', 'new_task_pic', 'new_t_pic_prev');
+
+
     }
 };
 export default newTool;
