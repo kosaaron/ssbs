@@ -34,7 +34,7 @@ function getPartnersMCard() {
 function getPartnersMDetail() {
     let container = "";
 
-    container += '<h2>*</h2>';
+    container += '<h2 class="name-grey">*</h2>';
     for (let i = 0; i < getPartnersMDStructure().Data.length - 1; i++) {
         container += '!<p><label class="title-text">**</label><br><label>*</label></p>';
     }

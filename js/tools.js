@@ -39,7 +39,7 @@ function getToolsCard() {
 function getToolDetail() {
     let container = "";
 
-    container += '<h2>*</h2>';
+    container += '<h2 class="name-grey">*</h2>';
     container += '!<p><label>*</label></p>';
     for (let i = 0; i < getToolsMDStructure().Data.length - 4; i++) {
         container += '!<p><label class="title-text">**</label><br><label>*</label></p>';

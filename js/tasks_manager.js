@@ -32,7 +32,7 @@ function getTasksMCard() {
  */
 function getTasksMDetail() {
     let container = "";
-    container += '!<h2 class="taskname">*</h2>';
+    container += '!<h2 class="name-grey">*</h2>';
     container += '<div class="d-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="detail_data_btn" class="btn btn-detail-menu btn-detail-menu-active"> <input type="radio" name="options" id="option1" autocomplete="off" onchange="showData()"> Adatok </label> <label id="detail_timeline_btn" class="btn btn-detail-menu"> <input type="radio" name="options" id="option2" autocomplete="off" onchange="showTimeline()"> Idővonal </label></div></div>';
     container += '!<div id="data-container">';
     for (let i = 0; i < getTasksMDStructure().Data.length-1; i++) {

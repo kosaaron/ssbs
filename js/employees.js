@@ -38,7 +38,7 @@ function getEmployeesCard() {
 function getEmployeeDetail() {
     let container = "";
     
-    container += '<h2>*</h2>';
+    container += '<h2 class="name-grey">*</h2>';
     container += '!<p><label class="employee-position">*</label></p>';
     container += '!<div class="card"><div class="card-header employee-card-header" id="headingOne"><h5 class="mb-0"><button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><label class="title-text">Elérhetőségek</label></button></h5></div><div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample"><div class="card-body collapse-card-body">';
     container += '!<p class="employee-detail-par"><label><i class="fas fa-mobile-alt employee-contact-icon"></i> *</label></p>';
