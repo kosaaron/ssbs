@@ -10,6 +10,7 @@
 
 /** Imports */
 import partnersManager from './partners_manager.js';
+import processesOverview from './processes_overview.js';
 import tasksManager from './tasks_manager.js';
 import { addListenerByAttr2, addListener } from './common.js';
 import showCharts from './show_charts.js';
@@ -108,8 +109,7 @@ function processesModulClick(id) {
         case "processes_overview_btn":
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
-
-            loadProcessesOverview();
+            processesOverview.loadProcessesOverview();
             break;
         case "tasks_manager_btn":
             iframe.src = "feladatkezeles.html";

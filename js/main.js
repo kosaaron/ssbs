@@ -15,6 +15,7 @@ document.head.appendChild(ChartTest);
  */
 var processes_overview = document.createElement('script');
 processes_overview.src = "js/processes_overview.js";
+processes_overview.type = "module";
 document.head.appendChild(processes_overview);
 
 /**

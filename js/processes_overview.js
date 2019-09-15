@@ -1,4 +1,9 @@
-processesDataArray = [
+/**
+ * Imports
+ */
+import { addOneListener, mainFrame } from './common.js';
+
+let processesDataArray = [
     {
         Id: 111,
         Name: "Első projekt",
@@ -133,6 +138,8 @@ processesDataArray = [
         FinishDate: new Date('2019.07.16 00:00:00')
     }
 ]
+
+
 /**
  * 1. Global varibles
  * 2. Load default processes.
@@ -148,12 +155,11 @@ processesDataArray = [
  * Global varibles
 */
 var tasksTableTdWidth = 25;
+let tasksTableWidth;
 var taskLevels = [];
 var gTimeLineStart;
 var gTimeLineEnd;
 var gTimeLineLength;
-
-loadProcessesOverview();
 
 /**
  * Load default processes
@@ -282,7 +288,7 @@ function loadProcessesTable(processesData) {
         tasksTableTr4.style = "height: " + tasksTableTdWidth + "px;";
 
         for (let index2 = 1; index2 <= monthDays; index2++) {
-            tasksTableTd4 = document.createElement("td");
+            let tasksTableTd4 = document.createElement("td");
             tasksTableTd4.style = "width: " + tasksTableTdWidth + "px;";
 
             if (isThisMonth) {
@@ -678,7 +684,7 @@ function addSubProject(parentId, processesData, firthMonth, numOfMonth) {
             let isAfterMonth = process.FinishDate > monthEnd;
 
             for (let index2 = 1; index2 <= monthDays; index2++) {
-                tasksTableTd4 = document.createElement("td");
+                let tasksTableTd4 = document.createElement("td");
                 tasksTableTd4.style = "width: " + tasksTableTdWidth + "px;";
 
                 if (isThisMonth) {
@@ -826,53 +832,59 @@ function mondayIsFirthDay(day) {
 /**
  * Load framework
  */
-function loadProcessesOverview() {
-    // Framework
-    var framework = '<div id="process_modul_content" class="full-screen"><div id="processes_overview" class="full-screen display-flex"><div id="processes_overview_header" class="display-flex flex-column"><div id="processes_overview_header_title" class="display-flex"><div class="margin-auto">Feladatok</div></div><div id="process_names_box" class="flex-1" onscroll="scrollHeadProcessesO()"></div></div><div id="processes_overview_content"><div id="processes_table_shell" class="display-flex full-screen align-center"><table id="processes_table" border="1" style="border: 1px solid transparent; border-bottom: #ddd"><tbody><tr><td style="padding: 0;"><table id="processes_table_table1" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><thead id="processes_t_t_thead"></thead></table></td></tr><tr><td style="padding: 0;"><div id="processes_t_scroll_table" onscroll="scrollContentProcessesO()"><table id="processes_table_table2" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><tbody id="processes_t_t_tbody"></tbody></table></div></td></tr></tbody></table></div></div></div></div>';
-    document.getElementById("process_modul_content").innerHTML = framework;
+let processesOverview = {
+    loadProcessesOverview: function () {
+        // Framework
+        document.getElementById("back_to_menu_text").textContent = "Feladatok átlátása";
+        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
 
-    // Content
-    // now
-    var dateNow = new Date();
+        var framework = '<div id="process_modul_content" class="full-screen"><div id="processes_overview" class="full-screen display-flex"><div id="processes_overview_header" class="display-flex flex-column"><div id="processes_overview_header_title" class="display-flex"><div class="margin-auto">Feladatok</div></div><div id="process_names_box" class="flex-1" onscroll="scrollHeadProcessesO()"></div></div><div id="processes_overview_content"><div id="processes_table_shell" class="display-flex full-screen align-center"><table id="processes_table" border="1" style="border: 1px solid transparent; border-bottom: #ddd"><tbody><tr><td style="padding: 0;"><table id="processes_table_table1" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><thead id="processes_t_t_thead"></thead></table></td></tr><tr><td style="padding: 0;"><div id="processes_t_scroll_table" onscroll="scrollContentProcessesO()"><table id="processes_table_table2" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><tbody id="processes_t_t_tbody"></tbody></table></div></td></tr></tbody></table></div></div></div></div>';
+        document.getElementById("process_modul_content").innerHTML = framework;
 
-    // default table 
-    loadProcessesTable(processesDataArray);
+        // Content
+        // now
+        var dateNow = new Date();
 
-    if (dateNow.getDate() < 10) {
-        gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth() - 1, 1);
-        gTimeLineLength = 3;
-        addMonthBefor(gTimeLineStart, processesDataArray);
-    } else {
-        gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
-        gTimeLineLength = 2;
-    }
+        // default table 
+        loadProcessesTable(processesDataArray);
 
-    gTimeLineEnd = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
-    addMonthAfter(gTimeLineEnd, processesDataArray);
-    addSubProject(111, processesDataArray, gTimeLineStart, gTimeLineLength);
-    addSubProject(113, processesDataArray, gTimeLineStart, gTimeLineLength);
-
-    resizeProcessesOverview();
-
-    var tasksTableTdToday = document.getElementById("tasks_table_td_today");
-    var processesOverviewContent = document.getElementById("processes_overview_content");
-    processesOverviewContent.scrollLeft = tasksTableTdToday.offsetLeft + 2;
-    
-    let processesTScrollTable = document.getElementById('processes_t_scroll_table');
-    let processNamesBox = document.getElementById('process_names_box');
-
-    processesTScrollTable.addEventListener("wheel", processesTWheel);
-    processNamesBox.addEventListener("wheel", processesTWheel);
-
-    function processesTWheel(event) {
-        const delta = Math.sign(event.deltaY);
-        if (delta === 1) {
-            processNamesBox.scrollTop += 20;
+        if (dateNow.getDate() < 10) {
+            gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth() - 1, 1);
+            gTimeLineLength = 3;
+            addMonthBefor(gTimeLineStart, processesDataArray);
         } else {
-            processNamesBox.scrollTop -= 20;
+            gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
+            gTimeLineLength = 2;
+        }
+
+        gTimeLineEnd = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
+        addMonthAfter(gTimeLineEnd, processesDataArray);
+        addSubProject(111, processesDataArray, gTimeLineStart, gTimeLineLength);
+        addSubProject(113, processesDataArray, gTimeLineStart, gTimeLineLength);
+
+        resizeProcessesOverview();
+
+        var tasksTableTdToday = document.getElementById("tasks_table_td_today");
+        var processesOverviewContent = document.getElementById("processes_overview_content");
+        processesOverviewContent.scrollLeft = tasksTableTdToday.offsetLeft + 2;
+
+        let processesTScrollTable = document.getElementById('processes_t_scroll_table');
+        let processNamesBox = document.getElementById('process_names_box');
+
+        processesTScrollTable.addEventListener("wheel", processesTWheel);
+        processNamesBox.addEventListener("wheel", processesTWheel);
+
+        function processesTWheel(event) {
+            const delta = Math.sign(event.deltaY);
+            if (delta === 1) {
+                processNamesBox.scrollTop += 20;
+            } else {
+                processNamesBox.scrollTop -= 20;
+            }
         }
     }
 }
+export default processesOverview;
 
 /**
  * Processes overview resize event
