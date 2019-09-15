@@ -206,7 +206,7 @@ function FinanceSubtabClick(id) {
 
 /** Resize window */
 window.onresize = function (event) {
-    resizeProcessesOverview();
+    processesOverview.resizeProcessesOverview();
 };
 
 /** Ready document */

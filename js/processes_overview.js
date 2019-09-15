@@ -2,143 +2,7 @@
  * Imports
  */
 import { addOneListener, mainFrame } from './common.js';
-
-let processesDataArray = [
-    {
-        Id: 111,
-        Name: "Első projekt",
-        Parent: null,
-        StartDate: new Date('2019.06.11 00:00:00'),
-        FinishDate: new Date('2019.08.16 00:00:00')
-    },
-    {
-        Id: 112,
-        Name: "Második projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.13 00:00:00'),
-        FinishDate: new Date('2019.07.14 00:00:00')
-    },
-    {
-        Id: 113,
-        Name: "Harmadik projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.14 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 114,
-        Name: "Negyedik projekt",
-        Parent: null,
-        StartDate: new Date('2019.07.16 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 115,
-        Name: "Öt projekt",
-        Parent: null,
-        StartDate: new Date('2019.07.03 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 116,
-        Name: "Hat projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.13 00:00:00'),
-        FinishDate: new Date('2019.07.14 00:00:00')
-    },
-    {
-        Id: 117,
-        Name: "Hét projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.14 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 118,
-        Name: "Nyolc projekt",
-        Parent: 113,
-        StartDate: new Date('2019.07.16 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 119,
-        Name: "Első projekt",
-        Parent: null,
-        StartDate: new Date('2019.06.11 00:00:00'),
-        FinishDate: new Date('2019.08.16 00:00:00')
-    },
-    {
-        Id: 120,
-        Name: "Második projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.13 00:00:00'),
-        FinishDate: new Date('2019.07.14 00:00:00')
-    },
-    {
-        Id: 121,
-        Name: "Harmadik projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.14 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 122,
-        Name: "Negyedik projekt",
-        Parent: null,
-        StartDate: new Date('2019.07.16 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 123,
-        Name: "Öt projekt",
-        Parent: null,
-        StartDate: new Date('2019.07.03 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 124,
-        Name: "Hat projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.13 00:00:00'),
-        FinishDate: new Date('2019.07.14 00:00:00')
-    },
-    {
-        Id: 125,
-        Name: "Hét projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.14 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 126,
-        Name: "Nyolc projekt",
-        Parent: 113,
-        StartDate: new Date('2019.07.16 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 127,
-        Name: "Hat projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.13 00:00:00'),
-        FinishDate: new Date('2019.07.14 00:00:00')
-    },
-    {
-        Id: 128,
-        Name: "Hét projekt",
-        Parent: 111,
-        StartDate: new Date('2019.07.14 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    },
-    {
-        Id: 129,
-        Name: "Nyolc projekt",
-        Parent: 113,
-        StartDate: new Date('2019.07.16 00:00:00'),
-        FinishDate: new Date('2019.07.16 00:00:00')
-    }
-]
-
+import DateFunctions from './moduls/DateFunctions.js';
 
 /**
  * 1. Global varibles
@@ -170,7 +34,7 @@ function loadProcessesTable(processesData) {
     let startDate = dateNow;
     startDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
     //startDate = new Date("2019.8.01");
-    let monthDays = daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
+    let monthDays = DateFunctions.daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
     tasksTableWidth = monthDays;
 
     // Tasks table header
@@ -187,7 +51,7 @@ function loadProcessesTable(processesData) {
     // columns
     let tasksTableTd = document.createElement("td");
     tasksTableTd.colSpan = monthDays;
-    tasksTableTd.textContent = startDate.getFullYear() + ". " + fullMonthDate(startDate);
+    tasksTableTd.textContent = startDate.getFullYear() + ". " + DateFunctions.fullMonthDate(startDate);
 
     tasksTableTr.appendChild(tasksTableTd);
     processesTTThead.appendChild(tasksTableTr);
@@ -199,8 +63,8 @@ function loadProcessesTable(processesData) {
     tasksTableTr2.style = "height: " + tasksTableTdWidth + "px;";
 
     //columns
-    let firstWeekDays = 7 - mondayIsFirthDay(new Date(startDate).getDay());
-    let startWeek = getWeekNumber(startDate);
+    let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(startDate).getDay());
+    let startWeek = DateFunctions.getWeekNumber(startDate);
     let tasksTableTd2 = document.createElement("td");
     tasksTableTd2.colSpan = firstWeekDays;
     tasksTableTr2.appendChild(tasksTableTd2);
@@ -352,7 +216,7 @@ function loadProcessesTable(processesData) {
 function addMonthAfter(date, processesData) {
     let startDate = new Date(date.getFullYear(), date.getMonth(), 1);
     //startDate = new Date("2019.8.01");
-    let monthDays = daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
+    let monthDays = DateFunctions.daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
     tasksTableWidth += monthDays;
 
     // Tasks table header
@@ -366,14 +230,14 @@ function addMonthAfter(date, processesData) {
     // columns
     let tasksTableTd = document.createElement("td");
     tasksTableTd.colSpan = monthDays;
-    tasksTableTd.textContent = startDate.getFullYear() + ". " + fullMonthDate(startDate);
+    tasksTableTd.textContent = startDate.getFullYear() + ". " + DateFunctions.fullMonthDate(startDate);
 
     tasksTableTr[0].appendChild(tasksTableTd);
 
     // level 2
     //columns
-    let firstWeekDays = 7 - mondayIsFirthDay(new Date(startDate).getDay());
-    let startWeek = getWeekNumber(startDate);
+    let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(startDate).getDay());
+    let startWeek = DateFunctions.getWeekNumber(startDate);
     let tasksTableTd2 = document.createElement("td");
     tasksTableTd2.colSpan = firstWeekDays;
     tasksTableTr[1].appendChild(tasksTableTd2);
@@ -491,7 +355,7 @@ function addMonthAfter(date, processesData) {
 function addMonthBefor(date, processesData) {
     let startDate = new Date(date.getFullYear(), date.getMonth(), 1);
     //startDate = new Date("2019.8.01");
-    let monthDays = daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
+    let monthDays = DateFunctions.daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
     tasksTableWidth += monthDays;
 
     // Tasks table header
@@ -505,14 +369,14 @@ function addMonthBefor(date, processesData) {
     // columns
     let tasksTableTd = document.createElement("td");
     tasksTableTd.colSpan = monthDays;
-    tasksTableTd.textContent = startDate.getFullYear() + ". " + fullMonthDate(startDate);
+    tasksTableTd.textContent = startDate.getFullYear() + ". " + DateFunctions.fullMonthDate(startDate);
 
     tasksTableTr[0].insertBefore(tasksTableTd, tasksTableTr[0].childNodes[0]);
 
     // level 2
     //columns
-    let firstWeekDays = 7 - mondayIsFirthDay(new Date(startDate).getDay());
-    let startWeek = getWeekNumber(startDate);
+    let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(startDate).getDay());
+    let startWeek = DateFunctions.getWeekNumber(startDate);
     let tasksTableTd2 = document.createElement("td");
     tasksTableTd2.colSpan = firstWeekDays;
     tasksTableTr[1].insertBefore(tasksTableTd2, tasksTableTr[1].childNodes[0]);
@@ -674,7 +538,7 @@ function addSubProject(parentId, processesData, firthMonth, numOfMonth) {
 
         for (let index3 = 0; index3 < numOfMonth; index3++) {
             let startDate = new Date(firthMonth.getFullYear(), firthMonth.getMonth() + index3, 1);
-            let monthDays = daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
+            let monthDays = DateFunctions.daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
             tasksTableWidth = monthDays;
 
             let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
@@ -838,7 +702,7 @@ let processesOverview = {
         document.getElementById("back_to_menu_text").textContent = "Feladatok átlátása";
         addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
 
-        var framework = '<div id="process_modul_content" class="full-screen"><div id="processes_overview" class="full-screen display-flex"><div id="processes_overview_header" class="display-flex flex-column"><div id="processes_overview_header_title" class="display-flex"><div class="margin-auto">Feladatok</div></div><div id="process_names_box" class="flex-1" onscroll="scrollHeadProcessesO()"></div></div><div id="processes_overview_content"><div id="processes_table_shell" class="display-flex full-screen align-center"><table id="processes_table" border="1" style="border: 1px solid transparent; border-bottom: #ddd"><tbody><tr><td style="padding: 0;"><table id="processes_table_table1" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><thead id="processes_t_t_thead"></thead></table></td></tr><tr><td style="padding: 0;"><div id="processes_t_scroll_table" onscroll="scrollContentProcessesO()"><table id="processes_table_table2" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><tbody id="processes_t_t_tbody"></tbody></table></div></td></tr></tbody></table></div></div></div></div>';
+        var framework = '<div id="process_modul_content" class="full-screen"><div id="processes_overview" class="full-screen display-flex"><div id="processes_overview_header" class="display-flex flex-column"><div id="processes_overview_header_title" class="display-flex"><div class="margin-auto">Feladatok</div></div><div id="process_names_box" class="flex-1"></div></div><div id="processes_overview_content"><div id="processes_table_shell" class="display-flex full-screen align-center"><table id="processes_table" border="1" style="border: 1px solid transparent; border-bottom: #ddd"><tbody><tr><td style="padding: 0;"><table id="processes_table_table1" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><thead id="processes_t_t_thead"></thead></table></td></tr><tr><td style="padding: 0;"><div id="processes_t_scroll_table"><table id="processes_table_table2" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><tbody id="processes_t_t_tbody"></tbody></table></div></td></tr></tbody></table></div></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
 
         // Content
@@ -862,7 +726,7 @@ let processesOverview = {
         addSubProject(111, processesDataArray, gTimeLineStart, gTimeLineLength);
         addSubProject(113, processesDataArray, gTimeLineStart, gTimeLineLength);
 
-        resizeProcessesOverview();
+        processesOverview.resizeProcessesOverview();
 
         var tasksTableTdToday = document.getElementById("tasks_table_td_today");
         var processesOverviewContent = document.getElementById("processes_overview_content");
@@ -873,6 +737,8 @@ let processesOverview = {
 
         processesTScrollTable.addEventListener("wheel", processesTWheel);
         processNamesBox.addEventListener("wheel", processesTWheel);
+        processesTScrollTable.addEventListener("scroll", scrollContentProcessesO);
+        processNamesBox.addEventListener("scroll", scrollHeadProcessesO);
 
         function processesTWheel(event) {
             const delta = Math.sign(event.deltaY);
@@ -882,23 +748,26 @@ let processesOverview = {
                 processNamesBox.scrollTop -= 20;
             }
         }
+    },
+    /**
+     * Processes overview resize event
+     */
+    resizeProcessesOverview: function () {
+        // Y scroll on the table
+        let processesTScrollTable = document.getElementById('processes_t_scroll_table');
+        if (processesTScrollTable !== null) {
+            let processesTableShell = document.getElementById('processes_table_shell');
+            let processesTTable = document.getElementById('processes_table_table1');
+            let processNamesBox = document.getElementById('process_names_box');
+            processesTScrollTable.style = "";
+            if (processesTableShell.clientHeight - processesTTable.clientHeight - 2 < processesTScrollTable.clientHeight) {
+                processesTScrollTable.style = "height: " + (processesTableShell.clientHeight - processesTTable.clientHeight - 2) + "px";
+                processNamesBox.style = "height: " + (processesTableShell.clientHeight - processesTTable.clientHeight + 9) + "px; flex: none;";
+            }
+        }
     }
 }
 export default processesOverview;
-
-/**
- * Processes overview resize event
- */
-function resizeProcessesOverview() {
-    // Y scroll on the table
-    let processesTScrollTable = document.getElementById('processes_t_scroll_table');
-    let processesTableShell = document.getElementById('processes_table_shell');
-    let processesTTable = document.getElementById('processes_table_table1');
-    processesTScrollTable.style = "";
-    if (processesTableShell.clientHeight - processesTTable.clientHeight - 2 < processesTScrollTable.clientHeight) {
-        processesTScrollTable.style = "height: " + (processesTableShell.clientHeight - processesTTable.clientHeight - 2) + "px";
-    }
-}
 
 /**
  * Processes overview scroll events
@@ -916,4 +785,139 @@ function scrollContentProcessesO() {
 
     processesTScrollTable.scrollTop = processNamesBox.scrollTop;
 }
-
+/** Data */
+let processesDataArray = [
+    {
+        Id: 111,
+        Name: "Első projekt",
+        Parent: null,
+        StartDate: new Date('2019.08.11 00:00:00'),
+        FinishDate: new Date('2019.10.16 00:00:00')
+    },
+    {
+        Id: 112,
+        Name: "Második projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.13 00:00:00'),
+        FinishDate: new Date('2019.09.14 00:00:00')
+    },
+    {
+        Id: 113,
+        Name: "Harmadik projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.14 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 114,
+        Name: "Negyedik projekt",
+        Parent: null,
+        StartDate: new Date('2019.09.16 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 115,
+        Name: "Öt projekt",
+        Parent: null,
+        StartDate: new Date('2019.09.03 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 116,
+        Name: "Hat projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.13 00:00:00'),
+        FinishDate: new Date('2019.09.14 00:00:00')
+    },
+    {
+        Id: 117,
+        Name: "Hét projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.14 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 118,
+        Name: "Nyolc projekt",
+        Parent: 113,
+        StartDate: new Date('2019.09.16 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 119,
+        Name: "Első projekt",
+        Parent: null,
+        StartDate: new Date('2019.08.11 00:00:00'),
+        FinishDate: new Date('2019.10.16 00:00:00')
+    },
+    {
+        Id: 120,
+        Name: "Második projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.13 00:00:00'),
+        FinishDate: new Date('2019.09.14 00:00:00')
+    },
+    {
+        Id: 121,
+        Name: "Harmadik projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.14 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 122,
+        Name: "Negyedik projekt",
+        Parent: null,
+        StartDate: new Date('2019.09.16 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 123,
+        Name: "Öt projekt",
+        Parent: null,
+        StartDate: new Date('2019.09.03 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 124,
+        Name: "Hat projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.13 00:00:00'),
+        FinishDate: new Date('2019.09.14 00:00:00')
+    },
+    {
+        Id: 125,
+        Name: "Hét projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.14 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 126,
+        Name: "Nyolc projekt",
+        Parent: 113,
+        StartDate: new Date('2019.09.16 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 127,
+        Name: "Hat projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.13 00:00:00'),
+        FinishDate: new Date('2019.09.14 00:00:00')
+    },
+    {
+        Id: 128,
+        Name: "Hét projekt",
+        Parent: 111,
+        StartDate: new Date('2019.09.14 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    },
+    {
+        Id: 129,
+        Name: "Nyolc projekt",
+        Parent: 113,
+        StartDate: new Date('2019.09.16 00:00:00'),
+        FinishDate: new Date('2019.09.16 00:00:00')
+    }
+];

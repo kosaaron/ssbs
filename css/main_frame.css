@@ -241,8 +241,6 @@ iframe[seamless] {
     background-color: rgba(77, 99, 128, 0.2);
 }
 
-.submenu-collapse {}
-
 .menu-content {
     width: 100%;
     height: 100%;
@@ -436,8 +434,13 @@ iframe[seamless] {
     padding-top: 20px;
 }
 
-.f-accounting-header{
+.f-accounting-header {
     padding: 2%;
+}
+
+#show_charts_content {
+    overflow: auto;
+    -ms-overflow-style: auto;
 }
 
 @media only screen and (max-width: 992px) {

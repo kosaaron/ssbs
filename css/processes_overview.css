@@ -57,8 +57,6 @@ table, td {
     border-collapse: collapse;
 }
 
-.processes-table-table-td {}
-
 .process-start-td {
     padding: 8px 0;
     border-right: 1px solid #43e05b;
@@ -115,6 +113,7 @@ table, td {
     padding-left: 8px;
     padding-right: 5px;
     border-bottom: 1px solid #ddd;
+    direction: ltr;
 }
 
 #tasks_table_td_today {
