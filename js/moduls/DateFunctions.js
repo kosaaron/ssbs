@@ -86,6 +86,23 @@ let DateFunctions = {
         } else {
             return day - 1;
         }
+    },
+    /**
+     * One column of data (string) convert to date type
+     * @param {JSON Array} JSONdata 
+     * @param {String} column 
+     */
+    dataColumnToDate: function (JSONdata, column) {
+        let newJSON = [];
+
+        for (let i = 0; i < JSONdata.length; i++) {
+            const entry = JSONdata[i];
+
+            newJSON.push(entry);
+            newJSON[i][column] = new Date(entry[column]);
+        }
+
+        return newJSON;
     }
 };
 export default DateFunctions;

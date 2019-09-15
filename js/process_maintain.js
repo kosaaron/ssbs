@@ -1,4 +1,5 @@
 //folyamatok/feladatok modul
+/*
 function generateProcessList(data) {
     let container = `<div class="row">`;
     for (let i = 0; i < data.length; i++) {
@@ -186,4 +187,4 @@ let process_maintain_list = [
         Cím: 'Érd, Tóth Ilona utca 14., 2340',
         Leírás: 'Nyomtató elhozatala, majd CD-12-es panel cseréje'
     }
-]
+]*/
