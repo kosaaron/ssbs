@@ -11,8 +11,8 @@
 /** Imports */
 import partnersManager from './partners_manager.js';
 import tasksManager from './tasks_manager.js';
-import { addListenerByAttr2 } from './common.js';
-import financeLayout from './finance.js';
+import { addListenerByAttr2, addListener } from './common.js';
+import showCharts from './show_charts.js';
 import tools from './tools.js';
 import employees from './employees.js';
 
@@ -182,6 +182,25 @@ function addResourcesEvents(attr) {
             break;
     }
 }
+function FinanceSubtabClick(id) {
+    switch (id) {
+        case 'finance_tab_diagrams':
+            document.getElementById('finanace_diagrams').style.display = 'block';
+            document.getElementById('finance_accounting').style.display = 'none';
+            document.getElementById('finance_tab_accounting').classList.remove('finance-subtab-active');
+            document.getElementById('finance_tab_diagrams').classList.add('finance-subtab-active');
+            break;
+        case 'finance_tab_accounting':
+            document.getElementById('finanace_diagrams').style.display = 'none';
+            document.getElementById('finance_accounting').style.display = 'block';
+            document.getElementById('finance_tab_diagrams').classList.remove('finance-subtab-active');
+            document.getElementById('finance_tab_accounting').classList.add('finance-subtab-active');
+            break;
+
+        default:
+            break;
+    }
+}
 /** Click events end */
 
 
@@ -195,8 +214,10 @@ $(document).ready(function () {
     addClickEvents(menuItemClick, "menu-item");
     addClickEvents(processesModulClick, "processes-mo-click");
     addClickEvents(prodMenuChange, "prod-subm-i");
+    addListener('finance-subtab', 'click', FinanceSubtabClick);
+
     addProductsClick();
     addResourcesClick();
-    financeLayout.loadFinance();
+    showCharts.loadCharts();
 });
 /** Events end */

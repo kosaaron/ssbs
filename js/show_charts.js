@@ -1,4 +1,4 @@
-/** new_task.js */
+/** show_charts.js */
 /**
  * 1. Imports
  * 2. Public functions
@@ -9,13 +9,13 @@ import ChartDesign from './moduls/ChartDesign.js';
 import { addListener } from './common.js';
 
 /** Public functions */
-var financeLayout = {
-    loadFinance: function () {
+var showCharts = {
+    loadCharts: function () {
         addListener('chart-menu', 'click', Local.load);
         Local.load("chart_profit_proj");
     }
 };
-export default financeLayout;
+export default showCharts;
 
 /** Loacal functions */
 let Local = {
@@ -35,7 +35,7 @@ let Local = {
         for (let i = 0; i < arrayLength; i++) {
             framework += '<div class="finance-digram-shell col-lg-6 display-flex flex-column justify-content-center"><canvas id="layanan_test_' + i + '"></canvas></div>';
         }
-        document.getElementById("finance_content").innerHTML = framework;
+        document.getElementById("show_charts_content").innerHTML = framework;
 
         //charts
         for (let i = 0; i < arrayLength; i++) {

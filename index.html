@@ -135,88 +135,118 @@
         <div id="content_shell" class="flex-1">
             <div id="content">
                 <div id="finance" class="menu-content">
-                    <div class="finance-shell display-flex full-screen">
-                        <div id="finance_menu" class="submenu">
-                            <div class="submenu-title display-flex flex-column">
-                                <a class="nonlink-design" data-toggle="collapse" href="#collapseOverview" role="button"
-                                    aria-expanded="false" aria-controls="collapseOverview">
-                                    <h7 class="unselectable">PROFIT</h7>
-                                </a>
+                    <div class="finance-shell display-flex flex-column full-screen">
+                        <div class="display-flex flex-row">
+                            <div id="finance_tab_diagrams" class="finance-subtab flex-1 finance-subtab-active">
+                                <h7>Diagrammok</h7>
                             </div>
-                            <div class="collapse submenu-collapse show" id="collapseOverview">
-                                <div class="submenu-shell">
-                                    <div id="chart_profit_proj"
-                                        class="chart-menu submenu-item display-flex flex-column submenu-item-active">
-                                        <span>Projektek</span>
-                                    </div>
-                                </div>
-                                <div class="submenu-shell">
-                                    <div id="chart_profit_trade"
-                                        class="chart-menu submenu-item display-flex flex-column">
-                                        <span>Kereskedés</span>
-                                    </div>
-                                </div>
-                                <div class="submenu-shell">
-                                    <div id="chart_profit_empl"
-                                        class="chart-menu submenu-item display-flex flex-column">
-                                        <span>Dolgozók</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="submenu-title display-flex flex-column">
-                                <a class="nonlink-design" data-toggle="collapse" href="#collapseIncome" role="button"
-                                    aria-expanded="false" aria-controls="collapseIncome">
-                                    <h7 class="unselectable">BEVÉTELEK</h7>
-                                </a>
-                            </div>
-                            <div class="collapse submenu-collapse show" id="collapseIncome">
-                                <div class="submenu-shell">
-                                    <div id="chart_income_sales"
-                                        class="chart-menu submenu-item display-flex flex-column">
-                                        <span>Eladások</span>
-                                    </div>
-                                </div>
-                                <div class="submenu-shell">
-                                    <div id="chart_income_empl"
-                                        class="chart-menu submenu-item display-flex flex-column">
-                                        <span>Dolgozók</span>
-                                    </div>
-                                </div>
-                                <div class="submenu-shell">
-                                    <div id="chart_income_proj"
-                                        class="chart-menu submenu-item display-flex flex-column">
-                                        <span>Projektek</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="submenu-title display-flex flex-column">
-                                <a class="nonlink-design" data-toggle="collapse" href="#collapseOutcome" role="button"
-                                    aria-expanded="false" aria-controls="collapseOutcome">
-                                    <h7 class="unselectable">KÖLTSÉGEK</h7>
-                                </a>
-                            </div>
-                            <div class="collapse submenu-collapse show" id="collapseOutcome">
-                                <div class="submenu-shell">
-                                    <div id="chart_outcome_purch"
-                                        class="chart-menu submenu-item display-flex flex-column">
-                                        <span>Vásárlások</span>
-                                    </div>
-                                </div>
-                                <div class="submenu-shell">
-                                    <div id="chart_outcome_empl"
-                                        class="chart-menu submenu-item display-flex flex-column">
-                                        <span>Dolgozók</span>
-                                    </div>
-                                </div>
-                                <div class="submenu-shell">
-                                    <div id="chart_outcome_tools"
-                                        class="chart-menu submenu-item display-flex flex-column">
-                                        <span>Eszközök</span>
-                                    </div>
-                                </div>
+                            <div id="finance_tab_accounting" class="finance-subtab flex-1">
+                                <h7>Számvitel</h7>
                             </div>
                         </div>
-                        <div id="finance_content" class="flex-1">
+                        <div class="flex-fill">
+                            <div id="finanace_diagrams" class="full-screen">
+                                <div class="display-flex full-screen">
+                                    <div id="finance_menu" class="submenu">
+                                        <div class="submenu-title display-flex flex-column">
+                                            <a class="nonlink-design" data-toggle="collapse" href="#collapseOverview"
+                                                role="button" aria-expanded="false" aria-controls="collapseOverview">
+                                                <h7 class="unselectable">PROFIT</h7>
+                                            </a>
+                                        </div>
+                                        <div class="collapse submenu-collapse show" id="collapseOverview">
+                                            <div class="submenu-shell">
+                                                <div id="chart_profit_proj"
+                                                    class="chart-menu submenu-item display-flex flex-column submenu-item-active">
+                                                    <span>Projektek</span>
+                                                </div>
+                                            </div>
+                                            <div class="submenu-shell">
+                                                <div id="chart_profit_trade"
+                                                    class="chart-menu submenu-item display-flex flex-column">
+                                                    <span>Kereskedés</span>
+                                                </div>
+                                            </div>
+                                            <div class="submenu-shell">
+                                                <div id="chart_profit_empl"
+                                                    class="chart-menu submenu-item display-flex flex-column">
+                                                    <span>Dolgozók</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="submenu-title display-flex flex-column">
+                                            <a class="nonlink-design" data-toggle="collapse" href="#collapseIncome"
+                                                role="button" aria-expanded="false" aria-controls="collapseIncome">
+                                                <h7 class="unselectable">BEVÉTELEK</h7>
+                                            </a>
+                                        </div>
+                                        <div class="collapse submenu-collapse show" id="collapseIncome">
+                                            <div class="submenu-shell">
+                                                <div id="chart_income_sales"
+                                                    class="chart-menu submenu-item display-flex flex-column">
+                                                    <span>Eladások</span>
+                                                </div>
+                                            </div>
+                                            <div class="submenu-shell">
+                                                <div id="chart_income_empl"
+                                                    class="chart-menu submenu-item display-flex flex-column">
+                                                    <span>Dolgozók</span>
+                                                </div>
+                                            </div>
+                                            <div class="submenu-shell">
+                                                <div id="chart_income_proj"
+                                                    class="chart-menu submenu-item display-flex flex-column">
+                                                    <span>Projektek</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="submenu-title display-flex flex-column">
+                                            <a class="nonlink-design" data-toggle="collapse" href="#collapseOutcome"
+                                                role="button" aria-expanded="false" aria-controls="collapseOutcome">
+                                                <h7 class="unselectable">KÖLTSÉGEK</h7>
+                                            </a>
+                                        </div>
+                                        <div class="collapse submenu-collapse show" id="collapseOutcome">
+                                            <div class="submenu-shell">
+                                                <div id="chart_outcome_purch"
+                                                    class="chart-menu submenu-item display-flex flex-column">
+                                                    <span>Vásárlások</span>
+                                                </div>
+                                            </div>
+                                            <div class="submenu-shell">
+                                                <div id="chart_outcome_empl"
+                                                    class="chart-menu submenu-item display-flex flex-column">
+                                                    <span>Dolgozók</span>
+                                                </div>
+                                            </div>
+                                            <div class="submenu-shell">
+                                                <div id="chart_outcome_tools"
+                                                    class="chart-menu submenu-item display-flex flex-column">
+                                                    <span>Eszközök</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="show_charts_content" class="flex-1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="finance_accounting" class="full-screen">
+                                <div class="display-flex full-screen">
+                                    <div class="f-accounting-header">
+                                        <div class="display-flex">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                            <input type="text" name="fname">
+                                        </div>
+                                        <div>
+                                            Items List
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        Table
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -408,6 +438,7 @@
             var element2 = document.getElementById("detail_timeline_btn");
             element2.classList.add("btn-detail-menu-active");
         }
+
         function showData() {
             document.getElementById('timeline-container').style.display = "none";
             document.getElementById('data-container').style.display = "block";
@@ -416,26 +447,24 @@
             var element2 = document.getElementById("detail_data_btn");
             element2.classList.add("btn-detail-menu-active");
         }
-
     </script>
     <script>
-        
-    /*
-            function imagePreview(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-    
-                    reader.onload = function (e) {
-                        $('#testImg').attr('src', e.target.result);
+        /*
+                    function imagePreview(input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                $('#testImg').attr('src', e.target.result);
+                            }
+
+                            reader.readAsDataURL(input.files[0]);
+                        }
                     }
-    
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-    
-            $("#exampleFormControlFile1").change(function () {
-                imagePreview(this);
-            });*/
+
+                    $("#exampleFormControlFile1").change(function () {
+                        imagePreview(this);
+                    });*/
     </script>
 </body>
 

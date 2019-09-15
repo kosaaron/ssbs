@@ -192,6 +192,7 @@ iframe[seamless] {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 4px;
+    border-bottom: 1px solid #ddd;
 }
 
 .submenu {
@@ -199,12 +200,8 @@ iframe[seamless] {
     width: 170px;
     margin-top: 0px;
     height: 100%;
-    padding: 0 7px 0 2%;
+    padding: 0 1% 0 1%;
     position: relative;
-    -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
-    -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
-    -o-box-shadow: inset 110px 0px 100px -180px #01043F;
-    box-shadow: inset 110px 0px 100px -180px #01043F;
 }
 
 .nonlink-design {
@@ -244,9 +241,7 @@ iframe[seamless] {
     background-color: rgba(77, 99, 128, 0.2);
 }
 
-.submenu-collapse {
-    border-top: 1px solid #ddd;
-}
+.submenu-collapse {}
 
 .menu-content {
     width: 100%;
@@ -332,6 +327,7 @@ iframe[seamless] {
 
 .modul-content {
     overflow: hidden;
+    border-bottom: 5px solid #ddd;
 }
 
 /* ratio of 1:1
@@ -400,9 +396,9 @@ iframe[seamless] {
     margin: 20px 10px;
     border-radius: 20px;
     cursor: pointer;
-    -webkit-box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 8px 3px rgba(0, 0, 0, 0.75);
 }
 
 .img_input_icon {
@@ -414,6 +410,34 @@ iframe[seamless] {
     top: 0;
     bottom: 0;
     text-align: center;
+}
+
+.finance-subtab {
+    text-align: center;
+    cursor: pointer;
+    padding: 10px 0 6px 0;
+    border-bottom: 2px solid #ddd;
+}
+
+.finance-subtab-active {
+    border-bottom: 2px solid #434b75;
+    color: #434b75;
+}
+
+.finance-subtab:hover {
+    color: #023E8C;
+}
+
+.finance-shell {
+    padding: 0 3%;
+}
+
+#finanace_diagrams {
+    padding-top: 20px;
+}
+
+.f-accounting-header{
+    padding: 2%;
 }
 
 @media only screen and (max-width: 992px) {
@@ -491,8 +515,6 @@ iframe[seamless] {
         height: 45px;
         margin: 0;
         background-image: none;
-        box-shadow: none;
-        /*Ez talán csak a chrome-nál működik, pls help*/
         border-bottom: 1px solid #ddd;
         display: -webkit-box;
         /* OLD - iOS 6-, Safari 3.1-6 */
