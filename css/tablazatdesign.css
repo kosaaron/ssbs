@@ -1,9 +1,15 @@
 .table-no-margin{
     margin: 0;
 }
-.table-container{
+.table-container-xscroll{
     margin: 20px;
     width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.table-container{
+    width: 100%;
+    min-width: 800px;
     height: 80%;
     overflow-y: scroll;
 }
