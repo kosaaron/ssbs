@@ -29,6 +29,12 @@
 </head>
 
 <body>
+
+    <div id="tablegenerator_container" onload="createProductTable()">
+
+    </div>
+
+
     <div id="partners_manager" class="display-flex flex-row full-screen">
         <div class="table-container-xscroll">
             <div class="table-container table-responsive tableFixHead">
@@ -46,6 +52,8 @@
                             <th class="d-inline-block col-1"></th>
                         </tr>
                     </thead>
+                </table>
+                <table class="table table-hover table-no-margin">
                     <tbody>
                         <tr class="row m-0">
                             <td class="d-inline-block col-2">ZR04E</td>
@@ -718,6 +726,10 @@
     $('.tableFixHead').on('scroll', function () {
         $th.css('transform', 'translateY(' + this.scrollTop + 'px)');
     });
+    /*function createProductTable (){
+        import newTable from './js/testproducttable.js';
+        newTable.loadNewTable();
+    }*/
 </script>
 
 </html>
