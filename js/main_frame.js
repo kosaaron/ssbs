@@ -17,6 +17,7 @@ import { addListenerByAttr2, addListener } from './common.js';
 import showCharts from './show_charts.js';
 import tools from './tools.js';
 import employees from './employees.js';
+import newTable from './testproducttable.js';
 
 /** Varibles */
 let activeModul = 'finance_diagrams';
@@ -159,7 +160,7 @@ function addProductsEvents(attr) {
             alert();
             break;
         case "tracking":
-            alert();
+            newTable.loadnewTable();
             break;
         case "optimization":
             alert();

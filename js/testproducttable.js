@@ -14,14 +14,14 @@ var newTable = {
     loadnewTable: function() {
         // Load framework
         let framework = '<div id="partners_manager" class="display-flex flex-row full-screen"><div class="table-container-xscroll"><div id="producttable_container" class="table-container table-responsive tableFixHead"></div></div></div>';
-        document.getElementById('tablegenerator_container').innerHTML=framework;
+        document.getElementById('products_content').innerHTML=framework;
 
         let data = newTableData;
         let structure = newTableStructure;
         let newTableHtml="";
         newTableHtml += '<table class="table table-hover mb-0"><thead class="thead-design"><tr class="row m-0 ">';
         newTableHtml += '!<th class="d-inline-block *">*</th>';
-        newTableHtml += '!</tr></thead></table>';
+        newTableHtml += '!<th class="d-inline-block col-1"></th></tr></thead></table>';
         newTableHtml += '!'; //start body rész mire kell?
         newTableHtml += '!<table class="table table-hover table-no-margin"><tbody><tr class="row m-0">';
         newTableHtml += '!<td class="d-inline-block *">?</td>';
@@ -35,7 +35,6 @@ var newTable = {
     }
 }
 export default newTable;
-
 let newTableStructure = [
         "TermékID",
         "Termék_neve",
