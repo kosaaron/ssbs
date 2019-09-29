@@ -12,7 +12,7 @@ class QueryByStructure
             return '';
         }
 
-        $fullQuery = 'SELECT ';
+        $fullQuery = 'SELECT DISTINCT ';
         $fullJoin = '';
 
         //first

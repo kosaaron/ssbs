@@ -9,10 +9,5 @@ try {
     // set the PDO error mode to exception
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
+    echo "Connection failed!";
 }
-/*
-$data = $pdo->query("SELECT * FROM test_table")->fetchAll();
-// and somewhere later:
-foreach ($data as $row) {
-    echo $row['name']."<br />\n";
-}*/

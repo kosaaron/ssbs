@@ -122,6 +122,11 @@ table, td {
     color: #fff;
 }
 
+.p-n-box-item-icon {
+    font-size: 11px;
+    padding-right: 3px;
+}
+
 @media only screen and (max-width: 1000px) {
     .process-names-box-item {
         height: 21px;

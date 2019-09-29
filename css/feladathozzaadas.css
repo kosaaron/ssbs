@@ -1,8 +1,9 @@
 .right-border-form {
     border-right: 1px solid #ddd;
 }
-.newtask-buttoncontainer{
-    padding-top: 30%; 
+
+.newtask-buttoncontainer {
+    padding-top: 30%;
 }
 
 .addnewtask-button {
@@ -83,12 +84,19 @@
     text-align: center;
 }
 
-.task-subtitle {
+.new-obj-subtitle {
     font-size: 1.4rem;
     color: #3B4372;
-    padding-bottom: 2%;
+    padding-bottom: 1%;
+    margin-bottom: 4%;
+    border-bottom: 1px solid #ddd;
 }
-.taskstep-formcontrol{
+
+.new-obj-shell {
+    padding: 0 4%;
+}
+
+.taskstep-formcontrol {
     width: 60%;
     height: calc(1.2em + .65rem + 2px);
     padding: .165rem .50rem;
@@ -109,7 +117,7 @@
     color: #52C5F2;
 }
 
-.add-employee-button {
+.n-task-add-employee-btn {
     font-size: 16px;
     border-radius: 30px;
     margin-left: 15%;
@@ -141,7 +149,8 @@
     height: 300px;
     padding: 10px;
 }
-.taskstep-saved{
+
+.taskstep-saved {
     width: 70%;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -163,12 +172,16 @@
     padding-left: 6px;
     margin: 0;
 }
-#saved_tasksteps{
+
+#saved_tasksteps {
     width: 40%;
 }
-#delete_button{
-    width: calc(1.5em + .75rem + 2px);;
-    height: calc(1.5em + .75rem + 2px);;
+
+#delete_button {
+    width: calc(1.5em + .75rem + 2px);
+    ;
+    height: calc(1.5em + .75rem + 2px);
+    ;
     float: right;
     outline: none;
     border: none;
@@ -177,7 +190,7 @@
 
 .taskstep-tools {
     width: 100%;
-    padding-top:  10px;
+    padding-top: 10px;
 }
 
 .default-steps-label {
@@ -188,7 +201,7 @@
 
 .page-content {
     height: 100%;
-    padding: 4%;
+    padding: 4% 8%;
     overflow: auto;
 }
 

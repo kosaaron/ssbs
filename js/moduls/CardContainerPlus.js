@@ -39,7 +39,7 @@ let CardContainerPlus = {
      * @param {Array} structure Card data structure
      * @param {String} shellId Shell id
      * @param {String} card Card design
-     * @param {Function} secundCardF Secund card function with object parameter
+     * @param {Function} secundCardF Secund card function with object, shell id parameters
      */
     CreateWithData: function (data, structure, shellId, card, secundCardF) {
         let cardBlock = card.split('!');
@@ -50,20 +50,57 @@ let CardContainerPlus = {
             let c = 0;
             for (let j = 0; j < cardBlock.length; j++) {
                 const elementJ = cardBlock[j];
-                const elementC = structure[c];
                 let elementX = elementJ.split('*');
 
                 if (elementX.length === 1) {
                     //simple html code
                     container += elementJ;
                 } else {
+                    const elementC = structure[elementX[1]];
+
                     //add data
-                    if (elementC !== null) {
+                    if (elementI[elementC] !== null) {
                         container += elementX[0];
                         container += elementI[elementC];
-                        container += elementX[1];
+                        container += elementX[2];
                     }
                     c++;
+                }
+                container = container.replace("?", secundCardF(elementI, shellId));
+            }
+        }
+        document.getElementById(shellId).innerHTML = container;
+
+    },
+    CreateWithActive: function (data, structure, shellId, card, activeCard, activeColumn, secundCardF) {
+        let cardBlock = card.split('!');
+        let activeCardBlock = activeCard.split('!');
+        let container = "";
+        for (let i = 0; i < data.length; i++) {
+            const elementI = data[i];
+
+            let currentCard;
+            if (elementI[activeColumn] === '1') {
+                currentCard = activeCardBlock;
+            } else {
+                currentCard = cardBlock;
+            }
+
+            for (let j = 0; j < currentCard.length; j++) {
+                const elementJ = currentCard[j];
+                let elementX = elementJ.split('*');
+
+                if (elementX.length === 1) {
+                    //simple html code
+                    container += elementJ;
+                } else {
+                    const elementC = structure[elementX[1]];
+                    //add data
+                    if (elementI[elementC] !== null) {
+                        container += elementX[0];
+                        container += elementI[elementC];
+                        container += elementX[2];
+                    }
                 }
                 container = container.replace("?", secundCardF(elementI));
             }

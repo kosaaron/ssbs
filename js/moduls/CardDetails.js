@@ -13,32 +13,37 @@ let CardDetails = {
      * @param {Array} structure Card data structure
      * @param {String} card Card design
      * @param {String} shellId Shell id
+     * @param {String} IdName Name of id
      */
-    Create: function (cardId, data, structure, card, shellId) {
+    Create: function (cardId, data, structure, card, shellId, IdName) {
         let cardBlock = card.split('!');
 
         let container = "";
         for (let i = 0; i < data.length; i++) {
             const elementI = data[i];
-
-            if (cardId === elementI.Id) {
+            if (cardId === elementI[IdName]) {
                 let c = 0;
                 for (let j = 0; j < cardBlock.length; j++) {
                     let elementJ = cardBlock[j];
-                    const elementD = structure.Data[c];
-                    const elementN = structure.Names[c];
-                    let elementX = elementJ.split('*');
 
-                    if (elementX.length === 1) {
+                    if (elementJ.split('*').length === 1) {
                         container += elementJ;
 
                     } else {
-                        if (elementD !== null) {
-                            if (elementJ.split('**').length !== 1) {
-                                elementJ = elementJ.replace("**", elementN);
+                        let elementX2 = elementJ.split('**');
+                        const elementN = structure.Names[elementX2[1]];
+
+                        if (elementN !== null) {
+                            if (elementX2.length !== 1) {
+                                elementJ = elementJ.replace('**' + elementX2[1] + '**', elementN);
                             }
-                            container += elementJ.replace("*", elementI[elementD]);
                         }
+                        let elementX1 = elementJ.split('*');
+                        const elementD = structure.Data[elementX1[1]];
+                        if (elementI[elementD] !== null) {
+                            container += elementJ.replace('*' + elementX1[1] + '*', elementI[elementD]);
+                        }
+
                         c++;
                     }
                 }

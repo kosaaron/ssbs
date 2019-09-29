@@ -25,17 +25,17 @@ let CardContainer = {
             let c = 0;
             for (let j = 0; j < cardBlock.length; j++) {
                 const elementJ = cardBlock[j];
-                const elementC = structure[c];
                 let elementX = elementJ.split('*');
 
                 if (elementX.length === 1) {
                     container += elementJ;
 
                 } else {
-                    if (elementC !== null) {
+                    const elementC = structure[elementX[1]];
+                    if (elementI[elementC] !== null) {
                         container += elementX[0];
                         container += elementI[elementC];
-                        container += elementX[1];
+                        container += elementX[2];
                     }
                     c++;
                 }
@@ -46,9 +46,10 @@ let CardContainer = {
     /**
      * **Clickable card**
      * @param {Function} clickEvent 
+     * @param {String} parent 
      */
-    ClickableCard: function (clickEvent) {
-        let buttons = document.getElementsByClassName('show-details');
+    ClickableCard: function (clickEvent, parent) {
+        let buttons = document.getElementsByClassName(parent + '-show-details');
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', function () {
                 clickEvent(this.id);

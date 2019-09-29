@@ -1,6 +1,7 @@
 /** main_frame.js */
 /**
  * Improts
+ * Varibles
  * General functions
  * Events
  *  - Click events
@@ -17,6 +18,8 @@ import showCharts from './show_charts.js';
 import tools from './tools.js';
 import employees from './employees.js';
 
+/** Varibles */
+let activeModul = 'finance_diagrams';
 
 /** General functions */
 /**
@@ -107,16 +110,19 @@ function processesModulClick(id) {
 
     switch (id) {
         case "processes_overview_btn":
+            activeModul = 'processes_overview';
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             processesOverview.loadProcessesOverview();
             break;
         case "tasks_manager_btn":
+            activeModul = 'tasks_manager';
             iframe.src = "feladatkezeles.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             tasksManager.loadTasksManager();
             break;
         case "partners_manager_btn":
+            activeModul = 'partners_manager';
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             partnersManager.loadPartnersManager();
@@ -206,7 +212,14 @@ function FinanceSubtabClick(id) {
 
 /** Resize window */
 window.onresize = function (event) {
-    processesOverview.resizeProcessesOverview();
+    switch (activeModul) {
+        case 'processes_overview':
+            processesOverview.resizeProcessesOverview();
+            break;
+        case 'tasks_manager':
+            tasksManager.resizeTasksManager();
+            break;
+    }
 };
 
 /** Ready document */

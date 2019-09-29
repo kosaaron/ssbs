@@ -33,11 +33,13 @@ let Local = {
     getFilterHTML: function (objectItem, shellId) {
         let ready = "";
         switch (objectItem.Type) {
-            case "Write":
-                ready = FormElements.A.Write(objectItem.Id, objectItem.Name, shellId);
+            //Write
+            case "W":
+                ready = FormElements.A.Write(objectItem.FilterId, objectItem.Name, shellId);
                 break;
-            case "Select":
-                ready = FormElements.A.Select(objectItem.Id, objectItem.Name, shellId, objectItem.Opportunities);
+            //Select
+            case "S":
+                ready = FormElements.A.Select(objectItem.FilterId, objectItem.Name, shellId, objectItem.Opportunities);
                 break;
             default:
                 break;

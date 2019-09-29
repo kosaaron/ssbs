@@ -8,11 +8,14 @@ class CreateForm
     public function DefaultForm($employee, $place)
     {
         include('Connect.php');
+        //Result form structure
+        $resultFormStructure = $pdo->query('SELECT * FROM form_structures WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
 
-        $resultFltrStructure = $pdo->query('SELECT * FROM form_structures WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
+        $mainResult = array();
 
-        $fltrStructure = array();
-        foreach ($resultFltrStructure as $row) {
+        //Form structure add opportunities
+        foreach ($resultFormStructure as $row) {
+            //simlpe form
             $f_array = array();
             $f_array['FormStructureId'] = $row['FormStructureId'];
             $f_array['Name'] = $row['Name'];
@@ -20,12 +23,21 @@ class CreateForm
             $f_array['DefaultValue'] = $row['DefaultValue'];
             $f_array['ColumnName'] = $row['ColumnName'];
             $f_array['Required'] = $row['Required'];
+            $f_array['UploadName'] = $row['UploadName'];
 
-            //$oppQuery = 'SELECT DISTINCT ' . $row['TableName'] . '.' . end($column) . ' FROM ' . $row['TableName'] . ';';
+            //funtions
+            $functionArr = array();
+            if ($row['Functions'] !== null) {
+                $functionArr['Id'] = $row['FormStructureId'];
+                $functionArr['Name'] = $row['Functions'];
+                $mainResult['Functions'][] = $functionArr;
+            }
 
+            //opportunities
             $columnCaunter = 1;
             $oppQuery = 'SELECT DISTINCT ';
             $columns = explode(",", $row['ColumnName']);
+            $aliases = explode(",", $row['Alias']);
             $column = $columns[0];
             $oppQuery .= $row['TableName'] . '.' . $column;
             for ($i = 1; $i < sizeof($columns); $i++) {
@@ -42,7 +54,7 @@ class CreateForm
                 foreach ($oppStructure as $row) {
                     $oppSubArr = array();
                     for ($j = 0; $j < $columnCaunter; $j++) {
-                        $oppSubArr[$columns[$j]] = $row[$j];
+                        $oppSubArr[$aliases[$j]] = $row[$j];
                     }
                     $oppArr[$i] = $oppSubArr;
                     ++$i;
@@ -50,9 +62,9 @@ class CreateForm
                 $f_array['Opportunities'] = $oppArr;
             }
 
-            $fltrStructure[] = $f_array;
+            $mainResult['Data'][] = $f_array;
         }
 
-        return $fltrStructure;
+        return $mainResult;
     }
 }
