@@ -12,8 +12,6 @@ import Filters from './moduls/Filters.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
 import newEmployee from './new_employee.js';
 
-
-
 function getEmployeesCard() {
     let container = "";
     container += '<div class="col-lg-12"><div class="card employeecard"><div class="card-body"><div class="display-flex justify-content-between">';
@@ -26,10 +24,6 @@ function getEmployeesCard() {
     container += '!<a href="#" class="btn btn-primary next-button show-details" id="fjh7zd"><i class="fas fa-arrow-right"></i></a></div></div></div></div></div>';
 
     return container;
-
-
-
-
 }
 
 /**

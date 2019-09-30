@@ -77,7 +77,7 @@ let BuiltIn = {
     taskTypeChange: function (fullId) {
         $.ajax({
             type: "POST",
-            url: "../php/NewTaskSteps.php",
+            url: "./php/NewTaskSteps.php",
             data: { 'TaskTypeId': document.getElementById(fullId).value },
             success: function (data) {
                 General.loadTaskSteps(data);
@@ -90,7 +90,7 @@ let Database = {
     getDataFromDB: function () {
         $.ajax({
             type: "POST",
-            url: "../php/NewTask.php",
+            url: "./php/NewTask.php",
             data: {},
             success: function (data) {
                 Varibles.PageData = data;
@@ -110,7 +110,7 @@ let Database = {
 
         $.ajax({
             type: "POST",
-            url: "../php/UploadData.php",
+            url: "./php/UploadData.php",
             data: { 'place': 'newtsk', 'data': uploadData },
             success: function (data) {
                 let uploadSteps = [];
@@ -144,7 +144,7 @@ let Database = {
                 if (!firstStep) {
                     $.ajax({
                         type: "POST",
-                        url: "../php/UploadData.php",
+                        url: "./php/UploadData.php",
                         data: { 'place': 'ntskwy', 'data': uploadSteps },
                         success: function (data) {
                             Swal.fire({

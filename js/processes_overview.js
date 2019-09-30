@@ -101,11 +101,12 @@ let Local = {
         if (Local.processesDataArray === null) {
             $.ajax({
                 type: "POST",
-                url: "../php/ProcessesOverview.php",
+                url: "./php/ProcessesOverview.php",
                 data: "",
                 success: function (data) {
                     Local.processesDataArray = JSON.parse(data);
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
+                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'Deadline');
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
                     Local.reloadFullPage(Local.processesDataArray);
                 },
@@ -219,6 +220,7 @@ let Local = {
      */
     addSubProject: function (parentId, processesData, firthMonth, numOfMonth) {
         let processesTTTbody = document.getElementById('processes_t_t_tbody');
+        let dateNow = new Date();
 
         // processes box
         let processNamesBox = document.getElementById('process_names_box');
@@ -287,15 +289,33 @@ let Local = {
 
                 let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
                 // Is it this month
-                let isThisMonth = process.FinishDate < startDate || process.StartDate > monthEnd;
+                let isNotThisMonth = process.Deadline < startDate || process.StartDate > monthEnd;
                 let isBeforMonth = process.StartDate < startDate;
-                let isAfterMonth = process.FinishDate > monthEnd;
+                let isAfterMonth = process.Deadline > monthEnd;
+                //finish date
+                let fDIsBeforDeadline = process.FinishDate < process.Deadline;
+                let lightColor;
+                let finishDays = process.FinishDate.getDate();
+                let finishStartDate = new Date(process.FinishDate.getFullYear(), process.FinishDate.getMonth(), 1);
+                let finishEndDate = new Date(process.FinishDate.getFullYear(), process.FinishDate.getMonth() + 1, 1);
+
+                if (monthEnd < finishStartDate) {
+
+                }
 
                 for (let index2 = 1; index2 <= monthDays; index2++) {
                     let tasksTableTd4 = document.createElement("td");
                     tasksTableTd4.style = "width: " + Local.tasksTableTdWidth + "px;";
 
-                    if (isThisMonth) {
+                    let div4Background = "";
+                    if (fDIsBeforDeadline && finishDays < index2) {
+                        div4Background = "processes-data-line-lgreen";
+                    } else {
+                        div4Background = "processes-data-line-green";
+                    }
+
+                    //
+                    if (isNotThisMonth) {
                         tasksTableTd4.className = "processes-table-table-td";
                         tasksTableTr4.appendChild(tasksTableTd4);
                         continue;
@@ -303,38 +323,39 @@ let Local = {
                         tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                         let tasksTableDiv4 = document.createElement("div");
-                        tasksTableDiv4.className = "full-screen  processes-data-line-green";
+                        tasksTableDiv4.className = "full-screen " + div4Background;
                         tasksTableTd4.appendChild(tasksTableDiv4);
                         tasksTableTr4.appendChild(tasksTableTd4);
                         continue;
                     }
 
                     // simple line
-                    if (process.StartDate.getDate() < index2 && process.FinishDate.getDate() > index2 ||
-                        (isBeforMonth && process.FinishDate.getDate() > index2) ||
+                    if (process.StartDate.getDate() < index2 && process.Deadline.getDate() > index2 ||
+                        (isBeforMonth && process.Deadline.getDate() > index2) ||
                         (isAfterMonth && process.StartDate.getDate() < index2)) {
+
                         tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                         let tasksTableDiv4 = document.createElement("div");
-                        tasksTableDiv4.className = "full-screen  processes-data-line-green";
+                        tasksTableDiv4.className = "full-screen " + div4Background;
                         tasksTableTd4.appendChild(tasksTableDiv4);
-                    } else if (process.StartDate.getDate() === index2 && process.FinishDate.getDate() === index2) {
+                    } else if (process.StartDate.getDate() === index2 && process.Deadline.getDate() === index2) {
                         tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                         let tasksTableDiv4 = document.createElement("div");
-                        tasksTableDiv4.className = "full-screen processes-data-line-green process-one-line";
+                        tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
                         tasksTableTd4.appendChild(tasksTableDiv4);
                     } else if (process.StartDate.getDate() === index2) {
                         tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                         let tasksTableDiv4 = document.createElement("div");
-                        tasksTableDiv4.className = "full-screen processes-data-line-green process-start-line";
+                        tasksTableDiv4.className = "full-screen " + div4Background + " process-start-line";
                         tasksTableTd4.appendChild(tasksTableDiv4);
-                    } else if (process.FinishDate.getDate() === index2) {
+                    } else if (process.Deadline.getDate() === index2) {
                         tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                         let tasksTableDiv4 = document.createElement("div");
-                        tasksTableDiv4.className = "full-screen processes-data-line-green process-end-line";
+                        tasksTableDiv4.className = "full-screen " + div4Background + " process-end-line";
                         tasksTableTd4.appendChild(tasksTableDiv4);
                     } else {
                         tasksTableTd4.className = "processes-table-table-td";
@@ -454,9 +475,9 @@ let Local = {
             Local.taskLevels.push(object);
 
             // Is it this month
-            var isThisMonth = process.FinishDate < startDate || process.StartDate > monthEnd;
+            var isNotThisMonth = process.Deadline < startDate || process.StartDate > monthEnd;
             var isBeforMonth = process.StartDate < startDate;
-            var isAfterMonth = process.FinishDate > monthEnd;
+            var isAfterMonth = process.Deadline > monthEnd;
 
             let processNamesBoxItem = document.createElement("div");
             processNamesBoxItem.className = "process-names-box-item display-flex";
@@ -495,8 +516,9 @@ let Local = {
             for (let index2 = 1; index2 <= monthDays; index2++) {
                 let tasksTableTd4 = document.createElement("td");
                 tasksTableTd4.style = "width: " + Local.tasksTableTdWidth + "px;";
+                let div4Background = "processes-data-line-green";
 
-                if (isThisMonth) {
+                if (isNotThisMonth) {
                     tasksTableTd4.className = "processes-table-table-td";
                     tasksTableTr4.appendChild(tasksTableTd4);
                     continue;
@@ -504,38 +526,38 @@ let Local = {
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen  processes-data-line-green";
+                    tasksTableDiv4.className = "full-screen " + div4Background;
                     tasksTableTd4.appendChild(tasksTableDiv4);
                     tasksTableTr4.appendChild(tasksTableTd4);
                     continue;
                 }
 
                 // simple line
-                if (process.StartDate.getDate() < index2 && process.FinishDate.getDate() > index2 ||
-                    (isBeforMonth && process.FinishDate.getDate() > index2) ||
+                if (process.StartDate.getDate() < index2 && process.Deadline.getDate() > index2 ||
+                    (isBeforMonth && process.Deadline.getDate() > index2) ||
                     (isAfterMonth && process.StartDate.getDate() < index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen  processes-data-line-green";
+                    tasksTableDiv4.className = "full-screen " + div4Background;
                     tasksTableTd4.appendChild(tasksTableDiv4);
-                } else if (process.StartDate.getDate() === index2 && process.FinishDate.getDate() === index2) {
+                } else if (process.StartDate.getDate() === index2 && process.Deadline.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen processes-data-line-green process-one-line";
+                    tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
                     tasksTableTd4.appendChild(tasksTableDiv4);
                 } else if (process.StartDate.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen processes-data-line-green process-start-line";
+                    tasksTableDiv4.className = "full-screen " + div4Background + " process-start-line";
                     tasksTableTd4.appendChild(tasksTableDiv4);
-                } else if (process.FinishDate.getDate() === index2) {
+                } else if (process.Deadline.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen processes-data-line-green process-end-line";
+                    tasksTableDiv4.className = "full-screen " + div4Background + " process-end-line";
                     tasksTableTd4.appendChild(tasksTableDiv4);
                 } else {
                     tasksTableTd4.className = "processes-table-table-td";
@@ -628,16 +650,17 @@ let Local = {
             let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
 
             // Is it this month
-            var isThisMonth = process.FinishDate < startDate || process.StartDate > monthEnd;
+            var isNotThisMonth = process.Deadline < startDate || process.StartDate > monthEnd;
             var isBeforMonth = process.StartDate < startDate;
-            var isAfterMonth = process.FinishDate > monthEnd;
+            var isAfterMonth = process.Deadline > monthEnd;
 
             // Task timelines
             for (let index2 = 1; index2 <= monthDays; index2++) {
                 let tasksTableTd4 = document.createElement("td");
                 tasksTableTd4.style = "width: " + Local.tasksTableTdWidth + "px;";
+                let div4Background = "processes-data-line-green";
 
-                if (isThisMonth) {
+                if (isNotThisMonth) {
                     tasksTableTd4.className = "processes-table-table-td";
                     tasksTableTr[counter].insertBefore(tasksTableTd4, tasksTableTr[counter].childNodes[index2 - 1]);
                     continue;
@@ -645,38 +668,38 @@ let Local = {
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen  processes-data-line-green";
+                    tasksTableDiv4.className = "full-screen " + div4Background;
                     tasksTableTd4.appendChild(tasksTableDiv4);
                     tasksTableTr[counter].insertBefore(tasksTableTd4, tasksTableTr[counter].childNodes[index2 - 1]);
                     continue;
                 }
 
                 // simple line
-                if (process.StartDate.getDate() < index2 && process.FinishDate.getDate() > index2 ||
-                    (isBeforMonth && process.FinishDate.getDate() > index2) ||
+                if (process.StartDate.getDate() < index2 && process.Deadline.getDate() > index2 ||
+                    (isBeforMonth && process.Deadline.getDate() > index2) ||
                     (isAfterMonth && process.StartDate.getDate() < index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen  processes-data-line-green";
+                    tasksTableDiv4.className = "full-screen " + div4Background;
                     tasksTableTd4.appendChild(tasksTableDiv4);
-                } else if (process.StartDate.getDate() === index2 && process.FinishDate.getDate() === index2) {
+                } else if (process.StartDate.getDate() === index2 && process.Deadline.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen processes-data-line-green process-one-line";
+                    tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
                     tasksTableTd4.appendChild(tasksTableDiv4);
                 } else if (process.StartDate.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen processes-data-line-green process-start-line";
+                    tasksTableDiv4.className = "full-screen " + div4Background + " process-start-line";
                     tasksTableTd4.appendChild(tasksTableDiv4);
-                } else if (process.FinishDate.getDate() === index2) {
+                } else if (process.Deadline.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen processes-data-line-green process-end-line";
+                    tasksTableDiv4.className = "full-screen " + div4Background + " process-end-line";
                     tasksTableTd4.appendChild(tasksTableDiv4);
                 } else {
                     tasksTableTd4.className = "processes-table-table-td";
@@ -766,16 +789,17 @@ let Local = {
             let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
 
             // Is it this month
-            var isThisMonth = process.FinishDate < startDate || process.StartDate > monthEnd;
+            var isNotThisMonth = process.Deadline < startDate || process.StartDate > monthEnd;
             var isBeforMonth = process.StartDate < startDate;
-            var isAfterMonth = process.FinishDate > monthEnd;
+            var isAfterMonth = process.Deadline > monthEnd;
 
             // Task timelines
             for (let index2 = 1; index2 <= monthDays; index2++) {
                 let tasksTableTd4 = document.createElement("td");
                 tasksTableTd4.style = "width: " + Local.tasksTableTdWidth + "px;";
+                let div4Background = "processes-data-line-green";
 
-                if (isThisMonth) {
+                if (isNotThisMonth) {
                     tasksTableTd4.className = "processes-table-table-td";
                     tasksTableTr[counter].appendChild(tasksTableTd4);
                     continue;
@@ -783,38 +807,38 @@ let Local = {
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen  processes-data-line-green";
+                    tasksTableDiv4.className = "full-screen" + div4Background;
                     tasksTableTd4.appendChild(tasksTableDiv4);
                     tasksTableTr[counter].appendChild(tasksTableTd4);
                     continue;
                 }
 
                 // simple line
-                if (process.StartDate.getDate() < index2 && process.FinishDate.getDate() > index2 ||
-                    (isBeforMonth && process.FinishDate.getDate() > index2) ||
+                if (process.StartDate.getDate() < index2 && process.Deadline.getDate() > index2 ||
+                    (isBeforMonth && process.Deadline.getDate() > index2) ||
                     (isAfterMonth && process.StartDate.getDate() < index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen  processes-data-line-green";
+                    tasksTableDiv4.className = "full-screen" + div4Background;
                     tasksTableTd4.appendChild(tasksTableDiv4);
-                } else if (process.StartDate.getDate() === index2 && process.FinishDate.getDate() === index2) {
+                } else if (process.StartDate.getDate() === index2 && process.Deadline.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen processes-data-line-green process-one-line";
+                    tasksTableDiv4.className = "full-screen" + div4Background + "process-one-line";
                     tasksTableTd4.appendChild(tasksTableDiv4);
                 } else if (process.StartDate.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen processes-data-line-green process-start-line";
+                    tasksTableDiv4.className = "full-screen" + div4Background + "process-start-line";
                     tasksTableTd4.appendChild(tasksTableDiv4);
-                } else if (process.FinishDate.getDate() === index2) {
+                } else if (process.Deadline.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen processes-data-line-green process-end-line";
+                    tasksTableDiv4.className = "full-screen" + div4Background + "process-end-line";
                     tasksTableTd4.appendChild(tasksTableDiv4);
                 } else {
                     tasksTableTd4.className = "processes-table-table-td";
@@ -849,132 +873,132 @@ let processesDataArray = [
         Name: "Első projekt",
         ParentFK: null,
         StartDate: new Date('2019.08.11 00:00:00'),
-        FinishDate: new Date('2019.10.16 00:00:00')
+        Deadline: new Date('2019.10.16 00:00:00')
     },
     {
         ProjectId: "112",
         Name: "Második projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.13 00:00:00'),
-        FinishDate: new Date('2019.09.14 00:00:00')
+        Deadline: new Date('2019.09.14 00:00:00')
     },
     {
         ProjectId: "113",
         Name: "Harmadik projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.14 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "114",
         Name: "Negyedik projekt",
         ParentFK: null,
         StartDate: new Date('2019.09.16 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "115",
         Name: "Öt projekt",
         ParentFK: null,
         StartDate: new Date('2019.09.03 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "116",
         Name: "Hat projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.13 00:00:00'),
-        FinishDate: new Date('2019.09.14 00:00:00')
+        Deadline: new Date('2019.09.14 00:00:00')
     },
     {
         ProjectId: "117",
         Name: "Hét projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.14 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "118",
         Name: "Nyolc projekt",
         ParentFK: "113",
         StartDate: new Date('2019.09.16 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "119",
         Name: "Első projekt",
         ParentFK: null,
         StartDate: new Date('2019.08.11 00:00:00'),
-        FinishDate: new Date('2019.10.16 00:00:00')
+        Deadline: new Date('2019.10.16 00:00:00')
     },
     {
         ProjectId: "120",
         Name: "Második projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.13 00:00:00'),
-        FinishDate: new Date('2019.09.14 00:00:00')
+        Deadline: new Date('2019.09.14 00:00:00')
     },
     {
         ProjectId: "121",
         Name: "Harmadik projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.14 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "122",
         Name: "Negyedik projekt",
         ParentFK: null,
         StartDate: new Date('2019.09.16 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "123",
         Name: "Öt projekt",
         ParentFK: null,
         StartDate: new Date('2019.09.03 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "124",
         Name: "Hat projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.13 00:00:00'),
-        FinishDate: new Date('2019.09.14 00:00:00')
+        Deadline: new Date('2019.09.14 00:00:00')
     },
     {
         ProjectId: "125",
         Name: "Hét projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.14 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "126",
         Name: "Nyolc projekt",
         ParentFK: "113",
         StartDate: new Date('2019.09.16 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "127",
         Name: "Hat projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.13 00:00:00'),
-        FinishDate: new Date('2019.09.14 00:00:00')
+        Deadline: new Date('2019.09.14 00:00:00')
     },
     {
         ProjectId: "128",
         Name: "Hét projekt",
         ParentFK: "111",
         StartDate: new Date('2019.09.14 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     },
     {
         ProjectId: "129",
         Name: "Nyolc projekt",
         ParentFK: "113",
         StartDate: new Date('2019.09.16 00:00:00'),
-        FinishDate: new Date('2019.09.16 00:00:00')
+        Deadline: new Date('2019.09.16 00:00:00')
     }
 ];*/
