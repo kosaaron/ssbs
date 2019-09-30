@@ -18,7 +18,7 @@ let FormElements = {
         Write: function (id, name, shellId) {
             let readyHTML = "";
             readyHTML += '<div class="my-3">';
-            readyHTML += '<input type="text" class="form-control" id="' + id
+            readyHTML += '<input type="text" class="form-control" id="' + shellId + '_' + id
                 + '" data-place="' + shellId + '" placeholder="' +
                 name + '" aria-label="' + name + '" aria-describedby="addon-wrapping">';
             readyHTML += '</div >';
@@ -34,14 +34,14 @@ let FormElements = {
         Dropdown: function (id, name, shellId, opportunities) {
             let readyHTML = "";
             readyHTML += '<div class="dropdown my-3">';
-            readyHTML += '<button id="' + id + '" class="' + shellId + ' btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+            readyHTML += '<button id="' + shellId + '_' + id + '" class="' + shellId + ' btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
             readyHTML += name;
             readyHTML += '</button>';
             readyHTML += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
 
             for (let j = 0; j < opportunities.length; j++) {
-                readyHTML += '<a class="dropdown-item" href="#">';
-                readyHTML += opportunities[j];
+                readyHTML += '<a id="' + opportunities[j].Id + '" class="dropdown-item" href="#">';
+                readyHTML += opportunities[j].Name;
                 readyHTML += '</a>';
             }
 
@@ -59,9 +59,9 @@ let FormElements = {
             let readyHTML = "";
             readyHTML += '<div class="form-group">';
             readyHTML += '<label class="taskfilter-label">' + name + '</label>';
-            readyHTML += '<select class="selectpicker my-0 form-control taskfilter" id="' + id + '" data-place="' + shellId + '" data-live-search="true">';
+            readyHTML += '<select class="selectpicker my-0 form-control taskfilter" id="' + shellId + '_' + id + '" data-place="' + shellId + '" data-live-search="true">';
             for (let k = 0; k < opportunities.length; k++) {
-                readyHTML += '<option>' + opportunities[k] + '</option>';
+                readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
             }
             readyHTML += '</select></div>';
 
@@ -73,52 +73,52 @@ let FormElements = {
      * Inputs
      */
     B: {
-        Write: function (id, name, shellId) {
+        Write: function (id, name, shellId, uploadName) {
             let readyHTML = "";
             readyHTML += '<div class="form-group">';
-            readyHTML += '<label for="' + id + '" class="newtask-label">' + name + '</label>';
-            readyHTML += '<input type="text" id="' + id + '" class="newtask-formcontrol" data-place="' + shellId + '">';
+            readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
+            readyHTML += '<input type="text" id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
             readyHTML += '</div>';
             return readyHTML;
         },
-        Select: function (id, name, shellId, opportunities) {
+        Select: function (id, name, shellId, opportunities, uploadName) {
             let readyHTML = "";
             readyHTML += '<div class="form-group">';
-            readyHTML += '<label for="' + id + '" class="newtask-label">' + name + '</label>';
-            readyHTML += '<select id="' + id + '" class="newtask-formcontrol" data-place="' + shellId + '">';
+            readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
+            readyHTML += '<select id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
             for (let k = 0; k < opportunities.length; k++) {
-                readyHTML += '<option>' + opportunities[k] + '</option>';
+                readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
             }
             readyHTML += '</select> </div>';
             return readyHTML;
         },
-        SelectOrNew: function (id, name, shellId, opportunities) {
+        SelectOrNew: function (id, name, shellId, opportunities, uploadName) {
             let readyHTML = "";
             //select
             readyHTML += '<div class="form-group">';
             readyHTML += '<label for="taskCat" class="newtask-label">' + name + '</label>';
             readyHTML += '<div class="tasktype-group">';
             readyHTML += '<div class="input-group mb-3">';
-            readyHTML += '<select id="' + id + '" class="form-control newtask-formcontrol" aria-describedby="button-addon2" data-place="' + shellId + '">';
+            readyHTML += '<select id="' + shellId + '_' + id + '" class="form-control newtask-formcontrol" aria-describedby="button-addon2" upload-name="' + uploadName + '" data-place="' + shellId + '">';
             for (let k = 0; k < opportunities.length; k++) {
-                readyHTML += '<option>' + opportunities[k] + '</option>';
+                readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
             }
             readyHTML += '</select>';
             readyHTML += '<div class="input-group-append">';
-            readyHTML += '<button class="btn btn-outline-secondary" type="button" id="new_' + id + '" data-place="new_' + shellId + '">';
+            readyHTML += '<button class="btn btn-outline-secondary" type="button" id="new_' + shellId + '_' + id + '" data-place="new_' + shellId + '">';
             readyHTML += '<i class="fas fa-plus"></i>';
             readyHTML += '</button> </div></div></div></div>';
             //new
-            readyHTML += '<div id="collapse_' + id + '" class="collapse">';
+            readyHTML += '<div id="collapse_' + shellId + '_' + id + '" class="collapse">';
             readyHTML += '<div class="card card-body"> proident. </div>';
             readyHTML += '</div>';
             return readyHTML;
         },
-        DateTime: function (id, name, shellId) {
+        DateTime: function (id, name, shellId, uploadName) {
             let readyHTML = "";
             readyHTML += '<div class="form-group">';
-            readyHTML += '<label for="' + id + '" class="newtask-label">' + name + '</label>';
-            readyHTML += '<input type="date" id="' + id + '" class="newtask-formcontrol" data-place="' + shellId + '">';
+            readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
+            readyHTML += '<input type="date" id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
             readyHTML += '</div>';
             return readyHTML;
         },
@@ -126,12 +126,12 @@ let FormElements = {
             let iconId = inputId + '_icon';
 
             let readyHTML = "";
-            readyHTML += '<input type="file" id="' + inputId + '" class="img-input">';
+            readyHTML += '<input type="file" id="input_' + shellId + '_' + inputId + '" class="img-input">';
             readyHTML += '<img id="' + previewId + '" class="img_inp_preview">';
-            readyHTML += '<i id="' + iconId + '"class="fas fa-cloud-upload-alt img_input_icon"></i>';
+            readyHTML += '<i id="icon_' + shellId + '_' + iconId + '"class="fas fa-cloud-upload-alt img_input_icon"></i>';
 
             document.getElementById(shellId).innerHTML = readyHTML;
-            $("#" + inputId).change(function () {
+            $('#input_' + shellId + '_' + inputId).change(function () {
                 Local.imagePreview(this);
                 document.getElementById(iconId).style = 'display: none !important;';
                 document.getElementById(shellId).style = 'width: fit-content;';

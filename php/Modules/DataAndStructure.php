@@ -16,16 +16,15 @@ class DataAndStructure
 
         $structureTD = array();
         $tablesTD = array();
+        $dataStructure = array();
         foreach ($resultTDStructure as $row) {
             array_push($structureTD, $row['ColumnName']);
             array_push($tablesTD, $row['Tables']);
             if (!is_null($row['Number'])) {
-                $itemInStructure = array();
-                $itemInStructure[$row['Number']] = $row['ColumnName'];
-
-                $main_data['DataStructure'][] = $itemInStructure;
+                $dataStructure[$row['Number']] = $row['ColumnName'];
             }
         }
+        $main_data['DataStructure'] = $dataStructure;
 
         $queryByStructure = new QueryByStructure();
         $partnerDataQuery = $queryByStructure->DefaultQuery($structureTD, $table, $tablesTD, $where);

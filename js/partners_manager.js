@@ -19,11 +19,11 @@ import { addOneListener, removeOneListener, mainFrame } from './common.js';
 function getPartnersMCard() {
     let container = "";
     container += '<div class="col-lg-12"><div class="card partnercard"><div class="card-body">';
-    container += '!<div class="display-flex justify-content-between"><div class="partner-logo-container display-flex align-items-center"><img class="partner-logo"src="*"></div>';
-    container += '!<div class="partner-datas"><h3 class="card-title partner-name">*</h3>';
-    container += '!<p><i class="fas fa-phone partnercard-logo"></i>*</p>';
-    container += '!<p><i class="far fa-envelope partnercard-logo"></i>*</p></div></div>';
-    container += '!<div class="display-flex flex-wrap tag-container"><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>IT cég</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Microsoft</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nemzetközi</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Kiemelt</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nemzetközi</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>IT cég</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Microsoft</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nagyobb cimke</button></div><a href="#" class="btn btn-primary next-button show-details" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div>';
+    container += '!<div class="display-flex justify-content-between"><div class="partner-logo-container display-flex align-items-center"><img class="partner-logo"src="*1*"></div>';
+    container += '!<div class="partner-datas"><h3 class="card-title partner-name">*2*</h3>';
+    container += '!<p><i class="fas fa-phone partnercard-logo"></i>*3*</p>';
+    container += '!<p><i class="far fa-envelope partnercard-logo"></i>*4*</p></div></div>';
+    container += '!<div class="display-flex flex-wrap tag-container"><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>IT cég</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Microsoft</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nemzetközi</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Kiemelt</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nemzetközi</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>IT cég</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Microsoft</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nagyobb cimke</button></div><a href="#" class="btn btn-primary next-button partnerm-show-details" id="partners_card_*5*"><i class="fas fa-arrow-right"></i></a></div></div></div>';
 
     return container;
 }
@@ -34,11 +34,10 @@ function getPartnersMCard() {
 function getPartnersMDetail() {
     let container = "";
 
-    container += '<h2 class="name-grey">*</h2>';
-    for (let i = 0; i < getPartnersMDStructure().Data.length - 1; i++) {
-        container += '!<p><label class="title-text">**</label><br><label>*</label></p>';
+    container += '<h2 class="name-grey">*1*</h2>';
+    for (let i = 2; i < Object.keys(getPartnersMDStructure().Data).length + 1; i++) {
+        container += '!<p><label class="title-text">**' + i + '**</label><br><label>*' + i + '*</label></p>';
     }
-
     return container;
 }
 
@@ -51,12 +50,15 @@ function getPartnersMDStructure() {
  * @param {Integer} cardId Card id
  */
 function partnerMCardClick(cardId) {
+    let splittedId = cardId.split('_');
+    let id = splittedId[splittedId.length - 1];
+
     let data = partners_list;
     let structure = getPartnersMDStructure();
     let card = getPartnersMDetail();
     let shellId = "partners_m_details";
 
-    CardDetails.Create(cardId, data, structure, card, shellId);
+    CardDetails.Create(id, data, structure, card, shellId, 'Id');
 }
 
 function partnersMFileterChange(id) {
@@ -84,9 +86,9 @@ var partnersManager = {
         let cardDesign = getPartnersMCard();
         let cardContainer = "partners_card_container";
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(partnerMCardClick);
+        CardContainer.ClickableCard(partnerMCardClick, 'partnerm');
         if (data[0].Id !== null) {
-            partnerMCardClick(data[0].Id);
+            partnerMCardClick('partners_card_' + data[0].Id);
         }
 
         Filters.Create(activeTableFilters, "partners_m_filters", partnersMFileterChange);
@@ -97,32 +99,33 @@ var partnersManager = {
 };
 export default partnersManager;
 
-var partner_m_structure = [
-    "LogoSrc",
-    "Name",
-    "Telefon",
-    "Email",
-    "Id"
-];
+var partner_m_structure = {
+    '1': "LogoSrc",
+    '2': "Name",
+    '3': "Telefon",
+    '4': "Email",
+    '5': "Id"
+};
 
 var partner_m_structure_2 = {
-    Names: [
-        null,
-        "Partner típusa",
-        "Kapcsolattartó",
-        "Telefon",
-        "Email",
-        "Cím",
-        "Leírás"
-    ],
-    Data: [
-        "Name",
-        "Type",
-        "Kapcsolattartó",
-        "Telefon",
-        "Email",
-        "Cím",
-        "Leírás"]
+    Names: {
+        '1': null,
+        '2': "Partner típusa",
+        '3': "Kapcsolattartó",
+        '4': "Telefon",
+        '5': "Email",
+        '6': "Cím",
+        '7': "Leírás"
+    },
+    Data: {
+        '1': "Name",
+        '2': "Type",
+        '3': "Kapcsolattartó",
+        '4': "Telefon",
+        '5': "Email",
+        '6': "Cím",
+        '7': "Leírás"
+    }
 };
 
 var activeTableFilters = [

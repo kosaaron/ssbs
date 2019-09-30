@@ -2,7 +2,7 @@
     padding-top: 15px;
     padding-left: 30px;
     padding-right: 30px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .fixedaddbutton {
@@ -73,23 +73,25 @@
 #details h2 {
     margin-bottom: 0.4em;
 }
-.name-grey{
+
+.name-grey {
     color: #777;
-    margin-bottom: 0.4em;
+    margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 1px solid #ddd;
 }
+
 .filter-box {
     padding: 0 1% 0 2%;
     width: 200px;
     overflow-y: auto;
     overflow-x: hidden;
-    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
     box-shadow: 0 8px 4px rgba(255, 255, 255, 0.9);
     z-index: 700;
-    -webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
+    /*-webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
     -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
-    box-shadow: inset 110px 0px 100px -180px #01043F;
+    box-shadow: inset 110px 0px 100px -180px #01043F;*/
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
 }
@@ -136,11 +138,13 @@
 #tasks_manager {
     padding-top: 5px;
 }
-.btn-group-detailmenu{
+
+.btn-group-detailmenu {
     padding-top: 10px;
     padding-bottom: 20px;
 }
-.btn-detail-menu{
+
+.btn-detail-menu {
     background-color: #fff;
     border: none;
     color: #999;
@@ -149,14 +153,16 @@
     padding: 0 0 2px 0;
     outline: none;
 }
-.btn-detail-menu:focus,.btn-detail-menu:active:focus,.btn-detail-menu.active:focus,
-.btn-detail-menu.focus,.btn-detail-menu:active.focus,.btn-detail-menu.active.focus {
+
+.btn-detail-menu:focus, .btn-detail-menu:active:focus, .btn-detail-menu.active:focus, .btn-detail-menu.focus, .btn-detail-menu:active.focus, .btn-detail-menu.active.focus {
     box-shadow: none;
 }
-.btn-detail-menu-active{
+
+.btn-detail-menu-active {
     color: #333;
 }
-.btn-detail-menu:before{
+
+.btn-detail-menu:before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -166,10 +172,12 @@
     background: #01043F;
     transition: 1.5s;
 }
-.btn-detail-menu:hover:before{
+
+.btn-detail-menu:hover:before {
     width: 100%;
 }
-.btn-detail-menu-active:before{
+
+.btn-detail-menu-active:before {
     content: '';
     position: absolute;
     bottom: 0px;
@@ -179,26 +187,35 @@
     background: #01043F;
     transition: 0s;
 }
-#timeline-container{
+
+#timeline-container {
     height: 70%;
     overflow-y: scroll;
 }
-#data-container{
-    height: 70%;
-    overflow-y: scroll;
+
+#task_data_container {
+    overflow-y: auto;
+    height: 100%;
 }
-.timeline{
+
+#task_timeline_container {
+    overflow-y: auto;
+    height: 100%;
+}
+
+.task-timeline {
     width: 100%;
     height: auto;
-    margin: 16px auto 0;
-    padding: 20px;
+    padding: 15px;
     box-sizing: border-box;
 }
-.timeline li{
+
+.task-timeline li {
     position: relative;
     list-style: none;
 }
-.timeline li .timeline-item{
+
+.task-timeline li .task-timeline-item {
     position: relative;
     min-height: 60px;
     /*background: #ccc;*/
@@ -206,10 +223,12 @@
     margin-left: 20px;
     border-left: 1px solid #0067A5;
 }
-.timeline li:last-child .timeline-item{
+
+.task-timeline li:last-child .task-timeline-item {
     border-left: 1px solid transparent;
 }
-.timeline li .timeline-item span{
+
+.task-timeline li .task-timeline-item span {
     position: absolute;
     top: 0;
     left: -20px;
@@ -222,24 +241,27 @@
     color: #0067A5;
     font-weight: 700;
     border-radius: 50%;
+}
 
+.actual-step {
+    color: #fff !important;
+    background-color: #0067A5 !important;
 }
-#actual-step{
-    color: #fff;
-    background-color: #0067A5;
-}
- .timeline li .timeline-item a, .timeline li .timeline-item p{
+
+.task-timeline li .task-timeline-item a, .task-timeline li .task-timeline-item p {
     margin: 0;
     padding: 0;
- }
- .timeline li .timeline-item a{
-     text-decoration: none;
- }
- .timeline li .timeline-item a h3{
-     font-size: 1.2rem;
-     color: #555;
- }
- #data-container{
-     height: 70%;
-     overflow-y: scroll;
- }
+}
+
+.task-timeline li .task-timeline-item a {
+    text-decoration: none;
+}
+
+.task-timeline li .task-timeline-item a h3 {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+#tasks_m_details {
+    border-left: 1px solid #ddd;
+}

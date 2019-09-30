@@ -17,17 +17,17 @@ import newEmployee from './new_employee.js';
 function getEmployeesCard() {
     let container = "";
     container += '<div class="col-lg-12"><div class="card employeecard"><div class="card-body"><div class="display-flex justify-content-between">';
-    container += '!<div class="employee-image-container display-flex align-items-center"><img class="employee-image"src="*"></div>';
-    container += '!<div class="employee-datas"><h3 class="card-title employee-name">*</h3>';
-    container += '!<span class="employee-rate"><i class="far fa-star"></i> *</span>';
-    container += '!<p class="employee-position">*</p>';
-    container += '!<p class="employee-detail">Összes költség: <span>*</span> forint/hó</p>';
+    container += '!<div class="employee-image-container display-flex align-items-center"><img class="employee-image"src="*1*"></div>';
+    container += '!<div class="employee-datas"><h3 class="card-title employee-name">*2*</h3>';
+    container += '!<span class="employee-rate"><i class="far fa-star"></i> *3*</span>';
+    container += '!<p class="employee-position">*4*</p>';
+    container += '!<p class="employee-detail">Összes költség: <span>*5*</span> forint/hó</p>';
     container += '!<a href="#" class="btn btn-primary message-button show-details"><i class="fas fa-paper-plane"></i></a>';
     container += '!<a href="#" class="btn btn-primary next-button show-details" id="fjh7zd"><i class="fas fa-arrow-right"></i></a></div></div></div></div></div>';
 
     return container;
 
-    
+
 
 
 }
@@ -37,13 +37,13 @@ function getEmployeesCard() {
  */
 function getEmployeeDetail() {
     let container = "";
-    
-    container += '<h2 class="name-grey">*</h2>';
-    container += '!<p><label class="employee-position">*</label></p>';
+
+    container += '<h2 class="name-grey">*1*</h2>';
+    container += '!<p><label class="employee-position">*2*</label></p>';
     container += '!<div class="card"><div class="card-header employee-card-header" id="headingOne"><h5 class="mb-0"><button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><label class="title-text">Elérhetőségek</label></button></h5></div><div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample"><div class="card-body collapse-card-body">';
-    container += '!<p class="employee-detail-par"><label><i class="fas fa-mobile-alt employee-contact-icon"></i> *</label></p>';
-    container += '!<p class="employee-detail-par"><label><i class="far fa-envelope employee-contact-icon"></i> *</label></p>';
-    container += '!<p class="employee-detail-par"><label><i class="fas fa-home employee-contact-icon"></i></i> *</label></p></div></div></div>';
+    container += '!<p class="employee-detail-par"><label><i class="fas fa-mobile-alt employee-contact-icon"></i> *3*</label></p>';
+    container += '!<p class="employee-detail-par"><label><i class="far fa-envelope employee-contact-icon"></i> *4*</label></p>';
+    container += '!<p class="employee-detail-par"><label><i class="fas fa-home employee-contact-icon"></i></i> *5*</label></p></div></div></div>';
     container += '!<div class="card"><div class="card-header employee-card-header" id="headingTwo"><h5 class="mb-0"><button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><label class="title-text">Személyes adatok</label></button></h5></div><div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample"><div class="card-body collapse-card-body">';
     for (let i = 0; i < 7; i++) {
         container += '<p class="employee-detail-par"><label><span class="employee-datatype">**: </span>*</label></p>';
@@ -56,7 +56,7 @@ function getEmployeeDetail() {
     container += '!<p class="employee-detail-par"><label><span class="employee-datatype">**: </span><span class="income-green-style">* Ft</span></label></p>';
     container += '!<p class="employee-detail-par"><label class="employee-aggregated"><span class="employee-datatype">**: </span><span class="income-green-style">* Ft</span></label></p></div></div></div></div>';
     container += '!<div class="employee-button-container"><button id="edit_*" type="button" class="btn btn-primary  edit-employee-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
-    
+
     return container;
 
 }
@@ -107,14 +107,14 @@ var employees = {
 };
 export default employees;
 
-var employee_structure = [
-    "ImgSrc",
-    "Name",
-    "Teljesítmény_pont",
-    "Beosztás",
-    "Összköltség",
-    "Id"
-];
+var employee_structure = {
+    '1': "ImgSrc",
+    '2': "Name",
+    '3': "Teljesítmény_pont",
+    '4': "Beosztás",
+    '5': "Összköltség",
+    '6': "Id"
+};
 
 var employee_structure_2 = {
     Names: [

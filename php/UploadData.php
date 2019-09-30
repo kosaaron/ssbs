@@ -8,13 +8,11 @@
 include('Modules/InsertByStructure.php');
 
 //Post varibles
-$place = 'newtsk';
-$data = array();
-$data['Name'] = '100. feladat';
-$data['TaskTypeFK'] = '1';
-
-//Local varobles
+$place = $_POST['place'];
+$data = $_POST['data'];
 
 //Call upload function
 $insertByStructure = new InsertByStructure();
-$insertByStructure->DefaultUpload($data, $place);
+foreach ($data as $row) {
+    $insertByStructure->DefaultUpload($row, $place);
+}

@@ -6,6 +6,7 @@ include('Modules/DataAndStructure.php');
 
 //Post varibles
 $userId = 1;
+//$filters
 
 //Local varibles
 $main_data = array();

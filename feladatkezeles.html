@@ -259,7 +259,7 @@
             </div>
             <div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot!
             </div>
-            <div class="col-4" id="tasks_m_details">
+            <div class="col-4 display-flex flex-column" id="tasks_m_details">
                 <h2 class="name-grey">Nyomtató szervíz</h2>
                 <div class="d-flex justify-content-center">
 
@@ -276,7 +276,7 @@
                     </div>
 
                 </div>
-                <div id="data-container">
+                <div id="task_data_container">
                     <p><label class="title-text">Feladat típusa</label><br><label>Szervíz</label></p>
                     <p><label class="title-text">Megrendelő</label><br><label>Lajos Kft.</label></p>
                     <p><label class="title-text">Létrehozás dátuma</label><br><label>2019.06.24</label></p>
@@ -285,7 +285,7 @@
                     <p><label class="title-text">Leírás</label><br><label>Nyomtató elhozatala, majd CD-12-es panel
                             cseréje</label></p>
                 </div>
-                <div id="timeline-container" style="display: none">
+                <div id="task_timeline_container" style="display: none">
                     <ul class="timeline">
                         <li>
                             <div class="timeline-item">
@@ -344,13 +344,11 @@
                                             <button type="button"
                                                 class="btn btn-sm added-employee-button employee-button"><i
                                                     class="fas fa-user addemployee-icon "></i>Sági Dávid</button>
-
                                         </div>
                                         <div class="row add-employee-card">
                                             <button type="button"
                                                 class="btn btn-sm added-employee-button employee-button"><i
                                                     class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button>
-
                                         </div>
                                         <div class="row add-employee-card">
                                             <button type="button"
@@ -433,16 +431,16 @@
 </body>
 <script>
     function showTimeline() {
-        document.getElementById('data-container').style.display = "none";
-        document.getElementById('timeline-container').style.display = "block";
+        document.getElementById('task_data_container').style.display = "none";
+        document.getElementById('task_timeline_container').style.display = "block";
         var element = document.getElementById("detail_data_btn");
         element.classList.remove("btn-detail-menu-active");
         var element2 = document.getElementById("detail_timeline_btn");
         element2.classList.add("btn-detail-menu-active");
     }
     function showData() {
-        document.getElementById('timeline-container').style.display = "none";
-        document.getElementById('data-container').style.display = "block";
+        document.getElementById('task_timeline_container').style.display = "none";
+        document.getElementById('task_data_container').style.display = "block";
         var element = document.getElementById("detail_timeline_btn");
         element.classList.remove("btn-detail-menu-active");
         var element2 = document.getElementById("detail_data_btn");

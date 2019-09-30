@@ -22,15 +22,13 @@ import { addOneListener, removeOneListener, mainFrame } from './common.js';
 function getToolsCard() {
     let container = "";
     container += '<div class="col-lg-12"><div class="card toolcard"><div class="card-body">';
-    container += '!<div class="display-flex justify-content-between"><div class="tool-image-container display-flex align-items-center"><img class="tool-image"src="*"></div>';
-    container += '!<div class="tool-datas"><h3 class="card-title tool-name">*</h3>';
-    container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: *</p>';
-    container += '!<button type="button" class="btn btn-primary tool-tag *"><i class="fas fa-check tool-tag-icon"></i>Elérhető</button>';
-    container += '!<a href="#" class="btn btn-primary next-button show-details" id="*"><i class="fas fa-arrow-right"></i></a></div></div></div></div></div>';
+    container += '!<div class="display-flex justify-content-between"><div class="tool-image-container display-flex align-items-center"><img class="tool-image"src="*1*"></div>';
+    container += '!<div class="tool-datas"><h3 class="card-title tool-name">*2*</h3>';
+    container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: *3*</p>';
+    container += '!<button type="button" class="btn btn-primary tool-tag *4*"><i class="fas fa-check tool-tag-icon"></i>Elérhető</button>';
+    container += '!<a href="#" class="btn btn-primary next-button tools-show-details" id="tools_card_*5*"><i class="fas fa-arrow-right"></i></a></div></div></div></div></div>';
 
     return container;
-
-
 }
 
 /**
@@ -39,14 +37,15 @@ function getToolsCard() {
 function getToolDetail() {
     let container = "";
 
-    container += '<h2 class="name-grey">*</h2>';
-    container += '!<p><label>*</label></p>';
-    for (let i = 0; i < getToolsMDStructure().Data.length - 4; i++) {
-        container += '!<p><label class="title-text">**</label><br><label>*</label></p>';
+    container += '<h2 class="name-grey">*1*</h2>';
+    container += '!<p><label>*2*</label></p>';
+    let dataLength = Object.keys(getToolsMDStructure().Data).length;
+    for (let i = 0; i < dataLength - 4; i++) {
+        container += '!<p><label class="title-text">**' + (i + 3) + '**</label><br><label>*' + (i + 3) + '*</label></p>';
     }
 
-    container += '!<div class="tool-button-container justify-content-between"><button id="clnd_*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-calendar tool-tag-icon"></i>Naptár</button>';
-    container += '!<button id="edit_*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
+    container += '!<div class="tool-button-container justify-content-between"><button id="clnd_*' + (dataLength - 1) + '*" type="button" class="btn btn - primary tool - tag tool - button"><i class="fas fa - calendar tool - tag - icon"></i>Naptár</button>';
+    container += '!<button id="edit_*' + (dataLength) + '*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
     return container;
 }
 
@@ -59,12 +58,15 @@ function getToolsMDStructure() {
  * @param {Integer} cardId Card id
  */
 function toolCardClick(cardId) {
+    let splittedId = cardId.split('_');
+    let toolId = splittedId[splittedId.length - 1];
+
     let data = tools_list;
     let structure = getToolsMDStructure();
     let card = getToolDetail();
     let shellId = "tool_details";
 
-    CardDetails.Create(cardId, data, structure, card, shellId);
+    CardDetails.Create(toolId, data, structure, card, shellId, 'Id');
 }
 
 function toolFileterChange(id) {
@@ -91,9 +93,9 @@ var tools = {
         let cardDesign = getToolsCard();
         let cardContainer = "tools_card_container";
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(toolCardClick);
+        CardContainer.ClickableCard(toolCardClick, 'tools');
         if (data[0].Id !== null) {
-            toolCardClick(data[0].Id);
+            toolCardClick('tools_card_' + data[0].Id);
         }
 
         Filters.Create(activeTableFilters, "tool_filters", toolFileterChange);
@@ -104,36 +106,37 @@ var tools = {
 export default tools;
 
 
-var tool_structure = [
-    "ImgSrc",
-    "Name",
-    "Helye",
-    "Állapot",
-    "Id"
-];
+var tool_structure = {
+    '1': "ImgSrc",
+    '2': "Name",
+    '3': "Helye",
+    '4': "Állapot",
+    '5': "Id"
+};
 
 var tool_structure_2 = {
-    Names: [
-        null,
-        null,
-        "Helye",
-        "Használatbavétel kezdete",
-        "Karbantartást igényel",
-        "Leírás",
-        "Megjegyzés",
-        null,
-        null
-    ],
-    Data: [
-        "Name",
-        "Type",
-        "Helye",
-        "Kezdés_dátum",
-        "Karbantartást_igényel",
-        "Leírás",
-        "Megjegyzés",
-        "Id",
-        "Id"]
+    Names: {
+        '1': null,
+        '2': null,
+        '3': "Helye",
+        '4': "Használatbavétel kezdete",
+        '5': "Karbantartást igényel",
+        '6': "Leírás",
+        '7': "Megjegyzés",
+        '8': null,
+        '9': null
+    },
+    Data: {
+        '1': "Name",
+        '2': "Type",
+        '3': "Helye",
+        '4': "Kezdés_dátum",
+        '5': "Karbantartást_igényel",
+        '6': "Leírás",
+        '7': "Megjegyzés",
+        '8': "Id",
+        '9': "Id"
+    }
 };
 
 var activeTableFilters = [
