@@ -134,7 +134,7 @@ let Database = {
     getTaskWayData: function (taskId) {
         $.ajax({
             type: "POST",
-            url: "../php/TaskWay.php",
+            url: "./php/TaskWay.php",
             data: { task_id: taskId },
             success: function (data) {
                 if (jQuery.isEmptyObject(data.Data)) {
@@ -153,7 +153,7 @@ let Database = {
         //if (Varibles.PageData === null) {
         $.ajax({
             type: "POST",
-            url: "../php/TasksManager.php",
+            url: "./php/TasksManager.php",
             data: "",
             success: function (data) {
                 Varibles.PageData = data;/*

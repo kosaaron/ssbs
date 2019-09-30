@@ -20,13 +20,15 @@ var newTable = {
         let structure = newTableStructure;
         let newTableHtml="";
         newTableHtml += '<table class="table table-hover mb-0"><thead class="thead-design"><tr class="row m-0 ">';
-        newTableHtml += '!<th class="d-inline-block *">*</th>';
-        newTableHtml += '!<th class="d-inline-block col-1"></th></tr></thead></table>';
-        newTableHtml += '!'; //start body rész mire kell?
-        newTableHtml += '!<table class="table table-hover table-no-margin"><tbody><tr class="row m-0">';
+        newTableHtml += '!<th class="d-inline-block *">*</th>!</tr></thead></table>';
+        //newTableHtml += '!<th class="d-inline-block col-1"></th></tr></thead></table>'; --> th rész ide már nem kell, hiszen az előbb csináltad meg. a többi része felkerült egy sorral fejlebb.
+        //newTableHtml += '!'; //start body rész mire kell? --> elkülönüljön a header a body résztől
+        newTableHtml += '!<table class="table table-hover table-no-margin"><tbody>';
+        newTableHtml += '!<tr class="row m-0">'
         newTableHtml += '!<td class="d-inline-block *">?</td>';
-        newTableHtml += '!<td class="d-inline-block col-1 text-center"><i class="fas fa-chart-line collapse-button-icon " data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></i></td></tr></tbody></table>';
-        newTableHtml += '<div class="collapse" id="collapseExample"> <div class="card card-body collapse-table-card"> <div class="card card-body collapse-table-card"> <div class="d-flex justify-content-between"> <div class="collapse-tabledata-container"> <h2>Parker golyóstoll</h2> <h3></h3> <h3>Még egy fontos szám</h3> <h3>Még egy fontos szám</h3> </div><div class="collapse-tablechart-container"> <img src="https://canvasjs.com/wp-content/uploads/images/gallery/javascript-charts/line/javascript-line-charts-graphs.png" alt="table chart"> </div></div></div></div></div>';
+        newTableHtml += '!</tr>!</tbody></table></div>';
+        //newTableHtml += '<div class="collapse" id="collapseExample"> <div class="card card-body collapse-table-card"> <div class="card card-body collapse-table-card"> <div class="d-flex justify-content-between"> <div class="collapse-tabledata-container"> <h2>Parker golyóstoll</h2> <h3></h3> <h3>Még egy fontos szám</h3> <h3>Még egy fontos szám</h3> </div><div class="collapse-tablechart-container"> <img src="https://canvasjs.com/wp-content/uploads/images/gallery/javascript-charts/line/javascript-line-charts-graphs.png" alt="table chart"> </div></div></div></div></div>';
+        // --> felső sor: ez még nincs lefejlesztve, lassan érkezik majd, ezért kommenteltem ki.
         let plainHtml = newTableHtml;
         let shellId = "producttable_container";
         let checkbody = '<td class="d-inline-block col-1"> <div class="form-check text-center"> <input class="form-check-input" type="checkbox" value="" * id="defaultCheck1"> </div></td>';

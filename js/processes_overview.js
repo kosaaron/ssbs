@@ -101,7 +101,7 @@ let Local = {
         if (Local.processesDataArray === null) {
             $.ajax({
                 type: "POST",
-                url: "../php/ProcessesOverview.php",
+                url: "./php/ProcessesOverview.php",
                 data: "",
                 success: function (data) {
                     Local.processesDataArray = JSON.parse(data);
