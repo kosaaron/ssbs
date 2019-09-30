@@ -72,23 +72,23 @@ let newTableData = [
     },
     {
         TermékID: "g12e443",
-        Termék_neve: "golyóstoll",
+        Termék_neve: "radír",
         Termék_kategória: "írószer",
-        Napi_forgalom: "10",
-        Ár: "319",
-        Teszt_forg: "14",
-        Teszt_ár: "314",
+        Napi_forgalom: "17",
+        Ár: "299",
+        Teszt_forg: "16",
+        Teszt_ár: "319",
         Teszt: "true"
     },
     {
         TermékID: "g12e444",
-        Termék_neve: "golyóstoll",
+        Termék_neve: "filctoll",
         Termék_kategória: "írószer",
         Napi_forgalom: "10",
-        Ár: "319",
-        Teszt_forg: "14",
-        Teszt_ár: "314",
-        Teszt: "true"
+        Ár: "249",
+        Teszt_forg: "",
+        Teszt_ár: "",
+        Teszt: "false"
     },
     {
         TermékID: "g12e445",
@@ -142,6 +142,26 @@ let newTableData = [
     },
     {
         TermékID: "g12e450",
+        Termék_neve: "golyóstoll",
+        Termék_kategória: "írószer",
+        Napi_forgalom: "10",
+        Ár: "319",
+        Teszt_forg: "14",
+        Teszt_ár: "314",
+        Teszt: "true"
+    },
+    {
+        TermékID: "g12e451",
+        Termék_neve: "golyóstoll",
+        Termék_kategória: "írószer",
+        Napi_forgalom: "10",
+        Ár: "319",
+        Teszt_forg: "14",
+        Teszt_ár: "314",
+        Teszt: "true"
+    },
+    {
+        TermékID: "g12e452",
         Termék_neve: "golyóstoll",
         Termék_kategória: "írószer",
         Napi_forgalom: "10",

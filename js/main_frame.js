@@ -128,6 +128,9 @@ function processesModulClick(id) {
             //document.getElementById("process_modul_content").appendChild(iframe);
             partnersManager.loadPartnersManager();
             break;
+        case "operative_tasks":
+            iframe.src = "periodikusnaptar.html";
+            break;
         default:
             break;
     }
