@@ -76,6 +76,10 @@ table, td {
     background-color: #229933;
 }
 
+.processes-data-line-lgreen {
+    background-color: #c2e2c4;
+}
+
 .processes-data-line-blue {
     background-color: #332baa;
 }
