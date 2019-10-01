@@ -80,6 +80,10 @@ table, td {
     background-color: #c2e2c4;
 }
 
+.processes-data-line-lred {
+    background-color: #c47f7e;
+}
+
 .processes-data-line-blue {
     background-color: #332baa;
 }
