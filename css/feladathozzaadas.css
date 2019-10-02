@@ -139,9 +139,19 @@
 }
 
 .addemployee-icon {
-    padding-right: 10px;
+    padding: 2px 10px 2px 5px;
+    font-size: 15px
 }
-
+.add-new-employee-button{
+    color: #777;
+    border: 1px dashed #777;
+    margin-left: 18%;
+}
+.add-new-employee-button:hover{
+    color: white;
+    background-color: #999;
+    border: 1px solid #999;
+}
 .taskstep-container {
     display: block;
     overflow-y: scroll;
@@ -265,4 +275,11 @@ input:checked[type="checkbox"]:before {
 
 .sortable-ghost {
     background: #01043F;
+}
+.closebtn{
+    padding-left: 10px;
+    float: right;
+    font-size: inherit;
+    font-weight: bold;
+    cursor: pointer;
 }

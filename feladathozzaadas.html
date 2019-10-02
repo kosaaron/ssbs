@@ -85,11 +85,13 @@
                                     </select>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <button type="button" class="btn btn-sm added-employee-button employee-button"><i
-                                            class="fas fa-user addemployee-icon "></i>Werner Ádám</button>
+                                    <div class="btn btn-sm added-employee-button">
+                                            <i class="fas fa-user addemployee-icon "></i>Werner Ádám
+                                            <span onclick="deleteEmployee(this)" class="closebtn">&times;</span>
+                                    </div>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <button type="button" class="btn btn-sm add-employee-button employee-button"><i
+                                    <button type="button" onclick="addNewEmployee(this)" class="btn btn-sm added-employee-button add-new-employee-button"><i
                                             class="fas fa-user-plus addemployee-icon "></i>Munkatárs
                                         hozzáadása</button>
                                 </div>
@@ -103,17 +105,19 @@
                                     </select>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <button type="button" class="btn btn-sm added-employee-button employee-button"><i
-                                            class="fas fa-user addemployee-icon "></i>Sági Dávid</button>
-
+                                        <div class="btn btn-sm added-employee-button">
+                                                <i class="fas fa-user addemployee-icon "></i>Sági Dávid
+                                                <span onClick="deleteEmployee(this)" class="closebtn">&times;</span>
+                                        </div>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <button type="button" class="btn btn-sm added-employee-button employee-button"><i
-                                            class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button>
-
+                                        <div class="btn btn-sm added-employee-button">
+                                                <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs
+                                                <span onClick="deleteEmployee(this)" class="closebtn">&times;</span>
+                                        </div>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <button type="button" class="btn btn-sm add-employee-button employee-button"><i
+                                    <button type="button" class="btn btn-sm added-employee-button add-new-employee-button"><i
                                             class="fas fa-user-plus addemployee-icon "></i>Munkatárs
                                         hozzáadása</button>
                                 </div>
@@ -127,11 +131,13 @@
                                     </select>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <button type="button" class="btn btn-sm added-employee-button employee-button"><i
-                                            class="fas fa-user addemployee-icon "></i>Werner Ádám</button>
+                                        <div class="btn btn-sm added-employee-button">
+                                                <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs
+                                                <span onClick="deleteEmployee(this)" class="closebtn">&times;</span>
+                                        </div>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <button type="button" class="btn btn-sm add-employee-button employee-button"><i
+                                    <button type="button" class="btn btn-sm added-employee-button add-new-employee-button"><i
                                             class="fas fa-user-plus addemployee-icon "></i>Munkatárs
                                         hozzáadása</button>
                                 </div>
@@ -150,11 +156,19 @@
         <div class="flex-fill col-1">
         </div>
     </div>
-    <!--
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/dragndrop.js"></script>
-    -->
 </body>
+<script>
+    function deleteEmployee(e)
+    {
+        e.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode);
+    }
+    function addNewEmployee(el){
+        let container="";
+        container += el.parentNode.parentNode.outerHTML;
+        container += '<div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i><input type ="text" id="Input1"><span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
+        el.parentNode.parentNode.innerHTML = container;
+        el.remove();
+    }
+</script>
 
 </html>
