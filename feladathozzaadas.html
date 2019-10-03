@@ -163,11 +163,27 @@
         e.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode);
     }
     function addNewEmployee(el){
+        //let container="";
+        //container += el.parentNode.parentNode.outerHTML;
+        //container += '<div class="row add-employee-card"> <div class="btn btn-sm added-employee-input"> <i class="fas fa-user addemployee-icon "></i> <select id="employeeSelect" class="add-employee-selector"> <option selected>Choose...</option> <option>...</option> </select><span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
+        //el.parentNode.parentNode.innerHTML = container;
+        el.outerHTML = `<div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i><select id="employeeSelect" class="add-employee-selector"> <option selected>Choose...</option> <option>Kósa Áron Balázs</option><option>Sági Dávid</option><option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect")'><i class="fas fa-check-circle save-employee-icon"></i></span></div>`;
+
+
+    }
+    function saveEmployee(elem, selectId){
         let container="";
-        container += el.parentNode.parentNode.outerHTML;
-        container += '<div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i><input type ="text" id="Input1"><span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
-        el.parentNode.parentNode.innerHTML = container;
-        el.remove();
+        let selector = document.getElementById(selectId);
+        if (selector.selectedIndex==0)
+        {
+            return;
+        }
+        let sName = selector.options[selector.selectedIndex].text;
+        container += '<div class="row add-employee-card"><div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>' 
+        container += sName;
+        container += '<span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
+        container += elem.parentNode.parentNode.outerHTML;
+        elem.parentNode.parentNode.outerHTML = container;
     }
 </script>
 

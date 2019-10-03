@@ -283,3 +283,21 @@ input:checked[type="checkbox"]:before {
     font-weight: bold;
     cursor: pointer;
 }
+.added-employee-input{
+    
+    margin-left: 15%;
+
+}
+.add-employee-selector{
+    border: 0 0 1px 0 solid #777;
+
+
+}
+.save-employee-icon{
+    color: greenyellow;
+    font-size: 1.2rem;
+    padding-left: 10px;
+}
+.save-employee-icon:hover{
+    color: rgb(124, 182, 37);
+}
