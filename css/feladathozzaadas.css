@@ -160,39 +160,18 @@
     padding: 10px;
 }
 
-.taskstep-saved {
-    width: 70%;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    height: 12%;
-    padding: 5px;
-    margin-bottom: 1.3%;
-    margin-right: 8%;
-}
 
-.taskstep-saved-label {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 55%;
-    font-size: 1rem;
-    color: #495057;
-    padding-top: 6px;
-    padding-left: 6px;
-    margin: 0;
-}
 
-#saved_tasksteps {
-    width: 40%;
-}
+
 
 #delete_button {
     width: calc(1.5em + .75rem + 2px);
     ;
     height: calc(1.5em + .75rem + 2px);
     ;
-    float: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     outline: none;
     border: none;
     margin-right: 6%;
@@ -300,4 +279,80 @@ input:checked[type="checkbox"]:before {
 }
 .save-employee-icon:hover{
     color: rgb(124, 182, 37);
+}
+.add-taskstep-container{
+    position: relative;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    height: 12%;
+    padding: 5px;
+    margin-bottom: 1.3%;
+    margin-right: 8%;
+}
+#add_taskstep_collapse{
+    display: none;
+}
+.add-taskstep-btn-container{
+    width: 100%;
+}
+.add-taskstep-form-container{
+    width: 100%;
+}
+.btn-addtask-menu {
+    background-color: #fff;
+    border: none;
+    color: #999;
+    font-size: 1rem;
+    margin: 0 25px 0 10px;
+    padding: 0 0 2px 0;
+    outline: none;
+}
+
+.btn-addtask-menu:focus, .btn-addtask-menu:active:focus, .btn-addtask-menu.active:focus, .btn-addtask-menu.focus, .btn-addtask-menu:active.focus, .btn-addtask-menu.active.focus {
+    box-shadow: none;
+}
+
+.btn-addtask-menu-active {
+    color: #333;
+}
+
+.btn-addtask-menu:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #01043F;
+    transition: 1.5s;
+}
+
+.btn-addtask-menu:hover:before {
+    width: 100%;
+}
+
+.btn-addtask-menu-active:before {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #01043F;
+    transition: 0s;
+}
+.btn-show-forms{
+    color: #777;
+    font-size: 1.4rem;
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+#saved_taskstep_container{
+    display: none;
+}
+#addstep_title{
+    margin: 5px;
 }
