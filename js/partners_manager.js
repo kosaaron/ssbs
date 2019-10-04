@@ -35,7 +35,7 @@ function getPartnersMDetail() {
     let container = "";
 
     container += '<h2 class="name-grey">*1*</h2>';
-    for (let i = 2; i < Object.keys(getPartnersMDStructure().Data).length + 1; i++) {
+    for (let i = 2; i < Object.keys(Varibles.PageData.DetailsStructure.Data).length + 1; i++) {
         container += '!<p><label class="title-text">**' + i + '**</label><br><label>*' + i + '*</label></p>';
     }
     return container;
@@ -53,12 +53,12 @@ function partnerMCardClick(cardId) {
     let splittedId = cardId.split('_');
     let id = splittedId[splittedId.length - 1];
 
-    let data = partners_list;
-    let structure = getPartnersMDStructure();
+    let data = Varibles.PageData.Data;
+    let structure = Varibles.PageData.DetailsStructure;
     let card = getPartnersMDetail();
     let shellId = "partners_m_details";
 
-    CardDetails.Create(id, data, structure, card, shellId, 'Id');
+    CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
 }
 
 function partnersMFileterChange(id) {
@@ -72,23 +72,38 @@ function addPartner() {
     addOneListener("processes_back_to_menu", "click", partnersManager.loadPartnersManager);
 }
 
-/** Public functions */
+/** Public functions **/
 var partnersManager = {
     loadPartnersManager: function () {
-        // Load framework
+        // Load header
         document.getElementById("back_to_menu_text").textContent = "Partnerek";
+
+        // Get data from database
+        Database.getPageData();
+    }
+};
+export default partnersManager;
+/** Varibles */
+let Varibles = {
+    PageData: null
+}
+
+/** General functions **/
+let General = {
+    reloadFullPage(data) {
+        // Load framework
         let framework = '<div id="partners_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="partners_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_partner_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="partners_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="partners_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
 
         // Load card container
-        let data = partners_list;
-        let cardStructure = partner_m_structure;
+        let listData = data.Data;
+        let cardStructure = data.DataStructure;
         let cardDesign = getPartnersMCard();
         let cardContainer = "partners_card_container";
-        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
+        CardContainer.Create(listData, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(partnerMCardClick, 'partnerm');
-        if (data[0].Id !== null) {
-            partnerMCardClick('partners_card_' + data[0].Id);
+        if (listData[0].PartnerId !== null) {
+            partnerMCardClick('partners_card_' + listData[0].PartnerId);
         }
 
         Filters.Create(activeTableFilters, "partners_m_filters", partnersMFileterChange);
@@ -96,8 +111,28 @@ var partnersManager = {
         addOneListener("proceses_add_partner_btn", "click", addPartner);
         addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
     }
-};
-export default partnersManager;
+}
+
+/** Database **/
+let Database = {
+    /** Get card container data */
+    getPageData() {
+        $.ajax({
+            type: "POST",
+            url: "./php/PartnersManager.php",
+            data: "",
+            success: function (data) {
+                Varibles.PageData = data;
+
+                /*  Convert string data to date simple
+                Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
+                */
+                General.reloadFullPage(Varibles.PageData);
+            },
+            dataType: 'json'
+        });
+    }
+}
 
 var partner_m_structure = {
     '1': "LogoSrc",

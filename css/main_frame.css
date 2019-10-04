@@ -485,6 +485,18 @@ iframe[seamless] {
     -ms-overflow-style: auto;
 }
 
+#partners_m_details {
+    border-left: 1px solid #ddd;
+}
+
+.empl-status-ready {
+    color: #139113;
+}
+
+.empl-status-work {
+    color: #101010;
+}
+
 @media only screen and (max-width: 992px) {
     .item-icon {
         font-size: 40px;

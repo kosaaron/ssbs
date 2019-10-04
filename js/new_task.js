@@ -136,6 +136,7 @@ let Database = {
                         } else {
                             array['Active'] = 0;
                         }
+                        array['Ready'] = 0;
                         uploadSteps.push(array);
                     }
 

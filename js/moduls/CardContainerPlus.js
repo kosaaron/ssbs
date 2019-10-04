@@ -102,7 +102,9 @@ let CardContainerPlus = {
                         container += elementX[2];
                     }
                 }
-                container = container.replace("?", secundCardF(elementI));
+                if (container.split('?').length > 1) {
+                    container = container.replace("?", secundCardF(elementI));
+                }
             }
         }
         document.getElementById(shellId).innerHTML = container;
