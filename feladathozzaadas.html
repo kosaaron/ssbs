@@ -73,39 +73,59 @@
                                     <div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">
                                         <label id="new_taskstep_btn"
                                             class="btn btn-addtask-menu btn-addtask-menu-active">
-                                            <input type="radio" name="options" id="option1" autocomplete="off"
-                                                onchange="showNewTaskStep()">
+                                            <input type="radio" name="options" id="new_taskstep_option"
+                                                autocomplete="off" onchange="showNewTaskStep()">
                                             + Új lépés
                                         </label>
                                         <label id="saved_tasksteps_btn" class="btn btn-addtask-menu">
-                                            <input type="radio" name="options" id="option2" autocomplete="off"
-                                                onchange="showSavedTaskSteps()">
+                                            <input type="radio" name="options" id="saved_tasksteps_option"
+                                                autocomplete="off" onchange="showSavedTaskSteps()">
                                             Mentett lépések
                                         </label>
                                     </div>
                                 </div>
                                 <div id="new_taskstep_container" class="add-taskstep-form-container">
-                                    <p>--Új lépés form--</p>
+                                    <div class="form-group">
+                                        <label for="taskName" class="newtaskstep-label">Lépés neve:</label>
+                                        <input type="text" id="new_taskstep_name" class="newtask-formcontrol">
+                                    </div>
+                                    <button type="reset" onclick="addNewStep()"
+                                        class="btn btn-primary add-step-button">+ Hozzáad</button>
                                 </div>
                                 <div id="saved_taskstep_container" class="add-taskstep-form-container">
-                                    <p>--Mentett lépések form--</p>
+                                    <div class="form-group">
+                                        <label for="taskCat" class="newtaskstep-label">Lépés neve:</label>
+                                        <div class="tasktype-group">
+                                            <div class="input-group mb-3">
+                                                <select class="form-control newtask-formcontrol"
+                                                    aria-describedby="button-addon2">
+                                                    <option selected>Mentett lépések...</option>
+                                                    <option>Meeting</option>
+                                                    <option>Beszerzés</option>
+                                                    <option>Tesztelés</option>
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        id="new_saved_step_btn"><i class="fas fa-plus"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="reset" class="btn btn-primary add-step-button">+ Hozzáad</button>
                                 </div>
                             </div>
 
 
                         </div>
-                        <button type="reset" id="delete_button" class="btn btn-primary grey-button"><i
+                        <button type="reset" onclick="deleteAll()" id="delete_button" class="btn btn-primary grey-button"><i
                                 class="fas fa-trash-alt"></i></button>
                     </div>
                     <div class="taskstep-container">
                         <div id="processes_new_t_slides" class="slides">
                             <div class="slide slide1">
                                 <div class="row taskstep-card d-flex align-items-center">
-                                    <i class="fas fa-plus taskstep-icon"></i>
-                                    <select id="taskProject" class="taskstep-formcontrol">
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
-                                    </select>
+                                    <span class="stepNo">1.</span>
+                                    <h3 class=taskstep-title>lépés</h3>
                                 </div>
                                 <div class="row add-employee-card">
                                     <div class="btn btn-sm added-employee-button">
@@ -122,22 +142,19 @@
                             </div>
                             <div class="slide slide2">
                                 <div class="row taskstep-card d-flex align-items-center">
-                                    <i class="fas fa-plus taskstep-icon"></i>
-                                    <select id="taskProject" class="taskstep-formcontrol">
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
-                                    </select>
+                                    <span class="stepNo">2.</span>
+                                    <h3 class=taskstep-title>lépés</h3>
                                 </div>
                                 <div class="row add-employee-card">
                                     <div class="btn btn-sm added-employee-button">
                                         <i class="fas fa-user addemployee-icon "></i>Sági Dávid
-                                        <span onClick="deleteEmployee(this)" class="closebtn">&times;</span>
+                                        <span onclick="deleteEmployee(this)" class="closebtn">&times;</span>
                                     </div>
                                 </div>
                                 <div class="row add-employee-card">
                                     <div class="btn btn-sm added-employee-button">
                                         <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs
-                                        <span onClick="deleteEmployee(this)" class="closebtn">&times;</span>
+                                        <span onclick="deleteEmployee(this)" class="closebtn">&times;</span>
                                     </div>
                                 </div>
                                 <div class="row add-employee-card">
@@ -148,17 +165,13 @@
                                 </div>
                             </div>
                             <div class="slide slide3">
-                                <div class="row taskstep-card d-flex align-items-center">
-                                    <i class="fas fa-plus taskstep-icon"></i>
-                                    <select id="taskProject" class="taskstep-formcontrol">
-                                        <option selected>Choose...</option>
-                                        <option>...</option>
-                                    </select>
+                                <div class="row taskstep-card d-flex align-items-center"> <span class="stepNo">3.</span>
+                                    <h3 class=taskstep-title>lépés</h3>
                                 </div>
                                 <div class="row add-employee-card">
                                     <div class="btn btn-sm added-employee-button">
                                         <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs
-                                        <span onClick="deleteEmployee(this)" class="closebtn">&times;</span>
+                                        <span onclick="deleteEmployee(this)" class="closebtn">&times;</span>
                                     </div>
                                 </div>
                                 <div class="row add-employee-card">
@@ -170,12 +183,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="taskstep-tools d-flex align-items-center">
-                        <input type="checkbox">
-                        <span class="default-steps-label">Lépéssorozat mentése alapértelmezettként</span>
-                    </div>
-
-
                 </div>
             </div>
         </div>
@@ -210,6 +217,25 @@
         var element2 = document.getElementById("new_taskstep_btn");
         element2.classList.add("btn-addtask-menu-active");
     }
+    function addNewStep() {
+        let stepNumber = document.querySelectorAll('.stepNo').length;
+        let stepName = document.getElementById("new_taskstep_name").value;
+        let container ="";
+        container += document.getElementById("processes_new_t_slides").innerHTML
+        container +='<div class="slide slide';
+        container += (stepNumber + 1).toString();
+        container +='"><div class="row taskstep-card d-flex align-items-center"><span class="stepNo">';
+        container += (stepNumber + 1).toString();
+        container +='.</span><h3 class=taskstep-title>';
+        container += stepName;
+        container += '</h3></div>';
+        container += `<div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i><select id="employeeSelect`;
+        container += stepNumber.toString();
+        container += `" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option><option>Sági Dávid</option><option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect`;
+        container += stepNumber.toString();
+        container += `")'><i class="fas fa-check-circle save-employee-icon"></i></span></div></div>`;
+        document.getElementById("processes_new_t_slides").innerHTML = container;
+    }
     function deleteEmployee(e) {
         e.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode);
     }
@@ -218,7 +244,7 @@
         //container += el.parentNode.parentNode.outerHTML;
         //container += '<div class="row add-employee-card"> <div class="btn btn-sm added-employee-input"> <i class="fas fa-user addemployee-icon "></i> <select id="employeeSelect" class="add-employee-selector"> <option selected>Choose...</option> <option>...</option> </select><span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
         //el.parentNode.parentNode.innerHTML = container;
-        el.outerHTML = `<div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i><select id="employeeSelect" class="add-employee-selector"> <option selected>Choose...</option> <option>Kósa Áron Balázs</option><option>Sági Dávid</option><option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect")'><i class="fas fa-check-circle save-employee-icon"></i></span></div>`;
+        el.outerHTML = `<div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i><select id="employeeSelect" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option><option>Sági Dávid</option><option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect")'><i class="fas fa-check-circle save-employee-icon"></i></span></div>`;
 
 
     }
@@ -234,6 +260,9 @@
         container += '<span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
         container += elem.parentNode.parentNode.outerHTML;
         elem.parentNode.parentNode.outerHTML = container;
+    }
+    function deleteAll(){
+        document.getElementById("processes_new_t_slides").innerHTML ="";
     }
 </script>
 
