@@ -11,7 +11,7 @@ class CreateFilter
 
         $resultFltrStructure = $pdo->query('SELECT * FROM filters WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
 
-        $fltrStructure = array();
+        $main_data = array();
         foreach ($resultFltrStructure as $row) {
             $f_array = array();
             $f_array['FilterId'] = $row['FilterId'];
@@ -20,9 +20,11 @@ class CreateFilter
             $f_array['DefaultValue'] = $row['DefaultValue'];
             $f_array['ColumnName'] = $row['ColumnName'];
 
-            $column = explode(".", $row['ColumnName']);
-            $oppStructure = $pdo->query('SELECT DISTINCT ' . $row['TableName'] . '.' . end($column) . ' FROM ' . $row['TableName'] . ';')->fetchAll();
             if ($row['Type'] == 'S') {
+                $column = explode(".", $row['ColumnName']);
+                $oppIdColumn = $column[sizeof($column) - 2] . 'Id';
+                $oppStructure = $pdo->query('SELECT ' . $oppIdColumn . ' AS Id, ' . $row['TableName'] . '.' . end($column) . ' AS Name FROM ' . $row['TableName'] . ';')->fetchAll();
+
                 $oppArr = array();
 
                 if ($row['Required'] === '0') {
@@ -31,15 +33,15 @@ class CreateFilter
                     $f_array['Opportunities'][] = $oppArr;
                 }
                 foreach ($oppStructure as $row2) {
-                    $oppArr['Id'] = $row['FilterId'];
-                    $oppArr['Name'] = $row2[0];
+                    $oppArr['Id'] = $row2['Id'];
+                    $oppArr['Name'] = $row2['Name'];
                     $f_array['Opportunities'][] = $oppArr;
                 }
             }
 
-            $fltrStructure[] = $f_array;
+            $main_data[] = $f_array;
         }
 
-        return $fltrStructure;
+        return $main_data;
     }
 }

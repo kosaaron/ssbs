@@ -9,6 +9,7 @@
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
 import CardContainerPlus from './moduls/CardContainerPlus.js';
+import ArrayFunctions from './moduls/ArrayFunctions.js';
 import Filters from './moduls/Filters.js';
 import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
@@ -53,10 +54,6 @@ function taskMCardClick(cardId) {
     tasksManager.resizeTasksManager();
 }
 
-function tasksMFilterChange(id) {
-    alert(id);
-}
-
 function addTask() {
     newTask.loadNewTask();
 
@@ -94,6 +91,17 @@ let General = {
         let framework = '<div id="tasks_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="tasks_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_task_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="tasks_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="tasks_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
 
+        General.reloadCardContainer();
+
+        Filters.Create(Varibles.PageData.Filters, "tasks_m_filters", Database.tasksMFilterChange);
+
+        addOneListener("proceses_add_task_btn", "click", addTask);
+        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+    },
+    /**
+     * Reload card container
+     */
+    reloadCardContainer: function () {
         // Load card container
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
@@ -101,15 +109,14 @@ let General = {
         let cardContainer = "tasks_card_container";
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(taskMCardClick, 'taskm');
-        if (data[0].TaskId !== null) {
+        if (data[0] !== undefined) {
             taskMCardClick('task_card_' + data[0].TaskId);
         }
-
-        Filters.Create(Varibles.PageData.Filters, "tasks_m_filters", tasksMFilterChange);
-
-        addOneListener("proceses_add_task_btn", "click", addTask);
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
     },
+    /**
+     * Reload task way
+     * @param {JSON array} data 
+     */
     reloadTaskWay: function (data) {
         let container = '<li><div class="task-timeline-item"> <span>1</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Előkészítés</h3> </a><div class="collapse" id="collapseExample"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div></div></div></div></li><li><div class="task-timeline-item"> <span>2</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Megbeszélés</h3> </a><div class="collapse" id="collapseExample2"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div></div></div></div></li><li><div class="task-timeline-item"> <span id="actual-step">3</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="true" aria-controls="collapseExample"><h3>Beszerzés</h3> </a><div class="show" id="collapseExample3"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>4</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Alkatrész cseréje</h3> </a><div class="collapse" id="collapseExample4"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>5</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample5"><h3>Tesztüzem</h3> </a><div class="collapse" id="collapseExample5"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Luke Skywalker</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Jabba</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i></button></div></div></div></div></li>';
         document.getElementById('task_timeline').innerHTML += container;
@@ -136,6 +143,40 @@ let General = {
 
 /** Data from database **/
 let Database = {
+    /**
+     * 
+     * @param {String} id 
+     */
+    tasksMFilterChange: function (fullId) {
+        //Create filter array [{FilterId: "FilterId1", Value: "Value1"},{...}]
+        let filterArray = [];
+        //Change when copy
+        let dataPlace = 'tasks_m_filters';
+        let filterElements = document.querySelectorAll('[data-place="' + dataPlace + '"]');
+        filterElements.forEach(filterElement => {
+            let array = {};
+            let filterId = ArrayFunctions.Last((filterElement.id).split('_'));
+            let value = filterElement.value;
+            array['FilterId'] = filterId;
+            array['Value'] = value;
+            filterArray.push(array);
+        });
+
+        //Connect to Filter.php
+        $.ajax({
+            type: "POST",
+            url: "./php/Filter.php",
+            data: { 'Filters': filterArray },
+            success: function (data) {
+                Varibles.PageData.Data = data.Data;
+                /* String to date
+                Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
+                */
+                General.reloadCardContainer();
+            },
+            dataType: 'json'
+        });
+    },
     /**
      * Get task way data
      * @param {String} taskId 

@@ -32,12 +32,14 @@ function getPartnersMCard() {
  * Partners manager details template
  */
 function getPartnersMDetail() {
-    let container = "";
-
-    container += '<h2 class="name-grey">*1*</h2>';
+    let container = '<h2 class="name-grey">*1*</h2>';
+    container += '<div id="partner_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="prtnr_dtl_data_btn" class="btn btn-detail-menu btn-detail-menu-active"> <input type="radio" name="options" id="option1" autocomplete="off" onchange="showData()"> Adatok </label> <label id="prtnr_dtl_cnt_btn" class="btn btn-detail-menu"> <input type="radio" name="options" id="option2" autocomplete="off" onchange="showTimeline()"> Idővonal </label></div></div><div id="partner_details_content">';
+    container += '!<div id="partner_data_container">';
     for (let i = 2; i < Object.keys(Varibles.PageData.DetailsStructure.Data).length + 1; i++) {
         container += '!<p><label class="title-text">**' + i + '**</label><br><label>*' + i + '*</label></p>';
     }
+    container += '!</div><div id="partner_contacts_container" style="display: none" ></div></div>';
+
     return container;
 }
 
@@ -59,6 +61,12 @@ function partnerMCardClick(cardId) {
     let shellId = "partners_m_details";
 
     CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
+    let contactShell = 'partner_contacts_container';
+
+    addOneListener('partner_data_container', 'click', Events.detailsDataTabClick);
+    addOneListener('partner_contacts_container', 'click', Events.detailsContactsTabClick);
+
+    //CardContainer.Create()
 }
 
 function partnersMFileterChange(id) {
@@ -133,6 +141,124 @@ let Database = {
         });
     }
 }
+
+/** Events **/
+let Events = {
+    /** Details data tab click */
+    detailsDataTabClick: function (fullId) {
+        document.getElementById('partner_data_container').style.display = "none";
+        document.getElementById('partner_contacts_container').style.display = "block";
+        var element = document.getElementById("prtnr_dtl_data_btn");
+        element.classList.remove("btn-detail-menu-active");
+        var element2 = document.getElementById("prtnr_dtl_cnt_btn");
+        element2.classList.add("btn-detail-menu-active");
+    },
+    /** Details contacts tab click */
+    detailsContactsTabClick: function (fullId) {
+        document.getElementById('partner_data_container').style.display = "none";
+        document.getElementById('partner_contacts_container').style.display = "block";
+        var element = document.getElementById("prtnr_dtl_data_btn");
+        element.classList.remove("btn-detail-menu-active");
+        var element2 = document.getElementById("prtnr_dtl_cnt_btn");
+        element2.classList.add("btn-detail-menu-active");
+    },
+}
+
+/** Example for page data [JSON] */
+let PageDataJSONExample = {
+    "Filters": [
+        {
+            "FilterId": "3",
+            "Name": "Partner n\u00e9v",
+            "Type": "W",
+            "DefaultValue": null,
+            "ColumnName": "Name"
+        },
+        {
+            "FilterId": "4",
+            "Name": "Cimke",
+            "Type": "S",
+            "DefaultValue": null,
+            "ColumnName": "PartnerTags.Name",
+            "Opportunities": [
+                {
+                    "Id": "0",
+                    "Name": "-- V\u00e1lassz --"
+                },
+                {
+                    "Id": "4",
+                    "Name": "Fontos"
+                },
+                {
+                    "Id": "4",
+                    "Name": "Alkatr\u00e9szek"
+                }
+            ]
+        }
+    ],
+    "DataStructure": {
+        "1": "LogoSrc",
+        "2": "Name",
+        "3": "Phone",
+        "4": "Address",
+        "5": "PartnerId"
+    },
+    "Data": [
+        {
+            "PartnerType.Name": "Besz\u00e1ll\u00edt\u00f3",
+            "Email": "elso.vallalat@gmail.com",
+            "LogoSrc": "https:\/\/www.allenrec.com\/wp-content\/uploads\/2017\/04\/new-microsoft-logo-SIZED-SQUARE.jpg",
+            "Name": "Teszt partner 1",
+            "Phone": "+36908761239",
+            "Address": "Valahol, El\u0151 utca 1.",
+            "PartnerId": "1",
+            "Tags": [
+                {
+                    "PartnerTagId": "1",
+                    "Name": "Fontos"
+                },
+                {
+                    "PartnerTagId": "2",
+                    "Name": "Alkatr\u00e9szek"
+                }
+            ],
+            "Contacts": {
+                "DataStructure": {
+                    "1": "PartnerContactId",
+                    "2": "Name",
+                    "3": "Email",
+                    "4": "Phone",
+                    "5": "Address"
+                },
+                "Data": [
+                    {
+                        "PartnerContactId": "1",
+                        "Name": "K\u00f3sa \u00c1ron",
+                        "Email": "11",
+                        "Phone": "+36702395837",
+                        "Address": "Valahol, El\u0151 utca 1."
+                    }
+                ]
+            }
+        }
+    ],
+    "DetailsStructure": {
+        "Names": {
+            "1": null,
+            "2": "Felefonsz\u00e1m",
+            "3": "Email",
+            "4": "C\u00edm"
+        },
+        "Data": {
+            "1": "Name",
+            "2": "Phone",
+            "3": "Email",
+            "4": "Address"
+        }
+    }
+
+}
+
 
 var partner_m_structure = {
     '1': "LogoSrc",
