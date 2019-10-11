@@ -447,6 +447,90 @@
             var element2 = document.getElementById("detail_data_btn");
             element2.classList.add("btn-detail-menu-active");
         }
+        function showForms(e) {
+        if (document.getElementById("add_taskstep_collapse").style.display == "none") {
+            document.getElementById("add_taskstep_collapse").style.display = "block";
+            document.getElementById("addstep_title").style.display = "none";
+        }
+        else {
+            document.getElementById("add_taskstep_collapse").style.display = "none";
+            document.getElementById("addstep_title").style.display = "block";
+        }
+    };
+    function showSavedTaskSteps() {
+        document.getElementById('new_taskstep_container').style.display = "none";
+        document.getElementById('saved_taskstep_container').style.display = "block";
+        var element = document.getElementById("new_taskstep_btn");
+        element.classList.remove("btn-addtask-menu-active");
+        var element2 = document.getElementById("saved_tasksteps_btn");
+        element2.classList.add("btn-addtask-menu-active");
+    };
+    function showNewTaskStep() {
+        document.getElementById('saved_taskstep_container').style.display = "none";
+        document.getElementById('new_taskstep_container').style.display = "block";
+        var element = document.getElementById("saved_tasksteps_btn");
+        element.classList.remove("btn-addtask-menu-active");
+        var element2 = document.getElementById("new_taskstep_btn");
+        element2.classList.add("btn-addtask-menu-active");
+    };
+    function getStepNamefromText(stepinputId) {
+        let stepName = document.getElementById(stepinputId).value;
+        addNewStep(stepName);
+    };
+    function getStepNamefromSelect(stepinputId) {
+        let selector = document.getElementById(stepinputId);
+        if (selector.selectedIndex == 0) {
+            return;
+        }
+        let stepName = selector.options[selector.selectedIndex].text;
+        addNewStep(stepName);
+    };
+    function addNewStep(sName) {
+        let stepNumber = document.querySelectorAll('.stepNo').length;
+        let container = "";
+        container += document.getElementById("processes_new_t_slides").innerHTML
+        container += '<div class="slide slide';
+        container += (stepNumber + 1).toString();
+        container += '"><div class="row taskstep-card d-flex align-items-center"><span class="stepNo">';
+        container += (stepNumber + 1).toString();
+        container += '.</span><h3 class=taskstep-title>';
+        container += sName;
+        container += '</h3></div>';
+        container += `<div class="row add-employee-card"><div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i><select id="employeeSelect`;
+        container += (stepNumber + 1).toString();
+        container += `" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option><option>Sági Dávid</option><option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect`;
+        container += (stepNumber + 1).toString();
+        container += `")'><i class="fas fa-check-circle save-employee-icon"></i></span></div></div></div>`;
+        document.getElementById("processes_new_t_slides").innerHTML = container;
+    };
+    function deleteEmployee(e) {
+        e.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode);
+    };
+    function addNewEmployee(el) {
+        //let container="";
+        //container += el.parentNode.parentNode.outerHTML;
+        //container += '<div class="row add-employee-card"> <div class="btn btn-sm added-employee-input"> <i class="fas fa-user addemployee-icon "></i> <select id="employeeSelect" class="add-employee-selector"> <option selected>Choose...</option> <option>...</option> </select><span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
+        //el.parentNode.parentNode.innerHTML = container;
+        el.outerHTML = `<div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i><select id="employeeSelect" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option><option>Sági Dávid</option><option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect")'><i class="fas fa-check-circle save-employee-icon"></i></span></div>`;
+
+
+    };
+    function saveEmployee(elem, selectId) {
+        let container = "";
+        let selector = document.getElementById(selectId);
+        if (selector.selectedIndex == 0) {
+            return;
+        }
+        let eName = selector.options[selector.selectedIndex].text;
+        container += '<div class="row add-employee-card"><div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>'
+        container += eName;
+        container += '<span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
+        container += elem.parentNode.parentNode.outerHTML;
+        elem.parentNode.parentNode.outerHTML = container;
+    };
+    function deleteAll() {
+        document.getElementById("processes_new_t_slides").innerHTML = "";
+    }
         var $th = $('.tableFixHead').find('thead th')
         $('.tableFixHead').on('scroll', function () {
             $th.css('transform', 'translateY(' + this.scrollTop + 'px)');
