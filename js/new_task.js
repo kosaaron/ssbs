@@ -233,7 +233,7 @@ let Local = {
         card += '<i class="fas fa-user-plus addemployee-icon "></i>';
         card += '!<select id="employeeSelect_*4*" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option> <option>Sági Dávid</option> <option>Werner Ádám</option> </select>';
         card += '!<span id="stepaddempl_*4*"';
-        card += `!onclick='saveEmployee(this, "employeeSelect_*4*")'><i class="fas fa-check-circle save-employee-icon"></i></span>`;                      
+        card += `!onclick='saveEmployee(this, "employeeSelect_*4*")'><i class="fas fa-check-circle save-employee-icon"></i></span>`;
         card += '</div></div></div>';
 
         return card;

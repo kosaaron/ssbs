@@ -1,10 +1,5 @@
 <?php
-require_once('Connect.php');
-        $PDOConnect = new PDOConnect();
-        $pdo = $PDOConnect->pdo;
-require_once('Modules/QueryByStructure.php');
 require_once('Modules/CreateForm.php');
-require_once('Modules/DataAndStructure.php');
 
 //Post varibles
 $userId = 1;
