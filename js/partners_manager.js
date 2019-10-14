@@ -8,22 +8,27 @@
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
+import ArrayFunctions from './moduls/ArrayFunctions.js';
 import Filters from './moduls/Filters.js';
 import newPartner from './new_partner.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
+import CardContainerPlus from './moduls/CardContainerPlus.js';
 
-/** Loacal functions */
+/** Local functions */
 /**
  * Partners manager card template
  */
 function getPartnersMCard() {
     let container = "";
-    container += '<div class="col-lg-12"><div class="card partnercard"><div class="card-body">';
-    container += '!<div class="display-flex justify-content-between"><div class="partner-logo-container display-flex align-items-center"><img class="partner-logo"src="*1*"></div>';
+    container += '<div class="col-lg-12"><div class="card partnercard partnerm-show-details" id="partners_card_*5*"><div class="card-body">';
+    container += '<div class="display-flex justify-content-between">';
+    container += '!<div class="partner-logo-container display-flex align-items-center"><img class="partner-logo" src="*1*"></div>';
     container += '!<div class="partner-datas"><h3 class="card-title partner-name">*2*</h3>';
     container += '!<p><i class="fas fa-phone partnercard-logo"></i>*3*</p>';
     container += '!<p><i class="far fa-envelope partnercard-logo"></i>*4*</p></div></div>';
-    container += '!<div class="display-flex flex-wrap tag-container"><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>IT cég</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Microsoft</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nemzetközi</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Kiemelt</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nemzetközi</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>IT cég</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Microsoft</button><button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nagyobb cimke</button></div><a href="#" class="btn btn-primary next-button partnerm-show-details" id="partners_card_*5*"><i class="fas fa-arrow-right"></i></a></div></div></div>';
+    container += '!<div class="display-flex flex-wrap tag-container">?';
+    //container += '!<button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nagyobb cimke</button>';
+    container += '</div></div></div></div>';
 
     return container;
 }
@@ -33,7 +38,11 @@ function getPartnersMCard() {
  */
 function getPartnersMDetail() {
     let container = '<h2 class="name-grey">*1*</h2>';
-    container += '<div id="partner_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="prtnr_dtl_data_btn" class="btn btn-detail-menu btn-detail-menu-active"> <input type="radio" name="options" id="option1" autocomplete="off" onchange="showData()"> Adatok </label> <label id="prtnr_dtl_cnt_btn" class="btn btn-detail-menu"> <input type="radio" name="options" id="option2" autocomplete="off" onchange="showTimeline()"> Idővonal </label></div></div><div id="partner_details_content">';
+    container += '<div id="partner_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">';
+    container += '<label id="prtnr_dtl_data_btn" class="btn btn-detail-menu btn-detail-menu-active">';
+    container += '<input type="radio" name="options" id="prtnr_dtls_tab_data" autocomplete="off"> Adatok </label>';
+    container += '<label id="prtnr_dtl_cnt_btn" class="btn btn-detail-menu">';
+    container += '<input type="radio" name="options" id="prtnr_dtls_tab_contacts" autocomplete="off"> Kapcsolatok </label></div></div><div id="partner_details_content">';
     container += '!<div id="partner_data_container">';
     for (let i = 2; i < Object.keys(Varibles.PageData.DetailsStructure.Data).length + 1; i++) {
         container += '!<p><label class="title-text">**' + i + '**</label><br><label>*' + i + '*</label></p>';
@@ -63,14 +72,10 @@ function partnerMCardClick(cardId) {
     CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
     let contactShell = 'partner_contacts_container';
 
-    addOneListener('partner_data_container', 'click', Events.detailsDataTabClick);
-    addOneListener('partner_contacts_container', 'click', Events.detailsContactsTabClick);
+    addOneListener('prtnr_dtl_data_btn', 'click', Events.detailsDataTabClick);
+    addOneListener('prtnr_dtl_cnt_btn', 'click', Events.detailsContactsTabClick);
 
     //CardContainer.Create()
-}
-
-function partnersMFileterChange(id) {
-    alert(id);
 }
 
 function addPartner() {
@@ -98,26 +103,30 @@ let Varibles = {
 
 /** General functions **/
 let General = {
-    reloadFullPage(data) {
+    reloadFullPage() {
         // Load framework
         let framework = '<div id="partners_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="partners_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_partner_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="partners_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="partners_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
 
         // Load card container
-        let listData = data.Data;
-        let cardStructure = data.DataStructure;
-        let cardDesign = getPartnersMCard();
-        let cardContainer = "partners_card_container";
-        CardContainer.Create(listData, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(partnerMCardClick, 'partnerm');
-        if (listData[0].PartnerId !== null) {
-            partnerMCardClick('partners_card_' + listData[0].PartnerId);
-        }
+        General.reloadCardContainer();
 
-        Filters.Create(activeTableFilters, "partners_m_filters", partnersMFileterChange);
+        Filters.Create(Varibles.PageData.Filters, "partners_m_filters", Database.partnersMFileterChange);
 
         addOneListener("proceses_add_partner_btn", "click", addPartner);
         addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+    },
+    reloadCardContainer: function () {
+        // Load card container
+        let listData = Varibles.PageData.Data;
+        let cardStructure = Varibles.PageData.DataStructure;
+        let cardDesign = getPartnersMCard();
+        let cardContainer = "partners_card_container";
+        CardContainerPlus.CreateWithData(listData, cardStructure, cardContainer, cardDesign, Callbacks.tagsToPartner);
+        CardContainer.ClickableCard(partnerMCardClick, 'partnerm');
+        if (listData[0] !== undefined) {
+            partnerMCardClick('partners_card_' + listData[0].PartnerId);
+        }
     }
 }
 
@@ -127,7 +136,7 @@ let Database = {
     getPageData() {
         $.ajax({
             type: "POST",
-            url: "./php/PartnersManager.php",
+            url: "./php/GetPartnerManager.php",
             data: "",
             success: function (data) {
                 Varibles.PageData = data;
@@ -135,10 +144,42 @@ let Database = {
                 /*  Convert string data to date simple
                 Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
                 */
-                General.reloadFullPage(Varibles.PageData);
+                General.reloadFullPage();
             },
             dataType: 'json'
         });
+    },
+    partnersMFileterChange: function (fullId) {
+        //Change when copy
+        let dataPlace = 'partners_m_filters';
+        let filterPlace = 'prtnrfltr';
+
+        Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+    }
+}
+/** Callbacks **/
+let Callbacks = {
+    tagsToPartner: function (item, shellId) {
+        let result = '';
+
+        if (item.Tags !== undefined) {
+            item.Tags.forEach(tag => {
+                result += '<button id="' + shellId + '_tag_' + tag.PartnerTagId + '" type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>' + tag.Name + '</button>';
+            });
+        }
+
+        return result;
+    },
+    /**
+     * Success filter event
+     * @param {JSON array} data 
+     */
+    successFilterEvent: function (data) {
+        Varibles.PageData.Data = data.Data;
+        /* String to date
+        Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
+        */
+        General.reloadCardContainer();
     }
 }
 
@@ -146,22 +187,22 @@ let Database = {
 let Events = {
     /** Details data tab click */
     detailsDataTabClick: function (fullId) {
-        document.getElementById('partner_data_container').style.display = "none";
-        document.getElementById('partner_contacts_container').style.display = "block";
-        var element = document.getElementById("prtnr_dtl_data_btn");
+        document.getElementById('partner_data_container').style.display = "block";
+        document.getElementById('partner_contacts_container').style.display = "none";
+        let element = document.getElementById("prtnr_dtl_cnt_btn");
         element.classList.remove("btn-detail-menu-active");
-        var element2 = document.getElementById("prtnr_dtl_cnt_btn");
+        let element2 = document.getElementById("prtnr_dtl_data_btn");
         element2.classList.add("btn-detail-menu-active");
     },
     /** Details contacts tab click */
     detailsContactsTabClick: function (fullId) {
         document.getElementById('partner_data_container').style.display = "none";
         document.getElementById('partner_contacts_container').style.display = "block";
-        var element = document.getElementById("prtnr_dtl_data_btn");
+        let element = document.getElementById("prtnr_dtl_data_btn");
         element.classList.remove("btn-detail-menu-active");
-        var element2 = document.getElementById("prtnr_dtl_cnt_btn");
+        let element2 = document.getElementById("prtnr_dtl_cnt_btn");
         element2.classList.add("btn-detail-menu-active");
-    },
+    }
 }
 
 /** Example for page data [JSON] */

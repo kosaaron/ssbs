@@ -33,14 +33,14 @@ let CardDetails = {
                         let elementX2 = elementJ.split('**');
                         const elementN = structure.Names[elementX2[1]];
 
-                        if (elementN !== null) {
+                        if (elementN !== '' && elementN !== null) {
                             if (elementX2.length !== 1) {
                                 elementJ = elementJ.replace('**' + elementX2[1] + '**', elementN);
                             }
                         }
                         let elementX1 = elementJ.split('*');
                         const elementD = structure.Data[elementX1[1]];
-                        if (elementI[elementD] !== null) {
+                        if (elementI[elementD] !== '' && elementI[elementD] !== null) {
                             container += elementJ.replace('*' + elementX1[1] + '*', elementI[elementD]);
                         }
 

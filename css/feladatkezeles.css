@@ -107,7 +107,8 @@
 
 .taskfilter {
     padding: 2px;
-    height: calc(1.1em + 0.75rem + 2px);
+    height: 100%;
+    border: 1px solid #ddd !important;
 }
 
 .taskfilter-title {

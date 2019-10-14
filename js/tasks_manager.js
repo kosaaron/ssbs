@@ -140,7 +140,35 @@ let General = {
         }
     }
 }
+/*
+function test(dataPlace, filterPlace, reloadFunction) {
+    //Create filter array [{FilterId: "FilterId1", Value: "Value1"},{...}]
+    let filterArray = [];
+    let filterElements = document.querySelectorAll('[data-place="' + dataPlace + '"]');
+    filterElements.forEach(filterElement => {
+        let array = {};
+        let filterId = ArrayFunctions.Last((filterElement.id).split('_'));
+        let value = filterElement.value;
+        array['FilterId'] = filterId;
+        array['Value'] = value;
+        filterArray.push(array);
+    });
 
+    //Connect to Filter.php
+    $.ajax({
+        type: "POST",
+        url: "./php/Filter.php",
+        data: { 'FilterPlace': filterPlace, 'Filters': filterArray },
+        success: function (data) {
+            Varibles.PageData.Data = data.Data;
+            /* String to date
+            Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
+            *
+            reloadFunction();
+        },
+        dataType: 'json'
+    });
+}*/
 /** Data from database **/
 let Database = {
     /**
@@ -148,34 +176,11 @@ let Database = {
      * @param {String} id 
      */
     tasksMFilterChange: function (fullId) {
-        //Create filter array [{FilterId: "FilterId1", Value: "Value1"},{...}]
-        let filterArray = [];
         //Change when copy
         let dataPlace = 'tasks_m_filters';
-        let filterElements = document.querySelectorAll('[data-place="' + dataPlace + '"]');
-        filterElements.forEach(filterElement => {
-            let array = {};
-            let filterId = ArrayFunctions.Last((filterElement.id).split('_'));
-            let value = filterElement.value;
-            array['FilterId'] = filterId;
-            array['Value'] = value;
-            filterArray.push(array);
-        });
+        let filterPlace = 'taskfltr';
 
-        //Connect to Filter.php
-        $.ajax({
-            type: "POST",
-            url: "./php/Filter.php",
-            data: { 'Filters': filterArray },
-            success: function (data) {
-                Varibles.PageData.Data = data.Data;
-                /* String to date
-                Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-                */
-                General.reloadCardContainer();
-            },
-            dataType: 'json'
-        });
+        Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     },
     /**
      * Get task way data
@@ -203,7 +208,7 @@ let Database = {
         //if (Varibles.PageData === null) {
         $.ajax({
             type: "POST",
-            url: "./php/TasksManager.php",
+            url: "./php/GetTaskManager.php",
             data: "",
             success: function (data) {
                 Varibles.PageData = data;/*
@@ -277,6 +282,17 @@ let Callbacks = {
             finalHTML += '</div></div>';
         }
         return finalHTML;
+    },
+    /**
+     * 
+     * @param {JSON array} data 
+     */
+    successFilterEvent: function (data) {
+        Varibles.PageData.Data = data.Data;
+        /* String to date
+        Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
+        */
+        General.reloadCardContainer();
     }
 }
 

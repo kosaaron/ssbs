@@ -7,7 +7,9 @@ class CreateFilter
 {
     public function DefaultFilter($employee, $place)
     {
-        include('Connect.php');
+        require_once('Connect.php');
+        $PDOConnect = new PDOConnect();
+        $pdo = $PDOConnect->pdo;
 
         $resultFltrStructure = $pdo->query('SELECT * FROM filters WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
 
@@ -22,14 +24,15 @@ class CreateFilter
 
             if ($row['Type'] == 'S') {
                 $column = explode(".", $row['ColumnName']);
+                $tables = explode(".", $row['TableName']);
                 $oppIdColumn = $column[sizeof($column) - 2] . 'Id';
-                $oppStructure = $pdo->query('SELECT ' . $oppIdColumn . ' AS Id, ' . $row['TableName'] . '.' . end($column) . ' AS Name FROM ' . $row['TableName'] . ';')->fetchAll();
+                $oppStructure = $pdo->query('SELECT ' . $oppIdColumn . ' AS Id, ' . end($tables) . '.' . end($column) . ' AS Name FROM ' . end($tables) . ';')->fetchAll();
 
                 $oppArr = array();
 
                 if ($row['Required'] === '0') {
                     $oppArr['Id'] = '0';
-                    $oppArr['Name'] = '-- Válassz --';
+                    $oppArr['Name'] = '-- Mindegy --';
                     $f_array['Opportunities'][] = $oppArr;
                 }
                 foreach ($oppStructure as $row2) {

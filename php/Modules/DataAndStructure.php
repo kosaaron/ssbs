@@ -1,4 +1,6 @@
 <?php
+require_once('Modules/QueryByStructure.php');
+require_once('Connect.php');
 
 /**
  * Data and structure
@@ -7,8 +9,8 @@ class DataAndStructure
 {
     public function CardContainer($employee, $place, $table, $where = null)
     {
-        /** Includes */
-        include('Connect.php');
+        $PDOConnect = new PDOConnect();
+        $pdo = $PDOConnect->pdo;
 
         $main_data = array();
 
@@ -41,7 +43,9 @@ class DataAndStructure
     public function Details($employee, $place)
     {
         /** Includes */
-        include('Connect.php');
+        require_once('Connect.php');
+        $PDOConnect = new PDOConnect();
+        $pdo = $PDOConnect->pdo;
 
         $main_data = array();
 

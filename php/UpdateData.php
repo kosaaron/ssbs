@@ -5,7 +5,7 @@
  */
 
 //Includes
-include('Modules/UpdateByStructure.php');
+require_once('Modules/UpdateByStructure.php');
 
 //Post varibles
 $place = 'edttsk';

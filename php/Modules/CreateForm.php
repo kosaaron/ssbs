@@ -7,7 +7,9 @@ class CreateForm
 {
     public function DefaultForm($employee, $place)
     {
-        include('Connect.php');
+        require_once('Connect.php');
+        $PDOConnect = new PDOConnect();
+        $pdo = $PDOConnect->pdo;
         //Result form structure
         $resultFormStructure = $pdo->query('SELECT * FROM form_structures WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
 

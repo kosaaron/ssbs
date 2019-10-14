@@ -1,4 +1,5 @@
 <?php
+require_once('Connect.php');
 
 /**
  * Update by structure
@@ -7,7 +8,8 @@ class UpdateByStructure
 {
     public function DefaultUpdate($data, $place, $nameOfId, $valuOfId)
     {
-        include('Connect.php');
+        $PDOConnect = new PDOConnect();
+        $pdo = $PDOConnect->pdo;
 
         $updateTables = array();
         $updateStructures = $pdo->query('SELECT * FROM update_structures WHERE (Place="' . $place . '");')->fetchAll(PDO::FETCH_ASSOC);

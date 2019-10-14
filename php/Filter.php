@@ -1,15 +1,20 @@
 <?php
-include('Connect.php');
-include('Modules/QueryByStructure.php');
-include('Modules/DataAndStructure.php');
+require_once('Modules/Connect.php');
+require_once('Modules/QueryByStructure.php');
+require_once('Modules/DataAndStructure.php');
+require_once('Modules/QueryOptimizer.php');
 
 //Post varibles
 $userId = 1;
 $filters = $_POST['Filters'];
+$filterPlace = $_POST['FilterPlace'];
+
 
 //Local varibles
 $main_data = array();
 
+$PDOConnect = new PDOConnect();
+$pdo = $PDOConnect->pdo;
 $filterString = '';
 $first = true;
 
@@ -18,7 +23,7 @@ foreach ($filters as $filter) {
         continue;
     }
 
-    $resultFltrStructure = $pdo->query('SELECT ColumnName, TableName FROM filters WHERE (FilterId="' . $filter['FilterId'] . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
+    $resultFltrStructure = $pdo->query('SELECT Place, ColumnName, TableName FROM filters WHERE (FilterId="' . $filter['FilterId'] . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
     if ($first) {
         $filterString .= ' WHERE';
         $first = false;
@@ -27,34 +32,54 @@ foreach ($filters as $filter) {
     }
     $row = $resultFltrStructure[0];
     $splittedColumn = explode('.', $row['ColumnName']);
-    if (sizeof($splittedColumn) === 1) {
+    $spltdCSize = sizeof($splittedColumn);
+    if ($spltdCSize === 1) {
         $filterString .= ' ' . $row['TableName'] . '.' . $splittedColumn[0] . ' LIKE "%' . $filter['Value'] . '%"';
-    } else {
+    } else if ($spltdCSize === 2) {
         $filterString .= ' ' . $row['TableName'] . '.' . $splittedColumn[0] . 'Id="' . $filter['Value'] . '"';
+    } else if ($spltdCSize === 3) {
+        $splittedTable = explode('.', $row['TableName']);
+        $queryOptimizer = new QueryOptimizer();
+        $filterString .= $queryOptimizer->SwitchTable($splittedTable, $splittedColumn, 'PartnerTagId', $filter['Value'], 'Partner');
     }
 }
 
 /** Get card container filtered data */
-$cardCParam = getCardCParam('taskfltr');
-$dataAndStructure = new DataAndStructure();
-$cardCResult = $dataAndStructure->CardContainer($userId, $cardCParam['place'], $cardCParam['main_table'], $filterString);
-$main_data['Data'] = $cardCResult['Data'];
+$main_data['Data'] = getCardC($filterPlace, $userId, $filterString);
 
+/** Print result */
 $json = json_encode($main_data);
 print_r($json);
 
-//functions
-function getCardCParam($type)
+/** 
+ ----------------------------------------80----------------------------------------
+ * Functions
+ */
+/** Get card container */
+function getCardC($filterPlace, $userId, $filter)
 {
-    $param = array();
-    switch ($type) {
+    $data = array();
+    
+    switch ($filterPlace) {
         case 'taskfltr':
-            $param['place'] = 'taskmd';
-            $param['main_table'] = 'tasks';
-            break;
+            require_once('Modules/TaskManager.php');
 
+            $TaskManager = new TaskManager($userId);
+            $TaskManager->CreateCardContainer($filter);
+
+            $data = $TaskManager->main_data['Data'];
+            break;
+        case 'prtnrfltr':
+            require_once('Modules/PartnerManager.php');
+
+            $PartnerManager = new PartnerManager($userId);
+            $PartnerManager->CreateCardContainer($filter);
+
+            $data = $PartnerManager->main_data['Data'];
+            break;
         default:
             break;
     }
-    return $param;
+
+    return $data;
 }

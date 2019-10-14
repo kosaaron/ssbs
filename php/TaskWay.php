@@ -1,14 +1,16 @@
 <?php
-include('Connect.php');
-include('Modules/QueryByStructure.php');
-include('Modules/DataAndStructure.php');
+require_once('Modules/Connect.php');
+require_once('Modules/DataAndStructure.php');
 
 //Post varibles
 $userId = 1;
-$taskId = $_POST['task_id']; // $_POST('task_id');
+$taskId = $_POST['task_id'];
 
 //Local varibles
 $main_data = array();
+
+$PDOConnect = new PDOConnect();
+$pdo = $PDOConnect->pdo;
 
 /** Task way data */
 $dataAndStructure = new DataAndStructure();

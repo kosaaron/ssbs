@@ -5,7 +5,7 @@
  */
 
 //Includes
-include('Modules/InsertByStructure.php');
+require_once('Modules/InsertByStructure.php');
 
 //Post varibles
 $place = $_POST['place'];

@@ -59,7 +59,7 @@ let CardContainerPlus = {
                     const elementC = structure[elementX[1]];
 
                     //add data
-                    if (elementI[elementC] !== null) {
+                    if (elementI[elementC] !== null && elementI[elementC] !== '') {
                         container += elementX[0];
                         container += elementI[elementC];
                         container += elementX[2];

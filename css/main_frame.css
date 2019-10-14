@@ -160,6 +160,10 @@ iframe[seamless] {
     /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
+.gray-border {
+    border: 1px solid #ddd;
+}
+
 #page_header {
     display: none;
     background: #3B4372;

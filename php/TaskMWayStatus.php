@@ -1,5 +1,7 @@
 <?php
-include('Connect.php');
+require_once('Connect.php');
+        $PDOConnect = new PDOConnect();
+        $pdo = $PDOConnect->pdo;
 
 //Post varibles
 $userId = 1;

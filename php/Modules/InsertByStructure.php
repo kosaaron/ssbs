@@ -7,7 +7,9 @@ class InsertByStructure
 {
     public function DefaultUpload($data, $place)
     {
-        include('Connect.php');
+        require_once('Connect.php');
+        $PDOConnect = new PDOConnect();
+        $pdo = $PDOConnect->pdo;
         $insertTables = array();
         $insertStructures = $pdo->query('SELECT * FROM insert_structures WHERE (Place="' . $place . '");')->fetchAll(PDO::FETCH_ASSOC);
 
@@ -75,7 +77,9 @@ class InsertByStructure
      */
     function idForFk($parameters)
     {
-        include('Connect.php');
+        require_once('Connect.php');
+        $PDOConnect = new PDOConnect();
+        $pdo = $PDOConnect->pdo;
 
         $explodedParam = explode(',', $parameters);
         $table = $explodedParam[0];

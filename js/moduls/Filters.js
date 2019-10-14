@@ -4,6 +4,7 @@
 /** Imports */
 import { addListenerByAttr } from './../common.js';
 import CardContainerPlus from './CardContainerPlus.js';
+import ArrayFunctions from './ArrayFunctions.js';
 import FormElements from './FormElements.js';
 /** Filters */
 let Filters = {
@@ -25,6 +26,36 @@ let Filters = {
         $('.selectpicker').selectpicker('refresh');
 
         addListenerByAttr(shellId, 'change', eventFunction);
+    },
+    /**
+     * Filtering on database
+     * @param {String} dataPlace 
+     * @param {String} filterPlace 
+     * @param {Function} callbackFunction 
+     */
+    FilteringOnDB: function (dataPlace, filterPlace, callbackFunction) {
+        //Create filter array [{FilterId: "FilterId1", Value: "Value1"},{...}]
+        let filterArray = [];
+        let filterElements = document.querySelectorAll('[data-place="' + dataPlace + '"]');
+        filterElements.forEach(filterElement => {
+            let array = {};
+            let filterId = ArrayFunctions.Last((filterElement.id).split('_'));
+            let value = filterElement.value;
+            array['FilterId'] = filterId;
+            array['Value'] = value;
+            filterArray.push(array);
+        });
+
+        //Connect to Filter.php
+        $.ajax({
+            type: "POST",
+            url: "./php/Filter.php",
+            data: { 'FilterPlace': filterPlace, 'Filters': filterArray },
+            success: function (data) {
+                callbackFunction(data);
+            },
+            dataType: 'json'
+        });
     }
 }
 export default Filters;
