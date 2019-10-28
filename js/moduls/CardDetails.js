@@ -1,6 +1,13 @@
 /**
+ * Import CardContainer for CreatePlus function
+ */
+import CardContainer from './CardContainer.js';
+
+
+/**
  * **Card details**
  */
+
 let CardDetails = {
     /**
      * **Create**
@@ -51,7 +58,21 @@ let CardDetails = {
             }
         }
         document.getElementById(shellId).innerHTML = container;
+    },
+    
+    CreatePlus: function(cardId, data, structure, card, shellId, IdName, getData){
+        
+        for (let i = 0; i < data.length; i++) {
+            const elementI = data[i];
+            if (cardId === elementI[IdName]) {
+                const element = data[i];
+                const contactdata = getData(element);
+                CardContainer.Create(contactdata, structure, card, shellId);
+                break;
+            }
+        }
     }
+
 };
 
 export default CardDetails;
