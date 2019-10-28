@@ -88,8 +88,12 @@ function addPartner() {
 /** Public functions **/
 var partnersManager = {
     loadPartnersManager: function () {
-        // Load header
+        // Title
         document.getElementById("back_to_menu_text").textContent = "Partnerek";
+        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+
+        // Loader
+        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
 
         // Get data from database
         Database.getPageData();
@@ -114,7 +118,6 @@ let General = {
         Filters.Create(Varibles.PageData.Filters, "partners_m_filters", Database.partnersMFileterChange);
 
         addOneListener("proceses_add_partner_btn", "click", addPartner);
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
     },
     reloadCardContainer: function () {
         // Load card container

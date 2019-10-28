@@ -94,7 +94,7 @@ let TaskManager = {
     },
     CardContainer: {
         'Place name': taskmd,
-        'Main table': taks
+        'Main table': tasks
     },
     Details:{
         'Place name':taskdtls

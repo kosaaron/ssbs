@@ -64,6 +64,15 @@ function addTask() {
 /** Public functions */
 var tasksManager = {
     loadTasksManager: function () {
+        // Title
+        document.getElementById("back_to_menu_text").textContent = "Feladatok";
+        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+
+
+        // Loader
+        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+
+        // Data from server
         Database.getContainerData();
     },
     resizeTasksManager() {
@@ -87,7 +96,6 @@ let Varibles = {
 let General = {
     reloadFullPage: function () {
         // Load framework
-        document.getElementById("back_to_menu_text").textContent = "Feladatok";
         let framework = '<div id="tasks_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="tasks_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_task_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="tasks_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="tasks_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
 
@@ -96,7 +104,6 @@ let General = {
         Filters.Create(Varibles.PageData.Filters, "tasks_m_filters", Database.tasksMFilterChange);
 
         addOneListener("proceses_add_task_btn", "click", addTask);
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
     },
     /**
      * Reload card container
@@ -203,8 +210,6 @@ let Database = {
         });
     },
     getContainerData: function () {
-
-        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
         //if (Varibles.PageData === null) {
         $.ajax({
             type: "POST",
@@ -307,6 +312,7 @@ let Events = {
             url: "./php/TaskMWayStatus.php",
             data: { 'task_fk': taskFK, 'empl_id': emplId },
             success: function (data) {
+                alert(data);
                 Database.getTaskWayData(taskFK);
             },
             dataType: 'html'
