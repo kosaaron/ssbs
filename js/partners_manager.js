@@ -48,8 +48,32 @@ function getPartnersMDetail() {
         container += '!<p><label class="title-text">**' + i + '**</label><br><label>*' + i + '*</label></p>';
     }
     container += '!</div><div id="partner_contacts_container" style="display: none" ></div></div>';
-
     return container;
+}
+/**
+ * Partner contacts html by Áron
+ */
+function getPartnersMContact(){
+    let container = '<div class="row"><div class="card contactcard"><div class="card-body">';
+    container += `!<a onclick='showContact("*1*")'><div class="display-flex justify-content-between">`;
+    container += '!<div class="partner-logo-container display-flex align-items-center image-cropper"><img src="*2*"></div>';
+    container += '<div class="partner-datas">';
+    container += '!<h3 class="card-title contact-name">*3*</h3>';
+    container += '!<p>*4*</p>';
+    container += '!</div></div></a><div id="*5*" class="contact-container" style="display: none;">';
+    container += '<p class="contactdata"><i class="fas fa-phone partnercard-logo"></i>*6*</p>';
+    container += '<p class="contactdata"><i class="far fa-envelope partnercard-logo"></i>*7*</p></div></div></div></div>';
+    return container;
+}
+
+var partner_contact_structure = {
+    '1': "PartnerContactId",
+    '2': "Name", // Ide majd az ImgSrc kell, ez csak tesztre van itt
+    '3': "Name",
+    '4': "Address",
+    '5': "PartnerContactId",
+    '6': "Phone",
+    '7': "Email"
 }
 
 function getPartnersMDStructure() {
@@ -70,12 +94,22 @@ function partnerMCardClick(cardId) {
     let shellId = "partners_m_details";
 
     CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
+
     let contactShell = 'partner_contacts_container';
+    let structure2 = partner_contact_structure;
+    let card2 = getPartnersMContact();
+    CardDetails.CreatePlus(id, data, structure2, card2, contactShell, 'PartnerId', ContactData.getContactData);
 
     addOneListener('prtnr_dtl_data_btn', 'click', Events.detailsDataTabClick);
     addOneListener('prtnr_dtl_cnt_btn', 'click', Events.detailsContactsTabClick);
 
     //CardContainer.Create()
+}
+let ContactData = {
+    getContactData: function(data){
+        const contacts = data["Contacts"];
+        return contacts;
+    }
 }
 
 function addPartner() {
@@ -300,6 +334,9 @@ let PageDataJSONExample = {
 
 }
 
+var partner_contact_structure = {
+    '1': ""
+}
 
 var partner_m_structure = {
     '1': "LogoSrc",
