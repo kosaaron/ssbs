@@ -59,15 +59,26 @@ let CardDetails = {
         }
         document.getElementById(shellId).innerHTML = container;
     },
-    
-    CreatePlus: function(cardId, data, structure, card, shellId, IdName, getData){
-        
+    /**
+     * Create plus
+     * @param {String} cardId 
+     * @param {JSON Array} data 
+     * @param {JSON Array} structure 
+     * @param {String} card 
+     * @param {String} shellId 
+     * @param {String} IdName 
+     * @param {Function} getData 
+     */
+    CreatePlus: function (cardId, data, card, shellId, IdName, getData) {
+
         for (let i = 0; i < data.length; i++) {
             const elementI = data[i];
             if (cardId === elementI[IdName]) {
-                const element = data[i];
-                const contactdata = getData(element);
-                CardContainer.Create(contactdata, structure, card, shellId);
+                const contactFullData = getData(elementI);
+                const contactData = contactFullData.Data;
+                const contactStructure = contactFullData.DataStructure;
+
+                CardContainer.Create(contactData, contactStructure, card, shellId);
                 break;
             }
         }
