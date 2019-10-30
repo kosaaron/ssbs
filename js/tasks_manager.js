@@ -312,7 +312,6 @@ let Events = {
             url: "./php/TaskMWayStatus.php",
             data: { 'task_fk': taskFK, 'empl_id': emplId },
             success: function (data) {
-                alert(data);
                 Database.getTaskWayData(taskFK);
             },
             dataType: 'html'
