@@ -26,10 +26,6 @@ class Employees
 
     public function CreateCardContainer($filter)
     {
-        require_once('Connect.php');
-        $PDOConnect = new PDOConnect();
-        $pdo = $PDOConnect->pdo;
-
         /** Partner's manager data */
         $dataAndStructure = new DataAndStructure();
         $cardCResult = $dataAndStructure->CardContainer($this->userId, "emplmd", "employees", $filter);

@@ -8,7 +8,7 @@
 require_once('Modules/InsertByParam.php');
 
 //Post varibles
-
+$userId = 1;
 $data = $_POST['Data'];
 
 //Call upload function

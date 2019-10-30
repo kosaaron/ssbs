@@ -143,23 +143,37 @@ let FormElements = {
                     data: { 'Data': data },
                     success: function (result1) {
                         if (result1 === 'S') {
+                            let selectData = {};
 
-                            
+                            let selectColumns = {};
+                            selectColumns[splittedUploadName[1]] = 'Name';
+                            selectColumns[truncatedIdName + 'Id'] = 'Id';
+
+                            let selectTableArr = {};
+                            selectTableArr['Alias'] = 'SelectedTable';
+                            selectTableArr['Columns'] = selectColumns;
+
+                            selectData[splittedUploadName[0]] = selectTableArr;
+
                             $.ajax({
                                 type: "POST",
-                                url: "./php/UploadDataWithParam.php",
-                                data: { 'Values': data },
+                                url: "./php/GetDataByParam.php",
+                                data: { 'Data': selectData },
                                 success: function (result2) {
-                                    alert(result2);
-                                    /*
-                                    let addTypeOppHTML='';
-                                    for (let k = 0; k < opportunities.length; k++) {
-                                        addTypeOppHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
+                                    let selectedTableResult = result2.SelectedTable;
+                                    let addTypeOppHTML = '';
+                                    
+                                    for (let k = 0; k < selectedTableResult.length; k++) {
+                                        addTypeOppHTML += '<option value="' + selectedTableResult[k].Id + '">' + selectedTableResult[k].Name + '</option>';
                                     }
-                                    document.getElementById(shellId + '_' + id).innerHTML=addTypeOppHTML;
-                                    */
+
+                                    let selectElement = document.getElementById(shellId + '_' + id);
+                                    selectElement.innerHTML = addTypeOppHTML;
+
+                                    let selectedItemValue = selectedTableResult[selectedTableResult.length - 1].Id;
+                                    document.querySelector('#' + shellId + '_' + id + ' [value="' + selectedItemValue + '"]').selected = true;
                                 },
-                                dataType: 'html'
+                                dataType: 'json'
                             });
                         }
                     },
