@@ -17,14 +17,11 @@ let CardContainerPlus = {
      * @param {String} card Card design
      * @param {Function} secundCardF Secund card function with object parameter
      */
-    Create: function (data, shellId, card, secundCardF) {
-        let container = "";
+    Create: function (data, shellId, cardF) {
         for (let i = 0; i < data.length; i++) {
             const elementI = data[i];
-            container += card.replace("?", secundCardF(elementI, shellId));
+            cardF(elementI, shellId);
         }
-        document.getElementById(shellId).innerHTML = container;
-
     },
     /**
      * **CreateWithData**

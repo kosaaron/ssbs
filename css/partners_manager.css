@@ -65,8 +65,8 @@
     padding-right: 10px;
 }
 .image-cropper {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     position: relative;
     overflow: hidden;
     border-radius: 50%;
@@ -76,8 +76,8 @@
 .image-cropper img {
     display: inline;
     margin: 0 auto;
-    height: 100%;
-    width: auto;
+    width: 80px;
+    height: 80px;
 }
 .contactcard {
     height: auto;

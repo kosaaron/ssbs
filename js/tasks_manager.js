@@ -21,15 +21,12 @@ import { addOneListener, removeOneListener, mainFrame, addListener } from './com
 /**
  * Partners manager details template
  */
-function getTasksMDetail() {
+function getTasksMDetail(shellId) {
     let container = "";
     container += '!<h2 id="task_details_title" class="name-grey">*1*</h2>';
     container += '<div id="task_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="detail_data_btn" class="btn btn-detail-menu btn-detail-menu-active"> <input type="radio" name="options" id="option1" autocomplete="off" onchange="showData()"> Adatok </label> <label id="detail_timeline_btn" class="btn btn-detail-menu"> <input type="radio" name="options" id="option2" autocomplete="off" onchange="showTimeline()"> Idővonal </label></div></div><div id="task_details_content">';
     container += '!<div id="task_data_container">';
-
-    for (let i = 0; i < Object.keys(Varibles.PageData.DetailsStructure.Data).length - 1; i++) {
-        container += '!<p><label class="title-text">**' + (i + 2) + '**</label><br><label>*' + (i + 2) + '*</label></p>';
-    }
+    container += '!<div id="' + shellId + '_cc_g"> </div>';
     container += '!</div><div id="task_timeline_container" style="display: none" ><ul id="task_timeline" class="task-timeline"></ul></div></div>';
 
     return container;
@@ -45,8 +42,8 @@ function taskMCardClick(cardId) {
     //Data
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
-    let card = getTasksMDetail();
     let shellId = "tasks_m_details";
+    let card = getTasksMDetail(shellId);
     CardDetails.Create(taskId, data, structure, card, shellId, 'TaskId');
 
     //Steps
@@ -64,6 +61,15 @@ function addTask() {
 /** Public functions */
 var tasksManager = {
     loadTasksManager: function () {
+        // Title
+        document.getElementById("back_to_menu_text").textContent = "Feladatok";
+        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+
+
+        // Loader
+        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+
+        // Data from server
         Database.getContainerData();
     },
     resizeTasksManager() {
@@ -87,7 +93,6 @@ let Varibles = {
 let General = {
     reloadFullPage: function () {
         // Load framework
-        document.getElementById("back_to_menu_text").textContent = "Feladatok";
         let framework = '<div id="tasks_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="tasks_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_task_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="tasks_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="tasks_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
 
@@ -96,7 +101,6 @@ let General = {
         Filters.Create(Varibles.PageData.Filters, "tasks_m_filters", Database.tasksMFilterChange);
 
         addOneListener("proceses_add_task_btn", "click", addTask);
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
     },
     /**
      * Reload card container
@@ -203,8 +207,6 @@ let Database = {
         });
     },
     getContainerData: function () {
-
-        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
         //if (Varibles.PageData === null) {
         $.ajax({
             type: "POST",

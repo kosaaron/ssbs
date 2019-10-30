@@ -457,19 +457,19 @@
     </div>
 </body>
 <script>
-var state = false;
+var statePartnerCollapse = false;
 function showContact(containerId){
-    if (state == false) {
+    if (statePartnerCollapse == false) {
         // stuff for 'playnow' action
         document.getElementById(containerId).style.display="block";
-        state = true;
+        statePartnerCollapse = true;
         return;
     }
 
-    if (state == true) {
+    if (statePartnerCollapse == true) {
         // stuff for 'stop' action
         document.getElementById(containerId).style.display="none";
-        state = false;
+        statePartnerCollapse = false;
         return;
     }
 }

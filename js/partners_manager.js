@@ -8,7 +8,6 @@
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
-import ArrayFunctions from './moduls/ArrayFunctions.js';
 import Filters from './moduls/Filters.js';
 import newPartner from './new_partner.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
@@ -35,8 +34,9 @@ function getPartnersMCard() {
 
 /**
  * Partners manager details template
+ * @param {String} shellId 
  */
-function getPartnersMDetail() {
+function getPartnersMDetail(shellId) {
     let container = '<h2 class="name-grey">*1*</h2>';
     container += '<div id="partner_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">';
     container += '<label id="prtnr_dtl_data_btn" class="btn btn-detail-menu btn-detail-menu-active">';
@@ -44,11 +44,24 @@ function getPartnersMDetail() {
     container += '<label id="prtnr_dtl_cnt_btn" class="btn btn-detail-menu">';
     container += '<input type="radio" name="options" id="prtnr_dtls_tab_contacts" autocomplete="off"> Kapcsolatok </label></div></div><div id="partner_details_content">';
     container += '!<div id="partner_data_container">';
-    for (let i = 2; i < Object.keys(Varibles.PageData.DetailsStructure.Data).length + 1; i++) {
-        container += '!<p><label class="title-text">**' + i + '**</label><br><label>*' + i + '*</label></p>';
-    }
+    container += '!<div id="' + shellId + '_cc_g"> </div>';
     container += '!</div><div id="partner_contacts_container" style="display: none" ></div></div>';
-
+    return container;
+}
+/**
+ * Partner contacts html by Áron
+ */
+function getPartnersMContact() {
+    let container = '<div class="row"><div class="card contactcard"><div class="card-body">';
+    container += `!<a onclick='showContact("*1*")'><div class="display-flex justify-content-between">`;
+    container += '!<div class="partner-logo-container display-flex align-items-center image-cropper"><img src="https://www.famousbirthdays.com/faces/depp-johnny-image.jpg"></div>';
+    container += '<div class="partner-datas">';
+    container += '!<h3 class="card-title contact-name">*2*</h3>';
+    container += '<p>--poszt--</p>';
+    container += '!</div></div></a><div id="*1*" class="contact-container" style="display: none;">';
+    container += '!<p class="contactdata"><i class="fas fa-home partnercard-logo"></i></i>*2*</p>';
+    container += '!<p class="contactdata"><i class="fas fa-phone partnercard-logo"></i>*4*</p>';
+    container += '!<p class="contactdata"><i class="far fa-envelope partnercard-logo"></i>*3*</p></div></div></div></div>';
     return container;
 }
 
@@ -66,16 +79,22 @@ function partnerMCardClick(cardId) {
 
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
-    let card = getPartnersMDetail();
     let shellId = "partners_m_details";
+    let card = getPartnersMDetail(shellId);
 
     CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
+
     let contactShell = 'partner_contacts_container';
+    let card2 = getPartnersMContact();
+    CardDetails.CreatePlus(id, data, card2, contactShell, 'PartnerId', Callbacks.getContactData);
 
     addOneListener('prtnr_dtl_data_btn', 'click', Events.detailsDataTabClick);
     addOneListener('prtnr_dtl_cnt_btn', 'click', Events.detailsContactsTabClick);
 
     //CardContainer.Create()
+}
+let ContactData = {
+
 }
 
 function addPartner() {
@@ -88,8 +107,12 @@ function addPartner() {
 /** Public functions **/
 var partnersManager = {
     loadPartnersManager: function () {
-        // Load header
+        // Title
         document.getElementById("back_to_menu_text").textContent = "Partnerek";
+        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+
+        // Loader
+        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
 
         // Get data from database
         Database.getPageData();
@@ -114,7 +137,6 @@ let General = {
         Filters.Create(Varibles.PageData.Filters, "partners_m_filters", Database.partnersMFileterChange);
 
         addOneListener("proceses_add_partner_btn", "click", addPartner);
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
     },
     reloadCardContainer: function () {
         // Load card container
@@ -180,6 +202,13 @@ let Callbacks = {
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
         General.reloadCardContainer();
+    },
+    /**
+     * Get contact data
+     * @param {JSON Array} data 
+     */
+    getContactData: function (data) {
+        return data["Contacts"];
     }
 }
 
@@ -299,7 +328,6 @@ let PageDataJSONExample = {
     }
 
 }
-
 
 var partner_m_structure = {
     '1': "LogoSrc",

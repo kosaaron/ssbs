@@ -24,6 +24,7 @@ class CreateForm
             $f_array['Type'] = $row['Type'];
             $f_array['DefaultValue'] = $row['DefaultValue'];
             $f_array['ColumnName'] = $row['ColumnName'];
+            $f_array['TruncatedIdName'] = $row['TruncatedIdName'];
             $f_array['Required'] = $row['Required'];
             $f_array['UploadName'] = $row['UploadName'];
 
