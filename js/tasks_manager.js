@@ -21,15 +21,12 @@ import { addOneListener, removeOneListener, mainFrame, addListener } from './com
 /**
  * Partners manager details template
  */
-function getTasksMDetail() {
+function getTasksMDetail(shellId) {
     let container = "";
     container += '!<h2 id="task_details_title" class="name-grey">*1*</h2>';
     container += '<div id="task_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="detail_data_btn" class="btn btn-detail-menu btn-detail-menu-active"> <input type="radio" name="options" id="option1" autocomplete="off" onchange="showData()"> Adatok </label> <label id="detail_timeline_btn" class="btn btn-detail-menu"> <input type="radio" name="options" id="option2" autocomplete="off" onchange="showTimeline()"> Idővonal </label></div></div><div id="task_details_content">';
     container += '!<div id="task_data_container">';
-
-    for (let i = 0; i < Object.keys(Varibles.PageData.DetailsStructure.Data).length - 1; i++) {
-        container += '!<p><label class="title-text">**' + (i + 2) + '**</label><br><label>*' + (i + 2) + '*</label></p>';
-    }
+    container += '!<div id="' + shellId + '_cc_g"> </div>';
     container += '!</div><div id="task_timeline_container" style="display: none" ><ul id="task_timeline" class="task-timeline"></ul></div></div>';
 
     return container;
@@ -45,8 +42,8 @@ function taskMCardClick(cardId) {
     //Data
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
-    let card = getTasksMDetail();
     let shellId = "tasks_m_details";
+    let card = getTasksMDetail(shellId);
     CardDetails.Create(taskId, data, structure, card, shellId, 'TaskId');
 
     //Steps
