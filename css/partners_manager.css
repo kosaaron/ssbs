@@ -64,20 +64,12 @@
 .partner-tag-icon{
     padding-right: 10px;
 }
-.image-cropper {
-    width: 80px;
-    height: 80px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 50%;
-    border: 3px solid #0067A5;
+.profile-logo-container {
+    padding: 10px;
 }
 
-.image-cropper img {
-    display: inline;
-    margin: 0 auto;
-    width: 80px;
-    height: 80px;
+.profile-logo {
+    font-size: 40px;
 }
 .contactcard {
     height: auto;

@@ -56,10 +56,10 @@ function getPartnersMDetail() {
 function getPartnersMContact() {
     let container = '<div class="row"><div class="card contactcard"><div class="card-body">';
     container += `!<a onclick='showContact("*1*")'><div class="display-flex justify-content-between">`;
-    container += '!<div class="partner-logo-container display-flex align-items-center image-cropper"><img src="https://www.famousbirthdays.com/faces/depp-johnny-image.jpg"></div>';
+    container += '<i class="fas fa-user-circle profile-logo"></i>';
     container += '<div class="partner-datas">';
     container += '!<h3 class="card-title contact-name">*2*</h3>';
-    container += '<p>--poszt--</p>';
+    container += '!<p>*5*</p>';
     container += '!</div></div></a><div id="*1*" class="contact-container" style="display: none;">';
     container += '!<p class="contactdata"><i class="fas fa-home partnercard-logo"></i></i>*2*</p>';
     container += '!<p class="contactdata"><i class="fas fa-phone partnercard-logo"></i>*4*</p>';
