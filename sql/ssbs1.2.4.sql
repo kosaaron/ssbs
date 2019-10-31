@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2019. Okt 30. 17:24
+-- Létrehozás ideje: 2019. Okt 31. 13:57
 -- Kiszolgáló verziója: 10.4.6-MariaDB
 -- PHP verzió: 7.3.8
 
@@ -80,7 +80,13 @@ INSERT INTO `cardc_structures` (`StuctureId`, `Number`, `ColumnName`, `Tables`, 
 (41, NULL, 'TaskFK', NULL, 'taskwy', 1),
 (42, NULL, 'Email', NULL, 'prtnrmd', 1),
 (43, 1, 'EmployeeId', NULL, 'emplmd', 1),
-(44, 2, 'EmployeePosition.Name', 'employee_positions', 'emplmd', 1);
+(44, 2, 'EmployeePosition.Name', 'employee_positions', 'emplmd', 1),
+(45, 3, 'TotalCost', NULL, 'emplmd', 1),
+(46, 4, 'FirstName', NULL, 'emplmd', 1),
+(47, 5, 'LastName', NULL, 'emplmd', 1),
+(48, NULL, 'GrossSalary', NULL, 'emplmd', 1),
+(49, NULL, 'NetSalary', NULL, 'emplmd', 1),
+(50, NULL, 'OtherAllowances', NULL, 'emplmd', 1);
 
 -- --------------------------------------------------------
 
@@ -124,10 +130,10 @@ INSERT INTO `dtls_structures` (`StuctureId`, `Number`, `Name`, `ColumnName`, `Ta
 (23, '1', NULL, 'FirstName', NULL, 'empldtls', 1),
 (24, '3', NULL, 'EmployeePosition.Name', 'employee_positions', 'empldtls', 1),
 (25, '2', NULL, 'LastName', NULL, 'empldtls', 1),
-(26, '0', 'Bruttó fizetés', 'GrossSalary', NULL, 'empldtls', 1),
-(27, '0', 'Nettó fizetés', 'NetSalary', NULL, 'empldtls', 1),
-(28, '0', 'Egyéb juttatások', 'OtherAllowances', NULL, 'empldtls', 1),
-(29, '0', 'Teljes költség', 'TotalCost', NULL, 'empldtls', 1);
+(26, 'g1', 'Bruttó fizetés', 'GrossSalary', NULL, 'empldtls', 1),
+(27, 'g2', 'Nettó fizetés', 'NetSalary', NULL, 'empldtls', 1),
+(28, 'g3', 'Egyéb juttatások', 'OtherAllowances', NULL, 'empldtls', 1),
+(29, 'g4', 'Teljes költség', 'TotalCost', NULL, 'empldtls', 1);
 
 -- --------------------------------------------------------
 
@@ -543,7 +549,8 @@ INSERT INTO `task_types` (`TaskTypeId`, `Name`) VALUES
 (15, 'adsfdsvvvv'),
 (16, 'ez az új'),
 (17, 'asdfdsbbttt'),
-(18, 'Progi2222');
+(18, 'Progi2222'),
+(19, 'Szia Áron');
 
 -- --------------------------------------------------------
 
@@ -852,13 +859,13 @@ ALTER TABLE `update_structures`
 -- AUTO_INCREMENT a táblához `cardc_structures`
 --
 ALTER TABLE `cardc_structures`
-  MODIFY `StuctureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `StuctureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT a táblához `dtls_structures`
 --
 ALTER TABLE `dtls_structures`
-  MODIFY `StuctureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `StuctureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT a táblához `employees`
@@ -954,7 +961,7 @@ ALTER TABLE `task_steps`
 -- AUTO_INCREMENT a táblához `task_types`
 --
 ALTER TABLE `task_types`
-  MODIFY `TaskTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `TaskTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT a táblához `task_ways`
