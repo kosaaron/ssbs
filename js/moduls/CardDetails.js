@@ -2,7 +2,7 @@
  * Import CardContainer for CreatePlus function
  */
 import CardContainer from './CardContainer.js';
-
+import CardContainerPlus from './CardContainerPlus.js';
 
 /**
  * **Card details**
@@ -23,9 +23,11 @@ let CardDetails = {
      * @param {String} IdName Name of id
      */
     Create: function (cardId, data, structure, card, shellId, IdName) {
-        let cardBlock = card.split('!');
+        let cCData = [];
 
+        let cardBlock = card.split('!');
         let container = "";
+
         for (let i = 0; i < data.length; i++) {
             const elementI = data[i];
             if (cardId === elementI[IdName]) {
@@ -54,10 +56,35 @@ let CardDetails = {
                         c++;
                     }
                 }
+
+                for (let key in structure.Data) {
+                    if (key[0] === 'g') {
+                        let ccDataItem = {}
+
+                        ccDataItem['Id'] = key;
+                        ccDataItem['Name'] = structure.Names[key];
+                        ccDataItem['Value'] = elementI[structure.Data[key]];
+                        cCData.push(ccDataItem);
+                    }
+                }
+
                 break;
             }
         }
         document.getElementById(shellId).innerHTML = container;
+
+        /** Auto data generator */
+        if (cCData.length === 0) {
+            return;
+        }
+
+        let cCStructure = {
+            '1': 'Id',
+            '2': 'Name',
+            '3': 'Value'
+        };
+        let cCCard = '<p id="*1*">!<label class="title-text">*2*!</label><br><label>*3*</label></p>';
+        CardContainer.Create(cCData, cCStructure, cCCard, shellId + '_cc_g');
     },
     /**
      * Create plus

@@ -7,7 +7,39 @@
 body {
   background-color: #606fee;
   font-family: "Open Sans", sans-serif;
-  overflow: auto;
+}
+
+#grid {
+  height: 80vh;
+}
+
+.calendar {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: repeat(5, 1fr);
+}
+.calendar.row-6 {
+  grid-template-rows: repeat(6, 1fr);
+}
+.calendar__row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 25px repeat(4, 1fr);
+}
+.calendar .task {
+  padding: 2px;
+}
+.calendar .task__inner {
+  background-color: yellowgreen;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 5px;
+  border-radius: 5px;
+  height: 100%;
+  line-height: 25px;
 }
 
 #exit {
@@ -79,75 +111,6 @@ nav h2 a {
 .modal #done a:hover {
   background-color: #ffffff;
   color: #606fee;
-}
-
-.calendar-table {
-  width: 100%;
-  height: 300px;
-  background-color: #303658;
-}
-@media only screen and (min-width: 768px) {
-  .calendar-table {
-    height: 80vh;
-  }
-}
-.calendar-table .calendar-row {
-  width: 100%;
-  display: inline-flex;
-}
-@media only screen and (min-width: 992px) {
-  .calendar-table .calendar-row:nth-child(n+1) {
-    border-left: #b9b9b9 1px solid;
-  }
-  .calendar-table .calendar-row:first-child {
-    border-top: #b9b9b9 1px solid;
-  }
-}
-.calendar-table .calendar-row .today {
-  background-color: #606fee;
-}
-.calendar-table .calendar-row .prev-month, .calendar-table .calendar-row .current-month, .calendar-table .calendar-row .next-month {
-  width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  cursor: pointer;
-}
-@media only screen and (min-width: 768px) {
-  .calendar-table .calendar-row .prev-month, .calendar-table .calendar-row .current-month, .calendar-table .calendar-row .next-month {
-    display: block;
-  }
-  .calendar-table .calendar-row .prev-month .calendar-days, .calendar-table .calendar-row .current-month .calendar-days, .calendar-table .calendar-row .next-month .calendar-days {
-    display: block;
-    text-align: end;
-    padding: 5px 5px 0 0;
-  }
-}
-.calendar-table .calendar-row .prev-month .line-holder, .calendar-table .calendar-row .current-month .line-holder, .calendar-table .calendar-row .next-month .line-holder {
-  position: absolute;
-  height: 7px;
-  width: 7px;
-  border-radius: 50%;
-  bottom: 7px;
-}
-@media only screen and (min-width: 992px) {
-  .calendar-table .calendar-row .prev-month .line-holder, .calendar-table .calendar-row .current-month .line-holder, .calendar-table .calendar-row .next-month .line-holder {
-    bottom: 25px;
-  }
-}
-.calendar-table .calendar-row .prev-month .calendar-days, .calendar-table .calendar-row .next-month .calendar-days {
-  color: #a9a9a9;
-}
-.calendar-table .calendar-row .prev-month .line-holder, .calendar-table .calendar-row .next-month .line-holder {
-  background-color: #acb705;
-}
-.calendar-table .calendar-row .current-month .calendar-days {
-  color: #ffffff;
-}
-.calendar-table .calendar-row .current-month .line-holder {
-  background-color: #efff00;
 }
 
 .details {
@@ -232,6 +195,12 @@ nav h2 a {
 .details__mini__content p {
   padding: 10px 15px;
   border: 1px solid transparent;
+}
+
+.task {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .login {
@@ -328,7 +297,7 @@ nav h2 a {
   display: table;
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 628px) {
   .col-s-1 {
     width: 8.33%;
   }
@@ -382,6 +351,63 @@ nav h2 a {
   }
 
   .col-s-30 {
+    width: 30%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .col-md-1 {
+    width: 8.33%;
+  }
+
+  .col-md-2 {
+    width: 16.66%;
+  }
+
+  .col-md-3 {
+    width: 25%;
+  }
+
+  .col-md-4 {
+    width: 33.33%;
+  }
+
+  .col-md-5 {
+    width: 41.66%;
+  }
+
+  .col-md-6 {
+    width: 50%;
+  }
+
+  .col-md-7 {
+    width: 58.33%;
+  }
+
+  .col-md-8 {
+    width: 66.66%;
+  }
+
+  .col-md-9 {
+    width: 75%;
+  }
+
+  .col-md-10 {
+    width: 83.33%;
+  }
+
+  .col-md-11 {
+    width: 91.66%;
+  }
+
+  .col-md-12 {
+    width: 100%;
+  }
+
+  .col-md-20 {
+    width: 20%;
+  }
+
+  .col-md-30 {
     width: 30%;
   }
 }
@@ -439,4 +465,4 @@ nav h2 a {
   }
 }
 
-/*# sourceMappingURL=cal-css.css.map */
+/*# sourceMappingURL=calendar.css.map */

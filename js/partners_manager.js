@@ -8,7 +8,6 @@
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
-import ArrayFunctions from './moduls/ArrayFunctions.js';
 import Filters from './moduls/Filters.js';
 import newPartner from './new_partner.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
@@ -35,8 +34,9 @@ function getPartnersMCard() {
 
 /**
  * Partners manager details template
+ * @param {String} shellId 
  */
-function getPartnersMDetail() {
+function getPartnersMDetail(shellId) {
     let container = '<h2 class="name-grey">*1*</h2>';
     container += '<div id="partner_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">';
     container += '<label id="prtnr_dtl_data_btn" class="btn btn-detail-menu btn-detail-menu-active">';
@@ -44,9 +44,7 @@ function getPartnersMDetail() {
     container += '<label id="prtnr_dtl_cnt_btn" class="btn btn-detail-menu">';
     container += '<input type="radio" name="options" id="prtnr_dtls_tab_contacts" autocomplete="off"> Kapcsolatok </label></div></div><div id="partner_details_content">';
     container += '!<div id="partner_data_container">';
-    for (let i = 2; i < Object.keys(Varibles.PageData.DetailsStructure.Data).length + 1; i++) {
-        container += '!<p><label class="title-text">**' + i + '**</label><br><label>*' + i + '*</label></p>';
-    }
+    container += '!<div id="' + shellId + '_cc_g"> </div>';
     container += '!</div><div id="partner_contacts_container" style="display: none" ></div></div>';
     return container;
 }
@@ -81,8 +79,8 @@ function partnerMCardClick(cardId) {
 
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
-    let card = getPartnersMDetail();
     let shellId = "partners_m_details";
+    let card = getPartnersMDetail(shellId);
 
     CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
 

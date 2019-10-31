@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2019. Okt 30. 12:08
+-- Létrehozás ideje: 2019. Okt 30. 17:24
 -- Kiszolgáló verziója: 10.4.6-MariaDB
 -- PHP verzió: 7.3.8
 
@@ -90,7 +90,7 @@ INSERT INTO `cardc_structures` (`StuctureId`, `Number`, `ColumnName`, `Tables`, 
 
 CREATE TABLE `dtls_structures` (
   `StuctureId` int(11) NOT NULL,
-  `Number` int(11) NOT NULL,
+  `Number` varchar(3) NOT NULL,
   `Name` varchar(30) DEFAULT NULL,
   `ColumnName` varchar(50) NOT NULL,
   `Tables` varchar(50) DEFAULT NULL,
@@ -103,31 +103,31 @@ CREATE TABLE `dtls_structures` (
 --
 
 INSERT INTO `dtls_structures` (`StuctureId`, `Number`, `Name`, `ColumnName`, `Tables`, `Place`, `EmployeeFK`) VALUES
-(5, 1, NULL, 'Name', NULL, 'taskdtls', 1),
-(6, 2, 'Feladat típus', 'TaskType.Name', 'task_types', 'taskdtls', 1),
-(7, 3, 'Létrehozás dátuma', 'CreatedDate', NULL, 'taskdtls', 1),
-(8, 4, 'Határidő', 'Deadline', NULL, 'taskdtls', 1),
-(9, 5, 'Leírás', 'Description', NULL, 'taskdtls', 1),
-(10, 1, NULL, 'Name', NULL, 'prtnrdtls', 1),
-(11, 2, 'Felefonszám', 'Phone', NULL, 'prtnrdtls', 1),
-(12, 3, 'Email', 'Email', NULL, 'prtnrdtls', 1),
-(13, 4, 'Cím', 'Address', NULL, 'prtnrdtls', 1),
-(14, 1, NULL, 'Name', NULL, 'tlsdtls', 1),
-(15, 2, NULL, 'Type', NULL, 'tlsdtls', 1),
-(16, 3, 'Helye', 'Place', NULL, 'tlsdtls', 1),
-(17, 4, 'Elérhető eszökök', 'AvailableTools', NULL, 'tlsdtls', 1),
-(18, 5, 'Utolsó karbantartás', 'LastMaintenance', NULL, 'tlsdtls', 1),
-(19, 6, 'Karbantartást igényel', 'MaintenancePeriod', NULL, 'tlsdtls', 1),
-(20, 7, 'Leírás', 'Description', NULL, 'tlsdtls', 1),
-(21, 8, NULL, 'ToolId', NULL, 'tlsdtls', 1),
-(22, 9, NULL, 'ToolId', NULL, 'tlsdtls', 1),
-(23, 1, NULL, 'FirstName', NULL, 'empldtls', 1),
-(24, 3, NULL, 'EmployeePosition.Name', 'employee_positions', 'empldtls', 1),
-(25, 2, NULL, 'LastName', NULL, 'empldtls', 1),
-(26, 0, 'Bruttó fizetés', 'GrossSalary', NULL, 'empldtls', 1),
-(27, 0, 'Nettó fizetés', 'NetSalary', NULL, 'empldtls', 1),
-(28, 0, 'Egyéb juttatások', 'OtherAllowances', NULL, 'empldtls', 1),
-(29, 0, 'Teljes költség', 'TotalCost', NULL, 'empldtls', 1);
+(5, '1', NULL, 'Name', NULL, 'taskdtls', 1),
+(6, 'g1', 'Feladat típus', 'TaskType.Name', 'task_types', 'taskdtls', 1),
+(7, 'g2', 'Létrehozás dátuma', 'CreatedDate', NULL, 'taskdtls', 1),
+(8, 'g3', 'Határidő', 'Deadline', NULL, 'taskdtls', 1),
+(9, 'g4', 'Leírás', 'Description', NULL, 'taskdtls', 1),
+(10, '1', NULL, 'Name', NULL, 'prtnrdtls', 1),
+(11, 'g1', 'Felefonszám', 'Phone', NULL, 'prtnrdtls', 1),
+(12, 'g2', 'Email', 'Email', NULL, 'prtnrdtls', 1),
+(13, 'g3', 'Cím', 'Address', NULL, 'prtnrdtls', 1),
+(14, '1', NULL, 'Name', NULL, 'tlsdtls', 1),
+(15, '2', NULL, 'Type', NULL, 'tlsdtls', 1),
+(16, '3', 'Helye', 'Place', NULL, 'tlsdtls', 1),
+(17, '4', 'Elérhető eszökök', 'AvailableTools', NULL, 'tlsdtls', 1),
+(18, '5', 'Utolsó karbantartás', 'LastMaintenance', NULL, 'tlsdtls', 1),
+(19, '6', 'Karbantartást igényel', 'MaintenancePeriod', NULL, 'tlsdtls', 1),
+(20, '7', 'Leírás', 'Description', NULL, 'tlsdtls', 1),
+(21, '8', NULL, 'ToolId', NULL, 'tlsdtls', 1),
+(22, '9', NULL, 'ToolId', NULL, 'tlsdtls', 1),
+(23, '1', NULL, 'FirstName', NULL, 'empldtls', 1),
+(24, '3', NULL, 'EmployeePosition.Name', 'employee_positions', 'empldtls', 1),
+(25, '2', NULL, 'LastName', NULL, 'empldtls', 1),
+(26, '0', 'Bruttó fizetés', 'GrossSalary', NULL, 'empldtls', 1),
+(27, '0', 'Nettó fizetés', 'NetSalary', NULL, 'empldtls', 1),
+(28, '0', 'Egyéb juttatások', 'OtherAllowances', NULL, 'empldtls', 1),
+(29, '0', 'Teljes költség', 'TotalCost', NULL, 'empldtls', 1);
 
 -- --------------------------------------------------------
 
@@ -530,7 +530,20 @@ CREATE TABLE `task_types` (
 INSERT INTO `task_types` (`TaskTypeId`, `Name`) VALUES
 (1, 'Programozás'),
 (2, 'Integrálás'),
-(5, 'Teszt1');
+(5, 'Teszt1'),
+(6, 'adsf'),
+(7, 'adsf'),
+(8, 'adsfgggg'),
+(9, 'asdffffff'),
+(10, 'asddssss'),
+(11, 'afdjjjjjjjjj'),
+(12, 'adsfrrrrr'),
+(13, 'asdfduuuu'),
+(14, 'asdfbbbb'),
+(15, 'adsfdsvvvv'),
+(16, 'ez az új'),
+(17, 'asdfdsbbttt'),
+(18, 'Progi2222');
 
 -- --------------------------------------------------------
 
@@ -941,7 +954,7 @@ ALTER TABLE `task_steps`
 -- AUTO_INCREMENT a táblához `task_types`
 --
 ALTER TABLE `task_types`
-  MODIFY `TaskTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `TaskTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT a táblához `task_ways`
