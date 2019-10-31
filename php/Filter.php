@@ -77,6 +77,14 @@ function getCardC($filterPlace, $userId, $filter)
 
             $data = $PartnerManager->main_data['Data'];
             break;
+        case 'emplfltr':
+            require_once('Modules/Employees.php');
+
+            $Employees = new Employees($userId);
+            $Employees->CreateCardContainer($filter);
+
+            $data = $Employees->main_data['Data'];
+            break;
         default:
             break;
     }

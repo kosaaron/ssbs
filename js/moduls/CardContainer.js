@@ -32,7 +32,7 @@ let CardContainer = {
 
                 } else {
                     const elementC = structure[elementX[1]];
-                    if (elementI[elementC] !== '') {
+                    if (elementI[elementC] !== '' && elementI[elementC] !== null) {
                         container += elementX[0];
                         container += elementI[elementC];
                         container += elementX[2];

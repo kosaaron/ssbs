@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2019. Okt 31. 13:57
+-- Létrehozás ideje: 2019. Okt 31. 15:09
 -- Kiszolgáló verziója: 10.4.6-MariaDB
--- PHP verzió: 7.3.8
+-- PHP verzió: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -86,7 +86,8 @@ INSERT INTO `cardc_structures` (`StuctureId`, `Number`, `ColumnName`, `Tables`, 
 (47, 5, 'LastName', NULL, 'emplmd', 1),
 (48, NULL, 'GrossSalary', NULL, 'emplmd', 1),
 (49, NULL, 'NetSalary', NULL, 'emplmd', 1),
-(50, NULL, 'OtherAllowances', NULL, 'emplmd', 1);
+(50, NULL, 'OtherAllowances', NULL, 'emplmd', 1),
+(51, 6, 'Rate', NULL, 'emplmd', 1);
 
 -- --------------------------------------------------------
 
@@ -150,17 +151,18 @@ CREATE TABLE `employees` (
   `NetSalary` int(11) NOT NULL,
   `OtherTaxes` int(11) NOT NULL,
   `OtherAllowances` int(11) NOT NULL,
-  `TotalCost` int(11) NOT NULL
+  `TotalCost` int(11) NOT NULL,
+  `Rate` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- A tábla adatainak kiíratása `employees`
 --
 
-INSERT INTO `employees` (`EmployeeId`, `FirstName`, `LastName`, `EmployeePositionFK`, `GrossSalary`, `NetSalary`, `OtherTaxes`, `OtherAllowances`, `TotalCost`) VALUES
-(1, 'Ádám', 'Werner', 1, 100000, 80000, 30000, 0, 130000),
-(2, 'Dávid', 'Sági', 1, 200000, 160000, 60000, 0, 260000),
-(3, 'Áron', 'Kósa', 2, 300000, 240000, 90000, 0, 390000);
+INSERT INTO `employees` (`EmployeeId`, `FirstName`, `LastName`, `EmployeePositionFK`, `GrossSalary`, `NetSalary`, `OtherTaxes`, `OtherAllowances`, `TotalCost`, `Rate`) VALUES
+(1, 'Ádám', 'Werner', 1, 100000, 80000, 30000, 0, 130000, 4.9),
+(2, 'Dávid', 'Sági', 1, 200000, 160000, 60000, 0, 260000, 4.8),
+(3, 'Áron', 'Kósa', 2, 300000, 240000, 90000, 0, 390000, NULL);
 
 -- --------------------------------------------------------
 
@@ -211,8 +213,8 @@ INSERT INTO `filters` (`FilterId`, `Place`, `Number`, `Name`, `Type`, `DefaultVa
 (4, 'prtnrfltr', 2, 'Cimke', 'S', NULL, 'TagForPartner.PartnerTag.Name', 'tags_for_partner.partner_tags', 1, 0),
 (5, 'tlsfltr', 2, 'Elérhetőség', 'S', NULL, 'Availability', 'tools', 1, 0),
 (6, 'tlsfltr', 1, 'Eszköz neve', 'W', NULL, 'Name', 'tools', 1, 0),
-(7, 'emlpfltr', 1, 'Munkavállaló neve', 'W', NULL, 'Name', 'employees', 1, 0),
-(8, 'emlpfltr', 2, 'Munkavállaló neve', 'W', NULL, 'EmployeePosition.Name', 'employee_positions', 1, 0);
+(7, 'emlpfltr', 1, 'Keresztnév', 'W', NULL, 'FirstName', 'employees', 1, 0),
+(8, 'emlpfltr', 2, 'Pozíció', 'S', NULL, 'EmployeePosition.Name', 'employee_positions', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -859,7 +861,7 @@ ALTER TABLE `update_structures`
 -- AUTO_INCREMENT a táblához `cardc_structures`
 --
 ALTER TABLE `cardc_structures`
-  MODIFY `StuctureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `StuctureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT a táblához `dtls_structures`
