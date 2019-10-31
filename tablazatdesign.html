@@ -36,7 +36,7 @@
 
     <div id="partners_manager" class="display-flex flex-row full-screen">
         <div class="table-container-xscroll">
-            <div class="table-container table-responsive tableFixHead">
+            <div class="table-container table-responsive table-fix-head">
                 <table class="table table-hover mb-0">
                     <thead class="thead-design">
                         <tr class="row m-0 ">
@@ -721,8 +721,8 @@
 
 </body>
 <script>
-    var $th = $('.tableFixHead').find('thead th')
-    $('.tableFixHead').on('scroll', function () {
+    var $th = $('.table-fix-head').find('thead th')
+    $('.table-fix-head').on('scroll', function () {
         $th.css('transform', 'translateY(' + this.scrollTop + 'px)');
     });
 

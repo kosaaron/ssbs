@@ -13,7 +13,7 @@ import TableCreator from './moduls/TableCreator.js';
 var newTable = {
     loadnewTable: function() {
         // Load framework
-        let framework = '<div id="partners_manager" class="display-flex flex-row full-screen"><div class="table-container-xscroll"><div id="producttable_container" class="table-container table-responsive tableFixHead"></div></div></div>';
+        let framework = '<div id="partners_manager" class="display-flex flex-row full-screen"><div class="table-container-xscroll"><div id="producttable_container" class="table-container table-responsive table-fix-head overflow-h"></div></div></div>';
         document.getElementById('products_content').innerHTML=framework;
 
         let data = newTableData;
@@ -23,7 +23,7 @@ var newTable = {
         newTableHtml += '!<th class="d-inline-block *">*</th>!</tr></thead></table>';
         //newTableHtml += '!<th class="d-inline-block col-1"></th></tr></thead></table>'; --> th rész ide már nem kell, hiszen az előbb csináltad meg. a többi része felkerült egy sorral fejlebb.
         //newTableHtml += '!'; //start body rész mire kell? --> elkülönüljön a header a body résztől
-        newTableHtml += '!<table class="table table-hover table-no-margin"><tbody>';
+        newTableHtml += '!<div class="full-screen overflow-a table-content"><table class="table table-hover margin-0"><tbody>';
         newTableHtml += '!<tr class="row m-0">'
         newTableHtml += '!<td class="d-inline-block *">?</td>';
         newTableHtml += '!</tr>!</tbody></table></div>';

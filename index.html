@@ -530,10 +530,6 @@
         function deleteAll() {
             document.getElementById("processes_new_t_slides").innerHTML = "";
         }
-        var $th = $('.tableFixHead').find('thead th')
-        $('.tableFixHead').on('scroll', function () {
-            $th.css('transform', 'translateY(' + this.scrollTop + 'px)');
-        });
         var statePartnerCollapse = false;
         function showContact(containerId) {
             if (statePartnerCollapse == false) {

@@ -1,42 +1,55 @@
-.table-no-margin{
+.table-no-margin {
     margin: 0;
 }
-.table-container-xscroll{
+
+.table-container-xscroll {
     margin: 20px;
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
 }
-.table-container{
+
+.table-container {
     width: 100%;
     min-width: 800px;
     height: 80%;
-    overflow-y: scroll;
 }
-.collapse-table-card{
+
+.table-content {
+    height: calc(100% - 50px);
+    width: 100%;
+
+}
+
+.collapse-table-card {
     border: none;
 }
-.collapse-tabledata-container{
+
+.collapse-tabledata-container {
     width: 40%;
     height: auto;
 }
-.collapse-tablechart-container{
+
+.collapse-tablechart-container {
     width: 60%;
     height: 30%;
 }
-.tableFixHead{ 
-    overflow-y: auto;
+
+.table-fix-head {
     height: 100%;
 }
-.tableFixHead thead th {
+
+.table-fix-head thead th {
     background-color: rgb(109, 117, 163);
     z-index: 1;
 }
-.tableFixHead thead{
-    -webkit-box-shadow: 0px 7px 16px -4px rgba(255,255,255,1);
-    -moz-box-shadow: 0px 7px 16px -4px rgba(255,255,255,1);
-    box-shadow: 0px 7px 16px -4px rgba(255,255,255,1);
+
+.table-fix-head thead {
+    -webkit-box-shadow: 0px 7px 16px -4px rgba(255, 255, 255, 1);
+    -moz-box-shadow: 0px 7px 16px -4px rgba(255, 255, 255, 1);
+    box-shadow: 0px 7px 16px -4px rgba(255, 255, 255, 1);
 }
-.collapse-button-icon{
+
+.collapse-button-icon {
     font-size: 24px;
 }

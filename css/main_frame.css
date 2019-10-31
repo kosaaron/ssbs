@@ -38,6 +38,22 @@ iframe[seamless] {
     border: none;
 }
 
+.overflow-x-a {
+    overflow-x: auto;
+}
+
+.overflow-y-a {
+    overflow-y: auto;
+}
+
+.overflow-a {
+    overflow: auto;
+}
+
+.overflow-h {
+    overflow: hidden;
+}
+
 .full-screen {
     height: 100%;
     width: 100%;
@@ -49,6 +65,10 @@ iframe[seamless] {
 
 .full-width {
     width: 100%;
+}
+
+.margin-0 {
+    margin: 0;
 }
 
 .not-full-width {
