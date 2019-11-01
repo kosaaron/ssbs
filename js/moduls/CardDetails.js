@@ -42,14 +42,15 @@ let CardDetails = {
                         let elementX2 = elementJ.split('**');
                         const elementN = structure.Names[elementX2[1]];
 
-                        if (elementN !== '' && elementN !== null) {
-                            if (elementX2.length !== 1) {
-                                elementJ = elementJ.replace('**' + elementX2[1] + '**', elementN);
-                            }
-                        }
                         let elementX1 = elementJ.split('*');
                         const elementD = structure.Data[elementX1[1]];
                         if (elementI[elementD] !== '' && elementI[elementD] !== null) {
+                            if (elementN !== '' && elementN !== null) {
+                                if (elementX2.length !== 1) {
+                                    elementJ = elementJ.replace('**' + elementX2[1] + '**', elementN);
+                                }
+                            }
+
                             container += elementJ.replace('*' + elementX1[1] + '*', elementI[elementD]);
                         }
 
@@ -60,10 +61,13 @@ let CardDetails = {
                 for (let key in structure.Data) {
                     if (key[0] === 'g') {
                         let ccDataItem = {}
+                        ccDataItem['Value'] = elementI[structure.Data[key]];
+                        if (ccDataItem['Value'] === "" || ccDataItem['Value'] === null) {
+                            continue;
+                        }
 
                         ccDataItem['Id'] = key;
                         ccDataItem['Name'] = structure.Names[key];
-                        ccDataItem['Value'] = elementI[structure.Data[key]];
                         cCData.push(ccDataItem);
                     }
                 }

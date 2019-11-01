@@ -17,10 +17,14 @@ import { addListenerByAttr2, addListener } from './common.js';
 import showCharts from './show_charts.js';
 import tools from './tools.js';
 import employees from './employees.js';
+import ProductsOverview from './products_overview.js';
 import newTable from './testproducttable.js';
 
 /** Varibles */
-let activeModul = 'finance_diagrams';
+let Varibles = {
+    isOpenedProd: false,
+    activeModul: 'finance_diagrams'
+}
 
 /** General functions */
 /**
@@ -76,6 +80,11 @@ function menuItemClick(id) {
             break;
         case "tab_products":
             document.getElementById("products").style.display = "block";
+
+            if (!Varibles.isOpenedProd) {
+                addProductsEvents('overview');
+                Varibles.isOpenedProd = true;
+            }
             break;
         case "tab_resources":
             document.getElementById("resources").style.display = "block";
@@ -111,19 +120,19 @@ function processesModulClick(id) {
 
     switch (id) {
         case "processes_overview_btn":
-            activeModul = 'processes_overview';
+            Varibles.activeModul = 'processes_overview';
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             processesOverview.loadProcessesOverview();
             break;
         case "tasks_manager_btn":
-            activeModul = 'tasks_manager';
+            Varibles.activeModul = 'tasks_manager';
             iframe.src = "feladatkezeles.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             tasksManager.loadTasksManager();
             break;
         case "partners_manager_btn":
-            activeModul = 'partners_manager';
+            Varibles.activeModul = 'partners_manager';
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             partnersManager.loadPartnersManager();
@@ -158,9 +167,11 @@ function addProductsClick() {
 }
 
 function addProductsEvents(attr) {
+    Varibles.isOpenedProd = true;
+
     switch (attr) {
-        case "overwiew":
-            alert();
+        case "overview":
+            ProductsOverview.loadProductsOverview();
             break;
         case "tracking":
             newTable.loadnewTable();
@@ -216,7 +227,7 @@ function FinanceSubtabClick(id) {
 
 /** Resize window */
 window.onresize = function (event) {
-    switch (activeModul) {
+    switch (Varibles.activeModul) {
         case 'processes_overview':
             processesOverview.resizeProcessesOverview();
             break;
