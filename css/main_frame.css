@@ -390,6 +390,7 @@ iframe[seamless] {
 
 .modul-title {
     padding: 0.5% 1%;
+    background-color: rgb(241, 241, 241);
     color: #6c757d
 }
 
@@ -401,23 +402,19 @@ iframe[seamless] {
     overflow: hidden;
 }
 
-#processes_back_to_menu {
+.modul-title-icon-1 {
     cursor: pointer;
     font-size: 1.4rem;
     line-height: 1;
-    color: #404040;
+    color: #666;
     text-align: center;
 }
 
-#back_to_menu_header {
-    background-color: rgb(241, 241, 241);
-}
-
-#back_to_menu_text {
+.modul-title-text-1 {
     color: #404040;
     font-size: 1.4rem;
-    padding: none;
-    margin: none;
+    padding: 0;
+    margin: 0;
     width: 100%;
 }
 

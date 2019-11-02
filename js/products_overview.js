@@ -1,24 +1,40 @@
-/** testproducttable.js */
-/**
- * 1. Imports
- * 2. Public functions
- *    -  Employee
- * 3. Loacal functions
- */
-
+/** products_overview.js */
 
 /**Imports */
 import TableCreator from './moduls/TableCreator.js';
 
-var newTable = {
-    loadnewTable: function() {
+/**
+ * Products overview
+ */
+var ProductsOverview = {
+    loadProductsOverview: function () {
         // Load framework
-        let framework = '<div id="partners_manager" class="display-flex flex-row full-screen"><div class="table-container-xscroll"><div id="producttable_container" class="table-container table-responsive table-fix-head overflow-h"></div></div></div>';
-        document.getElementById('products_modul_content').innerHTML=framework;
+        let framework = '<div id="products_overview" class="display-flex flex-row full-screen"><div class="table-container-xscroll"><div id="products_overview_table" class="table-container table-responsive table-fix-head overflow-h"></div></div></div>';
+        document.getElementById('products_modul_content').innerHTML = framework;
+        document.getElementById('prod_modul_title').innerHTML = "Termékek áttekintése";
+
 
         let data = newTableData;
         let structure = newTableStructure;
-        let newTableHtml="";
+        let plainHtml = Cards.getTableCard();
+        let shellId = "products_overview_table";
+        let checkbody = '<td class="d-inline-block col-1"> <div class="form-check text-center"> <input class="form-check-input" type="checkbox" value="" * id="defaultCheck1"> </div></td>';
+        let widths = newTableWidth;
+
+        TableCreator.Create(data, structure, plainHtml, shellId, checkbody, widths);
+    }
+}
+export default ProductsOverview;
+
+let Database = {
+    getPageData: function () {
+
+    }
+}
+
+let Cards = {
+    getTableCard: function () {
+        let newTableHtml = "";
         newTableHtml += '<table class="table table-hover mb-0"><thead class="thead-design"><tr class="row m-0 ">';
         newTableHtml += '!<th class="d-inline-block *">*</th>!</tr></thead></table>';
         //newTableHtml += '!<th class="d-inline-block col-1"></th></tr></thead></table>'; --> th rész ide már nem kell, hiszen az előbb csináltad meg. a többi része felkerült egy sorral fejlebb.
@@ -29,37 +45,30 @@ var newTable = {
         newTableHtml += '!</tr>!</tbody></table></div>';
         //newTableHtml += '<div class="collapse" id="collapseExample"> <div class="card card-body collapse-table-card"> <div class="card card-body collapse-table-card"> <div class="d-flex justify-content-between"> <div class="collapse-tabledata-container"> <h2>Parker golyóstoll</h2> <h3></h3> <h3>Még egy fontos szám</h3> <h3>Még egy fontos szám</h3> </div><div class="collapse-tablechart-container"> <img src="https://canvasjs.com/wp-content/uploads/images/gallery/javascript-charts/line/javascript-line-charts-graphs.png" alt="table chart"> </div></div></div></div></div>';
         // --> felső sor: ez még nincs lefejlesztve, lassan érkezik majd, ezért kommenteltem ki.
-        let plainHtml = newTableHtml;
-        let shellId = "producttable_container";
-        let checkbody = '<td class="d-inline-block col-1"> <div class="form-check text-center"> <input class="form-check-input" type="checkbox" value="" * id="defaultCheck1"> </div></td>';
-        let widths = newTableWidth;
-        TableCreator.Create(data, structure, plainHtml, shellId, checkbody, widths);
+        return newTableHtml;
     }
 }
-export default newTable;
+
 let newTableStructure = [
-        "TermékID",
-        "Termék_neve",
-        "Termék_kategória",
-        "Napi_forgalom",
-        "Ár",
-        "Teszt_forg",
-        "Teszt_ár",
-        "Teszt"
+    "TermékID",
+    "Termék_neve",
+    "Termék_kategória",
+    "Napi_forgalom",
+    "Ár",
+    "Teszt_forg",
+    "Teszt_ár",
+    "Teszt"
 ]
 let newTableWidth = [
-        "col-2",
-        "col-2",
-        "col-2",
-        "col-1",
-        "col-1",
-        "col-1",
-        "col-1",
-        "col-1",
-        "col-1"
+    "col-2",
+    "col-2",
+    "col-2",
+    "col-2",
+    "col-1",
+    "col-1",
+    "col-1",
+    "col-1"
 ]
-
-
 
 let newTableData = [
     {
