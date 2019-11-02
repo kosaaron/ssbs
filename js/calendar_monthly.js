@@ -4,18 +4,24 @@ const fillData = [
         start_year: 2019,
         start_month: 10,
         start_day: 5,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 25,
         length: 21,
-        title: 'Novermber 5 - 26',
+        title: 'November 5 - 25',
         description: 'Valami random leírás a taskról mert miért ne',
         state: 1
     },
     {
         task_id: 'dfgdfg',
         start_year: 2019,
-        start_month: 9,
+        start_month: 10,
         start_day: 1,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 9,
         length: 9,
-        title: 'Október 1 - 9',
+        title: 'November 1 - 9',
         description: 'Valami random leírás a taskról mert miért ne',
         state: 0
     },
@@ -24,6 +30,9 @@ const fillData = [
         start_year: 2019,
         start_month: 9,
         start_day: 16,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 24,
         length: 40,
         title: 'Október 16 - November 24',
         description: 'Valami random leírás a taskról mert miért ne',
@@ -34,18 +43,76 @@ const fillData = [
         start_year: 2019,
         start_month: 8,
         start_day: 30,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 8,
         length: 9,
         title: 'Szeptember 30 - Október 8',
         description: 'Valami random leírás a taskról mert miért ne',
         state: 0
     },
     {
+        task_id: 'kghfbdf',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 7,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 12,
+        length: 5,
+        title: 'November 7 - 12',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'bnnvf',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 7,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 16,
+        length: 10,
+        title: 'November 7 - 16',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'iuztgh',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 7,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 14,
+        length: 8,
+        title: 'November 7 - 14',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'vbnrfdtz',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 8,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 29,
+        length: 22,
+        title: 'November 8 - 29',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
         task_id: 'xcbnhfg',
         start_year: 2019,
-        start_month: 9,
-        start_day: 8,
+        start_month: 10,
+        start_day: 9,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 10,
         length: 2,
-        title: 'Október 8 - 9',
+        title: 'November 9 - 10',
         description: 'Valami random leírás a taskról mert miért ne',
         state: 0
     }
@@ -53,12 +120,15 @@ const fillData = [
 
 class Task{
     constructor(obj) {
-        let task_id, start_year, start_month, start_day, length, title, description, state;
-        ({task_id, start_year, start_month, start_day, length, title, description, state} = obj);
+        let task_id, start_year, start_month, start_day, end_year, end_month, end_day, length, title, description, state;
+        ({task_id, start_year, start_month, start_day, end_year, end_month, end_day, length, title, description, state} = obj);
         this.id = task_id;
         this.start_year = Number(start_year);
         this.start_month = Number(start_month);
         this.start_day = Number(start_day);
+        this.end_year = Number(end_year);
+        this.end_month = Number(end_month);
+        this.end_day = Number(end_day);
         this.length = Number(length);
         this.title = title;
         this.description = description;
@@ -160,7 +230,7 @@ class Month {
         return rowNum;
     }
 }
-
+let tasks = {};
 
 let currentMonthId;
 let prevMonthId;
@@ -169,7 +239,7 @@ let prevMonthLength;
 let currentFirstDay;
 let prevCellsNum;
 let nextCellsNum;
-drawCalendar(2019, 9)
+drawCalendar(2019, 10)
 
 
 function drawCalendar(_year, _month) {
@@ -268,12 +338,8 @@ function moveCalendar(num) {
     drawCalendar(yearPos, monthPos);
 }
 
-/**
- * 
- * @param {json} taskData 
- */
 function fillCalendar(taskData) {
-    let tasks = {}
+    tasks = {};
     let tasksByDate = {};
 
     for (let i = 0; i < taskData.length; i++) {
@@ -288,23 +354,168 @@ function fillCalendar(taskData) {
         tasks[taskData[i].task_id] = new Task(taskData[i]);
     }
 
-    for (let key in tasks) {
-        if (tasks.hasOwnProperty(key)) {
+    writeOutTasksToMonthCalendar(tasks);
+}
+
+function createTaskContainer(taskId, colStart, colEnd, title) {
+    return `<div class="task" data-task-id="${taskId}" style="grid-column: ${colStart} / ${colEnd}"><div class="task__inner">${title}</div></div>`;
+}
+
+function handleTaskClick() {
+    const taskContainers = document.getElementsByClassName('task');
+    for (let i = 0; i < taskContainers.length; i++) {
+        taskContainers[i].addEventListener('click', function() {
+            handleTaskModal(this.getAttribute('data-task-id'));
+        })
+    }
+}
+
+function handleTaskModal(id) {
+    const startMonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][tasks[id]['start_month']];
+    const endMonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][tasks[id]['end_month']];
+
+    document.getElementById('modal').innerHTML = 
+    `<div class="task__container">
+        <div id="editTaskModal">Edit</div>
+        <div id="markTaskDone">Task Done</div>
+        <div id="deleteTask">Delete</div>
+        <div id="closeTaskModal">Close</div>
+        <div class="task__display-only">
+            <div class="task__interval">
+                <p>${startMonth} ${tasks[id]['start_day']} - ${endMonth} ${tasks[id]['end_day']}</p>
+            </div>
+            <div class="task__title">
+                <p>${tasks[id]['title']}</p>
+            </div>
+            <div class="task__description">
+                <p>${tasks[id]['description']}</p>
+            </div>
+        </div>
+
+        <div class="task__edit">
+            <div class="task__interval">
+                <label for="start">Kezdés</label><input id="taskModalStart" name="start" value="${tasks[id]['start_year']}-${tasks[id]['start_month']}-${tasks[id]['start_day']}" type="text" placeholder="YYYY-(M)M-DD">
+                <label for="finish">Befejezés</label><input id="taskModalEnd" name="finish" value="${tasks[id]['end_year']}-${tasks[id]['end_month']}-${tasks[id]['end_day']}" type="text" placeholder="YYYY-(M)M-DD">
+            </div>
+            <div class="task__title">
+                <label for="title">Cím</label>
+                <input id="taskModalTitle" type="text" name="title" value="${tasks[id]['title']}">
+            </div>
+            <div class="task__description">
+                <label for="descr">Leírás</label>
+                <input id="taskModalDesc" type="text" name="descr" value="${tasks[id]['description']}">
+            </div>
+            <div id="saveTaskChange">Save</div>
+        </div>
+        
+    </div>`;
+
+    document.getElementById('modal').style.display = 'block';
+    document.getElementById('closeTaskModal').addEventListener('click', () => document.getElementById('modal').style.display = 'none');
+
+    document.getElementById('markTaskDone').addEventListener('click', () => {
+        tasks[id]['state'] = tasks[id]['state'] == 0 ? 1 : 0; 
+        console.log('task ' + tasks[id]['id'] + ' marked as done/undone');}
+        //AJAX UPDATE!
+    );
+
+    document.getElementById('deleteTask').addEventListener('click', () => {
+        deleteTaskFromCalendar(tasks[id]);
+        delete tasks[id];
+        document.getElementById('modal').style.display = 'none';
+        //AJAX
+    })
+
+    const editBtn = document.getElementById('editTaskModal');
+
+    editBtn.addEventListener('click', () => {
+        editBtn.innerHTML = editBtn.innerHTML == 'Edit' ? 'Cancel' : 'Edit';
+        document.getElementsByClassName('task__edit')[0].classList.toggle('task__edit--visible');
+        document.getElementsByClassName('task__display-only')[0].classList.toggle('task__display-only--hidden');
+
+        let originStart = document.getElementById('taskModalStart').value;
+        let originEnd = document.getElementById('taskModalEnd').value;
+        let originTitle = document.getElementById('taskModalTitle').value;
+        let originDesc = document.getElementById('taskModalDesc').value;
+
+        document.getElementById('saveTaskChange').addEventListener('click', () => {
+            let curStart = document.getElementById('taskModalStart').value;
+            let curEnd = document.getElementById('taskModalEnd').value;
+            let curTitle = document.getElementById('taskModalTitle').value;
+            let curDesc = document.getElementById('taskModalDesc').value;
+
+            let changes = false;
+            if (originStart != curStart) {
+                tasks[id]['start_year'] = curStart.split('-')[0];
+                tasks[id]['start_month'] = Number(curStart.split('-')[1]);
+                tasks[id]['start_day'] = Number(curStart.split('-')[2]);
+                tasks[id]['length'] = calculateTaskLength(tasks[id]);
+                changes = true;
+            }
+            if (originEnd != curEnd) {
+                tasks[id]['end_year'] = curEnd.split('-')[0];
+                tasks[id]['end_month'] = curEnd.split('-')[1];
+                tasks[id]['end_day'] = curEnd.split('-')[2];
+                tasks[id]['length'] = calculateTaskLength(tasks[id]);
+                changes = true;
+            }
+            if (originTitle != curTitle) {
+                tasks[id]['title'] = curTitle;
+                changes = true;
+            }
+            if (originDesc != curDesc) {
+                tasks[id]['description'] = curDesc;
+                changes = true;
+            }
+            if (changes) {
+                console.log('saved');
+                originStart = curStart;
+                originEnd = curEnd;
+                originTitle = curTitle;
+                originDesc = curDesc;
+                deleteTaskFromCalendar(tasks[id]);
+                const wrapperObj = {};
+                wrapperObj[tasks[id]['id']] = tasks[id];
+                writeOutTasksToMonthCalendar(wrapperObj);
+                //AJAX: 
+            }
+        })
+    })
+}
+
+function calculateTaskLength(task) {
+    const date1 = new Date(task['start_year'], task['start_month'], task['start_day']);
+    const date2 = new Date(task['end_year'], task['end_month'], task['end_day']);
+    const diffTime = Math.abs(date2 - date1) + 1;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    return diffDays;
+}
+
+function deleteTaskFromCalendar(task) {
+    const taskElemsInCalendar = document.querySelectorAll(`div[data-task-id="${task.id}"]`);
+    for (let i = 0; i < taskElemsInCalendar.length; i++) {
+        taskElemsInCalendar[i].parentNode.removeChild(taskElemsInCalendar[i]);
+    }
+}
+
+function writeOutTasksToMonthCalendar(taskObj) {
+    for (let key in taskObj) {
+        if (taskObj.hasOwnProperty(key)) {
             const rows = document.getElementsByClassName('calendar__row');
             // && utáni rész élesben nem kell már, azt a szűrést php végezze
-            if (tasks[key]['start_month'] == prevMonthId && tasks[key]['start_day'] + tasks[key]['length'] >= prevMonthLength) {
-                if (tasks[key]['start_day'] <= prevMonthLength - prevCellsNum) {
+            if (taskObj[key]['start_month'] == prevMonthId && taskObj[key]['start_day'] + taskObj[key]['length'] >= prevMonthLength) {
+                if (taskObj[key]['start_day'] <= prevMonthLength - prevCellsNum) {
                     //nem látszódik a start -> 0.tól length-ig
-                    let visibleDaysNum = tasks[key]['length'] - (prevMonthLength-prevCellsNum - tasks[key]['start_day']) - 1 <= rows.length * 7 ? tasks[key]['length'] - (prevMonthLength-prevCellsNum - tasks[key]['start_day']) - 1 : rows.length * 7;
+                    let visibleDaysNum = taskObj[key]['length'] - (prevMonthLength-prevCellsNum - taskObj[key]['start_day']) - 1 <= rows.length * 7 ? taskObj[key]['length'] - (prevMonthLength-prevCellsNum - taskObj[key]['start_day']) - 1 : rows.length * 7;
                     const rowsItTakes = Math.ceil(visibleDaysNum / 7);
                     let i = 0;
                     do {
                         if (rows[i]) {
                             if (i + 1 >= rowsItTakes) {
-                            rows[i].innerHTML += createTaskContainer(1, 'span ' + visibleDaysNum, tasks[key]['title']);
+                            rows[i].innerHTML += createTaskContainer(taskObj[key]['id'], 1, 'span ' + visibleDaysNum, taskObj[key]['title']);
                             }
                             else {
-                                rows[i].innerHTML += createTaskContainer(1, 8, tasks[key]['title']);
+                                rows[i].innerHTML += createTaskContainer(taskObj[key]['id'], 1, 8, taskObj[key]['title']);
                             }
                         }
                         i++;
@@ -313,22 +524,22 @@ function fillCalendar(taskData) {
                 }
                 else {
                     //előző hónap, de látszódik a kezdés
-                    const taskStart = prevCellsNum - prevMonthLength + tasks[key]['start_day'];
-                    let visibleDaysNum = tasks[key]['length'] >= rows.length * 7 ? rows.length * 7 - taskStart + 1 : tasks[key]['length'];
+                    const taskStart = prevCellsNum - prevMonthLength + taskObj[key]['start_day'];
+                    let visibleDaysNum = taskObj[key]['length'] >= rows.length * 7 ? rows.length * 7 - taskStart + 1 : taskObj[key]['length'];
                     const rowsItTakes = Math.ceil(visibleDaysNum / 7);
                     const gridColSpan = visibleDaysNum > 7 ? 8 : visibleDaysNum;
                     let i = 0;
                     do {
                         if (i == 0) {
-                            rows[i].innerHTML += createTaskContainer(taskStart, 'span ' + gridColSpan, tasks[key]['title']);
+                            rows[i].innerHTML += createTaskContainer(taskObj[key]['id'], taskStart, 'span ' + gridColSpan, taskObj[key]['title']);
                             visibleDaysNum -= (7 - taskStart + 1);
                         }
                         else if (rows[i] && visibleDaysNum > 0) {
                             if (i + 1 >= rowsItTakes) {
-                                rows[i].innerHTML += createTaskContainer(1, 'span ' + visibleDaysNum, tasks[key]['title']);
+                                rows[i].innerHTML += createTaskContainer(taskObj[key]['id'], 1, 'span ' + visibleDaysNum, taskObj[key]['title']);
                             }
                             else {
-                                rows[i].innerHTML += createTaskContainer(1, 8, tasks[key]['title']);
+                                rows[i].innerHTML += createTaskContainer(taskObj[key]['id'], 1, 8, taskObj[key]['title']);
                             }
                             visibleDaysNum -= 7;
                         }
@@ -336,41 +547,37 @@ function fillCalendar(taskData) {
                     } while (visibleDaysNum > 0);
                 }
             }
-            else if (tasks[key]['start_month'] == currentMonthId) {
-                const taskStart = prevCellsNum + tasks[key]['start_day'];
-                let visibleDaysNum = tasks[key]['length'] >= rows.length * 7 ? rows.length * 7 - taskStart + 1 : tasks[key]['length'];
-                const startingRow = Math.floor(taskStart / 7);
-                const rowsItTakes = Math.ceil(visibleDaysNum / 7);
-                const gridColSpan = 8 - taskStart % 7;
-                let startOfCol = taskStart < 8 ? 1 : (taskStart % 7 == 0 ? 1 : taskStart % 7);
+            else if (taskObj[key]['start_month'] == currentMonthId) {
+                const taskStart = prevCellsNum + taskObj[key]['start_day'];
+                let visibleDaysNum = taskObj[key]['length'] >= rows.length * 7 ? rows.length * 7 - taskStart + 1 : taskObj[key]['length'];
+                const startingRow = taskStart % 7 == 0 ? Math.floor(taskStart / 7) - 1 : Math.floor(taskStart / 7);//  (taskStart / 7) == 1 ? 0 : Math.floor(taskStart / 7);
+                const gridColSpan = 8 - (taskStart % 7 == 0 ? 7 : taskStart % 7);
+                let startOfCol = taskStart < 8 ? 1 : (taskStart % 7 == 0 ? 7 : taskStart % 7);
                 let i = startingRow;
                 do {
                     if (i != startingRow) startOfCol = 1;
                     if (i == 0) {
-                        rows[i].innerHTML += createTaskContainer(taskStart, 'span ' + gridColSpan, tasks[key]['title']);
+                        rows[i].innerHTML += createTaskContainer(taskObj[key]['id'], taskStart, 'span ' + gridColSpan, taskObj[key]['title']);
                     }
                     else if (rows[i] && visibleDaysNum > 0) {
-                        if (i + 1 >= rowsItTakes) {
-                            rows[i].innerHTML += createTaskContainer(startOfCol, 'span ' + visibleDaysNum, tasks[key]['title']);
+                        if (visibleDaysNum < 8) {
+                            rows[i].innerHTML += createTaskContainer(taskObj[key]['id'], startOfCol, 'span ' + visibleDaysNum, taskObj[key]['title']);
                         }
                         else {
-                            rows[i].innerHTML += createTaskContainer(startOfCol, 8, tasks[key]['title']);
+                            rows[i].innerHTML += createTaskContainer(taskObj[key]['id'], startOfCol, 8, taskObj[key]['title']);
                         }
                     }
-                     visibleDaysNum -= i == startingRow ? (8 - taskStart) : 7;
+                     visibleDaysNum -= i == startingRow ? Math.abs(8 - (taskStart % 7 == 0 ? 7 : taskStart % 7)) : 7;
                     i++;
                 } while (visibleDaysNum > 0);
             }
             // && utáni csak azért van benne mert most nyilván nem adatb szűri a taskokat, ez élesben nem fog kelleni --> else if --> else
-            else if (tasks[key]['start_month'] == nextMonthId && tasks[key]['start_day'] <= nextCellsNum) {
-                const taskStart = (rows.length * 7 - nextCellsNum + tasks[key]['start_day']) % 7 == 0 ? 7 : (rows.length * 7 - nextCellsNum + tasks[key]['start_day']) % 7;
-                let visibleDaysNum = tasks[key]['length'] > nextCellsNum ? nextCellsNum : tasks[key]['length'];
-                rows[rows.length - 1].innerHTML += createTaskContainer(taskStart, 'span ' + visibleDaysNum, tasks[key]['title']);
+            else if (taskObj[key]['start_month'] == nextMonthId && taskObj[key]['start_day'] <= nextCellsNum) {
+                const taskStart = (rows.length * 7 - nextCellsNum + taskObj[key]['start_day']) % 7 == 0 ? 7 : (rows.length * 7 - nextCellsNum + taskObj[key]['start_day']) % 7;
+                let visibleDaysNum = taskObj[key]['length'] > nextCellsNum ? nextCellsNum : taskObj[key]['length'];
+                rows[rows.length - 1].innerHTML += createTaskContainer(taskObj[key]['id'], taskStart, 'span ' + visibleDaysNum, taskObj[key]['title']);
             }
         }
     }
-}
-
-function createTaskContainer(colStart, colEnd, title) {
-    return `<div class="task" style="grid-column: ${colStart} / ${colEnd}"><div class="task__inner">${title}</div></div>`;
+    handleTaskClick();
 }

@@ -130,6 +130,7 @@ function processesModulClick(id) {
             break;
         case "operative_tasks":
             iframe.src = "periodikusnaptar.html";
+            document.getElementById('process_modul_content').appendChild(iframe);
             break;
         default:
             break;
