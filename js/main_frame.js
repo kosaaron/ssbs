@@ -13,6 +13,7 @@
 import partnersManager from './partners_manager.js';
 import processesOverview from './processes_overview.js';
 import tasksManager from './tasks_manager.js';
+import OrderManager from './order_manager.js';
 import { addListenerByAttr2, addListener } from './common.js';
 import showCharts from './show_charts.js';
 import tools from './tools.js';
@@ -137,8 +138,14 @@ function processesModulClick(id) {
             //document.getElementById("process_modul_content").appendChild(iframe);
             partnersManager.loadPartnersManager();
             break;
-        case "operative_tasks":
+        case "operative_tasks_btn":
             iframe.src = "periodikusnaptar.html";
+            break;
+        case "weekly_schedule_btn":
+            break;
+        case "order_manager_btn":
+            Varibles.activeModul = 'order_manager';
+            OrderManager.loadOrderManager();
             break;
         default:
             break;
@@ -233,6 +240,9 @@ window.onresize = function (event) {
             break;
         case 'tasks_manager':
             tasksManager.resizeTasksManager();
+            break;
+        case 'order_manager':
+            OrderManager.resizeOrderManager();
             break;
     }
 };
