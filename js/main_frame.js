@@ -140,6 +140,7 @@ function processesModulClick(id) {
             break;
         case "operative_tasks_btn":
             iframe.src = "periodikusnaptar.html";
+            document.getElementById('process_modul_content').appendChild(iframe);
             break;
         case "weekly_schedule_btn":
             break;
