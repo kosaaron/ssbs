@@ -19,39 +19,35 @@ import { addOneListener, removeOneListener, mainFrame } from './common.js';
 /**
  * Tool card template
  */
-function getToolsCard() {
-    let container = "";
-    container += '<div class="col-lg-12"><div class="card toolcard"><div class="card-body">';
-    container += '!<div class="display-flex justify-content-between"><div class="tool-image-container display-flex align-items-center"><img class="tool-image"src="*1*"></div>';
-    container += '!<div class="tool-datas"><h3 class="card-title tool-name">*2*</h3>';
-    container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: *3*</p>';
-    container += '!<button type="button" class="btn btn-primary tool-tag *4*"><i class="fas fa-check tool-tag-icon"></i>Elérhető</button>';
-    container += '!<a href="#" class="btn btn-primary next-button tools-show-details" id="tools_card_*5*"><i class="fas fa-arrow-right"></i></a></div></div></div></div></div>';
-
-    return container;
+let Cards = {
+    getToolsCard : function() {
+        let container = "";
+        container += '<div class="col-lg-12"><div id="tool_card_*5*" class="card toolcard tool-show-details"><div class="card-body">';
+        container += '!<div class="display-flex justify-content-between"><div class="tool-image-container display-flex align-items-center"><img class="tool-image"src="*1*"></div>';
+        container += '!<div class="tool-datas"><h3 class="card-title tool-name">*2*</h3>';
+        container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: *3*</p>';
+        container += '!<button type="button" class="btn btn-primary tool-tag *4*"><i class="fas fa-check tool-tag-icon"></i>Elérhető</button></div></div></div></div></div>';
+    
+        return container;
+    }
 }
+
 
 /**
  * Partners manager details template
  */
-function getToolDetail() {
+function getToolDetail(shellId) {
     let container = "";
 
-    container += '<h2 class="name-grey">*1*</h2>';
-    container += '!<p><label>*2*</label></p>';
-    let dataLength = Object.keys(getToolsMDStructure().Data).length;
-    for (let i = 0; i < dataLength - 4; i++) {
-        container += '!<p><label class="title-text">**' + (i + 3) + '**</label><br><label>*' + (i + 3) + '*</label></p>';
-    }
-
-    container += '!<div class="tool-button-container justify-content-between"><button id="clnd_*' + (dataLength - 1) + '*" type="button" class="btn btn - primary tool - tag tool - button"><i class="fas fa - calendar tool - tag - icon"></i>Naptár</button>';
-    container += '!<button id="edit_*' + (dataLength) + '*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
+    container += '<h2 class="name-grey">*2*</h2>';
+    container += '!<p><label>*3*</label></p>';
+    container += '!<div id="' + shellId + '_cc_g"> </div>';
+    container += '!<div class="tool-button-container justify-content-between"><button id="clnd_*1*" type="button" class="btn btn - primary tool - tag tool - button"><i class="fas fa - calendar tool - tag - icon"></i>Naptár</button>';
+    container += '!<button id="edit_*1*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
     return container;
 }
 
-function getToolsMDStructure() {
-    return tool_structure_2;
-}
+
 
 /**
  * Card click event
@@ -61,13 +57,15 @@ function toolCardClick(cardId) {
     let splittedId = cardId.split('_');
     let toolId = splittedId[splittedId.length - 1];
 
-    let data = tools_list;
-    let structure = getToolsMDStructure();
-    let card = getToolDetail();
+    let data = Varibles.PageData.Data;
+    let structure = Varibles.PageData.DetailsStructure;
     let shellId = "tool_details";
+    let card = getToolDetail(shellId);
+    
 
-    CardDetails.Create(toolId, data, structure, card, shellId, 'Id');
+    CardDetails.Create(toolId, data, structure, card, shellId, 'ToolId'); //ToolId Kérdéses
 }
+
 
 function toolFileterChange(id) {
     alert(id);
@@ -78,271 +76,207 @@ function addTool() {
     addOneListener("back_to_tool", "click", tools.loadTools);
 }
 
-
-
-/** Public functions */
-var tools = {
-    loadTools: function () {
+/** General functions **/
+let General = {
+    reloadFullPage: function () {
         // Load framework
         let framework = '<div id="tools" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="tool_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="add_tool_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="tools_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="tool_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("resources_content").innerHTML = framework;
 
-        // Load card container
-        let data = tools_list;
-        let cardStructure = tool_structure;
-        let cardDesign = getToolsCard();
-        let cardContainer = "tools_card_container";
-        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(toolCardClick, 'tools');
-        if (data[0].Id !== null) {
-            toolCardClick('tools_card_' + data[0].Id);
-        }
+        General.reloadCardContainer();
 
-        Filters.Create(activeTableFilters, "tool_filters", toolFileterChange);
+        Filters.Create(Varibles.PageData.Filters, "tool_filters", Database.toolsFilterChange);
 
         addOneListener("add_tool_btn", "click", addTool);
+    },
+    /**
+     * Reload card container
+     */
+    reloadCardContainer: function () {
+        // Load card container
+        let data = Varibles.PageData.Data;
+        let cardStructure = Varibles.PageData.DataStructure;
+        let cardDesign = Cards.getToolsCard();
+        let cardContainer = "tools_card_container";
+        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
+        CardContainer.ClickableCard(toolCardClick, 'tool'); // tool Kérdéses
+        if (data[0].ToolId !== null && data[0] !== undefined) {
+            toolCardClick('tool_card_' + data[0].ToolId);
+        }
+
+    }
+}
+
+/** Public functions */
+var tools = {
+    loadTools: function () {
+                /*
+        // Title
+        document.getElementById("back_to_menu_text").textContent = "Feladatok";
+        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+        */
+
+
+        // Loader
+        document.getElementById('resources_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+
+        // Data from server
+        Database.getContainerData();
     }
 };
 export default tools;
 
+/** Local varibles **/
+let Varibles = {
+    PageData: null,
+    TaskWayData: null
+}
 
-var tool_structure = {
-    '1': "ImgSrc",
-    '2': "Name",
-    '3': "Helye",
-    '4': "Állapot",
-    '5': "Id"
-};
+let Database = {
+    /**
+     * 
+     * @param {String} id 
+     */
+    toolsFilterChange: function (fullId) {
+        //Change when copy
+        let dataPlace = 'tool_filters';
+        let filterPlace = 'toolfltr';
 
-var tool_structure_2 = {
-    Names: {
-        '1': null,
-        '2': null,
-        '3': "Helye",
-        '4': "Használatbavétel kezdete",
-        '5': "Karbantartást igényel",
-        '6': "Leírás",
-        '7': "Megjegyzés",
-        '8': null,
-        '9': null
+        Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     },
-    Data: {
-        '1': "Name",
-        '2': "Type",
-        '3': "Helye",
-        '4': "Kezdés_dátum",
-        '5': "Karbantartást_igényel",
-        '6': "Leírás",
-        '7': "Megjegyzés",
-        '8': "Id",
-        '9': "Id"
+    /**
+     * Get task way data
+     * @param {String} taskId 
+     */
+    getContainerData: function () {
+        //if (Varibles.PageData === null) {
+        $.ajax({
+            type: "POST",
+            url: "./php/ToolManager.php",
+            data: "",
+            success: function (data) {
+                Varibles.PageData = data;/*
+                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
+                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
+                    */
+                General.reloadFullPage(Varibles.PageData);
+            },
+            dataType: 'json'
+        });/*
+        } else {
+            General.reloadFullPage(Varibles.PageData);
+        }*/
     }
-};
+}
 
-var activeTableFilters = [
-    {
-        Id: "1234",
-        Name: "Kategória",
-        Type: "Select",
-        Default: "Karalábé",
-        Opportunities: ["Sajt", "Karalábé", "Csoki"]
-    },
-    {
-        Id: "1235",
-        Name: "Raktár",
-        Type: "Select",
-        Default: "Raktár3",
-        Opportunities: ["Raktár1", "Raktár2", "Raktár3"]
-    },
-    {
-        Id: "1236",
-        Name: "Harmadik",
-        Type: "Select",
-        Default: "Karalábé",
-        Opportunities: ["Sajt", "Karalábé", "Csoki"]
-    },
-    {
-        Id: "1237",
-        Name: "Negyedik",
-        Type: "Select",
-        Default: "Sajt",
-        Opportunities: ["Sajt", "Karalábé", "Csoki"]
-    },
-    {
-        Id: "1238",
-        Name: "Ötödik",
-        Type: "Write",
-        Default: "",
-    },
-];
-
-var tools_list = [
-    {
-        Id: 'fjh7zd3w',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'fjh7zd3',
-        Name: 'Varázspálca',
-        Type: 'fegyver',
-        Helye: 'Harry Potter',
-        Leírás: 'sárkányszívizomhúr, 12.5 hüvely, fűzfa',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '180 naponta',
-        Állapot: 'tool-tag-reserved',
-        Megjegyzés: 'H.P.: ne használja már más pls (5 napja)',
-        ImgSrc: 'https://cdn.shopify.com/s/files/1/2597/5112/products/hpnbwandlurc_2_3e19f8c7-9d53-4a9b-94e6-53d5d675125e_1200x1200.jpg?v=1529653289'
-    },
-    {
-        Id: 'fjh7zd',
-        Name: 'Bagoly',
-        Type: 'állatka',
-        Helye: '2-es raktár',
-        Leírás: 'Hedvignek hívják és hóbagoly',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '1 naponta',
-        Állapot: 'tool-tag-service',
-        Megjegyzés: 'K.Á.: nagyon hullik a tolla (3 órája)',
-        ImgSrc: 'https://vignette.wikia.nocookie.net/harrypotter/images/1/1e/Hedwig_Snowy_Owl_PM.png/revision/latest?cb=20161123234010'
-    },
-    {
-        Id: 'fjh7z',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Name: 'Microsoft Corporation',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'h7zd3w',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'fjh7z3w',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'fjh7d3w',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'fjhzd3w',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'fj7zd3w',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'fh7zd3w',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'fjh7zw',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'fjh73w',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
-    },
-    {
-        Id: 'fjh3w',
-        Name: 'Bölcsek Köve',
-        Type: 'legendás tárgyi emlék',
-        Helye: '2-es raktár',
-        Leírás: 'Lehet vele örök életed, meg ilyenek',
-        Kezdés_dátum: '2019.01.31.',
-        Karbantartást_igényel: '365 naponta',
-        Állapot: 'tool-tag-available',
-        Megjegyzés: 'K.Á.: kezd nagyon poros lenni (3 napja)',
-        ImgSrc: 'https://i0.wp.com/www.yral.net/wp-content/uploads/2018/11/What-is-the-philosophers-stone.png?fit=670%2C508&ssl=1'
+/** Callbacks **/
+let Callbacks = {
+    successFilterEvent: function (data) {
+        Varibles.PageData.Data = data.Data;
+        /* String to date
+        Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
+        */
+        General.reloadCardContainer();
     }
-]
+}
+
+var PageDataJSONExample={ 
+    "Filters":[ 
+       { 
+          "FilterId":"6",
+          "Name":"Eszk\u00f6z neve",
+          "Type":"W",
+          "DefaultValue":null,
+          "ColumnName":"Name"
+       },
+       { 
+          "FilterId":"5",
+          "Name":"El\u00e9rhet\u0151s\u00e9g",
+          "Type":"S",
+          "DefaultValue":null,
+          "ColumnName":"ToolAvailability.Name",
+          "Opportunities":[ 
+             { 
+                "Id":"0",
+                "Name":"-- Mindegy --"
+             },
+             { 
+                "Id":"1",
+                "Name":"El\u00e9rhet\u0151"
+             },
+             { 
+                "Id":"2",
+                "Name":"Foglalt"
+             }
+          ]
+       }
+    ],
+    "DataStructure":{ 
+       "1":"Icon",
+       "2":"Name",
+       "3":"Place",
+       "4":"ToolAvailability.Name",
+       "5":"ToolId"
+    },
+    "Data":[ 
+       { 
+          "AvailableTools":"2",
+          "Icon":"fa fa-plus",
+          "Name":"Samsung laptop",
+          "Place":"Gy\u00e1r, 3-as rakt\u00e1r",
+          "ToolAvailability.Name":"El\u00e9rhet\u0151",
+          "ToolId":"1",
+          "remarks":[ 
+             { 
+                "ToolRemarkId":"1",
+                "RemarkText":"Ez egy ngyon extra text.",
+                "EmployeeFK":"1",
+                "FirstName":"\u00c1d\u00e1m",
+                "LastName":"Werner"
+             },
+             { 
+                "ToolRemarkId":"2",
+                "RemarkText":"Ez a m\u00e1sodik.",
+                "EmployeeFK":"1",
+                "FirstName":"\u00c1d\u00e1m",
+                "LastName":"Werner"
+             }
+          ]
+       },
+       { 
+          "AvailableTools":"2",
+          "Icon":"fa fa-plus",
+          "Name":"Apple laptop",
+          "Place":"Gy\u00e1r, 3-as rakt\u00e1r",
+          "ToolAvailability.Name":"El\u00e9rhet\u0151",
+          "ToolId":"2",
+          "remarks":[ 
+ 
+          ]
+       }
+    ],
+    "DetailsStructure":{ 
+       "Names":{ 
+          "1":null,
+          "2":null,
+          "3":null,
+          "g1":"Helye",
+          "g2":"El\u00e9rhet\u0151 esz\u00f6k\u00f6k",
+          "g3":"El\u00e9rhet\u0151 eszk\u00f6z\u00f6k",
+          "g4":"Utols\u00f3 karbantart\u00e1s",
+          "g5":"Karbantart\u00e1st ig\u00e9nyel",
+          "g6":"Le\u00edr\u00e1s"
+       },
+       "Data":{ 
+          "1":"ToolId",
+          "2":"Name",
+          "3":"Type",
+          "g1":"Place",
+          "g2":"ToolAvailability.Name",
+          "g3":"AvailableTools",
+          "g4":"LastMaintenance",
+          "g5":"MaintenancePeriod",
+          "g6":"Description"
+       }
+    }
+ }
