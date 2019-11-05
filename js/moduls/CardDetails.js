@@ -3,6 +3,7 @@
  */
 import CardContainer from './CardContainer.js';
 import VirtualObject from './VirtualObject.js';
+import AutoScroll from './AutoScroll.js';
 import Cards from './Cards.js';
 
 /**
@@ -86,7 +87,9 @@ let CardDetails = {
         let vObjectsLength = vObjects.length;
         if (vObjectsLength === 0) {
             let readyHTML = '';
+            readyHTML += '<div id="' + shellId + '_content">';
             readyHTML += '<div id="' + shellId + '_cc_g"> </div>';
+            readyHTML += '</div>';
 
             document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
         } else {
@@ -104,8 +107,8 @@ let CardDetails = {
 
                 readyHTML += '<label id="' + shellId + '_vo_' + i + '_btn" tab-cont-id="' + shellId + '_vo_' + i + '" class="btn btn-detail-menu">';
                 readyHTML += vObject['NameAlias'] + '</label>';
-                readyHTML += '</div></div>';
             }
+            readyHTML += '</div></div>';
 
             //Containers
             readyHTML += '<div id="' + shellId + '_content">';
@@ -152,6 +155,9 @@ let CardDetails = {
             let vOShellId = shellId + '_vo_' + i;
             VirtualObject.DetailsObj(vObject.Data, Cards.Details.vOCard(vOShellId), vOShellId);
         }
+
+        AutoScroll.Integration(shellId + '_content');
+
     },
     /**
      * Create plus

@@ -62,9 +62,7 @@ class DataAndStructure
                     foreach ($paramObject['vOWhereParams'] as $param) {
                         array_push($vOWhereArr, $row[$param]);
                     }
-
                     $dataResult[$key][$paramObject['vOName']] = $virtualObject->CreateVO($vOSelectArr, $vOWhereArr);
-                    
                 }
             }
 
