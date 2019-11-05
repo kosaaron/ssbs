@@ -90,15 +90,10 @@ let General = {
         let cardDesign = Cards.getEmployeesCard();
         let cardContainer = "employees_card_container";
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(employeeCardClick, 'empl'); // Ide biztos kéne egy id előtag (meg a null is lehet h undefined)
+        CardContainer.ClickableCard(employeeCardClick, 'empl');
         if (data[0].EmployeeId !== null && data[0] !== undefined) {
             employeeCardClick('empl_card_' + data[0].EmployeeId);
         }
-        /*        
-        CardContainer.ClickableCard(taskMCardClick, 'taskm');
-        if (data[0] !== undefined) {
-            taskMCardClick('task_card_' + data[0].TaskId);
-        }*/
     }
 }
 
@@ -116,15 +111,6 @@ var employees = {
 
         // Data from server
         Database.getContainerData();
-    },
-    resizeEmployees() {
-        //details
-        let detailsContentH = document.getElementById('employee_details').clientHeight;
-        let taskDetailsTitle = document.getElementById('task_details_title'); // Átalakítandó
-        let taskDetailsTab = document.getElementById('task_details_tab');
-        detailsContentH -= (taskDetailsTitle.offsetHeight + taskDetailsTab.offsetHeight + 12);
-        document.getElementById('task_details_content').style = 'height: ' + detailsContentH + 'px';
-        //details end
     }
 }
 export default employees;
