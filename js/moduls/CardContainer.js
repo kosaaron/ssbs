@@ -41,7 +41,7 @@ let CardContainer = {
                 }
             }
         }
-        document.getElementById(shellId).innerHTML = container;
+        document.getElementById(shellId).insertAdjacentHTML('beforeend', container);
     },
     /**
      * **Clickable card**

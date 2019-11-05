@@ -2,16 +2,18 @@
 
 class VirtualObject
 {
+    //Public varibles
+    public $oNameAlias;
+
     //Local varibles
-    public $main_data;
-    private $vOName;
+    private $pdo;
     private $vOSelectString;
     private $vOWhereString;
+
 
     function __construct($vOId)
     {
         $this->main_data = array();
-        $this->pdo;
 
         /** Includes */
         require_once('Connect.php');
@@ -19,23 +21,37 @@ class VirtualObject
         $this->pdo = $PDOConnect->pdo;
 
         $vOQuery = $this->pdo->query('SELECT * FROM virtual_objects WHERE VirtualObjectId="' . $vOId . '"')->fetchAll(PDO::FETCH_ASSOC);
-        $this->vOName = $vOQuery[0]['Name'];
+        $this->oNameAlias = $vOQuery[0]['ObjNameAlias'];
         $this->vOSelectString = $vOQuery[0]['SelectString'];
         $this->vOWhereString = $vOQuery[0]['WhereString'];
     }
 
     public function CreateVO($selectArr, $whereArr)
     {
+        $vOSelectString = $this->vOSelectString;
+        $vOWhereString = $this->vOWhereString;
+
         foreach ($selectArr as $key => $value) {
-            $this->vOSelectString = str_replace('<' . $key . '>', $value, $this->vOSelectString);
+            $vOSelectString = str_replace('<' . $key . '>', $value, $this->vOSelectString);
         }
 
         foreach ($whereArr as $key => $value) {
-            $this->vOWhereString = str_replace('<' . $key . '>', $value, $this->vOWhereString);
+            $vOWhereString = str_replace('<' . $key . '>', $value, $this->vOWhereString);
         }
 
-        $queryResult = $this->pdo->query($this->vOSelectString . ' WHERE ' . $this->vOWhereString)->fetchAll(PDO::FETCH_ASSOC);
+        $queryResult = $this->pdo->query($vOSelectString . ' WHERE ' . $vOWhereString)->fetchAll(PDO::FETCH_ASSOC);
+        $mainData = array();
+        $mainData['NameAlias'] = $this->oNameAlias;
+        $mainData['Data'] = $queryResult;
+        return $mainData;
+    }
 
-        $this->main_data[$this->vOName] = $queryResult;
+    public function GeneratingToArray($mainData)
+    {
+
+        foreach ($mainData as $key => $value) { }
+
+
+        return;
     }
 }

@@ -13,11 +13,11 @@ import { addOneListener, removeOneListener, mainFrame, addListener } from './com
  */
 function getOrderMDetail(shellId) {
     let container = "";
-    container += '!<h2 id="task_details_title" class="name-grey">*1*</h2>';
-    container += '<div id="task_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="detail_data_btn" class="btn btn-detail-menu btn-detail-menu-active"> <input type="radio" name="options" id="option1" autocomplete="off" onchange="showData()"> Adatok </label> <label id="detail_timeline_btn" class="btn btn-detail-menu"> <input type="radio" name="options" id="option2" autocomplete="off" onchange="showTimeline()"> Idővonal </label></div></div><div id="task_details_content">';
-    container += '!<div id="task_data_container">';
-    container += '!<div id="' + shellId + '_cc_g"> </div>';
-    container += '!</div><div id="task_timeline_container" style="display: none" ><ul id="task_timeline" class="task-timeline"></ul></div></div>';
+    container += '!<h2 id="' + shellId + '_title" class="name-grey">*1*</h2>';
+    //container += '<div id="' + shellId + '_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="detail_data_btn" class="btn btn-detail-menu btn-detail-menu-active"> <input type="radio" name="options" id="option1" autocomplete="off" onchange="showData()"> Adatok </label> <label id="detail_timeline_btn" class="btn btn-detail-menu"> <input type="radio" name="options" id="option2" autocomplete="off" onchange="showTimeline()"> Idővonal </label></div></div>';
+    //container += '<div id="' + shellId + '_content">';
+    //container += '!<div id="' + shellId + '_cc_g"> </div>';
+    //container += '!</div>';
 
     return container;
 }
@@ -26,19 +26,15 @@ function getOrderMDetail(shellId) {
  * Card click event
  * @param {Integer} cardId Card id
  */
-function taskMCardClick(cardId) {
+function orderMCardClick(cardId) {
     let splittedId = cardId.split('_');
-    let taskId = splittedId[splittedId.length - 1];
+    let orderId = splittedId[splittedId.length - 1];
     //Data
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
     let shellId = "order_m_details";
     let card = getOrderMDetail(shellId);
-    CardDetails.Create(taskId, data, structure, card, shellId, 'TaskId');
-
-    //Steps
-    Database.getTaskWayData(taskId);
-    OrderManager.resizeOrderManager();
+    CardDetails.Create(orderId, data, structure, card, shellId, 'OrderId');
 }
 
 function addTask() {
@@ -68,22 +64,21 @@ var OrderManager = {
 export default OrderManager;
 /** Local varibles **/
 let Varibles = {
-    PageData: null,
-    TaskWayData: null
+    PageData: null
 }
 
 /** General functions **/
 let General = {
     reloadFullPage: function () {
         // Load framework
-        let framework = '<div id="order_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="order_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_task_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="order_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="order_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
+        let framework = '<div id="order_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="orderfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="order_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_order_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="order_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="order_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
 
         General.reloadCardContainer();
 
         Filters.Create(Varibles.PageData.Filters, "order_m_filters", Database.orderMFilterChange);
 
-        addOneListener("proceses_add_task_btn", "click", addTask);
+        addOneListener("proceses_add_order_btn", "click", addTask);
     },
     /**
      * Reload card container
@@ -95,35 +90,9 @@ let General = {
         let cardDesign = Cards.getOrderMCard();
         let cardContainer = "order_card_container";
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(taskMCardClick, 'taskm');
+        CardContainer.ClickableCard(orderMCardClick, 'orderm');
         if (data[0] !== undefined) {
-            taskMCardClick('task_card_' + data[0].TaskId);
-        }
-    },
-    /**
-     * Reload task way
-     * @param {JSON array} data 
-     */
-    reloadTaskWay: function (data) {
-        let container = '<li><div class="task-timeline-item"> <span>1</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Előkészítés</h3> </a><div class="collapse" id="collapseExample"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div></div></div></div></li><li><div class="task-timeline-item"> <span>2</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Megbeszélés</h3> </a><div class="collapse" id="collapseExample2"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div></div></div></div></li><li><div class="task-timeline-item"> <span id="actual-step">3</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="true" aria-controls="collapseExample"><h3>Beszerzés</h3> </a><div class="show" id="collapseExample3"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>4</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Alkatrész cseréje</h3> </a><div class="collapse" id="collapseExample4"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>5</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample5"><h3>Tesztüzem</h3> </a><div class="collapse" id="collapseExample5"><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Luke Skywalker</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm added-employee-button employee-button"><i class="fas fa-user addemployee-icon "></i>Jabba</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i></button></div></div></div></div></li>';
-        document.getElementById('task_timeline').innerHTML += container;
-
-        let taskWayData = data.Data;
-        let taskWayStructure = data.DataStructure;
-        let stepCard = Cards.getTaskWayCard();
-        let stepShellId = "task_timeline";
-        let taskWayActiveCard = Cards.getTaskWayActiveCard();
-        let stepActiveColumn = 'Active';
-        CardContainerPlus.CreateWithActive(taskWayData, taskWayStructure, stepShellId, stepCard, taskWayActiveCard, stepActiveColumn, Callbacks.employeesToStep);
-
-        addListener('tsk-way-empl-icon-check', 'click', Events.taskWayEmplStatusClick)
-    },
-    // Get employee status color
-    getEmplStatusColor: function (ready) {
-        if (ready === '1') {
-            return 'fas fa-check empl-status-ready';
-        } else {
-            return 'fas fa-user empl-status-work'
+            orderMCardClick('order_card_' + data[0].OrderId);
         }
     }
 }
@@ -137,7 +106,7 @@ let Database = {
     orderMFilterChange: function (fullId) {
         //Change when copy
         let dataPlace = 'order_m_filters';
-        let filterPlace = 'taskfltr';
+        let filterPlace = 'orderfltr';
 
         Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     },
@@ -145,7 +114,7 @@ let Database = {
         //if (Varibles.PageData === null) {
         $.ajax({
             type: "POST",
-            url: "./php/GetTaskManager.php",
+            url: "./php/GetOrderManager.php",
             data: "",
             success: function (data) {
                 Varibles.PageData = data;/*
@@ -164,31 +133,12 @@ let Database = {
 
 /** Designed cards **/
 let Cards = {
-    getTaskWayCard: function () {
-        let container = '<li><div class="task-timeline-item">';
-        container += '!<span>*1*</span>';
-        container += '!<div class="task-timeline-item-content"> <a data-toggle="collapse" href="#task_timel_*3*_!*4*" role="button" aria-expanded="false" aria-controls="task_timel" class="collapsed">';
-        container += '!<h3>*2*</h3>';
-        container += '!</a><div class="collapse" id="task_timel_*5*_!*6*">?';
-        container += '!</div></div></div ></li >';
-        return container;
-    },
-    getTaskWayActiveCard: function () {
-        let container = '<li><div class="task-timeline-item">';
-        container += '!<span class="actual-step">*1*</span>';
-        container += '!<div class="task-timeline-item-content"> <a data-toggle="collapse" href="#task_timel_*3*_!*4*" role="button" aria-expanded="true" aria-controls="task_timel">';
-        container += '!<h3>*2*</h3>';
-        container += '!</a><div class="show" id="task_timel_*5*_!*6*">?';
-        container += '!</div></div></div ></li >';
-        return container;
-    },
     /** Order manager card template */
     getOrderMCard: function () {
         let container = "";
-        container += '<div class="col-lg-6"><div id="task_card_*1*" class="card taskcard taskm-show-details"><div class="card-body">';
+        container += '<div class="col-lg-6"><div id="order_card_*1*" class="card taskcard orderm-show-details"><div class="card-body">';
         container += '!<h5 class="text-o-ellipsis card-title">*2*</h5>';
         container += '!<p class="card-text">*3*</p>';
-        //container += '!<a href="#" class="btn btn-primary next-button"><i class="fas fa-arrow-right"></i></a>';
         container += '</div></div></div>';
 
         return container;
@@ -197,29 +147,6 @@ let Cards = {
 
 /** Callbacks **/
 let Callbacks = {
-    /** Employees to step */
-    employeesToStep: function (data) {
-        let employees = data['Employees'];
-        if (data['Employees'] === undefined) {
-            return '';
-        }
-
-        let finalHTML = '';
-        for (let i = 0; i < employees.length; i++) {
-            const employee = employees[i];
-            let statusClass = General.getEmplStatusColor(employee.Ready);
-
-            finalHTML += '<div class="row add-employee-card">';
-            finalHTML += '<div employee="' + employee.EmployeeId + '" class="btn btn-sm added-employee-button employee-button">';
-            finalHTML += '<i class="addemployee-icon ' + statusClass + '"></i>' + employee.EmployeeName;
-            if (employee.Ready === '0' && data['Active'] === '1') {
-                finalHTML += '<i id="tsk_way_empl_stat_' + data.TaskFK + '_' + employee.EmployeeId + '" class="tsk-way-empl-icon-check fas fa-check"></i>';
-            }
-
-            finalHTML += '</div></div>';
-        }
-        return finalHTML;
-    },
     /**
      * 
      * @param {JSON array} data 
@@ -235,20 +162,7 @@ let Callbacks = {
 
 /** Events **/
 let Events = {
-    taskWayEmplStatusClick: function (fullId) {
-        let splittedId = fullId.split('_');
-        let taskFK = splittedId[splittedId.length - 2];
-        let emplId = splittedId[splittedId.length - 1];
-        $.ajax({
-            type: "POST",
-            url: "./php/TaskMWayStatus.php",
-            data: { 'task_fk': taskFK, 'empl_id': emplId },
-            success: function (data) {
-                Database.getTaskWayData(taskFK);
-            },
-            dataType: 'html'
-        });
-    }
+    
 }
 
 let PageDataJSONExample = {
