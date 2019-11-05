@@ -20,6 +20,7 @@ import tools from './tools.js';
 import employees from './employees.js';
 import ProductsOverview from './products_overview.js';
 import newTable from './testproducttable.js';
+import GlobalVaribles from './moduls/GlobalVaribles.js';
 
 /** Varibles */
 let Varibles = {
@@ -121,31 +122,32 @@ function processesModulClick(id) {
 
     switch (id) {
         case "processes_overview_btn":
-            Varibles.activeModul = 'processes_overview';
+            GlobalVaribles.setActiveModul('processes_overview');
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             processesOverview.loadProcessesOverview();
             break;
         case "tasks_manager_btn":
-            Varibles.activeModul = 'tasks_manager';
+            GlobalVaribles.setActiveModul('tasks_manager');
             iframe.src = "feladatkezeles.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             tasksManager.loadTasksManager();
             break;
         case "partners_manager_btn":
-            Varibles.activeModul = 'partners_manager';
+            GlobalVaribles.setActiveModul('partners_manager');
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             partnersManager.loadPartnersManager();
             break;
         case "operative_tasks_btn":
+            GlobalVaribles.setActiveModul('operative_tasks');
             iframe.src = "periodikusnaptar.html";
             document.getElementById('process_modul_content').appendChild(iframe);
             break;
         case "weekly_schedule_btn":
             break;
         case "order_manager_btn":
-            Varibles.activeModul = 'order_manager';
+            GlobalVaribles.setActiveModul('order_manager');
             OrderManager.loadOrderManager();
             break;
         default:
@@ -235,7 +237,7 @@ function FinanceSubtabClick(id) {
 
 /** Resize window */
 window.onresize = function (event) {
-    switch (Varibles.activeModul) {
+    switch (GlobalVaribles.getActiveModul()) {
         case 'processes_overview':
             processesOverview.resizeProcessesOverview();
             break;

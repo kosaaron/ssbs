@@ -15,7 +15,10 @@ let AutoScroll = {
             const child = element.parentNode.childNodes[i];
 
             if (elementId !== child.id) {
-                sHeight -= $("#" + child.id).outerHeight(true);
+                let childHeight = $("#" + child.id).outerHeight(true);
+                if (!isNaN(childHeight)) {
+                    sHeight -= childHeight;
+                }
             }
         }
 
