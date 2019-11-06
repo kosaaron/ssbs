@@ -23,10 +23,11 @@ let Cards = {
     getToolsCard : function() {
         let container = "";
         container += '<div class="col-lg-12"><div id="tool_card_*5*" class="card toolcard tool-show-details"><div class="card-body">';
-        container += '!<div class="display-flex justify-content-between"><div class="tool-image-container display-flex align-items-center"><img class="tool-image"src="*1*"></div>';
+        container += '!<div class="display-flex justify-content-between"><div class="tool-image-container"><img class="tool-image" src="https://images.obi.hu/product/HU/800x600/292962_1.jpg"><img class="tool-image" src="../images/gifs/toolweek.GIF">';
+        container += '!<button type="button" class="btn btn-primary tool-tag *4*"!>*4*</button></div>';
         container += '!<div class="tool-datas"><h3 class="card-title tool-name">*2*</h3>';
         container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: *3*</p>';
-        container += '!<button type="button" class="btn btn-primary tool-tag *4*"><i class="fas fa-check tool-tag-icon"></i>Elérhető</button></div></div></div></div></div>';
+        container += '</div></div></div></div></div>';
     
         return container;
     }
