@@ -10,6 +10,7 @@ import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
 import CardContainerPlus from './moduls/CardContainerPlus.js';
 import GlobalVaribles from './moduls/GlobalVaribles.js';
+import ElementFunctions from './moduls/ElementFunctions.js';
 import Filters from './moduls/Filters.js';
 import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
@@ -112,6 +113,8 @@ let General = {
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = Cards.getTasksMCard();
         let cardContainer = "tasks_card_container";
+        
+        new ElementFunctions().removeChilds('tasks_card_container');
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(taskMCardClick, 'taskm');
         if (data[0] !== undefined) {
