@@ -20,7 +20,7 @@ class TaskManager
     {
         /** Task's manager filters */
         $createFilter = new CreateFilter();
-        $fltrStructure = $createFilter->DefaultFilter($this->userId, "taskfltr");
+        $fltrStructure = $createFilter->DefaultFilter($this->userId, "tskfltr");
         $this->main_data['Filters'] = $fltrStructure;
     }
     public function CreateCardContainer($filter)

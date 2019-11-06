@@ -50,18 +50,17 @@ $main_data['Data'] = getCardC($filterPlace, $userId, $filterString);
 /** Print result */
 $json = json_encode($main_data);
 print_r($json);
-
-/** 
- ----------------------------------------80----------------------------------------
- * Functions
+/**
+----------------------------------------80----------------------------------------
  */
+/** Functions **/
 /** Get card container */
 function getCardC($filterPlace, $userId, $filter)
 {
     $data = array();
-    
+
     switch ($filterPlace) {
-        case 'taskfltr':
+        case 'tskfltr':
             require_once('Modules/TaskManager.php');
 
             $TaskManager = new TaskManager($userId);
@@ -84,6 +83,14 @@ function getCardC($filterPlace, $userId, $filter)
             $Employees->CreateCardContainer($filter);
 
             $data = $Employees->main_data['Data'];
+            break;
+        case 'ordrfltr':
+            require_once('Modules/OrderManager.php');
+
+            $OrderManager = new OrderManager($userId);
+            $OrderManager->CreateCardContainer($filter);
+
+            $data = $OrderManager->main_data['Data'];
             break;
         default:
             break;

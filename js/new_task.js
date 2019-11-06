@@ -46,7 +46,8 @@ let Events = {
 let General = {
     reloadFullPage: function (data) {
         // Load framework
-        let framework = `<div id="new_task" class="d-flex display-flex flex-row full-screen"> <div class="flex-fill col-12"> <div class="row page-content"> <div class="full-height new-obj-shell col-md-6 col-12"> <h2 id="ntsk_form_title" class="new-obj-subtitle">Adatok</h2> <div id="processes_new_t_form"></div><div id="ntsk_form_footer" class="newtask-buttoncontainer d-flex justify-content-start"> <button id="add_new_task_btn" type="submit" class="btn btn-primary addnewtask-button">Létrehoz</button> <button type="reset" class="btn btn-primary addnewtask-button grey-button">Mégse</button> </div></div><div class="full-height new-obj-shell col-md-6 col-12"> <h2 id="ntsk_steps_title" class="new-obj-subtitle">Feladat lépései</h2> <div id="ntsk_steps_new_box" class="d-flex justify-content-between align-items-center"> <div class="add-taskstep-container"> <p id="addstep_title">Lépés hozzáadása...</p><span onclick="showForms(this)" class="btn-show-forms"><i class="fas fa-chevron-down"></i></span> <div id="add_taskstep_collapse" style="display:none;"> <div class="add-taskstep-btn-container"> <div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="new_taskstep_btn" class="btn btn-addtask-menu btn-addtask-menu-active"> <input type="radio" name="options" id="new_taskstep_option" autocomplete="off" onchange="showNewTaskStep()"> + Új lépés </label> <label id="saved_tasksteps_btn" class="btn btn-addtask-menu"> <input type="radio" name="options" id="saved_tasksteps_option" autocomplete="off" onchange="showSavedTaskSteps()"> Mentett lépések </label> </div></div><div id="new_taskstep_container" class="add-taskstep-form-container"> <div class="form-group"> <label for="taskName" class="newtaskstep-label">Lépés neve:</label> <input type="text" id="new_taskstep_name" class="newtask-formcontrol"> </div><button type="reset" onclick='getStepNamefromText("new_taskstep_name")' class="btn btn-primary add-step-button">+ Hozzáad</button> </div><div id="saved_taskstep_container" class="add-taskstep-form-container"> <div class="form-group"> <label for="taskCat" class="newtaskstep-label">Lépés neve:</label> <div class="tasktype-group"> <div class="input-group mb-3"> <select id="saved_step_selector" class="form-control newtask-formcontrol" aria-describedby="button-addon2"> <option selected>Mentett lépések...</option> <option>Meeting</option> <option>Beszerzés</option> <option>Tesztelés</option> </select> <div class="input-group-append"> <button class="btn btn-outline-secondary" type="button" id="new_saved_step_btn"><i class="fas fa-plus"></i></button> </div></div></div></div><button type="reset" onclick='getStepNamefromSelect("saved_step_selector")' class="btn btn-primary add-step-button">+ Hozzáad</button> </div></div></div> </div><div id="ntsk_steps_cont" class="taskstep-container"> <div id="processes_new_t_slides" class="slides"> <div class="slide"> <div class="row taskstep-card d-flex align-items-center"> <span class="stepNo">1.</span> <h3 class=taskstep-title>lépés</h3> </div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Werner Ádám <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i> <select id="employeeSelect1" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option> <option>Sági Dávid</option> <option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect1")'><i class="fas fa-check-circle save-employee-icon"></i></span></div></div></div><div class="slide"> <div class="row taskstep-card d-flex align-items-center"> <span class="stepNo">2.</span> <h3 class=taskstep-title>lépés</h3> </div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Sági Dávid <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i> <select id="employeeSelect2" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option> <option>Sági Dávid</option> <option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect2")'><i class="fas fa-check-circle save-employee-icon"></i></span></div></div></div><div class="slide"> <div class="row taskstep-card d-flex align-items-center"> <div class="stepNo">3.</div><h3 class=taskstep-title>lépés</h3> </div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i> <select id="employeeSelect3" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option> <option>Sági Dávid</option> <option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect3")'><i class="fas fa-check-circle save-employee-icon"></i></span></div></div></div></div></div><div id="ntsk_steps_footer"><button type="reset" id="ntsk_steps_trash_btn" class="btn btn-primary grey-button"><i class="fas fa-trash-alt"></i></button></div></div></div></div></div>`;
+        //let framework = `<div id="new_task" class="d-flex display-flex flex-row full-screen"> <div class="flex-fill col-12"> <div class="row page-content"> <div class="full-height new-obj-shell col-xl-6 col-12"> <h2 id="ntsk_form_title" class="new-obj-subtitle">Adatok</h2> <div id="processes_new_t_form"></div><div id="ntsk_form_footer" class="newtask-buttoncontainer d-flex justify-content-start"> <button id="add_new_task_btn" type="submit" class="btn btn-primary addnewtask-button">Létrehoz</button> <button type="reset" class="btn btn-primary addnewtask-button grey-button">Mégse</button> </div></div><div class="full-height new-obj-shell col-xl-6 col-12"> <h2 id="ntsk_steps_title" class="new-obj-subtitle">Feladat lépései</h2> <div id="ntsk_steps_new_box" class="d-flex justify-content-between align-items-center"> <div class="add-taskstep-container"> <p id="addstep_title">Lépés hozzáadása...</p><span onclick="showForms(this)" class="btn-show-forms"><i class="fas fa-chevron-down"></i></span> <div id="add_taskstep_collapse" style="display:none;"> <div class="add-taskstep-btn-container"> <div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="new_taskstep_btn" class="btn btn-addtask-menu btn-addtask-menu-active"> <input type="radio" name="options" id="new_taskstep_option" autocomplete="off" onchange="showNewTaskStep()"> + Új lépés </label> <label id="saved_tasksteps_btn" class="btn btn-addtask-menu"> <input type="radio" name="options" id="saved_tasksteps_option" autocomplete="off" onchange="showSavedTaskSteps()"> Mentett lépések </label> </div></div><div id="new_taskstep_container" class="add-taskstep-form-container"> <div class="form-group"> <label for="taskName" class="newtaskstep-label">Lépés neve:</label> <input type="text" id="new_taskstep_name" class="newtask-formcontrol"> </div><button type="reset" onclick='getStepNamefromText("new_taskstep_name")' class="btn btn-primary add-step-button">+ Hozzáad</button> </div><div id="saved_taskstep_container" class="add-taskstep-form-container"> <div class="form-group"> <label for="taskCat" class="newtaskstep-label">Lépés neve:</label> <div class="tasktype-group"> <div class="input-group mb-3"> <select id="saved_step_selector" class="form-control newtask-formcontrol" aria-describedby="button-addon2"> <option selected>Mentett lépések...</option> <option>Meeting</option> <option>Beszerzés</option> <option>Tesztelés</option> </select> <div class="input-group-append"> <button class="btn btn-outline-secondary" type="button" id="new_saved_step_btn"><i class="fas fa-plus"></i></button> </div></div></div></div><button type="reset" onclick='getStepNamefromSelect("saved_step_selector")' class="btn btn-primary add-step-button">+ Hozzáad</button> </div></div></div> </div><div id="ntsk_steps_cont" class="taskstep-container"> <div id="processes_new_t_slides" class="slides"> <div class="slide"> <div class="row taskstep-card d-flex align-items-center"> <span class="stepNo">1.</span> <h3 class=taskstep-title>lépés</h3> </div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Werner Ádám <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i> <select id="employeeSelect1" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option> <option>Sági Dávid</option> <option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect1")'><i class="fas fa-check-circle save-employee-icon"></i></span></div></div></div><div class="slide"> <div class="row taskstep-card d-flex align-items-center"> <span class="stepNo">2.</span> <h3 class=taskstep-title>lépés</h3> </div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Sági Dávid <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i> <select id="employeeSelect2" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option> <option>Sági Dávid</option> <option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect2")'><i class="fas fa-check-circle save-employee-icon"></i></span></div></div></div><div class="slide"> <div class="row taskstep-card d-flex align-items-center"> <div class="stepNo">3.</div><h3 class=taskstep-title>lépés</h3> </div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div><div class="row add-employee-card"> <div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i> <select id="employeeSelect3" class="add-employee-selector"> <option selected>Új munkatárs...</option> <option>Kósa Áron Balázs</option> <option>Sági Dávid</option> <option>Werner Ádám</option> </select> <span onclick='saveEmployee(this, "employeeSelect3")'><i class="fas fa-check-circle save-employee-icon"></i></span></div></div></div></div></div><div id="ntsk_steps_footer"><button type="reset" id="ntsk_steps_trash_btn" class="btn btn-primary grey-button"><i class="fas fa-trash-alt"></i></button></div></div></div></div></div>`;
+        let framework = NewTaskFramework.load;
         document.getElementById("process_modul_content").innerHTML = framework;
 
         var processesNewTSlides = document.getElementById("processes_new_t_slides");
@@ -257,6 +258,125 @@ let Cards = {
         return card;
     }
 }
+let NewTaskFramework = {
+    load: `
+        <div id="new_task" class="d-flex display-flex flex-row full-screen">
+            <div class="flex-fill col-12">
+                <div class="row page-content">
+                    <div class="full-height new-obj-shell col-xl-6 col-12">
+                        <h2 id="ntsk_form_title" class="new-obj-subtitle">Adatok</h2>
+                        <div id="processes_new_t_form"></div>
+                        <div id="ntsk_form_footer" class="newtask-buttoncontainer d-flex justify-content-start">
+                            <button id="add_new_task_btn" type="submit" class="btn btn-primary addnewtask-button">Létrehoz</button>
+                            <button type="reset" class="btn btn-primary addnewtask-button grey-button">Mégse</button>
+                        </div>
+                    </div>
+                    <div class="full-height new-obj-shell col-xl-6 col-12">
+                        <h2 id="ntsk_steps_title" class="new-obj-subtitle">Feladat lépései</h2>
+                        <div id="ntsk_steps_new_box" class="d-flex justify-content-between align-items-center">
+                            <div class="add-taskstep-container">
+                                <p id="addstep_title">Lépés hozzáadása...</p><span onclick="showForms(this)" class="btn-show-forms"><i class="fas fa-chevron-down"></i></span>
+                                <div id="add_taskstep_collapse" style="display:none;">
+                                    <div class="add-taskstep-btn-container">
+                                        <div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">
+                                            <label id="new_taskstep_btn" class="btn btn-addtask-menu btn-addtask-menu-active">
+                                                <input type="radio" name="options" id="new_taskstep_option" autocomplete="off" onchange="showNewTaskStep()"> + Új lépés </label>
+                                            <label id="saved_tasksteps_btn" class="btn btn-addtask-menu">
+                                                <input type="radio" name="options" id="saved_tasksteps_option" autocomplete="off" onchange="showSavedTaskSteps()"> Mentett lépések </label>
+                                        </div>
+                                    </div>
+                                    <div id="new_taskstep_container" class="add-taskstep-form-container">
+                                        <div class="form-group">
+                                            <label for="taskName" class="newtaskstep-label">Lépés neve:</label>
+                                            <input type="text" id="new_taskstep_name" class="newtask-formcontrol"> </div>
+                                        <button type="reset" onclick='getStepNamefromText("new_taskstep_name")' class="btn btn-primary add-step-button">+ Hozzáad</button>
+                                    </div>
+                                    <div id="saved_taskstep_container" class="add-taskstep-form-container">
+                                        <div class="form-group">
+                                            <label for="taskCat" class="newtaskstep-label">Lépés neve:</label>
+                                            <div class="tasktype-group">
+                                                <div class="input-group mb-3">
+                                                    <select id="saved_step_selector" class="form-control newtask-formcontrol" aria-describedby="button-addon2">
+                                                        <option selected>Mentett lépések...</option>
+                                                        <option>Meeting</option>
+                                                        <option>Beszerzés</option>
+                                                        <option>Tesztelés</option>
+                                                    </select>
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary" type="button" id="new_saved_step_btn"><i class="fas fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="reset" onclick='getStepNamefromSelect("saved_step_selector")' class="btn btn-primary add-step-button">+ Hozzáad</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ntsk_steps_cont" class="taskstep-container">
+                            <div id="processes_new_t_slides" class="slides">
+                                <div class="slide">
+                                    <div class="row taskstep-card d-flex align-items-center"> <span class="stepNo">1.</span>
+                                        <h3 class=taskstep-title>lépés</h3> </div>
+                                    <div class="row add-employee-card">
+                                        <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Werner Ádám <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div>
+                                    </div>
+                                    <div class="row add-employee-card">
+                                        <div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i>
+                                            <select id="employeeSelect1" class="add-employee-selector">
+                                                <option selected>Új munkatárs...</option>
+                                                <option>Kósa Áron Balázs</option>
+                                                <option>Sági Dávid</option>
+                                                <option>Werner Ádám</option>
+                                            </select> <span onclick='saveEmployee(this, "employeeSelect1")'><i class="fas fa-check-circle save-employee-icon"></i></span></div>
+                                    </div>
+                                </div>
+                                <div class="slide">
+                                    <div class="row taskstep-card d-flex align-items-center"> <span class="stepNo">2.</span>
+                                        <h3 class=taskstep-title>lépés</h3> </div>
+                                    <div class="row add-employee-card">
+                                        <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Sági Dávid <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div>
+                                    </div>
+                                    <div class="row add-employee-card">
+                                        <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div>
+                                    </div>
+                                    <div class="row add-employee-card">
+                                        <div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i>
+                                            <select id="employeeSelect2" class="add-employee-selector">
+                                                <option selected>Új munkatárs...</option>
+                                                <option>Kósa Áron Balázs</option>
+                                                <option>Sági Dávid</option>
+                                                <option>Werner Ádám</option>
+                                            </select> <span onclick='saveEmployee(this, "employeeSelect2")'><i class="fas fa-check-circle save-employee-icon"></i></span></div>
+                                    </div>
+                                </div>
+                                <div class="slide">
+                                    <div class="row taskstep-card d-flex align-items-center">
+                                        <div class="stepNo">3.</div>
+                                        <h3 class=taskstep-title>lépés</h3> </div>
+                                    <div class="row add-employee-card">
+                                        <div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs <span onclick="deleteEmployee(this)" class="closebtn">&times;</span> </div>
+                                    </div>
+                                    <div class="row add-employee-card">
+                                        <div class="btn btn-sm added-employee-input"> <i class="fas fa-user-plus addemployee-icon "></i>
+                                            <select id="employeeSelect3" class="add-employee-selector">
+                                                <option selected>Új munkatárs...</option>
+                                                <option>Kósa Áron Balázs</option>
+                                                <option>Sági Dávid</option>
+                                                <option>Werner Ádám</option>
+                                            </select> <span onclick='saveEmployee(this, "employeeSelect3")'><i class="fas fa-check-circle save-employee-icon"></i></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ntsk_steps_footer">
+                            <button type="reset" id="ntsk_steps_trash_btn" class="btn btn-primary grey-button"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+`}
 
 let NewTaskJSONExample =
 {

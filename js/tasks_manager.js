@@ -186,7 +186,7 @@ let Database = {
     tasksMFilterChange: function (fullId) {
         //Change when copy
         let dataPlace = 'tasks_m_filters';
-        let filterPlace = 'taskfltr';
+        let filterPlace = 'tskfltr';
 
         Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     },

@@ -10,6 +10,10 @@
     margin-bottom: 5%;
 }
 
+.taskstep-card {
+    flex-wrap: initial;
+}
+
 .addnewtask-button {
     float: right;
     background-color: #3B4372;
@@ -212,7 +216,7 @@
     right: 8%;
 }
 
-#ntsk_steps_footer{
+#ntsk_steps_footer {
     height: 60px;
 }
 

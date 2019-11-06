@@ -90,7 +90,7 @@ let TaskManager = {
         }
     },
     Filter: {
-        'Place name': taskfltr,
+        'Place name': tskfltr,
     },
     CardContainer: {
         'Place name': taskmd,

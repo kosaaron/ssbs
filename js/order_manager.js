@@ -3,6 +3,7 @@
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
+import ElementFunctions from './moduls/ElementFunctions.js';
 import AutoScroll from './moduls/AutoScroll.js';
 import Filters from './moduls/Filters.js';
 import newTask from './new_task.js';
@@ -89,6 +90,8 @@ let General = {
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = Cards.getOrderMCard();
         let cardContainer = "order_card_container";
+
+        new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(orderMCardClick, 'orderm');
         if (data[0] !== undefined) {
@@ -106,7 +109,7 @@ let Database = {
     orderMFilterChange: function (fullId) {
         //Change when copy
         let dataPlace = 'order_m_filters';
-        let filterPlace = 'orderfltr';
+        let filterPlace = 'ordrfltr';
 
         Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     },
