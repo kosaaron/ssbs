@@ -14,9 +14,13 @@
     -moz-box-shadow: 2px 1px 6px 1px #3B4372;
     box-shadow: 2px 1px 6px 1px #3B4372;
 }
+.toolcard .card-body{
+    padding: 8px;
+}
 .tool-image-container{
-    width: 30%;
+    width: 40%;
     height: auto;
+    padding: 5px;
 }
 .tool-image{
     width: 100%;
@@ -25,7 +29,7 @@
 }
 .tool-datas{
     padding: 10px;
-    width: 65%;
+    width: 55%;
 }
 .tool-name{
     color: #3B4372;
@@ -109,3 +113,37 @@
     width: 100%;
     height: 50px;
 }
+
+
+.week-container{
+    width: 100%;
+    height: 46px;
+    padding: 4px;
+}
+.week-container:hover{
+    -webkit-box-shadow: 1px 1px 5px 2px rgba(51,51,51,0.3);
+    -moz-box-shadow: 1px 1px 5px 2px rgba(51,51,51,0.3);
+    box-shadow: 1px 1px 5px 2px rgba(51,51,51,0.3);
+}
+.day-name{
+    color: #fff;
+text-align: center;
+vertical-align: middle;
+    margin: 0;
+    padding: 4px;
+    font-size: 17px;
+}
+.week-day{
+    position: relative;
+    width: 38px;
+    height: 100%;
+    border-radius: 2px;
+
+}
+.week-day-green{
+    background-color: #62BF04;
+}
+.week-day-red{
+    background-color: #D90404;
+}
+
