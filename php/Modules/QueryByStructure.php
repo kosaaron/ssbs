@@ -14,6 +14,8 @@ class QueryByStructure
 
         $fullQuery = 'SELECT DISTINCT ';
         $fullJoin = '';
+        $alreadyAdded = false;
+        $alreadyAddedTablse = array();
 
         //first
         if (is_null($tables[0])) {
@@ -24,7 +26,17 @@ class QueryByStructure
             $fullQuery .=  end($tablesArray) . '.' . end($path) . ' AS "' . $strucure[0] . '"';
 
             for ($j = 0; $j < sizeof($tablesArray); $j++) {
-                $fullJoin .= ' LEFT JOIN ' . $tablesArray[$j] . ' ON ' . $path[$j] . 'Id =' . $path[$j] . 'FK';
+                foreach ($alreadyAddedTablse as $value) {
+                    if ($value === $tablesArray[$j]) {
+                        $alreadyAdded = true;
+                        break;
+                    }
+                }
+
+                if (!$alreadyAdded) {
+                    array_push($alreadyAddedTablse, $tablesArray[$j]);
+                    $fullJoin .= ' LEFT JOIN ' . $tablesArray[$j] . ' ON ' . $path[$j] . 'Id =' . $path[$j] . 'FK';
+                }
             }
         }
         //more
@@ -37,7 +49,17 @@ class QueryByStructure
                 $fullQuery .=  ', ' . end($tablesArray) . '.' . end($path) . ' AS "' . $strucure[$i] . '"';
 
                 for ($j = 0; $j < sizeof($tablesArray); $j++) {
-                    $fullJoin .= ' LEFT JOIN ' . $tablesArray[$j] . ' ON ' . $path[$j] . 'Id =' . $path[$j] . 'FK';
+                    foreach ($alreadyAddedTablse as $value) {
+                        if ($value === $tablesArray[$j]) {
+                            $alreadyAdded = true;
+                            break;
+                        }
+                    }
+    
+                    if (!$alreadyAdded) {
+                        array_push($alreadyAddedTablse, $tablesArray[$j]);
+                        $fullJoin .= ' LEFT JOIN ' . $tablesArray[$j] . ' ON ' . $path[$j] . 'Id =' . $path[$j] . 'FK';
+                    }
                 }
             }
         }

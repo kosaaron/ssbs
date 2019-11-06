@@ -180,6 +180,11 @@ iframe[seamless] {
     /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
+.auto-scroll-default {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 .gray-border {
     border: 1px solid #ddd;
 }
@@ -422,6 +427,10 @@ iframe[seamless] {
     overflow: hidden;
     position: relative;
     border-bottom: 5px solid #ddd;
+}
+
+.cc-details {
+    border-left: 1px solid #ddd;
 }
 
 /* ratio of 1:1

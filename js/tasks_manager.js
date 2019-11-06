@@ -9,7 +9,7 @@
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
 import CardContainerPlus from './moduls/CardContainerPlus.js';
-import ArrayFunctions from './moduls/ArrayFunctions.js';
+import GlobalVaribles from './moduls/GlobalVaribles.js';
 import Filters from './moduls/Filters.js';
 import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
@@ -55,6 +55,7 @@ function addTask() {
     newTask.loadNewTask();
 
     removeOneListener("processes_back_to_menu");
+    Events.onDestroy();
     addOneListener("processes_back_to_menu", "click", tasksManager.loadTasksManager);
 }
 
@@ -64,7 +65,7 @@ var tasksManager = {
         // Title
         document.getElementById("back_to_menu_text").textContent = "Feladatok";
         addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
-
+        addOneListener("processes_back_to_menu", "click", Events.onDestroy);
 
         // Loader
         document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
@@ -300,6 +301,9 @@ let Callbacks = {
 
 /** Events **/
 let Events = {
+    onDestroy: function () {
+        GlobalVaribles.setActiveModul("");
+    },
     taskWayEmplStatusClick: function (fullId) {
         let splittedId = fullId.split('_');
         let taskFK = splittedId[splittedId.length - 2];
