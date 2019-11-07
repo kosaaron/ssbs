@@ -20,7 +20,7 @@ import { addOneListener, removeOneListener, mainFrame } from './common.js';
  * Tool card template
  */
 let Cards = {
-    getToolsCard : function() {
+    getToolsCard: function () {
         let container = "";
         container += '<div class="col-lg-12"><div id="tool_card_*5*" class="card toolcard tool-show-details"><div class="card-body">';
         container += '!<div class="display-flex justify-content-between"><div class="tool-image-container"><img class="tool-image" src="https://images.obi.hu/product/HU/800x600/292962_1.jpg"></div>';
@@ -28,7 +28,7 @@ let Cards = {
         container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: *3*</p>';
         container += '<div class="d-flex justify-content-between week-container"> <div class="week-day week-day-red"><p class="day-name">H</p></div><div class="week-day week-day-green"><p class="day-name">K</p></div><div class="week-day week-day-red"><p class="day-name">Sz</p></div><div class="week-day week-day-green"><p class="day-name">Cs</p></div><div class="week-day week-day-green"><p class="day-name">P</p></div></div>'
         container += '</div></div></div></div></div>';
-    
+
         return container;
     }
 }
@@ -40,11 +40,11 @@ let Cards = {
 function getToolDetail(shellId) {
     let container = "";
 
-    container += '<h2 class="name-grey">*2*</h2>';
-    container += '!<p><label>*3*</label></p>';
-    container += '!<div id="' + shellId + '_cc_g"> </div>';
-    container += '!<div class="tool-button-container justify-content-between"><button id="clnd_*1*" type="button" class="btn btn - primary tool - tag tool - button"><i class="fas fa - calendar tool - tag - icon"></i>Naptár</button>';
-    container += '!<button id="edit_*1*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
+    container += '<div id="' + shellId + '_titlebox"><h2 class="name-grey">*2*</h2>';
+    container += '!<p><label>*3*</label></p></div>';
+    /*
+    container += '!<div id="' + shellId + '" class="tool-button-container justify-content-between"><button id="clnd_*1*" type="button" class="btn btn - primary tool - tag tool - button"><i class="fas fa - calendar tool - tag - icon"></i>Naptár</button>';
+    container += '!<button id="edit_*1*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';*/
     return container;
 }
 
@@ -62,7 +62,7 @@ function toolCardClick(cardId) {
     let structure = Varibles.PageData.DetailsStructure;
     let shellId = "tool_details";
     let card = getToolDetail(shellId);
-    
+
 
     CardDetails.Create(toolId, data, structure, card, shellId, 'ToolId'); //ToolId Kérdéses
 }
@@ -111,11 +111,11 @@ let General = {
 /** Public functions */
 var tools = {
     loadTools: function () {
-                /*
-        // Title
-        document.getElementById("back_to_menu_text").textContent = "Feladatok";
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
-        */
+        /*
+// Title
+document.getElementById("back_to_menu_text").textContent = "Feladatok";
+addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+*/
 
 
         // Loader
@@ -181,103 +181,103 @@ let Callbacks = {
     }
 }
 
-var PageDataJSONExample={ 
-    "Filters":[ 
-       { 
-          "FilterId":"6",
-          "Name":"Eszk\u00f6z neve",
-          "Type":"W",
-          "DefaultValue":null,
-          "ColumnName":"Name"
-       },
-       { 
-          "FilterId":"5",
-          "Name":"El\u00e9rhet\u0151s\u00e9g",
-          "Type":"S",
-          "DefaultValue":null,
-          "ColumnName":"ToolAvailability.Name",
-          "Opportunities":[ 
-             { 
-                "Id":"0",
-                "Name":"-- Mindegy --"
-             },
-             { 
-                "Id":"1",
-                "Name":"El\u00e9rhet\u0151"
-             },
-             { 
-                "Id":"2",
-                "Name":"Foglalt"
-             }
-          ]
-       }
+var PageDataJSONExample = {
+    "Filters": [
+        {
+            "FilterId": "6",
+            "Name": "Eszk\u00f6z neve",
+            "Type": "W",
+            "DefaultValue": null,
+            "ColumnName": "Name"
+        },
+        {
+            "FilterId": "5",
+            "Name": "El\u00e9rhet\u0151s\u00e9g",
+            "Type": "S",
+            "DefaultValue": null,
+            "ColumnName": "ToolAvailability.Name",
+            "Opportunities": [
+                {
+                    "Id": "0",
+                    "Name": "-- Mindegy --"
+                },
+                {
+                    "Id": "1",
+                    "Name": "El\u00e9rhet\u0151"
+                },
+                {
+                    "Id": "2",
+                    "Name": "Foglalt"
+                }
+            ]
+        }
     ],
-    "DataStructure":{ 
-       "1":"Icon",
-       "2":"Name",
-       "3":"Place",
-       "4":"ToolAvailability.Name",
-       "5":"ToolId"
+    "DataStructure": {
+        "1": "Icon",
+        "2": "Name",
+        "3": "Place",
+        "4": "ToolAvailability.Name",
+        "5": "ToolId"
     },
-    "Data":[ 
-       { 
-          "AvailableTools":"2",
-          "Icon":"fa fa-plus",
-          "Name":"Samsung laptop",
-          "Place":"Gy\u00e1r, 3-as rakt\u00e1r",
-          "ToolAvailability.Name":"El\u00e9rhet\u0151",
-          "ToolId":"1",
-          "remarks":[ 
-             { 
-                "ToolRemarkId":"1",
-                "RemarkText":"Ez egy ngyon extra text.",
-                "EmployeeFK":"1",
-                "FirstName":"\u00c1d\u00e1m",
-                "LastName":"Werner"
-             },
-             { 
-                "ToolRemarkId":"2",
-                "RemarkText":"Ez a m\u00e1sodik.",
-                "EmployeeFK":"1",
-                "FirstName":"\u00c1d\u00e1m",
-                "LastName":"Werner"
-             }
-          ]
-       },
-       { 
-          "AvailableTools":"2",
-          "Icon":"fa fa-plus",
-          "Name":"Apple laptop",
-          "Place":"Gy\u00e1r, 3-as rakt\u00e1r",
-          "ToolAvailability.Name":"El\u00e9rhet\u0151",
-          "ToolId":"2",
-          "remarks":[ 
- 
-          ]
-       }
+    "Data": [
+        {
+            "AvailableTools": "2",
+            "Icon": "fa fa-plus",
+            "Name": "Samsung laptop",
+            "Place": "Gy\u00e1r, 3-as rakt\u00e1r",
+            "ToolAvailability.Name": "El\u00e9rhet\u0151",
+            "ToolId": "1",
+            "remarks": [
+                {
+                    "ToolRemarkId": "1",
+                    "RemarkText": "Ez egy ngyon extra text.",
+                    "EmployeeFK": "1",
+                    "FirstName": "\u00c1d\u00e1m",
+                    "LastName": "Werner"
+                },
+                {
+                    "ToolRemarkId": "2",
+                    "RemarkText": "Ez a m\u00e1sodik.",
+                    "EmployeeFK": "1",
+                    "FirstName": "\u00c1d\u00e1m",
+                    "LastName": "Werner"
+                }
+            ]
+        },
+        {
+            "AvailableTools": "2",
+            "Icon": "fa fa-plus",
+            "Name": "Apple laptop",
+            "Place": "Gy\u00e1r, 3-as rakt\u00e1r",
+            "ToolAvailability.Name": "El\u00e9rhet\u0151",
+            "ToolId": "2",
+            "remarks": [
+
+            ]
+        }
     ],
-    "DetailsStructure":{ 
-       "Names":{ 
-          "1":null,
-          "2":null,
-          "3":null,
-          "g1":"Helye",
-          "g2":"El\u00e9rhet\u0151 esz\u00f6k\u00f6k",
-          "g3":"El\u00e9rhet\u0151 eszk\u00f6z\u00f6k",
-          "g4":"Utols\u00f3 karbantart\u00e1s",
-          "g5":"Karbantart\u00e1st ig\u00e9nyel",
-          "g6":"Le\u00edr\u00e1s"
-       },
-       "Data":{ 
-          "1":"ToolId",
-          "2":"Name",
-          "3":"Type",
-          "g1":"Place",
-          "g2":"ToolAvailability.Name",
-          "g3":"AvailableTools",
-          "g4":"LastMaintenance",
-          "g5":"MaintenancePeriod",
-          "g6":"Description"
-       }
+    "DetailsStructure": {
+        "Names": {
+            "1": null,
+            "2": null,
+            "3": null,
+            "g1": "Helye",
+            "g2": "El\u00e9rhet\u0151 esz\u00f6k\u00f6k",
+            "g3": "El\u00e9rhet\u0151 eszk\u00f6z\u00f6k",
+            "g4": "Utols\u00f3 karbantart\u00e1s",
+            "g5": "Karbantart\u00e1st ig\u00e9nyel",
+            "g6": "Le\u00edr\u00e1s"
+        },
+        "Data": {
+            "1": "ToolId",
+            "2": "Name",
+            "3": "Type",
+            "g1": "Place",
+            "g2": "ToolAvailability.Name",
+            "g3": "AvailableTools",
+            "g4": "LastMaintenance",
+            "g5": "MaintenancePeriod",
+            "g6": "Description"
+        }
     }
- }
+}
