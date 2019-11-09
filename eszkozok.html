@@ -128,11 +128,21 @@
                                         <p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: Gyár, 3-as raktár
                                         </p>
                                         <div class="d-flex justify-content-between week-container">
-                                                <div class="week-day week-day-red"><p class="day-name">H</p></div>
-                                                <div class="week-day week-day-green"><p class="day-name">K</p></div>
-                                                <div class="week-day week-day-red"><p class="day-name">Sz</p></div>
-                                                <div class="week-day week-day-green"><p class="day-name">Cs</p></div>
-                                                <div class="week-day week-day-green"><p class="day-name">P</p></div>
+                                            <div class="week-day week-day-red">
+                                                <p class="day-name">H</p>
+                                            </div>
+                                            <div class="week-day week-day-green">
+                                                <p class="day-name">K</p>
+                                            </div>
+                                            <div class="week-day week-day-red">
+                                                <p class="day-name">Sz</p>
+                                            </div>
+                                            <div class="week-day week-day-green">
+                                                <p class="day-name">Cs</p>
+                                            </div>
+                                            <div class="week-day week-day-green">
+                                                <p class="day-name">P</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -224,22 +234,84 @@
             <div class="col-4" id="detail-placeholder" style="display: none">
                 A részletekért válassz egy feladatot!
             </div>
-            <div class="col-4" id="tools_details">
-                <h2>Bölcsek Köve</h2>
-                <p><label class="title-text">Típus:</label><br><label>Operatív feladatok</label></p>
-                <p><label class="title-text">Helye:</label><br><label>2-es raktár (Bp, 1154, Palotai út 2.)</label></p>
-                <p><label class="title-text">Használatbavétel kezdete:</label><br><label>2019. január 21.</label></p>
-                <p><label class="title-text">Karbantartást igényel:</label><br><label>2020. január 21.</label></p>
-                <p><label class="title-text">Megjegyzés:</label><br><label>Itt lehetne chatszerűen hozzászólni, hogy pl
-                        nagyon kezd elhasználódni az eszköz, stb.)</label></p>
-                <div class="tool-button-container justify-content-between">
-                    <button type="button" class="btn btn-primary tool-tag tool-button">
-                        <i class="fas fa-calendar tool-tag-icon"></i>Naptár</button>
-                    <button type="button" class="btn btn-primary tool-tag tool-button">
-                        <i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button>
+            <div class="col-4" id="tool_details">
+                <div id="tool_details_titlebox">
+                    <h2 class="name-grey">Samsung laptop</h2>
+                    <p><label>Elektronikai eszköz</label></p>
                 </div>
-
-
+                <div id="tool_details_tab" class="display-flex justify-content-center">
+                    <div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"><label
+                            id="tool_details_data_btn" tab-cont-id="tool_details_cc_g"
+                            class="btn btn-detail-menu active" aria-pressed="true">Adatok </label><label
+                            id="tool_details_vo_0_btn" tab-cont-id="tool_details_vo_0"
+                            class="btn btn-detail-menu btn-detail-menu-active" aria-pressed="false">Megjegyzések</label>
+                    </div>
+                </div>
+                <div id="tool_details_content" class="auto-scroll-default" style="height: 460px;">
+                    <div id="tool_details_cc_g" class="tool_details_vo" style="display: none;">
+                        <p id="g1"><label class="title-text">Helye</label><br><label>Gyár, 3-as raktár</label></p>
+                        <p id="g2"><label class="title-text">Elérhető eszökök</label><br><label>Elérhető</label></p>
+                        <p id="g3"><label class="title-text">Elérhető eszközök</label><br><label>2</label></p>
+                        <p id="g4"><label class="title-text">Utolsó karbantartás</label><br><label>2019-02-01
+                                00:00:00</label></p>
+                        <p id="g5"><label class="title-text">Karbantartást igényel</label><br><label>120</label></p>
+                        <p id="g6"><label class="title-text">Leírás</label><br><label>Semmi extra.</label></p>
+                    </div>
+                    <div id="tool_details_vo_0" style="display: block;" class="tool_details_vo">
+                        <div class="row" id="tool_details_vo_0_1">
+                            <div class="card commentcard">
+                                <div class="card-body">
+                                    <div class="display-flex justify-content-between">
+                                            <p class="tool-comment-text">Mondjuk ez itt egy hosszabb megjegyzés, hogy lássuk, hogy néz ki egy ilyen a kártyán.</p>
+                                    </div>
+                                    <div id="1" class="row comment-writer-datas" style="">
+                                        <div class="comment-writer-logocontainer">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div class="comment-writer-namecontainer">
+                                            <p class="commenter-name">Ádám Werner</p>
+                                            <p class="comment-time">2019-09-02 01:28:20</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="tool_details_vo_0_3">
+                            <div class="card commentcard">
+                                <div class="card-body">
+                                    <div class="display-flex justify-content-between">
+                                            <p class="tool-comment-text">Ez egy rövid megjegyzés.</p>
+                                    </div>
+                                    <div id="3" class="row comment-writer-datas" style="">
+                                        <div class="comment-writer-logocontainer">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div class="comment-writer-namecontainer">
+                                            <p class="commenter-name">Áron Kósa</p>
+                                            <p class="comment-time">2019-09-02 01:28:20</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="tool_details_vo_0_2">
+                            <div class="card contactcard">
+                                <div class="card-body">
+                                    <div class="display-flex justify-content-between"><i class="fas fa-cube"></i>
+                                        <div class="partner-contact-main flex-1">
+                                            <h3 class="card-title contact-name">Ádám</h3>
+                                            <p>Ez a második.</p>
+                                        </div>
+                                    </div>
+                                    <div id="1" class="contact-container" style="">
+                                        <p class="contactdata"><i class="fab fa-buffer partnercard-logo"></i>2019-09-02
+                                            01:28:20</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="filtered-table-fade flex-1"></div>
         </div>
