@@ -379,7 +379,7 @@ function handleTaskModal(id) {
         <div id="editTaskModal">Edit</div>
         <div id="markTaskDone">Task Done</div>
         <div id="deleteTask">Delete</div>
-        <div id="closeTaskModal">Close</div>
+        <div id="closeTaskModal"><i class="fas fa-times-circle"></i></div>
         <div class="task__display-only">
             <div class="task__interval">
                 <p>${startMonth} ${tasks[id]['start_day']} - ${endMonth} ${tasks[id]['end_day']}</p>
