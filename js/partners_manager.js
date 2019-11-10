@@ -1,10 +1,4 @@
 /** partners_manager.js */
-/**
- * 1. Imports
- * 2. Loacal functions
- * 3. Public functions
- *    -  Partners manager
- */
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
@@ -12,97 +6,6 @@ import Filters from './moduls/Filters.js';
 import newPartner from './new_partner.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
 import CardContainerPlus from './moduls/CardContainerPlus.js';
-
-/** Local functions */
-/**
- * Partners manager card template
- */
-function getPartnersMCard() {
-    let container = "";
-    container += '<div class="col-lg-12"><div class="card partnercard partnerm-show-details" id="partners_card_*5*"><div class="card-body">';
-    container += '<div class="display-flex justify-content-between">';
-    container += '!<div class="partner-logo-container display-flex align-items-center"><img class="partner-logo" src="*1*"></div>';
-    container += '!<div class="partner-datas"><h3 class="card-title partner-name">*2*</h3>';
-    container += '!<p><i class="fas fa-phone partnercard-logo"></i>*3*</p>';
-    container += '!<p><i class="far fa-envelope partnercard-logo"></i>*4*</p></div></div>';
-    container += '!<div class="display-flex flex-wrap tag-container">?';
-    //container += '!<button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nagyobb cimke</button>';
-    container += '</div></div></div></div>';
-
-    return container;
-}
-
-/**
- * Partners manager details template
- * @param {String} shellId 
- */
-function getPartnersMDetail(shellId) {
-    let container = '<h2 id="' + shellId + '_title" class="name-grey">*1*</h2>';
-    container += '<div id="partner_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">';
-    container += '<label id="prtnr_dtl_data_btn" class="btn btn-detail-menu btn-detail-menu-active">';
-    container += '<input type="radio" name="options" id="prtnr_dtls_tab_data" autocomplete="off"> Adatok </label>';
-    container += '<label id="prtnr_dtl_cnt_btn" class="btn btn-detail-menu">';
-    container += '<input type="radio" name="options" id="prtnr_dtls_tab_contacts" autocomplete="off"> Kapcsolatok </label></div></div><div id="partner_details_content">';
-    container += '!<div id="partner_data_container">';
-    container += '!<div id="' + shellId + '_cc_g"> </div>';
-    container += '!</div><div id="partner_contacts_container" style="display: none" ></div></div>';
-    return container;
-}
-/**
- * Partner contacts html by Áron
- */
-function getPartnersMContact() {
-    let container = '<div class="row"><div class="card contactcard"><div class="card-body">';
-    container += `!<a onclick='showContact("*1*")'><div class="display-flex justify-content-between">`;
-    container += '<i class="fas fa-user-circle profile-logo"></i>';
-    container += '<div class="partner-contact-main flex-1">';
-    container += '!<h3 class="card-title contact-name">*2*</h3>';
-    container += '!<p>*5*</p>';
-    container += '!</div></div></a><div id="*1*" class="contact-container" style="display: none;">';
-    container += '!<p class="contactdata"><i class="fas fa-home partnercard-logo"></i></i>*2*</p>';
-    container += '!<p class="contactdata"><i class="fas fa-phone partnercard-logo"></i>*4*</p>';
-    container += '!<p class="contactdata"><i class="far fa-envelope partnercard-logo"></i>*3*</p></div></div></div></div>';
-    return container;
-}
-
-function getPartnersMDStructure() {
-    return partner_m_structure_2;
-}
-
-/**
- * Card click event
- * @param {Integer} cardId Card id
- */
-function partnerMCardClick(cardId) {
-    let splittedId = cardId.split('_');
-    let id = splittedId[splittedId.length - 1];
-
-    let data = Varibles.PageData.Data;
-    let structure = Varibles.PageData.DetailsStructure;
-    let shellId = "partners_m_details";
-    let card = getPartnersMDetail(shellId);
-
-    CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
-
-    let contactShell = 'partner_contacts_container';
-    let card2 = getPartnersMContact();
-    CardDetails.CreatePlus(id, data, card2, contactShell, 'PartnerId', Callbacks.getContactData);
-
-    addOneListener('prtnr_dtl_data_btn', 'click', Events.detailsDataTabClick);
-    addOneListener('prtnr_dtl_cnt_btn', 'click', Events.detailsContactsTabClick);
-
-    //CardContainer.Create()
-}
-let ContactData = {
-
-}
-
-function addPartner() {
-    newPartner.loadNewPartner();
-
-    removeOneListener("processes_back_to_menu");
-    addOneListener("processes_back_to_menu", "click", partnersManager.loadPartnersManager);
-}
 
 /** Public functions **/
 var partnersManager = {
@@ -119,36 +22,44 @@ var partnersManager = {
     }
 };
 export default partnersManager;
+
 /** Varibles */
 let Varibles = {
     PageData: null
 }
 
-/** General functions **/
-let General = {
+/** Loaders functions **/
+let Loaders = {
     reloadFullPage() {
         // Load framework
         let framework = '<div id="partners_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="partners_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_partner_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="partners_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="partners_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
         document.getElementById("process_modul_content").innerHTML = framework;
 
         // Load card container
-        General.reloadCardContainer();
+        Loaders.reloadCardContainer();
 
         Filters.Create(Varibles.PageData.Filters, "partners_m_filters", Database.partnersMFileterChange);
 
-        addOneListener("proceses_add_partner_btn", "click", addPartner);
+        addOneListener("proceses_add_partner_btn", "click", Loaders.loadNewPartner);
     },
     reloadCardContainer: function () {
         // Load card container
         let listData = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
-        let cardDesign = getPartnersMCard();
+        let cardDesign = Cards.getPartnersMCard();
         let cardContainer = "partners_card_container";
         CardContainerPlus.CreateWithData(listData, cardStructure, cardContainer, cardDesign, Callbacks.tagsToPartner);
-        CardContainer.ClickableCard(partnerMCardClick, 'partnerm');
+        CardContainer.ClickableCard(Events.partnerMCardClick, 'partnerm');
         if (listData[0] !== undefined) {
-            partnerMCardClick('partners_card_' + listData[0].PartnerId);
+            Events.partnerMCardClick('partners_card_' + listData[0].PartnerId);
         }
+    },
+    loadNewPartner: function () {
+        newPartner.loadNewPartner();
+
+        //set navigation parent page
+        removeOneListener("processes_back_to_menu");
+        addOneListener("processes_back_to_menu", "click", partnersManager.loadPartnersManager);
     }
 }
 
@@ -166,7 +77,7 @@ let Database = {
                 /*  Convert string data to date simple
                 Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
                 */
-                General.reloadFullPage();
+                Loaders.reloadFullPage();
             },
             dataType: 'json'
         });
@@ -179,6 +90,60 @@ let Database = {
         Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     }
 }
+
+/** Cards **/
+let Cards = {
+    /**
+     * Partner contacts html by Áron
+     */
+    getPartnersMContact: function () {
+        let container = '<div class="row"><div class="card contactcard"><div class="card-body">';
+        container += `!<a onclick='showContact("*1*")'><div class="display-flex justify-content-between">`;
+        container += '<i class="fas fa-user-circle profile-logo"></i>';
+        container += '<div class="partner-contact-main flex-1">';
+        container += '!<h3 class="card-title contact-name">*2*</h3>';
+        container += '!<p>*5*</p>';
+        container += '!</div></div></a><div id="*1*" class="contact-container" style="display: none;">';
+        container += '!<p class="contactdata"><i class="fas fa-home partnercard-logo"></i></i>*2*</p>';
+        container += '!<p class="contactdata"><i class="fas fa-phone partnercard-logo"></i>*4*</p>';
+        container += '!<p class="contactdata"><i class="far fa-envelope partnercard-logo"></i>*3*</p></div></div></div></div>';
+        return container;
+    },
+    /**
+     * Partners manager card template
+     */
+    getPartnersMCard: function () {
+        let container = "";
+        container += '<div class="col-lg-12"><div class="card partnercard partnerm-show-details" id="partners_card_*5*"><div class="card-body">';
+        container += '<div class="display-flex justify-content-between">';
+        container += '!<div class="partner-logo-container display-flex align-items-center"><img class="partner-logo" src="*1*"></div>';
+        container += '!<div class="partner-datas"><h3 class="card-title partner-name">*2*</h3>';
+        container += '!<p><i class="fas fa-phone partnercard-logo"></i>*3*</p>';
+        container += '!<p><i class="far fa-envelope partnercard-logo"></i>*4*</p></div></div>';
+        container += '!<div class="display-flex flex-wrap tag-container">?';
+        //container += '!<button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nagyobb cimke</button>';
+        container += '</div></div></div></div>';
+
+        return container;
+    },
+    /**
+     * Partners manager details template
+     * @param {String} shellId 
+     */
+    getPartnersMDetail: function (shellId) {
+        let container = '<h2 id="' + shellId + '_title" class="name-grey">*1*</h2>';
+        container += '<div id="partner_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">';
+        container += '<label id="prtnr_dtl_data_btn" class="btn btn-detail-menu btn-detail-menu-active">';
+        container += '<input type="radio" name="options" id="prtnr_dtls_tab_data" autocomplete="off"> Adatok </label>';
+        container += '<label id="prtnr_dtl_cnt_btn" class="btn btn-detail-menu">';
+        container += '<input type="radio" name="options" id="prtnr_dtls_tab_contacts" autocomplete="off"> Kapcsolatok </label></div></div><div id="partner_details_content">';
+        container += '!<div id="partner_data_container">';
+        container += '!<div id="' + shellId + '_cc_g"> </div>';
+        container += '!</div><div id="partner_contacts_container" style="display: none" ></div></div>';
+        return container;
+    }
+}
+
 /** Callbacks **/
 let Callbacks = {
     tagsToPartner: function (item, shellId) {
@@ -201,7 +166,7 @@ let Callbacks = {
         /* String to date
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
-        General.reloadCardContainer();
+        Loaders.reloadCardContainer();
     },
     /**
      * Get contact data
@@ -214,7 +179,10 @@ let Callbacks = {
 
 /** Events **/
 let Events = {
-    /** Details data tab click */
+    /**
+     * Details data tab click
+     * @param {String} fullId 
+     */
     detailsDataTabClick: function (fullId) {
         document.getElementById('partner_data_container').style.display = "block";
         document.getElementById('partner_contacts_container').style.display = "none";
@@ -223,7 +191,10 @@ let Events = {
         let element2 = document.getElementById("prtnr_dtl_data_btn");
         element2.classList.add("btn-detail-menu-active");
     },
-    /** Details contacts tab click */
+    /**
+     * Details contacts tab click
+     * @param {String} fullId 
+     */
     detailsContactsTabClick: function (fullId) {
         document.getElementById('partner_data_container').style.display = "none";
         document.getElementById('partner_contacts_container').style.display = "block";
@@ -231,6 +202,28 @@ let Events = {
         element.classList.remove("btn-detail-menu-active");
         let element2 = document.getElementById("prtnr_dtl_cnt_btn");
         element2.classList.add("btn-detail-menu-active");
+    },
+    /**
+     * Card click event
+     * @param {Integer} cardId Card id
+     */
+    partnerMCardClick: function (cardId) {
+        let splittedId = cardId.split('_');
+        let id = splittedId[splittedId.length - 1];
+
+        let data = Varibles.PageData.Data;
+        let structure = Varibles.PageData.DetailsStructure;
+        let shellId = "partners_m_details";
+        let card = Cards.getPartnersMDetail(shellId);
+
+        CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
+
+        let contactShell = 'partner_contacts_container';
+        let card2 = Cards.getPartnersMContact();
+        CardDetails.CreatePlus(id, data, card2, contactShell, 'PartnerId', Callbacks.getContactData);
+
+        addOneListener('prtnr_dtl_data_btn', 'click', Events.detailsDataTabClick);
+        addOneListener('prtnr_dtl_cnt_btn', 'click', Events.detailsContactsTabClick);
     }
 }
 
@@ -335,27 +328,6 @@ var partner_m_structure = {
     '3': "Telefon",
     '4': "Email",
     '5': "Id"
-};
-
-var partner_m_structure_2 = {
-    Names: {
-        '1': null,
-        '2': "Partner típusa",
-        '3': "Kapcsolattartó",
-        '4': "Telefon",
-        '5': "Email",
-        '6': "Cím",
-        '7': "Leírás"
-    },
-    Data: {
-        '1': "Name",
-        '2': "Type",
-        '3': "Kapcsolattartó",
-        '4': "Telefon",
-        '5': "Email",
-        '6': "Cím",
-        '7': "Leírás"
-    }
 };
 
 var activeTableFilters = [
