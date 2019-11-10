@@ -25,6 +25,7 @@ import GlobalVaribles from './moduls/GlobalVaribles.js';
 /** Varibles */
 let Varibles = {
     isOpenedProd: false,
+    isOpenedRsrc: false,
     activeModul: 'finance_diagrams'
 }
 
@@ -90,6 +91,11 @@ function menuItemClick(id) {
             break;
         case "tab_resources":
             document.getElementById("resources").style.display = "block";
+
+            if (!Varibles.isOpenedRsrc) {
+                addResourcesEvents('employees');
+                Varibles.isOpenedRsrc = true;
+            }
             break;
         case "tab_settings":
             document.getElementById("settings").style.display = "block";
@@ -199,6 +205,7 @@ function addResourcesClick() {
 }
 
 function addResourcesEvents(attr) {
+    Varibles.isOpenedRsrc = true;
     switch (attr) {
         case "employees":
             employees.loadEmployees();

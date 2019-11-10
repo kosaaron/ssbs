@@ -2,7 +2,6 @@
 require_once('Modules/Connect.php');
         $PDOConnect = new PDOConnect();
         $pdo = $PDOConnect->pdo;
-require_once('Modules/QueryByStructure.php');
 require_once('Modules/CreateForm.php');
 require_once('Modules/DataAndStructure.php');
 

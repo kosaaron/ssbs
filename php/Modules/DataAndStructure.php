@@ -43,7 +43,7 @@ class DataAndStructure
         $main_data['DataStructure'] = $dataStructure;
 
         $queryByStructure = new QueryByStructure();
-        $dataQuery = $queryByStructure->DefaultQuery($structureTD, $table, $tablesTD, $where);
+        $dataQuery = $queryByStructure->DefaultQuery($structureTD, $tablesTD, $table, $where);
         if ($dataQuery) {
             $dataResult = $pdo->query($dataQuery)->fetchAll(PDO::FETCH_ASSOC);
 

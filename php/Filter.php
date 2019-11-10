@@ -1,6 +1,5 @@
 <?php
 require_once('Modules/Connect.php');
-require_once('Modules/QueryByStructure.php');
 require_once('Modules/DataAndStructure.php');
 require_once('Modules/QueryOptimizer.php');
 

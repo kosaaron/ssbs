@@ -34,13 +34,11 @@ let CardDetails = {
         for (let i = 0; i < data.length; i++) {
             const elementI = data[i];
             if (cardId === elementI[IdName]) {
-                let c = 0;
                 for (let j = 0; j < cardBlock.length; j++) {
                     let elementJ = cardBlock[j];
 
                     if (elementJ.split('*').length === 1) {
                         container += elementJ;
-
                     } else {
                         let elementX2 = elementJ.split('**');
                         const elementN = structure.Names[elementX2[1]];
@@ -53,11 +51,8 @@ let CardDetails = {
                                     elementJ = elementJ.replace('**' + elementX2[1] + '**', elementN);
                                 }
                             }
-
                             container += elementJ.replace('*' + elementX1[1] + '*', elementI[elementD]);
                         }
-
-                        c++;
                     }
                 }
 

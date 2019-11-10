@@ -2,12 +2,13 @@ let TableCreator = {
     /**
      * 
      * @param {Array} data 
-     * @param {Array} structure 
+     * @param {Array} trStructure
+     * @param {Array} tdStructure
      * @param {String} plainHtml 
      * @param {String} shellId 
      * @param {String} checkbody 
      */
-    Create: function (data, structure, plainHtml, shellId, checkbody, widths) {
+    Create: function (data, trStructure, tdStructure, plainHtml, shellId, checkbody) {
 
         /*
         plainHTML-re egy példa:
@@ -21,7 +22,7 @@ let TableCreator = {
                                     </table>
                                     !<table class="table table-hover mb-0 col-12"> --> itt a !-jel inkább jelzés értékű, hogy ez már a rendes táblázat, nem a header.
                                         <tbody>
-                                            !<tr class="m-0 data-row"> --> !-jel azért van, mert minden adatobjektumonként a következő !-jelig loopolunk ezen a soron, vagyis minden adatobjektum egy sor lesz.
+                                            !<tr id="shell_id_*1*" class="m-0 data-row"> --> !-jel azért van, mert minden adatobjektumonként a következő !-jelig loopolunk ezen a soron, vagyis minden adatobjektum egy sor lesz.
                                                 !<td class="d-inline-block *">?</td> --> ezt a sort a ?jel ketté bontja, a megjelenítendő szöveg kerül a ?jel helyére. A * azért van, mert ha checkbox típusú a cella, akkor az kerül oda.
                                             !</tr>! --> adatobjektumonként egy ilyen kell, hogy bezárjon a sor
                                         </tbody>
@@ -36,8 +37,9 @@ let TableCreator = {
         //create header
         let header = plainHtml.split('!')[1];
         let headerText = header.split('*');
-        for (let i = 0; i < structure.length; i++) {
-            container += headerText[0] + widths[i] + headerText[1] + structure[i] + headerText[2];
+        for (var tdSKey in tdStructure) {
+            let tdSValue = tdStructure[tdSKey];
+            container += headerText[0] + tdSValue.ColumnWidth + headerText[1] + tdSValue.ColumnTitle + headerText[2];
         }
 
         //end header
@@ -51,19 +53,30 @@ let TableCreator = {
         let bodyText = body.split('?');
 
         for (let i = 0; i < data.length; i++) { //tr-ek iterálása
-            container += plainHtml.split('!')[4];
-            for (let j = 0; j < structure.length; j++) {// td iterálása
-                console.log('data[i]');
-                container += bodyText[0].split('*')[0] + widths[j] + bodyText[0].split('*')[1];
-                if(typeof data[i][structure[j]] == 'boolean') {
+            let dataI = data[i];
+            let trHead = plainHtml.split('!')[4];
+
+            for (var trSKey in trStructure) {
+                let trSValue = trStructure[trSKey];
+                trHead = trHead.replace('*' + trSKey + '*', dataI[trSValue]);
+            }
+            container += trHead;
+
+            for (var tdSKey in tdStructure) { // td iterálása
+                let tdSValue = tdStructure[tdSKey];
+                let tdWidth = tdSValue.ColumnWidth;
+                container += bodyText[0].split('*')[0] + tdWidth + bodyText[0].split('*')[1];
+
+                let tdSColumnName = dataI[tdSValue.ColumnName];
+                if (typeof tdSColumnName == 'boolean') {
                     container += checkbody.split('*')[0];
-                    if(data[i][structure[j]]) {
+                    if (tdSColumnName) {
                         container += 'checked';
                     }
                     container += checkbody.split('*')[1];
                 }
                 else {
-                    container += data[i][structure[j]];
+                    container += tdSColumnName;
                 }
                 container += bodyText[1];
             }
