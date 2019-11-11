@@ -249,8 +249,8 @@ let Local = {
             let parentAttrs = document.getElementById('process_' + parentId).getAttribute('p-item-path');
             processNamesBoxItem.setAttribute('p-item-path', parentAttrs + '.' + process.ProjectId);
             let processClassList = '';
-            parentAttrs.split('.').forEach(parantId => {
-                processClassList += ' process_' + parantId;
+            parentAttrs.split('.').forEach(parentId => {
+                processClassList += ' process_' + parentId;
             });
             processNamesBoxItem.className = 'process-names-box-item display-flex' + processClassList;
 

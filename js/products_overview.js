@@ -8,9 +8,11 @@ import TableCreator from './moduls/TableCreator.js';
  */
 var ProductsOverview = {
     loadProductsOverview: function () {
-        // Load framework
+        // Modul title
         document.getElementById('prod_modul_title').innerHTML = "Termékek áttekintése";
-
+        // Loader
+        document.getElementById('products_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+        // Load page
         Database.getPageData();
     }
 }

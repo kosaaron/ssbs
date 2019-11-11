@@ -11,6 +11,7 @@ body {
 
 #grid {
   height: 80vh;
+  overflow: auto;
 }
 
 #create {
