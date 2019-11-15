@@ -72,12 +72,12 @@
                                 <div class="add-taskstep-btn-container">
                                     <div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">
                                         <label id="new_taskstep_btn"
-                                            class="btn btn-addtask-menu btn-addtask-menu-active">
+                                            class="btn collapsable-form-tabs collapsable-form-tabs-active">
                                             <input type="radio" name="options" id="new_taskstep_option"
                                                 autocomplete="off" onchange="showNewTaskStep()">
                                             + Új lépés
                                         </label>
-                                        <label id="saved_tasksteps_btn" class="btn btn-addtask-menu">
+                                        <label id="saved_tasksteps_btn" class="btn collapsable-form-tabs">
                                             <input type="radio" name="options" id="saved_tasksteps_option"
                                                 autocomplete="off" onchange="showSavedTaskSteps()">
                                             Mentett lépések
@@ -130,7 +130,7 @@
                                     <h3 class=taskstep-title>lépés</h3>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <div class="btn btn-sm added-employee-button">
+                                    <div class="btn btn-sm employee-box">
                                         <i class="fas fa-user addemployee-icon "></i>Werner Ádám
                                         <span onclick="deleteEmployee(this)" class="closebtn">&times;</span>
                                     </div>
@@ -153,13 +153,13 @@
                                     <h3 class=taskstep-title>lépés</h3>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <div class="btn btn-sm added-employee-button">
+                                    <div class="btn btn-sm employee-box">
                                         <i class="fas fa-user addemployee-icon "></i>Sági Dávid
                                         <span onclick="deleteEmployee(this)" class="closebtn">&times;</span>
                                     </div>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <div class="btn btn-sm added-employee-button">
+                                    <div class="btn btn-sm employee-box">
                                         <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs
                                         <span onclick="deleteEmployee(this)" class="closebtn">&times;</span>
                                     </div>
@@ -182,7 +182,7 @@
                                     <h3 class=taskstep-title>lépés</h3>
                                 </div>
                                 <div class="row add-employee-card">
-                                    <div class="btn btn-sm added-employee-button">
+                                    <div class="btn btn-sm employee-box">
                                         <i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs
                                         <span onclick="deleteEmployee(this)" class="closebtn">&times;</span>
                                     </div>
@@ -223,17 +223,17 @@
         document.getElementById('new_taskstep_container').style.display = "none";
         document.getElementById('saved_taskstep_container').style.display = "block";
         var element = document.getElementById("new_taskstep_btn");
-        element.classList.remove("btn-addtask-menu-active");
+        element.classList.remove("collapsable-form-tabs-active");
         var element2 = document.getElementById("saved_tasksteps_btn");
-        element2.classList.add("btn-addtask-menu-active");
+        element2.classList.add("collapsable-form-tabs-active");
     };
     function showNewTaskStep() {
         document.getElementById('saved_taskstep_container').style.display = "none";
         document.getElementById('new_taskstep_container').style.display = "block";
         var element = document.getElementById("saved_tasksteps_btn");
-        element.classList.remove("btn-addtask-menu-active");
+        element.classList.remove("collapsable-form-tabs-active");
         var element2 = document.getElementById("new_taskstep_btn");
-        element2.classList.add("btn-addtask-menu-active");
+        element2.classList.add("collapsable-form-tabs-active");
     };
     function getStepNamefromText(stepinputId) {
         let stepName = document.getElementById(stepinputId).value;
@@ -284,7 +284,7 @@
             return;
         }
         let eName = selector.options[selector.selectedIndex].text;
-        container += '<div class="row add-employee-card"><div class="btn btn-sm added-employee-button"> <i class="fas fa-user addemployee-icon "></i>'
+        container += '<div class="row add-employee-card"><div class="btn btn-sm employee-box"> <i class="fas fa-user addemployee-icon "></i>'
         container += eName;
         container += '<span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
         container += elem.parentNode.parentNode.outerHTML;

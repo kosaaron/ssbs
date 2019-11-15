@@ -89,7 +89,7 @@ let DateFunctions = {
     },
     /**
      * One column of data (string) convert to date type
-     * @param {JSON Array} JSONdata 
+     * @param {JSON} JSONdata 
      * @param {String} column 
      */
     dataColumnToDate: function (JSONdata, column) {

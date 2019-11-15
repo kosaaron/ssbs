@@ -152,7 +152,7 @@ let Cards = {
 let Callbacks = {
     /**
      * 
-     * @param {JSON array} data 
+     * @param {JSON} data 
      */
     successFilterEvent: function (data) {
         Varibles.PageData.Data = data.Data;

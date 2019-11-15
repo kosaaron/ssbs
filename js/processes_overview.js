@@ -118,7 +118,7 @@ let Local = {
     },
     /**
      * Reload full page
-     * @param {JSON array} processesData Processes data
+     * @param {JSON} processesData Processes data
      */
     reloadFullPage: function (processesData) {
         //reload varibles
@@ -168,7 +168,7 @@ let Local = {
     },
     /**
      * Project click event
-     * @param {JSON array} processesData 
+     * @param {JSON} processesData 
      * @param {String} fullId process id 
      * @param {String} path
      */

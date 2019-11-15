@@ -157,8 +157,8 @@ let CardDetails = {
     /**
      * Create plus
      * @param {String} cardId 
-     * @param {JSON Array} data 
-     * @param {JSON Array} structure 
+     * @param {JSON} data 
+     * @param {JSON} structure 
      * @param {String} card 
      * @param {String} shellId 
      * @param {String} IdName 

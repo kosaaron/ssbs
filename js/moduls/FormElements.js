@@ -162,7 +162,7 @@ let FormElements = {
                                 success: function (result2) {
                                     let selectedTableResult = result2.SelectedTable;
                                     let addTypeOppHTML = '';
-                                    
+
                                     for (let k = 0; k < selectedTableResult.length; k++) {
                                         addTypeOppHTML += '<option value="' + selectedTableResult[k].Id + '">' + selectedTableResult[k].Name + '</option>';
                                     }
@@ -208,6 +208,28 @@ let FormElements = {
             $("#" + shellId).click(function () {
                 document.getElementById(inputId).click();
             });
+        }
+    },
+    /**
+     * **Single elements**
+     */
+    S: {
+        /**
+         * 
+         * @param {String} id 
+         * @param {String} shellId 
+         * @param {JSON} opportunities 
+         * @param {String} classes (optional)
+         */
+        Select: function (id, shellId, opportunities, postion, classes = '') {
+            let readyHTML = "";
+            readyHTML += '<select class="selectpicker form-control' + classes + '" id="' + id + '" data-live-search="true">';
+            for (let k = 0; k < opportunities.length; k++) {
+                readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
+            }
+            readyHTML += '</select>';
+
+            document.getElementById(shellId).insertAdjacentHTML(postion, readyHTML);
         }
     }
 }

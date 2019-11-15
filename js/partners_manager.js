@@ -159,7 +159,7 @@ let Callbacks = {
     },
     /**
      * Success filter event
-     * @param {JSON array} data 
+     * @param {JSON} data 
      */
     successFilterEvent: function (data) {
         Varibles.PageData.Data = data.Data;
@@ -170,7 +170,7 @@ let Callbacks = {
     },
     /**
      * Get contact data
-     * @param {JSON Array} data 
+     * @param {JSON} data 
      */
     getContactData: function (data) {
         return data["Contacts"];

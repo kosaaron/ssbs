@@ -180,6 +180,10 @@ iframe[seamless] {
     /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .auto-scroll-default {
     overflow-x: hidden;
     overflow-y: auto;
