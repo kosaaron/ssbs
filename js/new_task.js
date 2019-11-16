@@ -93,6 +93,29 @@ let Events = {
         General.addNewStep(stepName);
     },
     /**
+     * Create and add new step ot task
+     * @param {String} fullId 
+     */
+    addCreateNewStepClick: function (fullId) {
+        let place = 'ntskstpsew';
+        let data = [];
+        let taskStep = {};
+
+        taskStep['StepName'] = document.getElementById('ntsk_new_taskstep_name').value;
+        data.push(taskStep);
+
+        $.ajax({
+            type: "POST",
+            url: "./php/UploadData.php",
+            data: { 'data': data, 'place': place },
+            success: function (data) {
+                let stepName = document.getElementById('ntsk_new_taskstep_name').value;
+                General.addNewStep(stepName);
+            },
+            dataType: 'json'
+        });
+    },
+    /**
      * Add saved step click
      * @param {String} fullId 
      */
@@ -177,7 +200,7 @@ let General = {
         addListenerByAttr("new_" + dataFormShell, "click", Events.openSNCollapse);
 
         addOneListener('ntsk_add_saved_step_btn', 'click', Events.addSavedStepClick);
-        addOneListener('ntsk_new_saved_step_btn', 'click', Events.addNewStepClick);
+        addOneListener('ntsk_new_saved_n_step_btn', 'click', Events.addCreateNewStepClick);
 
         addOneListener('ntsk_new_taskstep_tab', 'click', Events.showNewTaskStep);
         addOneListener('ntsk_saved_tasksteps_tab', 'click', Events.showSavedTaskSteps);
@@ -311,7 +334,7 @@ let Database = {
                         array['Ready'] = 0;
                         uploadSteps.push(array);
                     }
-                    
+
                     for (let i = 0; i < emplsLength; i++) {
                         const employee = employees[i];
                         let employeeId = employee.getAttribute('employee-id');
@@ -469,7 +492,7 @@ let NewTaskFramework = {
                                                 <div class="input-group mb-3">
                                                     <input type="text" id="${shellId}_new_taskstep_name" class="flex-1 newtask-formcontrol">
                                                     <div class="input-group-append">
-                                                        <button id="${shellId}_new_saved_step_btn" class="btn btn-outline-secondary" type="button"><i class="fas fa-plus"></i></button>
+                                                        <button id="${shellId}_new_saved_n_step_btn" class="btn btn-outline-secondary" type="button"><i class="fas fa-plus"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
