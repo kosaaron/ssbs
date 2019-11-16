@@ -8,7 +8,7 @@
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
-import Filters from './moduls/Filters.js';
+import FilterAndSort from './moduls/FilterAndSort.js';
 import newTool from './new_tool.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
 
@@ -86,7 +86,7 @@ let General = {
 
         General.reloadCardContainer();
 
-        Filters.Create(Varibles.PageData.Filters, "tool_filters", Database.toolsFilterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, "tool_filters", Database.toolsFilterChange);
 
         addOneListener("add_tool_btn", "click", addTool);
     },
@@ -143,7 +143,7 @@ let Database = {
         let dataPlace = 'tool_filters';
         let filterPlace = 'toolfltr';
 
-        Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+        FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     },
     /**
      * Get task way data

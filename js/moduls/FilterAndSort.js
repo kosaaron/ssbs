@@ -2,12 +2,12 @@
  * **Filters** 
  */
 /** Imports */
-import { addListenerByAttr } from './../common.js';
+import { addListenerByAttr } from '../common.js';
 import CardContainerPlus from './CardContainerPlus.js';
 import ArrayFunctions from './ArrayFunctions.js';
 import FormElements from './FormElements.js';
 /** Filters */
-let Filters = {
+let FilterAndSort = {
     /**
      * **Create**
      * Generate filters
@@ -22,6 +22,12 @@ let Filters = {
      */
     Create: function (filters, shellId, eventFunction) {
         CardContainerPlus.Create(filters, shellId, Local.getFilterHTML);
+        $('.selectpicker').selectpicker('refresh');
+
+        addListenerByAttr(shellId, 'change', eventFunction);
+    },
+    CreateSort: function(sorts, shellId, eventFunction){
+        CardContainerPlus.Create(sorts, shellId, Local.getSortHTML);
         $('.selectpicker').selectpicker('refresh');
 
         addListenerByAttr(shellId, 'change', eventFunction);
@@ -52,12 +58,14 @@ let Filters = {
             data: { 'FilterPlace': filterPlace, 'Filters': filterArray },
             success: function (data) {
                 callbackFunction(data);
+                //alert(JSON.stringify(data));
             },
             dataType: 'json'
         });
     }
 }
-export default Filters;
+export default FilterAndSort;
+
 /** Local functions */
 let Local = {
     getFilterHTML: function (objectItem, shellId) {
@@ -75,6 +83,11 @@ let Local = {
                 break;
         }
         return ready;
+    },
+    getSortHTML: function(objectItem, shellId){
+        let ready = "";
+        ready = FormElements.A.SortSelect(objectItem.SortId, objectItem.Name, shellId, objectItem.Opportunities);
+
     }
 };
 

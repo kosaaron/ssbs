@@ -67,6 +67,17 @@ let FormElements = {
             readyHTML += '</select></div>';
 
             document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
+        },
+        SortSelect: function (id, name, shellId, opportunities){
+            let readyHTML = "";
+            readyHTML += '<div class="form-group">'; //icon
+            readyHTML += '<label class="taskfilter-label">' + name + '</label>';
+            readyHTML += '<select class="selectpicker my-0 form-control taskfilter" id="' + shellId + '_' + id + '" data-place="' + shellId + '" data-live-search="false">';
+            readyHTML += '<option value="0">Csökkenő</option>';
+            readyHTML += '<option value="1">Növekvő</option>';
+            readyHTML += '</select></div>';
+
+            document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
         }
     },
     /**

@@ -11,7 +11,7 @@ import CardDetails from './moduls/CardDetails.js';
 import CardContainerPlus from './moduls/CardContainerPlus.js';
 import GlobalVaribles from './moduls/GlobalVaribles.js';
 import ElementFunctions from './moduls/ElementFunctions.js';
-import Filters from './moduls/Filters.js';
+import FilterAndSort from './moduls/FilterAndSort.js';
 import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
 
@@ -95,12 +95,14 @@ let Varibles = {
 let General = {
     reloadFullPage: function () {
         // Load framework
-        let framework = '<div id="tasks_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="tasks_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_task_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="tasks_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="tasks_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
+        let framework = Framework.Load();
+        
         document.getElementById("process_modul_content").innerHTML = framework;
 
         General.reloadCardContainer();
 
-        Filters.Create(Varibles.PageData.Filters, "tasks_m_filters", Database.tasksMFilterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, "task_m_filters", Database.tasksMFilterChange);
+        FilterAndSort.CreateSort(Varibles.PageData.Sorts, "task_m_sorts", Database.tasksMFilterChange);
 
         addOneListener("proceses_add_task_btn", "click", addTask);
     },
@@ -185,10 +187,10 @@ let Database = {
      */
     tasksMFilterChange: function (fullId) {
         //Change when copy
-        let dataPlace = 'tasks_m_filters';
+        let dataPlace = 'task_m_filters';
         let filterPlace = 'tskfltr';
 
-        Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+        FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     },
     /**
      * Get task way data
@@ -322,6 +324,31 @@ let Events = {
         });
     }
 }
+
+let Framework= {
+    Load: function(){
+        return `
+        <div id="tasks_manager" class="display-flex flex-row full-screen">
+    <div class="flex-fill col-2 filter-box">
+        <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
+        <div id="task_m_filters" class="task-filters"></div>
+        <div id="task_m_sorts" class="task-orders">
+            
+        </div>
+    </div>
+    <div class="col-10 filtered-table display-flex flex-1">
+        <button id="proceses_add_task_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
+        <div class="card-container col-8">
+            <div id="tasks_card_container" class="row"> </div>
+        </div>
+        <div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div>
+        <div class="col-4" id="tasks_m_details"> </div>
+        <div class="filtered-table-fade flex-1"></div>
+    </div>
+</div>
+        `;
+    }
+} 
 
 let PageDataJSONExample = {
     "Filters": [

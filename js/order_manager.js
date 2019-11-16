@@ -5,7 +5,7 @@ import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
 import ElementFunctions from './moduls/ElementFunctions.js';
 import AutoScroll from './moduls/AutoScroll.js';
-import Filters from './moduls/Filters.js';
+import FilterAndSort from './moduls/FilterAndSort.js';
 import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
 
@@ -77,7 +77,7 @@ let General = {
 
         General.reloadCardContainer();
 
-        Filters.Create(Varibles.PageData.Filters, "order_m_filters", Database.orderMFilterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, "order_m_filters", Database.orderMFilterChange);
 
         addOneListener("proceses_add_order_btn", "click", addTask);
     },
@@ -111,7 +111,7 @@ let Database = {
         let dataPlace = 'order_m_filters';
         let filterPlace = 'ordrfltr';
 
-        Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+        FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     },
     getContainerData: function () {
         //if (Varibles.PageData === null) {

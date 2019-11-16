@@ -2,7 +2,7 @@
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
-import Filters from './moduls/Filters.js';
+import FilterAndSort from './moduls/FilterAndSort.js';
 import newPartner from './new_partner.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
 import CardContainerPlus from './moduls/CardContainerPlus.js';
@@ -38,7 +38,7 @@ let Loaders = {
         // Load card container
         Loaders.reloadCardContainer();
 
-        Filters.Create(Varibles.PageData.Filters, "partners_m_filters", Database.partnersMFileterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, "partners_m_filters", Database.partnersMFileterChange);
 
         addOneListener("proceses_add_partner_btn", "click", Loaders.loadNewPartner);
     },
@@ -87,7 +87,7 @@ let Database = {
         let dataPlace = 'partners_m_filters';
         let filterPlace = 'prtnrfltr';
 
-        Filters.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+        FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
     }
 }
 

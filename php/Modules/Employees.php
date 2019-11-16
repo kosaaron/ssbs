@@ -21,7 +21,8 @@ class Employees
         /** Partner's manager filters */
         $createFilter = new CreateFilter();
         $fltrStructure = $createFilter->DefaultFilter($this->userId, "emlpfltr");
-        $this->main_data['Filters'] = $fltrStructure;
+        $this->main_data['Filters'] = $fltrStructure['Filters'];
+        $this->main_data['Sorts'] = $fltrStructure['Sorts'];
     }
 
     public function CreateCardContainer($filter)
