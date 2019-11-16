@@ -189,7 +189,7 @@ let General = {
             }
         });
 
-        /** Autoscroll integration for simple form and steps */
+        /** Autoscroll integration for simple form and steps *///test
         AutoScroll.Integration('ntsk_steps_cont');
         AutoScroll.Integration('processes_new_t_form');
 
