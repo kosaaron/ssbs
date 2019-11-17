@@ -147,6 +147,18 @@ let Events = {
         container += '<span onClick="deleteEmployee(this)" class="closebtn">&times;</span> </div></div>';
         let saveBtn = document.getElementById(fullId);
         saveBtn.parentNode.parentNode.insertAdjacentHTML('beforebegin', container);
+    },
+    /**
+     * OnUpdate event of Sortable
+     * @param {Event} evt 
+     */
+    sortableOnUpdate: function (evt) {
+        let stepNumbers = document.getElementsByClassName('stepNo');
+        for (let i = 1; i <= stepNumbers.length; i++) {
+            const stepNumber = stepNumbers[i - 1];
+            stepNumber.innerHTML = i;
+            stepNumber.nextElementSibling.setAttribute('number', i);
+        }
     }
 }
 
@@ -163,7 +175,11 @@ let General = {
 
         var processesNewTSlides = document.getElementById("ntskstps_slides");
         new Sortable(processesNewTSlides, {
-            animation: 150
+            animation: 150,
+            scroll: true,
+            dragClass: "ntsk-step-drag",
+            chosenClass: "ntsk-step-sortable-chosen",
+            onUpdate: Events.sortableOnUpdate
         });
         //removeOneListener("ntskstps_slides");
 

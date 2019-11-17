@@ -426,6 +426,7 @@ input:checked[type="checkbox"]:before {
     width: 100%;
     padding: 4%;
     margin: 0;
+    cursor: pointer;
     color: #666;
 }
 
@@ -462,6 +463,15 @@ input:checked[type="checkbox"]:before {
 
 .add-step-button:hover {
     background: #333;
+}
+
+.ntsk-step-drag {
+    background: #fff;
+}
+
+.ntsk-step-sortable-chosen {
+    background: #ddd;
+    border-radius: 15px;
 }
 
 #ntsk_add_taskstep_cllps_btn {

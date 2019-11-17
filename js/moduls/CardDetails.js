@@ -148,7 +148,7 @@ let CardDetails = {
         for (let i = 0; i < vObjects.length; i++) {
             const vObject = vObjects[i];
             let vOShellId = shellId + '_vo_' + i;
-            VirtualObject.DetailsObj(vObject.Data, Cards.Details.vOCard(vOShellId), vOShellId);
+            VirtualObject.DetailsObj(vObject.Data, getVOCard(vObject.Card, vOShellId), vOShellId);
         }
 
         AutoScroll.Integration(shellId + '_content');
@@ -181,3 +181,20 @@ let CardDetails = {
 
 };
 export default CardDetails;
+
+/** Local functions */
+/**
+ * Get virtual object card
+ * @param {String} func 
+ * @param {String} vOShellId 
+ */
+function getVOCard(func, vOShellId) {
+    switch (func) {
+        case 'simple':
+            return Cards.Details.VO.Simple(vOShellId)
+        case 'remark':
+            return Cards.Details.VO.Remark(vOShellId)
+        default:
+            break;
+    }
+}

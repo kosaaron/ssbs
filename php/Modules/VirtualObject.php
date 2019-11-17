@@ -3,7 +3,7 @@
 class VirtualObject
 {
     //Public varibles
-    public $oNameAlias;
+    public $mainData;
 
     //Local varibles
     private $pdo;
@@ -21,7 +21,8 @@ class VirtualObject
         $this->pdo = $PDOConnect->pdo;
 
         $vOQuery = $this->pdo->query('SELECT * FROM virtual_objects WHERE VirtualObjectId="' . $vOId . '"')->fetchAll(PDO::FETCH_ASSOC);
-        $this->oNameAlias = $vOQuery[0]['ObjNameAlias'];
+        $this->mainData['Card'] = $vOQuery[0]['Card'];
+        $this->mainData['NameAlias'] = $vOQuery[0]['ObjNameAlias'];
         $this->vOSelectString = $vOQuery[0]['SelectString'];
         $this->vOWhereString = $vOQuery[0]['WhereString'];
     }
@@ -40,10 +41,8 @@ class VirtualObject
         }
 
         $queryResult = $this->pdo->query($vOSelectString . ' WHERE ' . $vOWhereString)->fetchAll(PDO::FETCH_ASSOC);
-        $mainData = array();
-        $mainData['NameAlias'] = $this->oNameAlias;
-        $mainData['Data'] = $queryResult;
-        return $mainData;
+        $this->mainData['Data'] = $queryResult;
+        return $this->mainData;
     }
 
     public function GeneratingToArray($mainData)
