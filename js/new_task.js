@@ -101,7 +101,8 @@ let Events = {
         let data = [];
         let taskStep = {};
 
-        taskStep['StepName'] = document.getElementById('ntsk_new_taskstep_name').value;
+        let stepName = document.getElementById('ntsk_new_taskstep_name').value;
+        taskStep['StepName'] = stepName;
         data.push(taskStep);
 
         $.ajax({
@@ -109,8 +110,9 @@ let Events = {
             url: "./php/UploadData.php",
             data: { 'data': data, 'place': place },
             success: function (data) {
-                let stepName = document.getElementById('ntsk_new_taskstep_name').value;
-                General.addNewStep(stepName);
+                alert(JSON.stringify(data));
+                document.getElementById('ntsk_new_taskstep_name').value = "";
+                General.addNewStep(data[0].InsertedId, stepName);
             },
             dataType: 'json'
         });

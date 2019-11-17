@@ -7,6 +7,8 @@ class InsertByStructure
 {
     public function DefaultUpload($data, $place)
     {
+        $main_data = array();
+
         require_once('Connect.php');
         $PDOConnect = new PDOConnect();
         $pdo = $PDOConnect->pdo;
@@ -46,10 +48,13 @@ class InsertByStructure
             $finalSQL .= $values;
             $finalSQL .= ');';
             if ($insertStructures = $pdo->query($finalSQL)) {
-                echo 'S';
+                $main_data['query'] = 'S';
             } else {
-                echo 'F';
+                $main_data['query'] = 'F';
             }
+
+            $main_data['InsertedId'] = $pdo->lastInsertId();
+            return $main_data;
         }
     }
 
@@ -71,6 +76,7 @@ class InsertByStructure
         }
     }
 
+    /** Built-in functions **/
     /**
      * ID for FK
      * @param String[id,column] parameter 
