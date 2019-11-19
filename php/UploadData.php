@@ -11,8 +11,14 @@ require_once('Modules/InsertByStructure.php');
 $place = $_POST['place'];
 $data = $_POST['data'];
 
+//Local varibles
+$main_data = array();
+
 //Call upload function
 $insertByStructure = new InsertByStructure();
 foreach ($data as $row) {
-    $insertByStructure->DefaultUpload($row, $place);
+    $main_data[] = $insertByStructure->DefaultUpload($row, $place);
 }
+
+$json = json_encode($main_data);
+print_r($json);
