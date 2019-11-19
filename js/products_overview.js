@@ -83,26 +83,6 @@ let Framework = {
             <div id="prod_o_filters" class="task-filters"> </div>
             <div class="task-orders">
                 <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
-                <div class="form-group">
-                    <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label>
-                    <select class="form-control taskfilter" id="exampleFormControlSelect1">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label>
-                    <select class="form-control taskfilter" id="exampleFormControlSelect1">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
             </div>
         </div>
         <div class="table-container-xscroll">

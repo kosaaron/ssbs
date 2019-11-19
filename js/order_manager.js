@@ -3,11 +3,14 @@
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
+import ContainerDesigns from './moduls/designs/ContainerDesigns.js';
 import ElementFunctions from './moduls/ElementFunctions.js';
 import AutoScroll from './moduls/AutoScroll.js';
 import FilterAndSort from './moduls/FilterAndSort.js';
 import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
+import CardDesigns from './moduls/designs/CardDesigns.js';
+import DetailsDesigns from './moduls/designs/DetailsDesigns.js';
 
 /**
  * Partners manager details template
@@ -15,11 +18,6 @@ import { addOneListener, removeOneListener, mainFrame, addListener } from './com
 function getOrderMDetail(shellId) {
     let container = "";
     container += '!<h2 id="' + shellId + '_title" class="name-grey">*1*</h2>';
-    //container += '<div id="' + shellId + '_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="detail_data_btn" class="btn btn-detail-menu btn-detail-menu-active"> <input type="radio" name="options" id="option1" autocomplete="off" onchange="showData()"> Adatok </label> <label id="detail_timeline_btn" class="btn btn-detail-menu"> <input type="radio" name="options" id="option2" autocomplete="off" onchange="showTimeline()"> Idővonal </label></div></div>';
-    //container += '<div id="' + shellId + '_content">';
-    //container += '!<div id="' + shellId + '_cc_g"> </div>';
-    //container += '!</div>';
-
     return container;
 }
 
@@ -29,13 +27,13 @@ function getOrderMDetail(shellId) {
  */
 function orderMCardClick(cardId) {
     let splittedId = cardId.split('_');
-    let orderId = splittedId[splittedId.length - 1];
+    let id = splittedId[splittedId.length - 1];
     //Data
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
-    let shellId = "order_m_details";
-    let card = getOrderMDetail(shellId);
-    CardDetails.Create(orderId, data, structure, card, shellId, 'OrderId');
+    let shellId = Varibles.ShellId + '_details';
+    let details = new DetailsDesigns().getSimpleDetails(shellId);
+    CardDetails.Create(id, data, structure, details, shellId, 'OrderId');
 }
 
 function addTask() {
@@ -65,21 +63,21 @@ var OrderManager = {
 export default OrderManager;
 /** Local varibles **/
 let Varibles = {
+    ShellId: 'ordrm',
     PageData: null
 }
 
 /** General functions **/
 let General = {
     reloadFullPage: function () {
-        // Load framework
-        let framework = '<div id="order_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="orderfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="order_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_order_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="order_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div id="order_m_details" class="col-4 cc-details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
-        document.getElementById("process_modul_content").innerHTML = framework;
-
+        //Load framework
+        Framework.Load('process_modul_content', Varibles.ShellId);
+        //Card container generating cards
         General.reloadCardContainer();
-
-        FilterAndSort.Create(Varibles.PageData.Filters, "order_m_filters", Database.orderMFilterChange);
-
-        addOneListener("proceses_add_order_btn", "click", addTask);
+        //Filter creater
+        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.ShellId + "_filters", Database.orderMFilterChange);
+        //Events
+        addOneListener(Varibles.ShellId + '_add_new_btn', 'click', addTask);
     },
     /**
      * Reload card container
@@ -88,14 +86,14 @@ let General = {
         // Load card container
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
-        let cardDesign = Cards.getOrderMCard();
-        let cardContainer = "order_card_container";
+        let cardDesign = new CardDesigns().getSimpleCard(Varibles.ShellId);
+        let cardContainer = Varibles.ShellId + '_card_container';
 
         new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(orderMCardClick, 'orderm');
+        CardContainer.ClickableCard(orderMCardClick, Varibles.ShellId);
         if (data[0] !== undefined) {
-            orderMCardClick('order_card_' + data[0].OrderId);
+            orderMCardClick(Varibles.ShellId + '_card_' + data[0].OrderId);
         }
     }
 }
@@ -108,7 +106,7 @@ let Database = {
      */
     orderMFilterChange: function (fullId) {
         //Change when copy
-        let dataPlace = 'order_m_filters';
+        let dataPlace = Varibles.ShellId + '_filters';
         let filterPlace = 'ordrfltr';
 
         FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
@@ -120,10 +118,11 @@ let Database = {
             url: "./php/GetOrderManager.php",
             data: "",
             success: function (data) {
-                Varibles.PageData = data;/*
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-                    */
+                Varibles.PageData = data;
+                /*
+                Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
+                Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
+                */
                 General.reloadFullPage(Varibles.PageData);
             },
             dataType: 'json'
@@ -131,20 +130,6 @@ let Database = {
         } else {
             General.reloadFullPage(Varibles.PageData);
         }*/
-    }
-}
-
-/** Designed cards **/
-let Cards = {
-    /** Order manager card template */
-    getOrderMCard: function () {
-        let container = "";
-        container += '<div class="col-lg-6"><div id="order_card_*1*" class="card taskcard orderm-show-details"><div class="card-body">';
-        container += '!<h5 class="text-o-ellipsis card-title">*2*</h5>';
-        container += '!<p class="card-text">*3*</p>';
-        container += '</div></div></div>';
-
-        return container;
     }
 }
 
@@ -168,6 +153,22 @@ let Events = {
 
 }
 
+/**  */
+let Framework = {
+    Load: function (targetId, shellId) {
+        //main frame
+        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
+        document.getElementById(targetId).innerHTML = framework;
+
+        let containerDesigns = new ContainerDesigns();
+        //filter frame
+        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
+        //card container frame
+        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
+    }
+}
+
+/** JSON Examples **/
 let PageDataJSONExample = {
     "Filters": [
         {

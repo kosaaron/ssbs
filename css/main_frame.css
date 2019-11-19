@@ -401,7 +401,8 @@ iframe[seamless] {
 .modul-title {
     padding: 0.5% 1%;
     background-color: rgb(241, 241, 241);
-    color: #6c757d
+    color: #6c757d;
+    border-bottom: 3px solid #fff;
 }
 
 .modul-title-text {
@@ -551,10 +552,6 @@ iframe[seamless] {
 #show_charts_content {
     overflow: auto;
     -ms-overflow-style: auto;
-}
-
-#partners_m_details {
-    border-left: 1px solid #ddd;
 }
 
 .empl-status-ready {

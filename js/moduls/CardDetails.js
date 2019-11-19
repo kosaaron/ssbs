@@ -5,6 +5,8 @@ import CardContainer from './CardContainer.js';
 import VirtualObject from './VirtualObject.js';
 import AutoScroll from './AutoScroll.js';
 import Cards from './Cards.js';
+import VOCardDesign from './designs/VOCardDesign.js';
+import CardDesigns from './designs/CardDesigns.js';
 
 /**
  * **Card details**
@@ -45,7 +47,7 @@ let CardDetails = {
 
                         let elementX1 = elementJ.split('*');
                         const elementD = structure.Data[elementX1[1]];
-                        if (elementI[elementD] !== '' && elementI[elementD] !== null) {
+                        if (elementI[elementD] !== '' && elementI[elementD] !== null && elementI[elementD] !== undefined) {
                             if (elementN !== '' && elementN !== null) {
                                 if (elementX2.length !== 1) {
                                     elementJ = elementJ.replace('**' + elementX2[1] + '**', elementN);
@@ -152,7 +154,6 @@ let CardDetails = {
         }
 
         AutoScroll.Integration(shellId + '_content');
-
     },
     /**
      * Create plus
@@ -189,11 +190,14 @@ export default CardDetails;
  * @param {String} vOShellId 
  */
 function getVOCard(func, vOShellId) {
+    let vOCardDesign = new VOCardDesign()
     switch (func) {
         case 'simple':
-            return Cards.Details.VO.Simple(vOShellId)
+            return vOCardDesign.getSimple(vOShellId)
         case 'remark':
-            return Cards.Details.VO.Remark(vOShellId)
+            return vOCardDesign.getRemark(vOShellId)
+        case 'contacts':
+            return vOCardDesign.getContact(vOShellId)
         default:
             break;
     }

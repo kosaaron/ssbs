@@ -3,7 +3,7 @@ export default class GlobalVaribles {
 
     }
 
-    //
+    //Varibles
     static ActiveModul = "";
 
     //Getters

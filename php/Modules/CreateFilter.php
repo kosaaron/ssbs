@@ -15,6 +15,7 @@ class CreateFilter
         $resultSrtStructure = $pdo->query('SELECT * FROM sorts WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
 
         $main_data = array();
+        $main_data["Filters"] = array();
         foreach ($resultFltrStructure as $row) {
             $f_array = array();
             $f_array['FilterId'] = $row['FilterId'];
@@ -46,6 +47,7 @@ class CreateFilter
             $main_data["Filters"][] = $f_array;
         }
 
+        $main_data["Sorts"] = array();
         foreach ($resultSrtStructure as $key => $row) {
             $s_array = array();
             $s_array['SortId'] = $row['SortId'];

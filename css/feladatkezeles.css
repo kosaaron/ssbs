@@ -7,13 +7,13 @@
 
 .fixedaddbutton {
     position: fixed;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 60px;
-    bottom: 8%;
-    right: 33%;
+    bottom: 6%;
+    right: 28%;
     z-index: 1;
-    background-color: #3b4372;
+    background-color: #898eaa;
     border: none;
     font-size: 20px;
     -webkit-box-shadow: 2px 2px 10px 5px rgba(255, 255, 255, 0.72);
@@ -22,7 +22,7 @@
 }
 
 .fixedaddbutton:hover {
-    background-color: rgb(18, 128, 197);
+    background-color: #3b4372;
     font-size: 22px;
 }
 
@@ -134,10 +134,6 @@
 
 .task-filters {
     border-bottom: 1px solid #ddd;
-}
-
-#tasks_manager {
-    padding-top: 5px;
 }
 
 .btn-group-detailmenu {

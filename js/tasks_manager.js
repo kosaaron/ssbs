@@ -8,6 +8,7 @@
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
+import CardDesigns from './moduls/designs/CardDesigns.js';
 import CardContainerPlus from './moduls/CardContainerPlus.js';
 import GlobalVaribles from './moduls/GlobalVaribles.js';
 import ElementFunctions from './moduls/ElementFunctions.js';
@@ -113,7 +114,7 @@ let General = {
         // Load card container
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
-        let cardDesign = Cards.getTasksMCard();
+        let cardDesign = new CardDesigns().getSimpleCard('taskm');
         let cardContainer = "tasks_card_container";
         
         new ElementFunctions().removeChilds('tasks_card_container');
@@ -252,17 +253,6 @@ let Cards = {
         container += '!</a><div class="show" id="task_timel_*5*_!*6*">?';
         container += '!</div></div></div ></li >';
         return container;
-    },
-    /** Tasks manager card template */
-    getTasksMCard: function () {
-        let container = "";
-        container += '<div class="col-lg-6"><div id="task_card_*1*" class="card taskcard taskm-show-details"><div class="card-body">';
-        container += '!<h5 class="text-o-ellipsis card-title">*2*</h5>';
-        container += '!<p class="card-text">*3*</p>';
-        //container += '!<a href="#" class="btn btn-primary next-button"><i class="fas fa-arrow-right"></i></a>';
-        container += '</div></div></div>';
-
-        return container;
     }
 }
 
@@ -329,23 +319,23 @@ let Framework= {
     Load: function(){
         return `
         <div id="tasks_manager" class="display-flex flex-row full-screen">
-    <div class="flex-fill col-2 filter-box">
-        <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
-        <div id="task_m_filters" class="task-filters"></div>
-        <div id="task_m_sorts" class="task-orders">
-            
+            <div class="flex-fill col-2 filter-box">
+                <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
+                <div id="task_m_filters" class="task-filters"></div>
+                <div id="task_m_sorts" class="task-orders">
+                    
+                </div>
+            </div>
+            <div class="col-10 filtered-table display-flex flex-1">
+                <button id="proceses_add_task_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
+                <div class="card-container col-8">
+                    <div id="tasks_card_container" class="row"> </div>
+                </div>
+                <div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div>
+                <div class="col-4" id="tasks_m_details"> </div>
+                <div class="filtered-table-fade flex-1"></div>
+            </div>
         </div>
-    </div>
-    <div class="col-10 filtered-table display-flex flex-1">
-        <button id="proceses_add_task_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
-        <div class="card-container col-8">
-            <div id="tasks_card_container" class="row"> </div>
-        </div>
-        <div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div>
-        <div class="col-4" id="tasks_m_details"> </div>
-        <div class="filtered-table-fade flex-1"></div>
-    </div>
-</div>
         `;
     }
 } 

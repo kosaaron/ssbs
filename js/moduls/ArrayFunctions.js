@@ -11,11 +11,11 @@ let ArrayFunctions = {
     },
     /**
      * Has class
-     * @param {HTML DOM Element} element 
+     * @param {String} elementId 
      * @param {String} className 
      */
-    HasClass(element, className) {
-        return (' ' + element.className + ' ').indexOf(' ' + className+ ' ') > -1;
+    HasClass(elementId, className) {
+        return (' ' + document.getElementById(elementId).className + ' ').indexOf(' ' + className + ' ') > -1;
     }
 }
 export default ArrayFunctions;

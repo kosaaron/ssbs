@@ -41,11 +41,7 @@ class PartnerManager
             foreach ($cardCResult['Data'] as $row) {
                 $tags = $pdo->query('SELECT PartnerTagId, partner_tags.Name FROM partner_tags INNER JOIN tags_for_partner ON PartnerTagFK=PartnerTagId WHERE (' . $row['PartnerId'] . '=PartnerFK)')->fetchAll(PDO::FETCH_ASSOC);
 
-                $contWhereCond = 'WHERE (' . $row['PartnerId'] . '=PartnerFK)';
-                $contacts = $dataAndStructure->CardContainer($this->userId, "prtnrdcnt", "partner_contact", $contWhereCond);
-
                 $row['Tags'] = $tags;
-                $row['Contacts'] = $contacts;
                 $this->main_data['Data'][] = $row;
             }
         } else {

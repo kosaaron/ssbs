@@ -8,23 +8,17 @@ import ArrayFunctions from './ArrayFunctions.js';
  */
 let AutoScroll = {
     Integration: function (elementId) {
-        let element = document.getElementById(elementId);
-        let sHeight = element.parentNode.offsetHeight;
+        let element = $("#" + elementId);
+        let sHeight = element.parent().outerHeight();
 
-        for (let i = 0; i < element.parentNode.childNodes.length; i++) {
-            const child = element.parentNode.childNodes[i];
+        element.parent().children().each(function () {
+            if ($(this).attr('id') !== element.attr('id'))
+                sHeight -= $(this).outerHeight(true);
+        });
 
-            if (elementId !== child.id) {
-                let childHeight = $("#" + child.id).outerHeight(true);
-                if (!isNaN(childHeight)) {
-                    sHeight -= childHeight;
-                }
-            }
-        }
-
-        element.style = "height: " + sHeight + "px";
-        if (!ArrayFunctions.HasClass(element, "auto-scroll-default")) {
-            element.classList.add("auto-scroll-default");
+        element.height(sHeight);
+        if (!ArrayFunctions.HasClass(elementId, "auto-scroll-default")) {
+            element.addClass("auto-scroll-default");
         }
     }
 }

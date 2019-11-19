@@ -6,6 +6,8 @@ import FilterAndSort from './moduls/FilterAndSort.js';
 import newPartner from './new_partner.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
 import CardContainerPlus from './moduls/CardContainerPlus.js';
+import ContainerDesigns from './moduls/designs/ContainerDesigns.js';
+import DetailsDesigns from './moduls/designs/DetailsDesigns.js';
 
 /** Public functions **/
 var partnersManager = {
@@ -25,6 +27,7 @@ export default partnersManager;
 
 /** Varibles */
 let Varibles = {
+    ShellId: 'prtnrm',
     PageData: null
 }
 
@@ -32,22 +35,21 @@ let Varibles = {
 let Loaders = {
     reloadFullPage() {
         // Load framework
-        let framework = '<div id="partners_manager" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="partners_m_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="proceses_add_partner_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="partners_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="partners_m_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
-        document.getElementById("process_modul_content").innerHTML = framework;
+        Framework.Load('process_modul_content', Varibles.ShellId);
 
         // Load card container
         Loaders.reloadCardContainer();
 
-        FilterAndSort.Create(Varibles.PageData.Filters, "partners_m_filters", Database.partnersMFileterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.ShellId + "_filters", Database.partnersMFileterChange);
 
-        addOneListener("proceses_add_partner_btn", "click", Loaders.loadNewPartner);
+        addOneListener(Varibles.ShellId + '_add_new_btn', 'click', Loaders.loadNewPartner);
     },
     reloadCardContainer: function () {
         // Load card container
         let listData = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = Cards.getPartnersMCard();
-        let cardContainer = "partners_card_container";
+        let cardContainer = Varibles.ShellId + '_card_container';
         CardContainerPlus.CreateWithData(listData, cardStructure, cardContainer, cardDesign, Callbacks.tagsToPartner);
         CardContainer.ClickableCard(Events.partnerMCardClick, 'partnerm');
         if (listData[0] !== undefined) {
@@ -84,7 +86,7 @@ let Database = {
     },
     partnersMFileterChange: function (fullId) {
         //Change when copy
-        let dataPlace = 'partners_m_filters';
+        let dataPlace = Varibles.ShellId + '_filters';
         let filterPlace = 'prtnrfltr';
 
         FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
@@ -208,12 +210,12 @@ let Events = {
      * @param {Integer} cardId Card id
      */
     partnerMCardClick: function (cardId) {
-        let splittedId = cardId.split('_');
+        /*let splittedId = cardId.split('_');
         let id = splittedId[splittedId.length - 1];
 
         let data = Varibles.PageData.Data;
         let structure = Varibles.PageData.DetailsStructure;
-        let shellId = "partners_m_details";
+        let shellId = Varibles.ShellId + '_details';
         let card = Cards.getPartnersMDetail(shellId);
 
         CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
@@ -223,7 +225,31 @@ let Events = {
         CardDetails.CreatePlus(id, data, card2, contactShell, 'PartnerId', Callbacks.getContactData);
 
         addOneListener('prtnr_dtl_data_btn', 'click', Events.detailsDataTabClick);
-        addOneListener('prtnr_dtl_cnt_btn', 'click', Events.detailsContactsTabClick);
+        addOneListener('prtnr_dtl_cnt_btn', 'click', Events.detailsContactsTabClick);*/
+
+        let splittedId = cardId.split('_');
+        let id = splittedId[splittedId.length - 1];
+        //Data
+        let data = Varibles.PageData.Data;
+        let structure = Varibles.PageData.DetailsStructure;
+        let shellId = Varibles.ShellId + '_details';
+        let details = new DetailsDesigns().getSimpleDetails(shellId);
+        CardDetails.Create(id, data, structure, details, shellId, 'PartnerId');
+    }
+}
+
+/** Framework **/
+let Framework = {
+    Load: function (targetId, shellId) {
+        //partner manager frame
+        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
+        document.getElementById(targetId).innerHTML = framework;
+
+        let containerDesigns = new ContainerDesigns();
+        //filter frame
+        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
+        //card container frame
+        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
     }
 }
 
@@ -321,204 +347,3 @@ let PageDataJSONExample = {
     }
 
 }
-
-var partner_m_structure = {
-    '1': "LogoSrc",
-    '2': "Name",
-    '3': "Telefon",
-    '4': "Email",
-    '5': "Id"
-};
-
-var activeTableFilters = [
-    {
-        Id: "1234",
-        Name: "Kategória",
-        Type: "Select",
-        Default: "Karalábé",
-        Opportunities: ["Sajt", "Karalábé", "Csoki"]
-    },
-    {
-        Id: "1235",
-        Name: "Raktár",
-        Type: "Select",
-        Default: "Raktár3",
-        Opportunities: ["Raktár1", "Raktár2", "Raktár3"]
-    },
-    {
-        Id: "1236",
-        Name: "Harmadik",
-        Type: "Select",
-        Default: "Karalábé",
-        Opportunities: ["Sajt", "Karalábé", "Csoki"]
-    },
-    {
-        Id: "1237",
-        Name: "Negyedik",
-        Type: "Select",
-        Default: "Sajt",
-        Opportunities: ["Sajt", "Karalábé", "Csoki"]
-    },
-    {
-        Id: "1238",
-        Name: "Ötödik",
-        Type: "Write",
-        Default: "",
-    },
-];
-
-var partners_list = [
-    {
-        Id: 'fjh7zd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'IT',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fjh7zd3',
-        Name: 'Audi Hungária',
-        Type: 'Személygépjármű',
-        Email: 'hungaria@audi.com',
-        Telefon: '061 432 2222',
-        Kapcsolattartó: 'Rob Stark',
-        Cím: 'Győr, Audi utca 14., 3300',
-        Leírás: 'A magyar GDP-t itt gyártják',
-        LogoSrc: 'https://www.cascadezrt.hu/wp-content/uploads/2016/03/audi2.jpg'
-    },
-    {
-        Id: 'fjh7zd',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fjh7z',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'h7zd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fjh7z3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fjh7d3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fjhzd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fj7zd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fh7zd3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fjh7zw',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fjh73w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    },
-    {
-        Id: 'fjh3w',
-        Name: 'Microsoft Corporation',
-        Type: 'Szervíz',
-        Email: 'microsoft@microsoft.com',
-        Telefon: '061 321 3232',
-        Kapcsolattartó: 'Tyrion Lannister',
-        Cím: 'Érd, Tóth Ilona utca 14., 2340',
-        Leírás: 'Ilyen nagy IT cég, sokan ismerik',
-        LogoSrc: 'https://www.allenrec.com/wp-content/uploads/2017/04/new-microsoft-logo-SIZED-SQUARE.jpg'
-    }
-]
