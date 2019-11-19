@@ -6,6 +6,7 @@ require_once('Modules/QueryOptimizer.php');
 //Post varibles
 $userId = 1;
 $filters = $_POST['Filters'];
+$sorts = $_POST['Sorts'];
 $filterPlace = $_POST['FilterPlace'];
 
 
@@ -43,6 +44,25 @@ foreach ($filters as $filter) {
     }
 }
 
+$firstSort = true;
+foreach ($sorts as $key => $sort) {
+    $resultSrtStructure = $pdo->query('SELECT Place, ColumnName, TableName FROM sorts WHERE (SortId="' . $sort['SortId'] . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
+    if ($firstSort) {
+        $filterString .= ' ORDER BY';
+        $firstSort = false;
+    } else {
+        $filterString .= ', ';
+    }
+    $row = $resultSrtStructure[0];
+    $columnStrArray = explode('.',$row['ColumnName']);
+    $ColumnName = end($columnStrArray);
+    $filterString .= ' ' . $row['TableName'] . '.' . $ColumnName . " ";
+    if ($sort['Value'] == 0) {
+        $filterString .= ' DESC';
+    } else if ($sort['Value'] == 1) {
+        $filterString .= ' ASC';
+    }
+}
 /** Get card container filtered data */
 $main_data['Data'] = getCardC($filterPlace, $userId, $filterString);
 

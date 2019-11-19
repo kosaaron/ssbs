@@ -70,7 +70,7 @@ let FormElements = {
         },
         SortSelect: function (id, name, shellId, opportunities){
             let readyHTML = "";
-            readyHTML += '<div class="form-group">'; //icon
+            readyHTML += '<div class="form-group">';
             readyHTML += '<label class="taskfilter-label">' + name + '</label>';
             readyHTML += '<select class="selectpicker my-0 form-control taskfilter" id="' + shellId + '_' + id + '" data-place="' + shellId + '" data-live-search="false">';
             readyHTML += '<option value="0">Csökkenő</option>';
