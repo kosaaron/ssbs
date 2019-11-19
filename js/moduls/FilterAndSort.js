@@ -40,7 +40,7 @@ let FilterAndSort = {
      */
     FilteringOnDB: function (dataPlace, filterPlace, callbackFunction) {
         //Create filter array [{FilterId: "FilterId1", Value: "Value1"},{...}]
-        let filterArray = [];
+        /*let filterArray = [];
         let filterElements = document.querySelectorAll('[data-place="' + dataPlace + '"]');
         filterElements.forEach(filterElement => {
             let array = {};
@@ -49,16 +49,37 @@ let FilterAndSort = {
             array['FilterId'] = filterId;
             array['Value'] = value;
             filterArray.push(array);
-        });
+        });*/
 
+        let filterArray = [];
+        let sortArray = [];
+        var lastIndex = dataPlace.lastIndexOf('_');
+        let mainDataPlace = dataPlace.substring(0, lastIndex);
+        let filterElements = document.querySelectorAll('[data-place="' + mainDataPlace + '_filters"]')
+        filterElements.forEach(filterElement => {
+            let array = {};
+            let filterId = ArrayFunctions.Last((filterElement.id).split('_'));
+            let value = filterElement.value;
+            array['FilterId'] = filterId;
+            array['Value'] = value;
+            filterArray.push(array);
+        })
+        let sortElements = document.querySelectorAll('[data-place="' + mainDataPlace + '_sorts"]')
+        sortElements.forEach(sortElement => {
+            let array = {};
+            let sortId = ArrayFunctions.Last((sortElement.id).split('_'));
+            let value = sortElement.value;
+            array['SortId'] = sortId;
+            array['Value'] = value;
+            sortArray.push(array);
+        })
         //Connect to Filter.php
         $.ajax({
             type: "POST",
             url: "./php/Filter.php",
-            data: { 'FilterPlace': filterPlace, 'Filters': filterArray },
+            data: { 'FilterPlace': filterPlace, 'Filters': filterArray, 'Sorts': sortArray },
             success: function (data) {
                 callbackFunction(data);
-                //alert(JSON.stringify(data));
             },
             dataType: 'json'
         });
