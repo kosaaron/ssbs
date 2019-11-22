@@ -94,11 +94,11 @@ let Local = {
         switch (objectItem.Type) {
             //Write
             case "W":
-                ready = FormElements.A.Write(objectItem.FilterId, objectItem.Name, shellId);
+                FormElements.A.Write(objectItem.FilterId, objectItem.Name, shellId);
                 break;
             //Select
             case "S":
-                ready = FormElements.A.Select(objectItem.FilterId, objectItem.Name, shellId, objectItem.Opportunities);
+                FormElements.A.Select(objectItem.FilterId, objectItem.Name, shellId, objectItem.Opportunities);
                 break;
             default:
                 break;
@@ -106,9 +106,7 @@ let Local = {
         return ready;
     },
     getSortHTML: function(objectItem, shellId){
-        let ready = "";
-        ready = FormElements.A.SortSelect(objectItem.SortId, objectItem.Name, shellId, objectItem.Opportunities);
-
+        FormElements.A.SortSelect(objectItem.SortId, objectItem.Name, shellId, objectItem.DefaultValue, objectItem.Required);
     }
 };
 

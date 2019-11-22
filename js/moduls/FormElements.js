@@ -68,16 +68,27 @@ let FormElements = {
 
             document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
         },
-        SortSelect: function (id, name, shellId, opportunities){
+        /**
+         * 
+         * @param {String} id 
+         * @param {String} name 
+         * @param {String} shellId 
+         * @param {String} defaultValue {0, 1, 2}
+         * @param {String} required {0, 1}
+         */
+        SortSelect: function (id, name, shellId, defaultValue, required) {
             let readyHTML = "";
             readyHTML += '<div class="form-group">';
             readyHTML += '<label class="taskfilter-label">' + name + '</label>';
             readyHTML += '<select class="selectpicker my-0 form-control taskfilter" id="' + shellId + '_' + id + '" data-place="' + shellId + '" data-live-search="false">';
-            readyHTML += '<option value="0">Csökkenő</option>';
+            if (required === '0') {
+                readyHTML += '<option value="2">Nincs</option>';
+            } readyHTML += '<option value="0">Csökkenő</option>';
             readyHTML += '<option value="1">Növekvő</option>';
             readyHTML += '</select></div>';
 
             document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
+            document.getElementById(shellId + '_' + id).value = defaultValue;
         }
     },
     /**

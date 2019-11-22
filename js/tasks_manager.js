@@ -322,8 +322,8 @@ let Framework= {
             <div class="flex-fill col-2 filter-box">
                 <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
                 <div id="task_m_filters" class="task-filters"></div>
+                <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
                 <div id="task_m_sorts" class="task-orders">
-                    
                 </div>
             </div>
             <div class="col-10 filtered-table display-flex flex-1">

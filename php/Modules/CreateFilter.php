@@ -53,6 +53,7 @@ class CreateFilter
             $s_array['SortId'] = $row['SortId'];
             $s_array['Name'] = $row['Name'];
             $s_array['DefaultValue'] = $row['DefaultValue'];
+            $s_array['Required'] = $row['Required'];
             $main_data["Sorts"][] = $s_array;
         }
 

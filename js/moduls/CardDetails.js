@@ -4,9 +4,7 @@
 import CardContainer from './CardContainer.js';
 import VirtualObject from './VirtualObject.js';
 import AutoScroll from './AutoScroll.js';
-import Cards from './Cards.js';
 import VOCardDesign from './designs/VOCardDesign.js';
-import CardDesigns from './designs/CardDesigns.js';
 
 /**
  * **Card details**

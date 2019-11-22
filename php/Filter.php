@@ -46,6 +46,10 @@ foreach ($filters as $filter) {
 
 $firstSort = true;
 foreach ($sorts as $key => $sort) {
+    if ($sort['Value'] == 2) {
+        continue;
+    }
+
     $resultSrtStructure = $pdo->query('SELECT Place, ColumnName, TableName FROM sorts WHERE (SortId="' . $sort['SortId'] . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
     if ($firstSort) {
         $filterString .= ' ORDER BY';
@@ -54,9 +58,9 @@ foreach ($sorts as $key => $sort) {
         $filterString .= ', ';
     }
     $row = $resultSrtStructure[0];
-    $columnStrArray = explode('.',$row['ColumnName']);
+    $columnStrArray = explode('.', $row['ColumnName']);
     $ColumnName = end($columnStrArray);
-    $filterString .= ' ' . $row['TableName'] . '.' . $ColumnName . " ";
+    $filterString .= ' ' . $row['TableName'] . '.' . $ColumnName . ' ';
     if ($sort['Value'] == 0) {
         $filterString .= ' DESC';
     } else if ($sort['Value'] == 1) {
