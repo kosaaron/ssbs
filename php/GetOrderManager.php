@@ -7,7 +7,7 @@ $userId = 1;
 
 $OrderManager = new OrderManager($userId);
 $OrderManager->CreateFilter();
-$OrderManager->CreateCardContainer('');
+$OrderManager->CreateCardContainer();
 
 /** Print data */
 $json = json_encode($OrderManager->main_data);

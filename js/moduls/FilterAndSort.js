@@ -26,7 +26,7 @@ let FilterAndSort = {
 
         addListenerByAttr(shellId, 'change', eventFunction);
     },
-    CreateSort: function(sorts, shellId, eventFunction){
+    CreateSort: function (sorts, shellId, eventFunction) {
         CardContainerPlus.Create(sorts, shellId, Local.getSortHTML);
         $('.selectpicker').selectpicker('refresh');
 
@@ -38,19 +38,8 @@ let FilterAndSort = {
      * @param {String} filterPlace 
      * @param {Function} callbackFunction 
      */
-    FilteringOnDB: function (dataPlace, filterPlace, callbackFunction) {
+    FilteringOnDB: function (dataPlace, filterPlace, callbackFunction, dataPos = { 'Limit': 20, 'Offset': 0 }) {
         //Create filter array [{FilterId: "FilterId1", Value: "Value1"},{...}]
-        /*let filterArray = [];
-        let filterElements = document.querySelectorAll('[data-place="' + dataPlace + '"]');
-        filterElements.forEach(filterElement => {
-            let array = {};
-            let filterId = ArrayFunctions.Last((filterElement.id).split('_'));
-            let value = filterElement.value;
-            array['FilterId'] = filterId;
-            array['Value'] = value;
-            filterArray.push(array);
-        });*/
-
         let filterArray = [];
         let sortArray = [];
         var lastIndex = dataPlace.lastIndexOf('_');
@@ -105,7 +94,7 @@ let Local = {
         }
         return ready;
     },
-    getSortHTML: function(objectItem, shellId){
+    getSortHTML: function (objectItem, shellId) {
         FormElements.A.SortSelect(objectItem.SortId, objectItem.Name, shellId, objectItem.DefaultValue, objectItem.Required);
     }
 };

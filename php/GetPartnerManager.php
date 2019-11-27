@@ -7,7 +7,7 @@ $userId = 1;
 
 $PartnerManager = new PartnerManager($userId);
 $PartnerManager->CreateFilter();
-$PartnerManager->CreateCardContainer('');
+$PartnerManager->CreateCardContainer();
 
 /** Print data */
 $json = json_encode($PartnerManager->main_data);

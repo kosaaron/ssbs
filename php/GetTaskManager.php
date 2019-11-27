@@ -7,7 +7,7 @@ $userId = 1;
 
 $TaskManager = new TaskManager($userId);
 $TaskManager->CreateFilter();
-$TaskManager->CreateCardContainer('');
+$TaskManager->CreateCardContainer();
 
 /** Print data */
 $json = json_encode($TaskManager->main_data);

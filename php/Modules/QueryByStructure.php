@@ -20,14 +20,16 @@ class QueryByStructure
      * },
      * table: "table1",
      * where: "WHERE condition1 && condition2 || condition3"
-     * order: "ORDER BY column1 ASC"
+     * sort: "ORDER BY column1 ASC"
+     * limit: "LIMIT 20 OFFSET 0"
      */
     public function DefaultQuery(
         $columns,
         $tables,
         $table,
         $where = null,
-        $order = null
+        $sort = null,
+        $limit = null
     ) {
         //if columns array size is vaild then tables array valid too
         if (sizeof($columns) == 0 || $table == '') {
@@ -91,8 +93,11 @@ class QueryByStructure
         if (!is_null($where)) {
             $fullQuery .= ' ' . $where;
         }
-        if (!is_null($order)) {
-            $fullQuery .= ' ' . $order;
+        if (!is_null($sort)) {
+            $fullQuery .= ' ' . $sort;
+        }
+        if (!is_null($limit)) {
+            $fullQuery .= ' ' . $limit;
         }
 
         $fullQuery .= ';';

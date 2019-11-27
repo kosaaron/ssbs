@@ -25,7 +25,7 @@ class PartnerManager
         $this->main_data['Sorts'] = $fltrStructure['Sorts'];
     }
 
-    public function CreateCardContainer($filter)
+    public function CreateCardContainer($filter = '', $sort = '')
     {
         require_once('Connect.php');
         $PDOConnect = new PDOConnect();

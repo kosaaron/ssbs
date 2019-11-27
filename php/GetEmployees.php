@@ -7,7 +7,7 @@ $userId = 1;
 
 $Employees = new Employees($userId);
 $Employees->CreateFilter();
-$Employees->CreateCardContainer('');
+$Employees->CreateCardContainer();
 
 /** Print data */
 $json = json_encode($Employees->main_data);

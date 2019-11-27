@@ -8,7 +8,7 @@ export default class GlobalVaribles {
 
     //Getters
     static getActiveModul() {
-        return this.count;
+        return this.ActiveModul;
     }
 
     //Setters

@@ -24,7 +24,7 @@ class OrderManager
         $this->main_data['Filters'] = $fltrStructure['Filters'];
         $this->main_data['Sorts'] = $fltrStructure['Sorts'];
     }
-    public function CreateCardContainer($filter)
+    public function CreateCardContainer($filter = '', $sort = '')
     {
         /** Task's manager data */
         $dataAndStructure = new DataAndStructure();

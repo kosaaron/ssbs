@@ -24,11 +24,11 @@ class TaskManager
         $this->main_data['Filters'] = $fltrStructure['Filters'];
         $this->main_data['Sorts'] = $fltrStructure['Sorts'];
     }
-    public function CreateCardContainer($filter)
+    public function CreateCardContainer($filter = '', $sort = '')
     {
         /** Task's manager data */
         $dataAndStructure = new DataAndStructure();
-        $cardCResult = $dataAndStructure->CardContainer($this->userId, "taskmd", "tasks", $filter);
+        $cardCResult = $dataAndStructure->CardContainer($this->userId, "taskmd", "tasks", $filter, $sort);
         $this->main_data['DataStructure'] = $cardCResult['DataStructure'];
         $this->main_data['Data'] = $cardCResult['Data'];
 

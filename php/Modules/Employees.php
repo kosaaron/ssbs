@@ -25,7 +25,7 @@ class Employees
         $this->main_data['Sorts'] = $fltrStructure['Sorts'];
     }
 
-    public function CreateCardContainer($filter)
+    public function CreateCardContainer($filter = '', $sort = '')
     {
         /** Partner's manager data */
         $dataAndStructure = new DataAndStructure();

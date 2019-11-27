@@ -7,6 +7,7 @@
  */
 /** Imports */
 import CardContainer from './moduls/CardContainer.js';
+import Limiting from './moduls/Limiting.js';
 import CardDetails from './moduls/CardDetails.js';
 import CardDesigns from './moduls/designs/CardDesigns.js';
 import CardContainerPlus from './moduls/CardContainerPlus.js';
@@ -18,8 +19,6 @@ import { addOneListener, removeOneListener, mainFrame, addListener } from './com
 
 
 /** Local functions */
-
-
 /**
  * Partners manager details template
  */
@@ -62,7 +61,7 @@ function addTask() {
 }
 
 /** Public functions */
-var tasksManager = {
+let tasksManager = {
     loadTasksManager: function () {
         // Title
         document.getElementById("back_to_menu_text").textContent = "Feladatok";
@@ -88,22 +87,25 @@ var tasksManager = {
 export default tasksManager;
 /** Local varibles **/
 let Varibles = {
+    FrameId: 'tskm',
     PageData: null,
     TaskWayData: null
 }
 
-/** General functions **/
-let General = {
+/** Loads functions **/
+let Loads = {
     reloadFullPage: function () {
         // Load framework
         let framework = Framework.Load();
-        
+
         document.getElementById("process_modul_content").innerHTML = framework;
 
-        General.reloadCardContainer();
+        Loads.reloadCardContainer();
 
-        FilterAndSort.Create(Varibles.PageData.Filters, "task_m_filters", Database.tasksMFilterChange);
-        FilterAndSort.CreateSort(Varibles.PageData.Sorts, "task_m_sorts", Database.tasksMFilterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + '_filters',
+            Database.tasksMFilterChange);
+        FilterAndSort.CreateSort(Varibles.PageData.Sorts, Varibles.FrameId + '_sorts',
+            Database.tasksMFilterChange);
 
         addOneListener("proceses_add_task_btn", "click", addTask);
     },
@@ -116,13 +118,15 @@ let General = {
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = new CardDesigns().getSimpleCard('taskm');
         let cardContainer = "tasks_card_container";
-        
-        new ElementFunctions().removeChilds('tasks_card_container');
+
+        new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(taskMCardClick, 'taskm');
         if (data[0] !== undefined) {
             taskMCardClick('task_card_' + data[0].TaskId);
         }
+        //Limiting
+        let limiting = new Limiting(cardContainer);
     },
     /**
      * Reload task way
@@ -188,7 +192,7 @@ let Database = {
      */
     tasksMFilterChange: function (fullId) {
         //Change when copy
-        let dataPlace = 'task_m_filters';
+        let dataPlace = Varibles.FrameId + '_filters';
         let filterPlace = 'tskfltr';
 
         FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
@@ -207,7 +211,7 @@ let Database = {
                     document.getElementById('task_timeline').innerHTML = "Nincsenek lépések."
                 } else {
                     Varibles.TaskWayData = data;
-                    General.reloadTaskWay(Varibles.TaskWayData);
+                    Loads.reloadTaskWay(Varibles.TaskWayData);
                 }
             },
             dataType: 'json'
@@ -224,12 +228,12 @@ let Database = {
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
                     */
-                General.reloadFullPage(Varibles.PageData);
+                Loads.reloadFullPage(Varibles.PageData);
             },
             dataType: 'json'
         });/*
         } else {
-            General.reloadFullPage(Varibles.PageData);
+            Loads.reloadFullPage(Varibles.PageData);
         }*/
     }
 }
@@ -268,7 +272,7 @@ let Callbacks = {
         let finalHTML = '';
         for (let i = 0; i < employees.length; i++) {
             const employee = employees[i];
-            let statusClass = General.getEmplStatusColor(employee.Ready);
+            let statusClass = Loads.getEmplStatusColor(employee.Ready);
 
             finalHTML += '<div class="row add-employee-card">';
             finalHTML += '<div employee="' + employee.EmployeeId + '" class="btn btn-sm employee-box employee-button">';
@@ -285,12 +289,19 @@ let Callbacks = {
      * 
      * @param {JSON} data 
      */
-    successFilterEvent: function (data) {
-        Varibles.PageData.Data = data.Data;
+    successFilterEvent: function (data, isClear = true) {
+        if (isClear) {
+            Varibles.PageData.Data = [];
+        }
+
+        data.Data.forEach(entry => {
+            Varibles.PageData.Data.push(entry);
+        });
+
         /* String to date
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
-        General.reloadCardContainer();
+        Loads.reloadCardContainer();
     }
 }
 
@@ -315,15 +326,15 @@ let Events = {
     }
 }
 
-let Framework= {
-    Load: function(){
+let Framework = {
+    Load: function () {
         return `
         <div id="tasks_manager" class="display-flex flex-row full-screen">
             <div class="flex-fill col-2 filter-box">
                 <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
-                <div id="task_m_filters" class="task-filters"></div>
+                <div id="tskm_filters" class="task-filters"></div>
                 <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
-                <div id="task_m_sorts" class="task-orders">
+                <div id="tskm_sorts" class="task-orders">
                 </div>
             </div>
             <div class="col-10 filtered-table display-flex flex-1">
@@ -338,7 +349,7 @@ let Framework= {
         </div>
         `;
     }
-} 
+}
 
 let PageDataJSONExample = {
     "Filters": [

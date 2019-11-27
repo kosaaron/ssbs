@@ -45,6 +45,7 @@ foreach ($filters as $filter) {
 }
 
 $firstSort = true;
+$sortString = '';
 foreach ($sorts as $key => $sort) {
     if ($sort['Value'] == 2) {
         continue;
@@ -52,23 +53,23 @@ foreach ($sorts as $key => $sort) {
 
     $resultSrtStructure = $pdo->query('SELECT Place, ColumnName, TableName FROM sorts WHERE (SortId="' . $sort['SortId'] . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
     if ($firstSort) {
-        $filterString .= ' ORDER BY';
+        $sortString .= ' ORDER BY';
         $firstSort = false;
     } else {
-        $filterString .= ', ';
+        $sortString .= ', ';
     }
     $row = $resultSrtStructure[0];
     $columnStrArray = explode('.', $row['ColumnName']);
     $ColumnName = end($columnStrArray);
-    $filterString .= ' ' . $row['TableName'] . '.' . $ColumnName . ' ';
+    $sortString .= ' ' . $row['TableName'] . '.' . $ColumnName . ' ';
     if ($sort['Value'] == 0) {
-        $filterString .= ' DESC';
+        $sortString .= ' DESC';
     } else if ($sort['Value'] == 1) {
-        $filterString .= ' ASC';
+        $sortString .= ' ASC';
     }
 }
 /** Get card container filtered data */
-$main_data['Data'] = getCardC($filterPlace, $userId, $filterString);
+$main_data['Data'] = getCardC($filterPlace, $userId, $filterString, $sortString);
 
 /** Print result */
 $json = json_encode($main_data);
@@ -78,7 +79,7 @@ print_r($json);
  */
 /** Functions **/
 /** Get card container */
-function getCardC($filterPlace, $userId, $filter)
+function getCardC($filterPlace, $userId, $filter, $sortString)
 {
     $data = array();
 
@@ -87,7 +88,7 @@ function getCardC($filterPlace, $userId, $filter)
             require_once('Modules/TaskManager.php');
 
             $TaskManager = new TaskManager($userId);
-            $TaskManager->CreateCardContainer($filter);
+            $TaskManager->CreateCardContainer($filter, $sortString);
 
             $data = $TaskManager->main_data['Data'];
             break;

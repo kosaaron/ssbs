@@ -8,20 +8,25 @@ require_once('Connect.php');
  */
 class DataAndStructure
 {
-    public function CardContainer($employee, $place, $table, $where = null)
+    public function CardContainer($employee, $place, $table, $where = '', $sort = '', $dataPos = array(), $lastId = null)
     {
         $PDOConnect = new PDOConnect();
         $pdo = $PDOConnect->pdo;
 
         $main_data = array();
 
-        $resultTDStructure = $pdo->query('SELECT cardc_structures.Number, ColumnName, Tables, BackendF FROM cardc_structures WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number')->fetchAll();
+        $resultTDStructure = $pdo->query('SELECT cardc_structures.Number, ColumnName, IsMainId, Tables, BackendF FROM cardc_structures WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number')->fetchAll();
 
         $structureTD = array();
         $tablesTD = array();
         $vOParamObjects = array();
         $dataStructure = array();
+        $mainId = null;
         foreach ($resultTDStructure as $row) {
+            if ($row['IsMainId'] === '1') {
+                $mainId = $row['ColumnName'];
+            }
+
             $functionArray = explode(',', $row['BackendF']);
             foreach ($functionArray as $key => $bFunction) {
                 $funcWithParams = explode('/', $bFunction);
@@ -42,8 +47,24 @@ class DataAndStructure
         }
         $main_data['DataStructure'] = $dataStructure;
 
+        $limitString = '';
+        if ($lastId === null) {
+
+            if ($mainId !== null) {
+                $lastIdQ = $pdo->query('SELECT MAX(' . $mainId . ') FROM ' . $table)->fetchAll();
+                $lastId = $lastIdQ[0][0];
+            }
+
+            if (!$dataPos) {
+                $dataPos['Limit'] = 20;
+                $dataPos['Offset'] = 0;
+            }
+        }
+        $limitString .= ' LIMIT ' . $dataPos['Limit'] . ' OFFSET ' . $dataPos['Offset'];
+
         $queryByStructure = new QueryByStructure();
-        $dataQuery = $queryByStructure->DefaultQuery($structureTD, $tablesTD, $table, $where);
+        $dataQuery = $queryByStructure->DefaultQuery($structureTD, $tablesTD, $table, $where, $sort, $limitString);
+
         if ($dataQuery) {
             $dataResult = $pdo->query($dataQuery)->fetchAll(PDO::FETCH_ASSOC);
 
