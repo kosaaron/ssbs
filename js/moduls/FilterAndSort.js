@@ -34,17 +34,15 @@ let FilterAndSort = {
     },
     /**
      * Filtering on database
-     * @param {String} dataPlace 
+     * @param {String} frameId 
      * @param {String} filterPlace 
      * @param {Function} callbackFunction 
      */
-    FilteringOnDB: function (dataPlace, filterPlace, callbackFunction, dataPos = { 'Limit': 20, 'Offset': 0 }) {
+    FilteringOnDB: function (frameId, filterPlace, callbackFunction, dataPos = { 'Limit': 20, 'Offset': 0 }) {
         //Create filter array [{FilterId: "FilterId1", Value: "Value1"},{...}]
         let filterArray = [];
         let sortArray = [];
-        var lastIndex = dataPlace.lastIndexOf('_');
-        let mainDataPlace = dataPlace.substring(0, lastIndex);
-        let filterElements = document.querySelectorAll('[data-place="' + mainDataPlace + '_filters"]')
+        let filterElements = document.querySelectorAll('[data-place="' + frameId + '_filters"]')
         filterElements.forEach(filterElement => {
             let array = {};
             let filterId = ArrayFunctions.Last((filterElement.id).split('_'));
@@ -53,7 +51,7 @@ let FilterAndSort = {
             array['Value'] = value;
             filterArray.push(array);
         })
-        let sortElements = document.querySelectorAll('[data-place="' + mainDataPlace + '_sorts"]')
+        let sortElements = document.querySelectorAll('[data-place="' + frameId + '_sorts"]')
         sortElements.forEach(sortElement => {
             let array = {};
             let sortId = ArrayFunctions.Last((sortElement.id).split('_'));

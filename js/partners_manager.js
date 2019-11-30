@@ -27,7 +27,8 @@ export default partnersManager;
 
 /** Varibles */
 let Varibles = {
-    ShellId: 'prtnrm',
+    FrameId: 'prtnrm',
+    FilterPlace: 'prtnrfltr',
     PageData: null
 }
 
@@ -35,21 +36,21 @@ let Varibles = {
 let Loaders = {
     reloadFullPage() {
         // Load framework
-        Framework.Load('process_modul_content', Varibles.ShellId);
+        Framework.Load('process_modul_content', Varibles.FrameId);
 
         // Load card container
         Loaders.reloadCardContainer();
 
-        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.ShellId + "_filters", Database.partnersMFileterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + "_filters", Database.partnersMFileterChange);
 
-        addOneListener(Varibles.ShellId + '_add_new_btn', 'click', Loaders.loadNewPartner);
+        addOneListener(Varibles.FrameId + '_add_new_btn', 'click', Loaders.loadNewPartner);
     },
     reloadCardContainer: function () {
         // Load card container
         let listData = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = Cards.getPartnersMCard();
-        let cardContainer = Varibles.ShellId + '_card_container';
+        let cardContainer = Varibles.FrameId + '_card_container';
         CardContainerPlus.CreateWithData(listData, cardStructure, cardContainer, cardDesign, Callbacks.tagsToPartner);
         CardContainer.ClickableCard(Events.partnerMCardClick, 'partnerm');
         if (listData[0] !== undefined) {
@@ -85,11 +86,7 @@ let Database = {
         });
     },
     partnersMFileterChange: function (fullId) {
-        //Change when copy
-        let dataPlace = Varibles.ShellId + '_filters';
-        let filterPlace = 'prtnrfltr';
-
-        FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+        FilterAndSort.FilteringOnDB(Varibles.FrameId, Varibles.FilterPlace, Callbacks.successFilterEvent);
     }
 }
 
@@ -215,7 +212,7 @@ let Events = {
 
         let data = Varibles.PageData.Data;
         let structure = Varibles.PageData.DetailsStructure;
-        let shellId = Varibles.ShellId + '_details';
+        let shellId = Varibles.FrameId + '_details';
         let card = Cards.getPartnersMDetail(shellId);
 
         CardDetails.Create(id, data, structure, card, shellId, 'PartnerId');
@@ -232,7 +229,7 @@ let Events = {
         //Data
         let data = Varibles.PageData.Data;
         let structure = Varibles.PageData.DetailsStructure;
-        let shellId = Varibles.ShellId + '_details';
+        let shellId = Varibles.FrameId + '_details';
         let details = new DetailsDesigns().getSimpleDetails(shellId);
         CardDetails.Create(id, data, structure, details, shellId, 'PartnerId');
     }

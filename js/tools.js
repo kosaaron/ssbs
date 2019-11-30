@@ -22,7 +22,7 @@ import { addOneListener, removeOneListener, mainFrame } from './common.js';
 let Cards = {
     getToolsCard: function () {
         let container = "";
-        container += '<div class="col-lg-12"><div id="tool_card_*5*" class="card toolcard tool-show-details"><div class="card-body">';
+        container += '<div class="col-lg-12"><div id="' + Varibles.FrameId + '_card_*5*" class="card toolcard tool-show-details"><div class="card-body">';
         container += '!<div class="display-flex justify-content-between"><div class="tool-image-container"><img class="tool-image" src="https://images.obi.hu/product/HU/800x600/292962_1.jpg"></div>';
         container += '!<div class="tool-datas"><h3 class="card-title tool-name">*2*</h3>';
         container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: *3*</p>';
@@ -60,9 +60,8 @@ function toolCardClick(cardId) {
 
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
-    let shellId = "tool_details";
+    let shellId = Varibles.FrameId + '_details';
     let card = getToolDetail(shellId);
-
 
     CardDetails.Create(toolId, data, structure, card, shellId, 'ToolId'); //ToolId Kérdéses
 }
@@ -81,14 +80,13 @@ function addTool() {
 let General = {
     reloadFullPage: function () {
         // Load framework
-        let framework = '<div id="tools" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="tool_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="add_tool_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="tools_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="tool_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
-        document.getElementById("resources_content").innerHTML = framework;
+        Framework.Load(Varibles.FrameId, 'resources_content');
 
         General.reloadCardContainer();
 
-        FilterAndSort.Create(Varibles.PageData.Filters, "tool_filters", Database.toolsFilterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + '_filters', Database.toolsFilterChange);
 
-        addOneListener("add_tool_btn", "click", addTool);
+        addOneListener('add_' + Varibles.FrameId + '_btn', "click", addTool);
     },
     /**
      * Reload card container
@@ -102,7 +100,7 @@ let General = {
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(toolCardClick, 'tool'); // tool Kérdéses
         if (data[0].ToolId !== null && data[0] !== undefined) {
-            toolCardClick('tool_card_' + data[0].ToolId);
+            toolCardClick(Varibles.FrameId + '_card_' + data[0].ToolId);
         }
 
     }
@@ -129,21 +127,19 @@ export default tools;
 
 /** Local varibles **/
 let Varibles = {
+    FrameId: 'tls',
+    FilterPlace: 'toolfltr',
     PageData: null,
     TaskWayData: null
 }
 
 let Database = {
     /**
-     * 
+     * Tools filter change event
      * @param {String} id 
      */
     toolsFilterChange: function (fullId) {
-        //Change when copy
-        let dataPlace = 'tool_filters';
-        let filterPlace = 'toolfltr';
-
-        FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+        FilterAndSort.FilteringOnDB(Varibles.FrameId, Varibles.FilterPlace, Callbacks.successFilterEvent);
     },
     /**
      * Get task way data
@@ -178,6 +174,32 @@ let Callbacks = {
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
         General.reloadCardContainer();
+    }
+}
+
+let Framework = {
+    Load: function (frameId, targetId) {
+        let frame = `
+        <div id="tools" class="display-flex flex-row full-screen">
+            <div class="flex-fill col-2 filter-box">
+                <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
+                <div id="${frameId}_filters" class="task-filters"></div>
+                <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
+                <div class="task-orders">
+                </div>
+            </div>
+            <div class="col-10 filtered-table display-flex flex-1">
+                <button id="add_${frameId}_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
+                <div class="card-container col-8">
+                    <div id="tools_card_container" class="row"> </div>
+                </div>
+                <div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div>
+                <div class="col-4" id="${frameId}_details"> </div>
+                <div class="filtered-table-fade flex-1"></div>
+            </div>
+        </div>
+        `
+        document.getElementById(targetId).innerHTML = frame;
     }
 }
 

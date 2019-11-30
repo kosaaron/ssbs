@@ -31,7 +31,7 @@ function orderMCardClick(cardId) {
     //Data
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
-    let shellId = Varibles.ShellId + '_details';
+    let shellId = Varibles.FrameId + '_details';
     let details = new DetailsDesigns().getSimpleDetails(shellId);
     CardDetails.Create(id, data, structure, details, shellId, 'OrderId');
 }
@@ -63,7 +63,8 @@ var OrderManager = {
 export default OrderManager;
 /** Local varibles **/
 let Varibles = {
-    ShellId: 'ordrm',
+    FrameId: 'ordrm',
+    FilterPlace: 'ordrfltr',
     PageData: null
 }
 
@@ -71,13 +72,13 @@ let Varibles = {
 let General = {
     reloadFullPage: function () {
         //Load framework
-        Framework.Load('process_modul_content', Varibles.ShellId);
+        Framework.Load('process_modul_content', Varibles.FrameId);
         //Card container generating cards
         General.reloadCardContainer();
         //Filter creater
-        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.ShellId + "_filters", Database.orderMFilterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + "_filters", Database.orderMFilterChange);
         //Events
-        addOneListener(Varibles.ShellId + '_add_new_btn', 'click', addTask);
+        addOneListener(Varibles.FrameId + '_add_new_btn', 'click', addTask);
     },
     /**
      * Reload card container
@@ -86,14 +87,14 @@ let General = {
         // Load card container
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
-        let cardDesign = new CardDesigns().getSimpleCard(Varibles.ShellId);
-        let cardContainer = Varibles.ShellId + '_card_container';
+        let cardDesign = new CardDesigns().getSimpleCard(Varibles.FrameId);
+        let cardContainer = Varibles.FrameId + '_card_container';
 
         new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(orderMCardClick, Varibles.ShellId);
+        CardContainer.ClickableCard(orderMCardClick, Varibles.FrameId);
         if (data[0] !== undefined) {
-            orderMCardClick(Varibles.ShellId + '_card_' + data[0].OrderId);
+            orderMCardClick(Varibles.FrameId + '_card_' + data[0].OrderId);
         }
     }
 }
@@ -105,11 +106,7 @@ let Database = {
      * @param {String} id 
      */
     orderMFilterChange: function (fullId) {
-        //Change when copy
-        let dataPlace = Varibles.ShellId + '_filters';
-        let filterPlace = 'ordrfltr';
-
-        FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+        FilterAndSort.FilteringOnDB(Varibles.FrameId, Varibles.FilterPlace, Callbacks.successFilterEvent);
     },
     getContainerData: function () {
         //if (Varibles.PageData === null) {

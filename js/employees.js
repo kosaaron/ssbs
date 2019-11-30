@@ -9,7 +9,7 @@
 import CardContainer from './moduls/CardContainer.js';
 import CardDetails from './moduls/CardDetails.js';
 import FilterAndSort from './moduls/FilterAndSort.js';
-import { addOneListener, removeOneListener, mainFrame } from './common.js';
+import { addOneListener } from './common.js';
 import newEmployee from './new_employee.js';
 
 
@@ -39,7 +39,7 @@ function getEmployeeDetail(shellId) {
     container += '<h2 class="name-grey">*1*! *2*</h2>';
     container += '!<p><label class="employee-position">*3*</label></p>';
     container += '!<div id="' + shellId + '_cc_g"> </div>';
-    container += '!<div class="employee-button-container"><button id="edit_*" type="button" class="btn btn-primary  edit-employee-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
+    container += '!<div class="employee-button-container"><button id="edit_*1*" type="button" class="btn btn-primary  edit-employee-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
 
     return container;
 
@@ -57,26 +57,34 @@ function employeeCardClick(cardId) {
     CardDetails.Create(employeeId, data, structure, card, shellId, 'EmployeeId');
 }
 
-
-function employeeFileterChange(id) {
-    alert(id);
-}
-
 function addEmployee() {
     newEmployee.loadNewEmployee();
     addOneListener("back_to_employee", "click", employees.loadEmployees);
 }
 
-/** General functions **/
-let General = {
+
+
+var employees = {
+    loadEmployees: function () {
+        // Loader
+        document.getElementById('resources_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+
+        // Data from server
+        Database.getContainerData();
+    }
+}
+export default employees;
+
+/** Loads functions **/
+let Loads = {
     reloadFullPage: function () {
         // Load framework
-        let framework = '<div id="employees" class="display-flex flex-row full-screen"> <div class="flex-fill col-2 filter-box"> <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5><div id="employees_filters" class="task-filters"></div><div class="task-orders"> <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5> <div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés1</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div><div class="form-group"> <label class="taskfilter-label" for="exampleFormControlSelect1">Rendezés2</label> <select class="form-control taskfilter" id="exampleFormControlSelect1"> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> </select> </div></div></div><div class="col-10 filtered-table display-flex flex-1"> <button id="add_employee_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button> <div class="card-container col-8"> <div id="employees_card_container" class="row"> </div></div><div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div><div class="col-4" id="employee_details"> </div><div class="filtered-table-fade flex-1"></div></div></div>';
-        document.getElementById("resources_content").innerHTML = framework;
+        Framework.Load(Varibles.FrameId, 'resources_content');
 
-        General.reloadCardContainer();
+        Loads.reloadCardContainer();
 
-        FilterAndSort.Create(Varibles.PageData.Filters, "employees_filters", Database.employeesFilterChange);
+        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + '_filters',
+            Database.employeesFilterChange);
 
         addOneListener("add_employee_btn", "click", addEmployee);
     },
@@ -88,7 +96,7 @@ let General = {
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = Cards.getEmployeesCard();
-        let cardContainer = "employees_card_container";
+        let cardContainer = Varibles.FrameId + '_card_container';
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(employeeCardClick, 'empl');
         if (data[0].EmployeeId !== null && data[0] !== undefined) {
@@ -97,41 +105,21 @@ let General = {
     }
 }
 
-var employees = {
-    loadEmployees: function () {
-        /*
-        // Title
-        document.getElementById("back_to_menu_text").textContent = "Feladatok";
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
-        */
-
-
-        // Loader
-        document.getElementById('resources_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
-
-        // Data from server
-        Database.getContainerData();
-    }
-}
-export default employees;
-
 /** Local varibles **/
 let Varibles = {
+    FrameId: 'empl',
+    FilterPlace: 'emplfltr',
     PageData: null,
     TaskWayData: null
 }
 
 let Database = {
     /**
-     * 
+     * Employees filter change event
      * @param {String} id 
      */
     employeesFilterChange: function (fullId) {
-        //Change when copy
-        let dataPlace = 'employees_filters';
-        let filterPlace = 'emplfltr';
-
-        FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+        FilterAndSort.FilteringOnDB(Varibles.FrameId, Varibles.FilterPlace, Callbacks.successFilterEvent);
     },
     /**
      * Get task way data
@@ -148,12 +136,12 @@ let Database = {
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
                     */
-                General.reloadFullPage(Varibles.PageData);
+                Loads.reloadFullPage(Varibles.PageData);
             },
             dataType: 'json'
         });/*
         } else {
-            General.reloadFullPage(Varibles.PageData);
+            Loads.reloadFullPage(Varibles.PageData);
         }*/
     }
 }
@@ -166,7 +154,33 @@ let Callbacks = {
         /* String to date
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
-        General.reloadCardContainer();
+        Loads.reloadCardContainer();
+    }
+}
+
+let Framework = {
+    Load: function (frameId, targetId) {
+        let frame = `
+        <div id="${Varibles.FrameId}" class="display-flex flex-row full-screen">
+            <div class="flex-fill col-2 filter-box">
+                <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
+                <div id="${Varibles.FrameId}_filters" class="task-filters"></div>
+                <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
+                <div class="task-orders">
+                </div>
+            </div>
+            <div class="col-10 filtered-table display-flex flex-1">
+                <button id="add_employee_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
+                <div class="card-container col-8">
+                    <div id="${Varibles.FrameId}_card_container" class="row"> </div>
+                </div>
+                <div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div>
+                <div class="col-4" id="employee_details"> </div>
+                <div class="filtered-table-fade flex-1"></div>
+            </div>
+        </div>
+        `
+        document.getElementById(targetId).innerHTML = frame;
     }
 }
 
