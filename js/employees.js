@@ -11,39 +11,14 @@ import CardDetails from './moduls/CardDetails.js';
 import FilterAndSort from './moduls/FilterAndSort.js';
 import { addOneListener } from './common.js';
 import newEmployee from './new_employee.js';
+import ContainerDesigns from './moduls/designs/ContainerDesigns.js';
+import DetailsDesigns from './moduls/designs/DetailsDesigns.js';
+import CardDesigns from './moduls/designs/CardDesigns.js';
+import ElementFunctions from './moduls/ElementFunctions.js';
 
 
 
-/** Designed cards **/
-let Cards = {
-    getEmployeesCard: function () {
-        let container = "";
-        container += '<div class="col-lg-12"><div id="empl_card_*1*" class="card employeecard empl-show-details"><div class="card-body"><div class="display-flex justify-content-between">';
-        container += '!<div class="employee-image-container display-flex align-items-center"><i class="far fa-user"></i></div>';
-        container += '!<div class="employee-datas"><h3 class="card-title employee-name">*4* !*5*</h3>';
-        container += '!<span class="employee-rate"><i class="far fa-star"></i> *6*</span>';
-        container += '!<p class="employee-position">*2*</p>';
-        container += '!<p class="employee-detail">Összes költség: <span>*3*</span> forint/hó</p>';
-        container += '</div></div></div></div></div>';
-
-        return container;
-    }
-}
-
-/**
- * Partners manager details template
- */
-function getEmployeeDetail(shellId) {
-    let container = "";
-
-    container += '<h2 class="name-grey">*1*! *2*</h2>';
-    container += '!<p><label class="employee-position">*3*</label></p>';
-    container += '!<div id="' + shellId + '_cc_g"> </div>';
-    container += '!<div class="employee-button-container"><button id="edit_*1*" type="button" class="btn btn-primary  edit-employee-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';
-
-    return container;
-
-}
+/** Local functions */
 
 function employeeCardClick(cardId) {
     let splittedId = cardId.split('_');
@@ -51,10 +26,11 @@ function employeeCardClick(cardId) {
     //Data
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
-    let shellId = "employee_details";
-    let card = getEmployeeDetail(shellId);
+    let shellId = Varibles.FrameId + "_details";
+    let details = new DetailsDesigns().getSimpleDetails(shellId);
+    
 
-    CardDetails.Create(employeeId, data, structure, card, shellId, 'EmployeeId');
+    CardDetails.Create(employeeId, data, structure, details, shellId, 'EmployeeId');
 }
 
 function addEmployee() {
@@ -75,13 +51,13 @@ var employees = {
 }
 export default employees;
 
-/** Loads functions **/
-let Loads = {
+/** Loadings functions **/
+let Loadings = {
     reloadFullPage: function () {
         // Load framework
-        Framework.Load(Varibles.FrameId, 'resources_content');
+        Framework.Load('resources_content', Varibles.FrameId);
 
-        Loads.reloadCardContainer();
+        Loadings.reloadCardContainer();
 
         FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + '_filters',
             Database.employeesFilterChange);
@@ -95,12 +71,14 @@ let Loads = {
         // Load card container
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
-        let cardDesign = Cards.getEmployeesCard();
+        let cardDesign = new CardDesigns().getEmployeeCard(Varibles.FrameId);
         let cardContainer = Varibles.FrameId + '_card_container';
+
+        new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(employeeCardClick, 'empl');
+        CardContainer.ClickableCard(employeeCardClick, Varibles.FrameId);
         if (data[0].EmployeeId !== null && data[0] !== undefined) {
-            employeeCardClick('empl_card_' + data[0].EmployeeId);
+            employeeCardClick(Varibles.FrameId + '_card_' + data[0].EmployeeId);
         }
     }
 }
@@ -136,12 +114,12 @@ let Database = {
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
                     */
-                Loads.reloadFullPage(Varibles.PageData);
+                Loadings.reloadFullPage(Varibles.PageData);
             },
             dataType: 'json'
         });/*
         } else {
-            Loads.reloadFullPage(Varibles.PageData);
+            Loadings.reloadFullPage(Varibles.PageData);
         }*/
     }
 }
@@ -154,33 +132,20 @@ let Callbacks = {
         /* String to date
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
-        Loads.reloadCardContainer();
+        Loadings.reloadCardContainer();
     }
 }
 
 let Framework = {
-    Load: function (frameId, targetId) {
-        let frame = `
-        <div id="${Varibles.FrameId}" class="display-flex flex-row full-screen">
-            <div class="flex-fill col-2 filter-box">
-                <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
-                <div id="${Varibles.FrameId}_filters" class="task-filters"></div>
-                <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
-                <div class="task-orders">
-                </div>
-            </div>
-            <div class="col-10 filtered-table display-flex flex-1">
-                <button id="add_employee_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
-                <div class="card-container col-8">
-                    <div id="${Varibles.FrameId}_card_container" class="row"> </div>
-                </div>
-                <div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div>
-                <div class="col-4" id="employee_details"> </div>
-                <div class="filtered-table-fade flex-1"></div>
-            </div>
-        </div>
-        `
-        document.getElementById(targetId).innerHTML = frame;
+    Load: function (targetId, shellId) {
+        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
+        document.getElementById(targetId).innerHTML = framework;
+
+        let containerDesigns = new ContainerDesigns();
+        // filter frame
+        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
+        //card container frame
+        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
     }
 }
 
