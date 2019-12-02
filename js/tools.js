@@ -11,6 +11,10 @@ import CardDetails from './moduls/CardDetails.js';
 import FilterAndSort from './moduls/FilterAndSort.js';
 import newTool from './new_tool.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
+import ElementFunctions from './moduls/ElementFunctions.js';
+import DetailsDesigns from './moduls/designs/DetailsDesigns.js';
+import CardDesigns from './moduls/designs/CardDesigns.js';
+import ContainerDesigns from './moduls/designs/ContainerDesigns.js';
 
 
 
@@ -19,37 +23,11 @@ import { addOneListener, removeOneListener, mainFrame } from './common.js';
 /**
  * Tool card template
  */
-let Cards = {
-    getToolsCard: function () {
-        let container = "";
-        container += '<div class="col-lg-12"><div id="' + Varibles.FrameId + '_card_*5*" class="card toolcard tool-show-details"><div class="card-body">';
-        container += '!<div class="display-flex justify-content-between"><div class="tool-image-container"><img class="tool-image" src="https://images.obi.hu/product/HU/800x600/292962_1.jpg"></div>';
-        container += '!<div class="tool-datas"><h3 class="card-title tool-name">*2*</h3>';
-        container += '!<p class="tool-detail"><i class="fas fa-map-pin"></i> Helye: *3*</p>';
-        container += '<div class="d-flex justify-content-between week-container"> <div class="week-day week-day-red"><p class="day-name">H</p></div><div class="week-day week-day-green"><p class="day-name">K</p></div><div class="week-day week-day-red"><p class="day-name">Sz</p></div><div class="week-day week-day-green"><p class="day-name">Cs</p></div><div class="week-day week-day-green"><p class="day-name">P</p></div></div>'
-        container += '</div></div></div></div></div>';
-
-        return container;
-    }
-}
-
-
 /**
  * Partners manager details template
  */
-function getToolDetail(shellId) {
-    let container = "";
 
-    container += '<div id="' + shellId + '_titlebox"><h2 class="name-grey">*2*</h2>';
-    container += '!<p><label>*3*</label></p></div>';
-    /*
-    container += '!<div id="' + shellId + '" class="tool-button-container justify-content-between"><button id="clnd_*1*" type="button" class="btn btn - primary tool - tag tool - button"><i class="fas fa - calendar tool - tag - icon"></i>Naptár</button>';
-    container += '!<button id="edit_*1*" type="button" class="btn btn-primary tool-tag tool-button"><i class="fas fa-edit tool-tag-icon"></i>Szerkeszt</button></div>';*/
-    return container;
-}
-
-
-
+ 
 /**
  * Card click event
  * @param {Integer} cardId Card id
@@ -57,15 +35,13 @@ function getToolDetail(shellId) {
 function toolCardClick(cardId) {
     let splittedId = cardId.split('_');
     let toolId = splittedId[splittedId.length - 1];
-
+    //Data
     let data = Varibles.PageData.Data;
     let structure = Varibles.PageData.DetailsStructure;
     let shellId = Varibles.FrameId + '_details';
-    let card = getToolDetail(shellId);
-
-    CardDetails.Create(toolId, data, structure, card, shellId, 'ToolId'); //ToolId Kérdéses
+    let details = new DetailsDesigns().getSimpleDetails(shellId);
+    CardDetails.Create(toolId, data, structure, details, shellId, 'ToolId');
 }
-
 
 function toolFileterChange(id) {
     alert(id);
@@ -76,13 +52,13 @@ function addTool() {
     addOneListener("back_to_tool", "click", tools.loadTools);
 }
 
-/** General functions **/
-let General = {
+/** Loadings functions **/
+let Loadings = {
     reloadFullPage: function () {
         // Load framework
-        Framework.Load(Varibles.FrameId, 'resources_content');
+        Framework.Load('resources_content', Varibles.FrameId);
 
-        General.reloadCardContainer();
+        Loadings.reloadCardContainer();
 
         FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + '_filters', Database.toolsFilterChange);
 
@@ -95,10 +71,12 @@ let General = {
         // Load card container
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
-        let cardDesign = Cards.getToolsCard();
-        let cardContainer = "tools_card_container";
+        let cardDesign = new CardDesigns().getToolCard(Varibles.FrameId);
+        let cardContainer = Varibles.FrameId + '_card_container';
+
+        new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(toolCardClick, 'tool'); // tool Kérdéses
+        CardContainer.ClickableCard(toolCardClick, Varibles.FrameId);
         if (data[0].ToolId !== null && data[0] !== undefined) {
             toolCardClick(Varibles.FrameId + '_card_' + data[0].ToolId);
         }
@@ -156,12 +134,12 @@ let Database = {
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
                     */
-                General.reloadFullPage(Varibles.PageData);
+                Loadings.reloadFullPage(Varibles.PageData);
             },
             dataType: 'json'
         });/*
         } else {
-            General.reloadFullPage(Varibles.PageData);
+            Loadings.reloadFullPage(Varibles.PageData);
         }*/
     }
 }
@@ -173,33 +151,21 @@ let Callbacks = {
         /* String to date
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
-        General.reloadCardContainer();
+        Loadings.reloadCardContainer();
     }
 }
 
 let Framework = {
-    Load: function (frameId, targetId) {
-        let frame = `
-        <div id="tools" class="display-flex flex-row full-screen">
-            <div class="flex-fill col-2 filter-box">
-                <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
-                <div id="${frameId}_filters" class="task-filters"></div>
-                <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
-                <div class="task-orders">
-                </div>
-            </div>
-            <div class="col-10 filtered-table display-flex flex-1">
-                <button id="add_${frameId}_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
-                <div class="card-container col-8">
-                    <div id="tools_card_container" class="row"> </div>
-                </div>
-                <div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div>
-                <div class="col-4" id="${frameId}_details"> </div>
-                <div class="filtered-table-fade flex-1"></div>
-            </div>
-        </div>
-        `
-        document.getElementById(targetId).innerHTML = frame;
+    Load: function (targetId, shellId) {
+        //main frame
+        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
+        document.getElementById(targetId).innerHTML = framework;
+
+        let containerDesigns = new ContainerDesigns();
+        // filter frame
+        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
+        //card container frame
+        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
     }
 }
 
