@@ -49,4 +49,23 @@ export default class CardDesigns {
         </div>
         `
     }
+    getEmployeeCard(){
+        return `
+        <div class="col-lg-12">
+            <div id="empl_card_*1*" class="card employeecard empl-show-details">
+                <div class="card-body">
+                    <div class="display-flex justify-content-between">
+                        <div class="employee-image-container display-flex align-items-center"><i class="far fa-user"></i></div>
+                        <div class="employee-datas">
+                            !<h3 class="card-title employee-name">*4* !*5*</h3>
+                            !<span class="employee-rate"><i class="far fa-star"></i> *6*</span>
+                            !<p class="employee-position">*2*</p>
+                            !<p class="employee-detail">Összes költség: <span>*3*</span> forint/hó</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+    }
 }

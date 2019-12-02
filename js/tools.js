@@ -19,14 +19,6 @@ import ContainerDesigns from './moduls/designs/ContainerDesigns.js';
 
 
 /** Loacal functions */
-
-/**
- * Tool card template
- */
-/**
- * Partners manager details template
- */
-
  
 /**
  * Card click event
