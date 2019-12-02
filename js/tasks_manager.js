@@ -128,7 +128,7 @@ let Loadings = {
             taskMCardClick('task_card_' + data[0].TaskId);
         }
         //Limiting
-        if (Object.keys(data).length % 20 === 0) {
+        if (Object.keys(data).length % GlobalVaribles.CCLimitSize === 0) {
             new Limiting(
                 Varibles.FrameId,
                 Varibles.FilterPlace,
@@ -267,10 +267,12 @@ let Callbacks = {
         return finalHTML;
     },
     /**
-     * 
+     * Success filter event
      * @param {JSON} data 
+     * @param {Boolean} isClear 
+     * @param {Number} offset 
      */
-    successFilterEvent: function (data, isClear = true, offset) {
+    successFilterEvent: function (data, isClear = true, offset = 0) {
         if (isClear) {
             Varibles.PageData.Data = [];
         }

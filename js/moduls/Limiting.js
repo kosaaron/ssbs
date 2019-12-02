@@ -3,10 +3,11 @@
  */
 /** Imports */
 import FilterAndSort from './FilterAndSort.js';
+import GlobalVaribles from './GlobalVaribles.js';
 
 export default class Limiting {
     constructor(frameId, filterPlace, callback, offset = 0) {
-        offset += 20;
+        offset += GlobalVaribles.CCLimitSize;
         this.onCreate(frameId, filterPlace, callback, offset);
     }
 

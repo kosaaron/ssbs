@@ -1,10 +1,7 @@
 export default class GlobalVaribles {
-    constructor() {
-
-    }
-
     //Varibles
     static ActiveModul = "";
+    static CCLimitSize = 20;
 
     //Getters
     static getActiveModul() {

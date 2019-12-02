@@ -6,6 +6,7 @@ import { addListenerByAttr } from '../common.js';
 import CardContainerPlus from './CardContainerPlus.js';
 import ArrayFunctions from './ArrayFunctions.js';
 import FormElements from './FormElements.js';
+import GlobalVaribles from './GlobalVaribles.js';
 /** Filters */
 let FilterAndSort = {
     /**
@@ -45,7 +46,7 @@ let FilterAndSort = {
         filterPlace,
         callbackFunction,
         dataPos = {
-            Limit: 20,
+            Limit: GlobalVaribles.CCLimitSize,
             Offset: 0
         },
         isClear = true) {
