@@ -8,7 +8,14 @@ $userId = 1;
 $filters = $_POST['Filters'];
 $sorts = $_POST['Sorts'];
 $filterPlace = $_POST['FilterPlace'];
-
+if (!empty($_POST['DataPos'])) {
+    $dataPos = $_POST['DataPos'];
+} else {
+    $dataPos = array(
+        'Limit' => 20,
+        'Offset' => 0
+    );
+}
 
 //Local varibles
 $main_data = array();
@@ -69,7 +76,7 @@ foreach ($sorts as $key => $sort) {
     }
 }
 /** Get card container filtered data */
-$main_data['Data'] = getCardC($filterPlace, $userId, $filterString, $sortString);
+$main_data['Data'] = getCardC($filterPlace, $userId, $filterString, $sortString, $dataPos);
 
 /** Print result */
 $json = json_encode($main_data);
@@ -79,7 +86,7 @@ print_r($json);
  */
 /** Functions **/
 /** Get card container */
-function getCardC($filterPlace, $userId, $filter, $sortString)
+function getCardC($filterPlace, $userId, $filter, $sortString, $dataPos)
 {
     $data = array();
 
@@ -88,7 +95,7 @@ function getCardC($filterPlace, $userId, $filter, $sortString)
             require_once('Modules/TaskManager.php');
 
             $TaskManager = new TaskManager($userId);
-            $TaskManager->CreateCardContainer($filter, $sortString);
+            $TaskManager->CreateCardContainer($filter, $sortString, $dataPos);
 
             $data = $TaskManager->main_data['Data'];
             break;

@@ -88,19 +88,20 @@ export default tasksManager;
 /** Local varibles **/
 let Varibles = {
     FrameId: 'tskm',
+    FilterPlace: 'tskfltr',
     PageData: null,
     TaskWayData: null
 }
 
-/** Loads functions **/
-let Loads = {
+/** Loadings functions **/
+let Loadings = {
     reloadFullPage: function () {
         // Load framework
         let framework = Framework.Load();
 
         document.getElementById("process_modul_content").innerHTML = framework;
 
-        Loads.reloadCardContainer();
+        Loadings.reloadCardContainer();
 
         FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + '_filters',
             Database.tasksMFilterChange);
@@ -111,13 +112,14 @@ let Loads = {
     },
     /**
      * Reload card container
+     * @param {Number} offset 
      */
-    reloadCardContainer: function () {
+    reloadCardContainer: function (offset = 0) {
         // Load card container
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = new CardDesigns().getSimpleCard('taskm');
-        let cardContainer = "tasks_card_container";
+        let cardContainer = Varibles.FrameId + '_cc';
 
         new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
@@ -126,7 +128,14 @@ let Loads = {
             taskMCardClick('task_card_' + data[0].TaskId);
         }
         //Limiting
-        let limiting = new Limiting(cardContainer);
+        if (Object.keys(data).length % 20 === 0) {
+            new Limiting(
+                Varibles.FrameId,
+                Varibles.FilterPlace,
+                Callbacks.successFilterEvent,
+                offset
+            );
+        }
     },
     /**
      * Reload task way
@@ -155,47 +164,19 @@ let Loads = {
         }
     }
 }
-/*
-function test(dataPlace, filterPlace, reloadFunction) {
-    //Create filter array [{FilterId: "FilterId1", Value: "Value1"},{...}]
-    let filterArray = [];
-    let filterElements = document.querySelectorAll('[data-place="' + dataPlace + '"]');
-    filterElements.forEach(filterElement => {
-        let array = {};
-        let filterId = ArrayFunctions.Last((filterElement.id).split('_'));
-        let value = filterElement.value;
-        array['FilterId'] = filterId;
-        array['Value'] = value;
-        filterArray.push(array);
-    });
 
-    //Connect to Filter.php
-    $.ajax({
-        type: "POST",
-        url: "./php/Filter.php",
-        data: { 'FilterPlace': filterPlace, 'Filters': filterArray },
-        success: function (data) {
-            Varibles.PageData.Data = data.Data;
-            /* String to date
-            Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-            *
-            reloadFunction();
-        },
-        dataType: 'json'
-    });
-}*/
 /** Data from database **/
 let Database = {
     /**
-     * 
+     * Filter change event
      * @param {String} id 
      */
     tasksMFilterChange: function (fullId) {
-        //Change when copy
-        let dataPlace = Varibles.FrameId + '_filters';
-        let filterPlace = 'tskfltr';
-
-        FilterAndSort.FilteringOnDB(dataPlace, filterPlace, Callbacks.successFilterEvent);
+        FilterAndSort.FilteringOnDB(
+            Varibles.FrameId,
+            Varibles.FilterPlace,
+            Callbacks.successFilterEvent
+        );
     },
     /**
      * Get task way data
@@ -211,7 +192,7 @@ let Database = {
                     document.getElementById('task_timeline').innerHTML = "Nincsenek lépések."
                 } else {
                     Varibles.TaskWayData = data;
-                    Loads.reloadTaskWay(Varibles.TaskWayData);
+                    Loadings.reloadTaskWay(Varibles.TaskWayData);
                 }
             },
             dataType: 'json'
@@ -228,12 +209,12 @@ let Database = {
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
                     Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
                     */
-                Loads.reloadFullPage(Varibles.PageData);
+                Loadings.reloadFullPage(Varibles.PageData);
             },
             dataType: 'json'
         });/*
         } else {
-            Loads.reloadFullPage(Varibles.PageData);
+            Loadings.reloadFullPage(Varibles.PageData);
         }*/
     }
 }
@@ -272,7 +253,7 @@ let Callbacks = {
         let finalHTML = '';
         for (let i = 0; i < employees.length; i++) {
             const employee = employees[i];
-            let statusClass = Loads.getEmplStatusColor(employee.Ready);
+            let statusClass = Loadings.getEmplStatusColor(employee.Ready);
 
             finalHTML += '<div class="row add-employee-card">';
             finalHTML += '<div employee="' + employee.EmployeeId + '" class="btn btn-sm employee-box employee-button">';
@@ -289,7 +270,7 @@ let Callbacks = {
      * 
      * @param {JSON} data 
      */
-    successFilterEvent: function (data, isClear = true) {
+    successFilterEvent: function (data, isClear = true, offset) {
         if (isClear) {
             Varibles.PageData.Data = [];
         }
@@ -301,7 +282,7 @@ let Callbacks = {
         /* String to date
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
-        Loads.reloadCardContainer();
+        Loadings.reloadCardContainer(offset);
     }
 }
 
@@ -332,7 +313,7 @@ let Framework = {
         <div id="tasks_manager" class="display-flex flex-row full-screen">
             <div class="flex-fill col-2 filter-box">
                 <h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>
-                <div id="tskm_filters" class="task-filters"></div>
+                <div id="${Varibles.FrameId}_filters" class="task-filters"></div>
                 <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
                 <div id="tskm_sorts" class="task-orders">
                 </div>
@@ -340,7 +321,7 @@ let Framework = {
             <div class="col-10 filtered-table display-flex flex-1">
                 <button id="proceses_add_task_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
                 <div class="card-container col-8">
-                    <div id="tasks_card_container" class="row"> </div>
+                    <div id="${Varibles.FrameId}_cc" class="row"> </div>
                 </div>
                 <div class="col-4" id="detail-placeholder" style="display: none"> A részletekért válassz egy feladatot! </div>
                 <div class="col-4" id="tasks_m_details"> </div>

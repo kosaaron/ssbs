@@ -5,37 +5,41 @@
 import FilterAndSort from './FilterAndSort.js';
 
 export default class Limiting {
-
-    constructor(frameId, offset = 0) {
-        this.onCreate(frameId, offset);
+    constructor(frameId, filterPlace, callback, offset = 0) {
+        offset += 20;
+        this.onCreate(frameId, filterPlace, callback, offset);
     }
 
     //Loads
-    onCreate(frameId, offset) {
-        document.getElementById(frameId).insertAdjacentHTML('beforeend', this.getCard(frameId, offset));
+    onCreate(frameId, filterPlace, callback, offset) {
+        document.getElementById(frameId + '_cc').insertAdjacentHTML(
+            'beforeend',
+            this.getCard(frameId)
+        );
+
         document.getElementById(frameId + '_cc_limit_btn').addEventListener('click', function (e) {
-            Limiting.moreClick(frameId, offset);
-        })
+            Limiting.moreClick(frameId, filterPlace, callback, offset);
+        });
     }
 
     //Cards
-    getCard(frameId, offset) {
+    getCard(frameId) {
         return `
-            <div id="${frameId}_cc_limit_btn" offset="${offset}" class="cc-limit-card">
+            <div id="${frameId}_cc_limit_btn" class="cc-limit-card">
                 <i src=""/><h7>Tovább</h7>
             </div>
         `
     }
 
     //Events
-    static moreClick(frameId, offset) {
-        //let offset = document.getElementById(frameId + '_limit_btn').getAttribute('offset');
+    static moreClick(frameId, filterPlace, callback, offset) {
         let limit = '20';
 
         let dataPos = {};
         dataPos['Limit'] = limit;
         dataPos['Offset'] = offset;
+        let isClear = false;
 
-        FilterAndSort.FilteringOnDB();
+        FilterAndSort.FilteringOnDB(frameId, filterPlace, callback, dataPos, isClear);
     }
 }

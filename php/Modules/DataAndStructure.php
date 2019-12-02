@@ -49,10 +49,14 @@ class DataAndStructure
 
         $limitString = '';
         if ($lastId === null) {
-
             if ($mainId !== null) {
                 $lastIdQ = $pdo->query('SELECT MAX(' . $mainId . ') FROM ' . $table)->fetchAll();
                 $lastId = $lastIdQ[0][0];
+
+                if ($where === '') {
+                    $where = ' WHERE ';
+                }
+                $where .= $mainId . '<=' . $lastId;
             }
 
             if (!$dataPos) {

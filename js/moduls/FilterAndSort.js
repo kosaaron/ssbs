@@ -37,8 +37,18 @@ let FilterAndSort = {
      * @param {String} frameId 
      * @param {String} filterPlace 
      * @param {Function} callbackFunction 
-     */
-    FilteringOnDB: function (frameId, filterPlace, callbackFunction, dataPos = { 'Limit': 20, 'Offset': 0 }) {
+     * @param {JSON} dataPos 
+     * @param {Boolean} isClear 
+    */
+    FilteringOnDB: function (
+        frameId,
+        filterPlace,
+        callbackFunction,
+        dataPos = {
+            Limit: 20,
+            Offset: 0
+        },
+        isClear = true) {
         //Create filter array [{FilterId: "FilterId1", Value: "Value1"},{...}]
         let filterArray = [];
         let sortArray = [];
@@ -59,14 +69,20 @@ let FilterAndSort = {
             array['SortId'] = sortId;
             array['Value'] = value;
             sortArray.push(array);
-        })
+        });
+
         //Connect to Filter.php
         $.ajax({
             type: "POST",
             url: "./php/Filter.php",
-            data: { 'FilterPlace': filterPlace, 'Filters': filterArray, 'Sorts': sortArray },
+            data: { 
+                FilterPlace: filterPlace,
+                Filters: filterArray, 
+                Sorts: sortArray,  
+                DataPos: dataPos
+            },
             success: function (data) {
-                callbackFunction(data);
+                callbackFunction(data, isClear, dataPos.Offset);
             },
             dataType: 'json'
         });
