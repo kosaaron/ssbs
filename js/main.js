@@ -7,7 +7,7 @@ main_frame.type = "module";
 document.head.appendChild(main_frame);
 
 var ChartTest = document.createElement('script');
-ChartTest.src = "js/moduls/ChartTest.js";
+ChartTest.src = "js/plug-ins/ChartTest.js";
 document.head.appendChild(ChartTest);
 
 /**

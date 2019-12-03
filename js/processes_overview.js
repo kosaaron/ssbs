@@ -22,7 +22,7 @@
  * Imports
  */
 import { addOneListener, mainFrame } from './common.js';
-import DateFunctions from './moduls/DateFunctions.js';
+import DateFunctions from './plug-ins/DateFunctions.js';
 
 /**
  * Public class

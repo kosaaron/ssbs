@@ -1,5 +1,5 @@
-import Month from './moduls/MonthClass.js';
-import showContent from './moduls/DropdownAnimation.js';
+import Month from './plug-ins/MonthClass.js';
+import showContent from './plug-ins/DropdownAnimation.js';
 let endPoints;
 
 drawCalendar(new Date().getFullYear(), new Date().getMonth());

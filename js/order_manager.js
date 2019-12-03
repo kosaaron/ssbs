@@ -1,7 +1,7 @@
 /** order_manager.js */
 /** Imports */
 import CardContainer from './plug-ins/CardContainer.js';
-import CardDetails from './plug-ins/CardDetails.js.js';
+import CardDetails from './plug-ins/CardDetails.js';
 import ContainerDesigns from './designs/ContainerDesigns.js';
 import ElementFunctions from './plug-ins/ElementFunctions.js';
 import AutoScroll from './plug-ins/AutoScroll.js';
@@ -25,7 +25,7 @@ var OrderManager = {
         Database.getContainerData();
     },
     resizeOrderManager() {
-        AutoScroll.Integration("order_m_details_content");
+        AutoScroll.Integration(Varibles.FrameId + '_details_content');
     }
 };
 export default OrderManager;
@@ -80,7 +80,7 @@ let Loadings = {
 /** Data from database **/
 let Database = {
     /**
-     * 
+     * Order manager filter change
      * @param {String} id 
      */
     orderMFilterChange: function (fullId) {
@@ -111,7 +111,7 @@ let Database = {
 /** Callbacks **/
 let Callbacks = {
     /**
-     * 
+     * Success filtering event
      * @param {JSON} data 
      */
     successFilterEvent: function (data) {

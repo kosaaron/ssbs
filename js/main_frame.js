@@ -20,7 +20,7 @@ import tools from './tools.js';
 import employees from './employees.js';
 import ProductsOverview from './products_overview.js';
 import newTable from './testproducttable.js';
-import GlobalVaribles from './moduls/GlobalVaribles.js';
+import GlobalVaribles from './plug-ins/GlobalVaribles.js';
 
 /** Varibles */
 let Varibles = {

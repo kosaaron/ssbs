@@ -1,12 +1,16 @@
 /**
  * Imports
  */
-import ArrayFunctions from './ArrayFunctions.js.js';
+import ArrayFunctions from './ArrayFunctions.js';
 
 /**
  * **Auto scroll**
  */
 let AutoScroll = {
+    /**
+     * Integration
+     * @param {String} elementId 
+     */
     Integration: function (elementId) {
         let element = $("#" + elementId);
         let sHeight = element.parent().outerHeight();

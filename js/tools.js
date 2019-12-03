@@ -6,15 +6,15 @@
  *    -  Tools
  */
 /** Imports */
-import CardContainer from './moduls/CardContainer.js';
-import CardDetails from './moduls/CardDetails.js';
-import FilterAndSort from './moduls/FilterAndSort.js';
+import CardContainer from './plug-ins/CardContainer.js';
+import CardDetails from './plug-ins/CardDetails.js';
+import FilterAndSort from './plug-ins/FilterAndSort.js';
 import newTool from './new_tool.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
-import ElementFunctions from './moduls/ElementFunctions.js';
-import DetailsDesigns from './moduls/designs/DetailsDesigns.js';
-import CardDesigns from './moduls/designs/CardDesigns.js';
-import ContainerDesigns from './moduls/designs/ContainerDesigns.js';
+import ElementFunctions from './plug-ins/ElementFunctions.js';
+import DetailsDesigns from './designs/DetailsDesigns.js';
+import CardDesigns from './designs/CardDesigns.js';
+import ContainerDesigns from './designs/ContainerDesigns.js';
 
 
 

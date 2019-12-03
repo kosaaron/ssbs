@@ -6,15 +6,15 @@
  *    -  Employees
  */
 /** Imports */
-import CardContainer from './moduls/CardContainer.js';
-import CardDetails from './moduls/CardDetails.js';
-import FilterAndSort from './moduls/FilterAndSort.js';
+import CardContainer from './plug-ins/CardContainer.js';
+import CardDetails from './plug-ins/CardDetails.js';
+import FilterAndSort from './plug-ins/FilterAndSort.js';
 import { addOneListener } from './common.js';
 import newEmployee from './new_employee.js';
-import ContainerDesigns from './moduls/designs/ContainerDesigns.js';
-import DetailsDesigns from './moduls/designs/DetailsDesigns.js';
-import CardDesigns from './moduls/designs/CardDesigns.js';
-import ElementFunctions from './moduls/ElementFunctions.js';
+import ContainerDesigns from './designs/ContainerDesigns.js';
+import DetailsDesigns from './designs/DetailsDesigns.js';
+import CardDesigns from './designs/CardDesigns.js';
+import ElementFunctions from './plug-ins/ElementFunctions.js';
 
 
 

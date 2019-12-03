@@ -1,7 +1,7 @@
 /**
  * Imports
  */
-import CardContainer from './CardContainer.js.js';
+import CardContainer from './CardContainer.js';
 
 /**
  * **Virtual object**

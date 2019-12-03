@@ -1,5 +1,5 @@
 /* Dávid */
-import TableCreator from './moduls/TableCreator.js';
+import TableCreator from './plug-ins/TableCreator.js';
 
 
 let tableStandardBody = `<div class="container-fluid row">

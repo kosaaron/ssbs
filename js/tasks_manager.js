@@ -8,7 +8,7 @@
 /** Imports */
 import CardContainer from './plug-ins/CardContainer.js';
 import Limiting from './plug-ins/Limiting.js';
-import CardDetails from './plug-ins/CardDetails.js.js';
+import CardDetails from './plug-ins/CardDetails.js';
 import CardDesigns from './designs/CardDesigns.js';
 import CardContainerPlus from './plug-ins/CardContainerPlus.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';

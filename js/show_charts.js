@@ -5,7 +5,7 @@
  * 3. Local functions
  */
 /** Imports */
-import ChartDesign from './moduls/ChartDesign.js';
+import ChartDesign from './plug-ins/ChartDesign.js';
 import { addListener } from './common.js';
 
 /** Public functions */

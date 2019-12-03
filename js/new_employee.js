@@ -6,8 +6,8 @@
  * 3. Loacal functions
  */
 /** Imports */
-import CardContainerPlus from './moduls/CardContainerPlus.js';
-import FormElements from './moduls/FormElements.js';
+import CardContainerPlus from './plug-ins/CardContainerPlus.js';
+import FormElements from './plug-ins/FormElements.js';
 import { addListenerByAttr } from './common.js';
 
 /** Public functions */

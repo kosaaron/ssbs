@@ -8,7 +8,7 @@
 
 
 /**Imports */
-import TableCreator from './moduls/TableCreator.js';
+import TableCreator from './plug-ins/TableCreator.js';
 
 var newTable = {
     loadnewTable: function() {
