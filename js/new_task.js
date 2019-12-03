@@ -6,10 +6,10 @@
  * 3. Local functions
  */
 /** Imports */
-import CardContainerPlus from './moduls/CardContainerPlus.js';
-import CardContainer from './moduls/CardContainer.js';
-import FormElements from './moduls/FormElements.js';
-import AutoScroll from './moduls/AutoScroll.js';
+import CardContainerPlus from './modules/CardContainerPlus.js';
+import CardContainer from './modules/CardContainer.js';
+import FormElements from './modules/FormElements.js';
+import AutoScroll from './modules/AutoScroll.js';
 import { addListenerByAttr, addListener, addOneListener } from './common.js';
 /** Public functions */
 var newTask = {

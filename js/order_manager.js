@@ -1,40 +1,16 @@
 /** order_manager.js */
 
 /** Imports */
-import CardContainer from './moduls/CardContainer.js';
-import CardDetails from './moduls/CardDetails.js';
-import ContainerDesigns from './moduls/designs/ContainerDesigns.js';
-import ElementFunctions from './moduls/ElementFunctions.js';
-import AutoScroll from './moduls/AutoScroll.js';
-import FilterAndSort from './moduls/FilterAndSort.js';
+import CardContainer from './modules/CardContainer.js';
+import CardDetails from './modules/CardDetails.js';
+import ContainerDesigns from './modules/designs/ContainerDesigns.js';
+import ElementFunctions from './modules/ElementFunctions.js';
+import AutoScroll from './modules/AutoScroll.js';
+import FilterAndSort from './modules/FilterAndSort.js';
 import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
-import CardDesigns from './moduls/designs/CardDesigns.js';
-import DetailsDesigns from './moduls/designs/DetailsDesigns.js';
-
-/**
- * Partners manager details template
- */
-function getOrderMDetail(shellId) {
-    let container = "";
-    container += '!<h2 id="' + shellId + '_title" class="name-grey">*1*</h2>';
-    return container;
-}
-
-/**
- * Card click event
- * @param {Integer} cardId Card id
- */
-function orderMCardClick(cardId) {
-    let splittedId = cardId.split('_');
-    let id = splittedId[splittedId.length - 1];
-    //Data
-    let data = Varibles.PageData.Data;
-    let structure = Varibles.PageData.DetailsStructure;
-    let shellId = Varibles.FrameId + '_details';
-    let details = new DetailsDesigns().getSimpleDetails(shellId);
-    CardDetails.Create(id, data, structure, details, shellId, 'OrderId');
-}
+import CardDesigns from './modules/designs/CardDesigns.js';
+import DetailsDesigns from './modules/designs/DetailsDesigns.js';
 
 function addTask() {
     newTask.loadNewTask();
@@ -47,7 +23,7 @@ function addTask() {
 var OrderManager = {
     loadOrderManager: function () {
         // Title
-        document.getElementById("back_to_menu_text").textContent = "Rendelések";
+        document.getElementById("back_to_menu_text").textContent = Varibles.FrameName;
         addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
 
         // Loader
@@ -64,6 +40,7 @@ export default OrderManager;
 /** Local varibles **/
 let Varibles = {
     FrameId: 'ordrm',
+    FrameName: 'Rendelések',
     FilterPlace: 'ordrfltr',
     PageData: null
 }
@@ -92,9 +69,9 @@ let General = {
 
         new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(orderMCardClick, Varibles.FrameId);
+        CardContainer.ClickableCard(Events.orderMCardClick, Varibles.FrameId);
         if (data[0] !== undefined) {
-            orderMCardClick(Varibles.FrameId + '_card_' + data[0].OrderId);
+            Events.orderMCardClick(Varibles.FrameId + '_card_' + data[0].OrderId);
         }
     }
 }
@@ -147,7 +124,20 @@ let Callbacks = {
 
 /** Events **/
 let Events = {
-
+    /**
+     * Card click event
+     * @param {Integer} cardId Card id
+     */
+    orderMCardClick: function (cardId) {
+        let splittedId = cardId.split('_');
+        let id = splittedId[splittedId.length - 1];
+        //Data
+        let data = Varibles.PageData.Data;
+        let structure = Varibles.PageData.DetailsStructure;
+        let shellId = Varibles.FrameId + '_details';
+        let details = new DetailsDesigns().getSimpleDetails(shellId);
+        CardDetails.Create(id, data, structure, details, shellId, 'OrderId');
+    }
 }
 
 /**  */

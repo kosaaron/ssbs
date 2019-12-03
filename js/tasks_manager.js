@@ -6,15 +6,16 @@
  *    -  Partners manager
  */
 /** Imports */
-import CardContainer from './moduls/CardContainer.js';
-import Limiting from './moduls/Limiting.js';
-import CardDetails from './moduls/CardDetails.js';
-import CardDesigns from './moduls/designs/CardDesigns.js';
-import CardContainerPlus from './moduls/CardContainerPlus.js';
-import GlobalVaribles from './moduls/GlobalVaribles.js';
-import ElementFunctions from './moduls/ElementFunctions.js';
-import FilterAndSort from './moduls/FilterAndSort.js';
+import CardContainer from './modules/CardContainer.js';
+import Limiting from './modules/Limiting.js';
+import CardDetails from './modules/CardDetails.js';
+import CardDesigns from './modules/designs/CardDesigns.js';
+import CardContainerPlus from './modules/CardContainerPlus.js';
+import GlobalVaribles from './modules/GlobalVaribles.js';
+import ElementFunctions from './modules/ElementFunctions.js';
+import FilterAndSort from './modules/FilterAndSort.js';
 import newTask from './new_task.js';
+import ContainerDesigns from './modules/designs/ContainerDesigns.js'
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
 
 
@@ -310,7 +311,17 @@ let Events = {
 }
 
 let Framework = {
-    Load: function () {
+    Load: function (targetId, shellId) {
+        //main frame
+        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
+        document.getElementById(targetId).innerHTML = framework;
+
+        let containerDesigns = new ContainerDesigns();
+        //filter frame
+        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
+        //card container frame
+        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
+
         return `
         <div id="tasks_manager" class="display-flex flex-row full-screen">
             <div class="flex-fill col-2 filter-box">
