@@ -1,10 +1,10 @@
 /**
  * Import CardContainer for CreatePlus function
  */
-import CardContainer from './CardContainer.js';
-import VirtualObject from './VirtualObject.js';
-import AutoScroll from './AutoScroll.js';
-import VOCardDesign from './designs/VOCardDesign.js';
+import CardContainer from './CardContainer.js.js';
+import VirtualObject from './VirtualObject.js.js';
+import AutoScroll from './AutoScroll.js.js';
+import VOCardDesign from '../designs/VOCardDesign.js';
 
 /**
  * **Card details**

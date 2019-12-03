@@ -6,16 +6,16 @@
  *    -  Partners manager
  */
 /** Imports */
-import CardContainer from './modules/CardContainer.js';
-import Limiting from './modules/Limiting.js';
-import CardDetails from './modules/CardDetails.js';
-import CardDesigns from './modules/designs/CardDesigns.js';
-import CardContainerPlus from './modules/CardContainerPlus.js';
-import GlobalVaribles from './modules/GlobalVaribles.js';
-import ElementFunctions from './modules/ElementFunctions.js';
-import FilterAndSort from './modules/FilterAndSort.js';
+import CardContainer from './plug-ins/CardContainer.js';
+import Limiting from './plug-ins/Limiting.js';
+import CardDetails from './plug-ins/CardDetails.js.js';
+import CardDesigns from './designs/CardDesigns.js';
+import CardContainerPlus from './plug-ins/CardContainerPlus.js';
+import GlobalVaribles from './plug-ins/GlobalVaribles.js';
+import ElementFunctions from './plug-ins/ElementFunctions.js';
+import FilterAndSort from './plug-ins/FilterAndSort.js';
 import newTask from './new_task.js';
-import ContainerDesigns from './modules/designs/ContainerDesigns.js'
+import ContainerDesigns from './designs/ContainerDesigns.js'
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
 
 

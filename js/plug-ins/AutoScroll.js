@@ -1,7 +1,7 @@
 /**
  * Imports
  */
-import ArrayFunctions from './ArrayFunctions.js';
+import ArrayFunctions from './ArrayFunctions.js.js';
 
 /**
  * **Auto scroll**

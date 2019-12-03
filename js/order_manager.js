@@ -1,25 +1,17 @@
 /** order_manager.js */
-
 /** Imports */
-import CardContainer from './modules/CardContainer.js';
-import CardDetails from './modules/CardDetails.js';
-import ContainerDesigns from './modules/designs/ContainerDesigns.js';
-import ElementFunctions from './modules/ElementFunctions.js';
-import AutoScroll from './modules/AutoScroll.js';
-import FilterAndSort from './modules/FilterAndSort.js';
+import CardContainer from './plug-ins/CardContainer.js';
+import CardDetails from './plug-ins/CardDetails.js.js';
+import ContainerDesigns from './designs/ContainerDesigns.js';
+import ElementFunctions from './plug-ins/ElementFunctions.js';
+import AutoScroll from './plug-ins/AutoScroll.js';
+import FilterAndSort from './plug-ins/FilterAndSort.js';
 import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
-import CardDesigns from './modules/designs/CardDesigns.js';
-import DetailsDesigns from './modules/designs/DetailsDesigns.js';
+import CardDesigns from './designs/CardDesigns.js';
+import DetailsDesigns from './designs/DetailsDesigns.js';
 
-function addTask() {
-    newTask.loadNewTask();
-
-    removeOneListener("processes_back_to_menu");
-    addOneListener("processes_back_to_menu", "click", orderManager.loadOrderManager);
-}
-
-/** Public functions */
+/** Public object */
 var OrderManager = {
     loadOrderManager: function () {
         // Title
@@ -45,17 +37,17 @@ let Varibles = {
     PageData: null
 }
 
-/** General functions **/
-let General = {
+/** Loadings functions **/
+let Loadings = {
     reloadFullPage: function () {
         //Load framework
         Framework.Load('process_modul_content', Varibles.FrameId);
         //Card container generating cards
-        General.reloadCardContainer();
+        Loadings.reloadCardContainer();
         //Filter creater
         FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + "_filters", Database.orderMFilterChange);
         //Events
-        addOneListener(Varibles.FrameId + '_add_new_btn', 'click', addTask);
+        addOneListener(Varibles.FrameId + '_add_new_btn', 'click', Loadings.loadAddTask);
     },
     /**
      * Reload card container
@@ -73,6 +65,15 @@ let General = {
         if (data[0] !== undefined) {
             Events.orderMCardClick(Varibles.FrameId + '_card_' + data[0].OrderId);
         }
+    },
+    /**
+     * Load add task modul
+     */
+    loadAddTask: function () {
+        newTask.loadNewTask();
+
+        removeOneListener("processes_back_to_menu");
+        addOneListener("processes_back_to_menu", "click", orderManager.loadOrderManager);
     }
 }
 
@@ -97,12 +98,12 @@ let Database = {
                 Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
                 Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
                 */
-                General.reloadFullPage(Varibles.PageData);
+                Loadings.reloadFullPage(Varibles.PageData);
             },
             dataType: 'json'
         });/*
         } else {
-            General.reloadFullPage(Varibles.PageData);
+            Loadings.reloadFullPage(Varibles.PageData);
         }*/
     }
 }
@@ -118,7 +119,7 @@ let Callbacks = {
         /* String to date
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
-        General.reloadCardContainer();
+        Loadings.reloadCardContainer();
     }
 }
 
