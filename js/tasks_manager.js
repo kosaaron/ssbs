@@ -9,13 +9,15 @@
 import CardContainer from './plug-ins/CardContainer.js';
 import Limiting from './plug-ins/Limiting.js';
 import CardDetails from './plug-ins/CardDetails.js';
+import ContainerDesigns from './designs/ContainerDesigns.js';
+import DetailsDesigns from './designs/DetailsDesigns.js';
 import CardDesigns from './designs/CardDesigns.js';
 import CardContainerPlus from './plug-ins/CardContainerPlus.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
 import ElementFunctions from './plug-ins/ElementFunctions.js';
 import FilterAndSort from './plug-ins/FilterAndSort.js';
+import AutoScroll from './plug-ins/AutoScroll.js';
 import newTask from './new_task.js';
-import ContainerDesigns from './designs/ContainerDesigns.js'
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
 
 
@@ -38,6 +40,7 @@ function getTasksMDetail(shellId) {
  * Card click event
  * @param {Integer} cardId Card id
  */
+/*
 function taskMCardClick(cardId) {
     let splittedId = cardId.split('_');
     let taskId = splittedId[splittedId.length - 1];
@@ -50,32 +53,55 @@ function taskMCardClick(cardId) {
 
     //Steps
     Database.getTaskWayData(taskId);
-    tasksManager.resizeTasksManager();
-}
-
+    TaskManager.resizeModule();
+}*/
+/*
 function addTask() {
-    newTask.loadNewTask();
+    newTask.loadModule();
 
     removeOneListener("processes_back_to_menu");
     Events.onDestroy();
-    addOneListener("processes_back_to_menu", "click", tasksManager.loadTasksManager);
+    addOneListener("processes_back_to_menu", "click", TaskManager.loadModule);
+}*/
+
+/** Modul parameters **/
+let Varibles = {
+    FrameId: 'tskm',
+    FrameName: 'Feladatok',
+    FilterPlace: 'tskfltr',
+    MainTableIdName: 'TaskId',
+    //element ids
+    ModuleFrameId: 'process_modul_content',
+    TitleTextId: 'back_to_menu_text',
+    TitleIconId: 'processes_back_to_menu',
+    //data
+    PageData: [],
+    TaskWayData: null
 }
 
 /** Public functions */
-let tasksManager = {
-    loadTasksManager: function () {
+let TaskManager = {
+    loadModule: function () {
         // Title
-        document.getElementById("back_to_menu_text").textContent = "Feladatok";
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
-        addOneListener("processes_back_to_menu", "click", Events.onDestroy);
+        document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
+        addOneListener(
+            Varibles.TitleIconId,
+            "click",
+            mainFrame.backToProcessesMenu
+        );
+        addOneListener(Varibles.TitleIconId, "click", Events.onDestroy);
 
         // Loader
-        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+        document.getElementById(Varibles.ModuleFrameId).innerHTML = `
+            <img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli">
+            </img>`;
 
         // Data from server
-        Database.getContainerData();
+        Database.getFullPageData();
     },
-    resizeTasksManager() {
+    resizeModule() {
+        AutoScroll.Integration(Varibles.FrameId + '_details_content');
+        /*
         //details
         let detailsContentH = document.getElementById('tasks_m_details').clientHeight;
         let taskDetailsTitle = document.getElementById('task_details_title');
@@ -83,88 +109,10 @@ let tasksManager = {
         detailsContentH -= (taskDetailsTitle.offsetHeight + taskDetailsTab.offsetHeight + 12);
         document.getElementById('task_details_content').style = 'height: ' + detailsContentH + 'px';
         //details end
+        */
     }
 };
-export default tasksManager;
-/** Local varibles **/
-let Varibles = {
-    FrameId: 'tskm',
-    FilterPlace: 'tskfltr',
-    PageData: null,
-    TaskWayData: null
-}
-
-/** Loadings functions **/
-let Loadings = {
-    reloadFullPage: function () {
-        // Load framework
-        let framework = Framework.Load();
-
-        document.getElementById("process_modul_content").innerHTML = framework;
-
-        Loadings.reloadCardContainer();
-
-        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + '_filters',
-            Database.tasksMFilterChange);
-        FilterAndSort.CreateSort(Varibles.PageData.Sorts, Varibles.FrameId + '_sorts',
-            Database.tasksMFilterChange);
-
-        addOneListener("proceses_add_task_btn", "click", addTask);
-    },
-    /**
-     * Reload card container
-     * @param {Number} offset 
-     */
-    reloadCardContainer: function (offset = 0) {
-        // Load card container
-        let data = Varibles.PageData.Data;
-        let cardStructure = Varibles.PageData.DataStructure;
-        let cardDesign = new CardDesigns().getSimpleCard('taskm');
-        let cardContainer = Varibles.FrameId + '_cc';
-
-        new ElementFunctions().removeChilds(cardContainer);
-        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(taskMCardClick, 'taskm');
-        if (data[0] !== undefined) {
-            taskMCardClick('task_card_' + data[0].TaskId);
-        }
-        //Limiting
-        if (Object.keys(data).length % GlobalVaribles.CCLimitSize === 0) {
-            new Limiting(
-                Varibles.FrameId,
-                Varibles.FilterPlace,
-                Callbacks.successFilterEvent,
-                offset
-            );
-        }
-    },
-    /**
-     * Reload task way
-     * @param {JSON} data 
-     */
-    reloadTaskWay: function (data) {
-        let container = '<li><div class="task-timeline-item"> <span>1</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Előkészítés</h3> </a><div class="collapse" id="collapseExample"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div></div></div></div></li><li><div class="task-timeline-item"> <span>2</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Megbeszélés</h3> </a><div class="collapse" id="collapseExample2"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div></div></div></div></li><li><div class="task-timeline-item"> <span id="actual-step">3</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="true" aria-controls="collapseExample"><h3>Beszerzés</h3> </a><div class="show" id="collapseExample3"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>4</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Alkatrész cseréje</h3> </a><div class="collapse" id="collapseExample4"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>5</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample5"><h3>Tesztüzem</h3> </a><div class="collapse" id="collapseExample5"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Luke Skywalker</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Jabba</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i></button></div></div></div></div></li>';
-        document.getElementById('task_timeline').innerHTML += container;
-
-        let taskWayData = data.Data;
-        let taskWayStructure = data.DataStructure;
-        let stepCard = Cards.getTaskWayCard();
-        let stepShellId = "task_timeline";
-        let taskWayActiveCard = Cards.getTaskWayActiveCard();
-        let stepActiveColumn = 'Active';
-        CardContainerPlus.CreateWithActive(taskWayData, taskWayStructure, stepShellId, stepCard, taskWayActiveCard, stepActiveColumn, Callbacks.employeesToStep);
-
-        addListener('tsk-way-empl-icon-check', 'click', Events.taskWayEmplStatusClick)
-    },
-    // Get employee status color
-    getEmplStatusColor: function (ready) {
-        if (ready === '1') {
-            return 'fas fa-check empl-status-ready';
-        } else {
-            return 'fas fa-user empl-status-work'
-        }
-    }
-}
+export default TaskManager;
 
 /** Data from database **/
 let Database = {
@@ -172,7 +120,7 @@ let Database = {
      * Filter change event
      * @param {String} id 
      */
-    tasksMFilterChange: function (fullId) {
+    filterChange: function (fullId) {
         FilterAndSort.FilteringOnDB(
             Varibles.FrameId,
             Varibles.FilterPlace,
@@ -199,118 +147,40 @@ let Database = {
             dataType: 'json'
         });
     },
-    getContainerData: function () {
-        //if (Varibles.PageData === null) {
+    /**
+     * Get full page data
+     */
+    getFullPageData: function () {
         $.ajax({
             type: "POST",
             url: "./php/GetTaskManager.php",
             data: "",
             success: function (data) {
-                Varibles.PageData = data;/*
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-                    */
+                Varibles.PageData = data;
                 Loadings.reloadFullPage(Varibles.PageData);
             },
             dataType: 'json'
-        });/*
-        } else {
-            Loadings.reloadFullPage(Varibles.PageData);
-        }*/
-    }
-}
-
-/** Designed cards **/
-let Cards = {
-    getTaskWayCard: function () {
-        let container = '<li><div class="task-timeline-item">';
-        container += '!<span>*1*</span>';
-        container += '!<div class="task-timeline-item-content"> <a data-toggle="collapse" href="#task_timel_*3*_!*4*" role="button" aria-expanded="false" aria-controls="task_timel" class="collapsed">';
-        container += '!<h3>*2*</h3>';
-        container += '!</a><div class="collapse" id="task_timel_*5*_!*6*">?';
-        container += '!</div></div></div ></li >';
-        return container;
-    },
-    getTaskWayActiveCard: function () {
-        let container = '<li><div class="task-timeline-item">';
-        container += '!<span class="actual-step">*1*</span>';
-        container += '!<div class="task-timeline-item-content"> <a data-toggle="collapse" href="#task_timel_*3*_!*4*" role="button" aria-expanded="true" aria-controls="task_timel">';
-        container += '!<h3>*2*</h3>';
-        container += '!</a><div class="show" id="task_timel_*5*_!*6*">?';
-        container += '!</div></div></div ></li >';
-        return container;
-    }
-}
-
-/** Callbacks **/
-let Callbacks = {
-    /** Employees to step */
-    employeesToStep: function (data) {
-        let employees = data['Employees'];
-        if (data['Employees'] === undefined) {
-            return '';
-        }
-
-        let finalHTML = '';
-        for (let i = 0; i < employees.length; i++) {
-            const employee = employees[i];
-            let statusClass = Loadings.getEmplStatusColor(employee.Ready);
-
-            finalHTML += '<div class="row add-employee-card">';
-            finalHTML += '<div employee="' + employee.EmployeeId + '" class="btn btn-sm employee-box employee-button">';
-            finalHTML += '<i class="addemployee-icon ' + statusClass + '"></i>' + employee.EmployeeName;
-            if (employee.Ready === '0' && data['Active'] === '1') {
-                finalHTML += '<i id="tsk_way_empl_stat_' + data.TaskFK + '_' + employee.EmployeeId + '" class="tsk-way-empl-icon-check fas fa-check"></i>';
-            }
-
-            finalHTML += '</div></div>';
-        }
-        return finalHTML;
-    },
-    /**
-     * Success filter event
-     * @param {JSON} data 
-     * @param {Boolean} isClear 
-     * @param {Number} offset 
-     */
-    successFilterEvent: function (data, isClear = true, offset = 0) {
-        if (isClear) {
-            Varibles.PageData.Data = [];
-        }
-
-        data.Data.forEach(entry => {
-            Varibles.PageData.Data.push(entry);
-        });
-
-        /* String to date
-        Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-        */
-        Loadings.reloadCardContainer(offset);
-    }
-}
-
-/** Events **/
-let Events = {
-    onDestroy: function () {
-        GlobalVaribles.setActiveModul("");
-    },
-    taskWayEmplStatusClick: function (fullId) {
-        let splittedId = fullId.split('_');
-        let taskFK = splittedId[splittedId.length - 2];
-        let emplId = splittedId[splittedId.length - 1];
-        $.ajax({
-            type: "POST",
-            url: "./php/TaskMWayStatus.php",
-            data: { 'task_fk': taskFK, 'empl_id': emplId },
-            success: function (data) {
-                Database.getTaskWayData(taskFK);
-            },
-            dataType: 'html'
         });
     }
 }
 
 let Framework = {
+    Load: function (targetId, shellId) {
+        //main frame
+
+        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen">
+                         </div>`;
+        document.getElementById(targetId).insertAdjacentHTML('beforeend',`<div id="${shellId}"></div>`);
+        document.getElementById(targetId).innerHTML = framework;
+
+        let containerDesigns = new ContainerDesigns();
+        alert(shellId);
+        alert(document.getElementById(shellId));
+        //filter frame
+        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
+        //card container frame
+        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
+    }/*,
     Load: function (targetId, shellId) {
         //main frame
         let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
@@ -342,275 +212,208 @@ let Framework = {
             </div>
         </div>
         `;
-    }
+    }*/
 }
 
-let PageDataJSONExample = {
-    "Filters": [
-        {
-            "FilterId": "1",
-            "Name": "Feladat t\u00edpus",
-            "Type": "S",
-            "DefaultValue": null,
-            "ColumnName": "TaskType.Name",
-            "Opportunities": [
-                {
-                    "Id": "0",
-                    "Name": "-- V\u00e1lassz --"
-                },
-                {
-                    "Id": "1",
-                    "Name": "Programoz\u00e1s"
-                },
-                {
-                    "Id": "1",
-                    "Name": "Integr\u00e1l\u00e1s"
-                }
-            ]
-        },
-        {
-            "FilterId": "2",
-            "Name": "Feladat n\u00e9v",
-            "Type": "W",
-            "DefaultValue": null,
-            "ColumnName": "Name"
-        }
-    ],
-    "DataStructure": {
-        "1": "TaskId",
-        "2": "Name",
-        "3": "TaskType.Name"
+/** Loadings functions **/
+let Loadings = {
+    reloadFullPage: function () {
+        //Load framework
+        Framework.Load(Varibles.ModuleFrameId, Varibles.FrameId);
+        //Card container generating cards
+        Loadings.reloadCardContainer();
+
+        //Filter creater
+        FilterAndSort.Create(
+            Varibles.PageData.Filters,
+            Varibles.FrameId + "_filters",
+            Database.filterChange
+        );
+        FilterAndSort.CreateSort(
+            Varibles.PageData.Sorts,
+            Varibles.FrameId + '_sorts',
+            Database.filterChange
+        );
+
+        addOneListener("proceses_add_task_btn", "click", Loadings.loadAddNew);
     },
-    "Data": [
-        {
-            "CreatedDate": "2019-08-29 01:36:25",
-            "DeadLine": "2019-09-26 00:00:00",
-            "Description": "Ez al els\u0151",
-            "TaskId": "1",
-            "Name": "Feladatkezel\u00e9s megtervez\u00e9se",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-08-29 01:40:22",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "2",
-            "Name": "PHP megtervez\u00e9se 2",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-08 22:19:20",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "9",
-            "Name": "100. feladat",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-08 22:27:33",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "10",
-            "Name": "100. feladat4",
-            "TaskType.Name": "Integr\u00e1l\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-08 22:35:06",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "11",
-            "Name": "100. feladat3",
-            "TaskType.Name": "Integr\u00e1l\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-26 15:48:05",
-            "DeadLine": "2019-01-01 00:00:00",
-            "Description": null,
-            "TaskId": "13",
-            "Name": "Task",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-26 15:48:27",
-            "DeadLine": "0000-00-00 00:00:00",
-            "Description": null,
-            "TaskId": "14",
-            "Name": "Task2",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-26 15:50:02",
-            "DeadLine": "0000-00-00 00:00:00",
-            "Description": null,
-            "TaskId": "15",
-            "Name": "Task5",
-            "TaskType.Name": "Integr\u00e1l\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-26 15:58:29",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "16",
-            "Name": "Test10",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-26 15:59:34",
-            "DeadLine": "0000-00-00 00:00:00",
-            "Description": null,
-            "TaskId": "17",
-            "Name": "Test12",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-26 16:00:20",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "18",
-            "Name": "14",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-26 16:01:42",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "19",
-            "Name": "Task15",
-            "TaskType.Name": "Integr\u00e1l\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-27 23:55:25",
-            "DeadLine": "2019-01-01 00:00:00",
-            "Description": null,
-            "TaskId": "21",
-            "Name": "Els\u0151 sikeres",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-27 23:58:43",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "22",
-            "Name": "M\u00e1sodik sikeres",
-            "TaskType.Name": "Integr\u00e1l\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-28 00:02:33",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "23",
-            "Name": "Harmadik",
-            "TaskType.Name": "Integr\u00e1l\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-28 00:03:31",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "24",
-            "Name": "Negyedik",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-28 18:56:05",
-            "DeadLine": "2019-01-01 00:00:00",
-            "Description": null,
-            "TaskId": "25",
-            "Name": "Az \u00e9n kedvesem",
-            "TaskType.Name": "Programoz\u00e1s"
-        },
-        {
-            "CreatedDate": "2019-09-29 23:25:35",
-            "DeadLine": null,
-            "Description": null,
-            "TaskId": "26",
-            "Name": "V\u00e1ltozatos",
-            "TaskType.Name": "Programoz\u00e1s"
+    /**
+     * Load 'add new entry' modul
+     */
+    loadAddNew: function () {
+        newTask.loadModule();
+        removeOneListener(Varibles.TitleIconId);
+        addOneListener(Varibles.TitleIconId, "click", TaskManager.loadModule);
+    },
+    /**
+     * Reload card container
+     * @param {Number} offset 
+     */
+    reloadCardContainer: function (offset = 0) {
+        // Load card container
+        let data = Varibles.PageData.Data;
+        let cardStructure = Varibles.PageData.DataStructure;
+        let cardDesign = new CardDesigns().getSimpleCard(Varibles.FrameId);
+        let cardContainer = Varibles.FrameId + '_cc';
+
+        new ElementFunctions().removeChilds(cardContainer);
+        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
+        CardContainer.ClickableCard(Events.cardClick, Varibles.FrameId);
+        if (data[0] !== undefined) {
+            Events.cardClick(Varibles.FrameId + '_card_'
+                + data[0][Varibles.MainTableIdName]);
         }
-    ],
-    "DetailsStructure": {
-        "Names": {
-            "1": null,
-            "2": "Feladat t\u00edpus",
-            "3": "L\u00e9trehoz\u00e1s d\u00e1tuma",
-            "4": "Hat\u00e1rid\u0151",
-            "5": "Le\u00edr\u00e1s"
-        },
-        "Data": {
-            "1": "Name",
-            "2": "TaskType.Name",
-            "3": "CreatedDate",
-            "4": "DeadLine",
-            "5": "Description"
+        //Limiting
+        if (Object.keys(data).length % GlobalVaribles.CCLimitSize === 0) {
+            new Limiting(
+                Varibles.FrameId,
+                Varibles.FilterPlace,
+                Callbacks.successFilterEvent,
+                offset
+            );
+        }
+    },
+    /**
+     * Reload task way
+     * @param {JSON} data
+     */
+    reloadTaskWay: function (data) {
+        let container = '<li><div class="task-timeline-item"> <span>1</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Előkészítés</h3> </a><div class="collapse" id="collapseExample"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div></div></div></div></li><li><div class="task-timeline-item"> <span>2</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Megbeszélés</h3> </a><div class="collapse" id="collapseExample2"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div></div></div></div></li><li><div class="task-timeline-item"> <span id="actual-step">3</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="true" aria-controls="collapseExample"><h3>Beszerzés</h3> </a><div class="show" id="collapseExample3"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>4</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Alkatrész cseréje</h3> </a><div class="collapse" id="collapseExample4"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>5</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample5"><h3>Tesztüzem</h3> </a><div class="collapse" id="collapseExample5"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Luke Skywalker</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Jabba</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i></button></div></div></div></div></li>';
+        document.getElementById('task_timeline').innerHTML += container;
+
+        let taskWayData = data.Data;
+        let taskWayStructure = data.DataStructure;
+        let stepCard = Cards.getTaskWayCard();
+        let stepShellId = "task_timeline";
+        let taskWayActiveCard = Cards.getTaskWayActiveCard();
+        let stepActiveColumn = 'Active';
+        CardContainerPlus.CreateWithActive(taskWayData, taskWayStructure, stepShellId, stepCard, taskWayActiveCard, stepActiveColumn, Callbacks.employeesToStep);
+
+        addListener('tsk-way-empl-icon-check', 'click', Events.taskWayEmplStatusClick)
+    },
+    // Get employee status color
+    getEmplStatusColor: function (ready) {
+        if (ready === '1') {
+            return 'fas fa-check empl-status-ready';
+        } else {
+            return 'fas fa-user empl-status-work'
         }
     }
 }
 
-let TaskWayJSONExample = {
-    "DataStructure": {
-        "1": "Number",
-        "2": "TaskStep.Name",
-        "3": "Number",
-        "4": "TaskStepFK",
-        "5": "Number",
-        "6": "TaskStepFK"
-    },
-    "Data": [
-        {
-            "Active": "0",
-            "Number": "1",
-            "TaskStep.Name": "\u00d6tlet felvet\u00e9se",
-            "TaskStepFK": "1",
-            "Employees": [
-                {
-                    "EmployeeId": "1",
-                    "EmployeeName": "Werner \u00c1d\u00e1m",
-                    "Ready": "1"
-                }
-            ]
-        },
-        {
-            "Active": "0",
-            "Number": "2",
-            "TaskStep.Name": "Frontend kialak\u00edt\u00e1sa",
-            "TaskStepFK": "2",
-            "Employees": [
-                {
-                    "EmployeeId": "3",
-                    "EmployeeName": "K\u00f3sa \u00c1ron",
-                    "Ready": "0"
-                }
-            ]
-        },
-        {
-            "Active": "1",
-            "Number": "3",
-            "TaskStep.Name": "Backend kialak\u00edt\u00e1sa",
-            "TaskStepFK": "3",
-            "Employees": [
-                {
-                    "EmployeeId": "1",
-                    "EmployeeName": "Werner \u00c1d\u00e1m",
-                    "Ready": "0"
-                }
-            ]
-        },
-        {
-            "Active": "0",
-            "Number": "4",
-            "TaskStep.Name": "Tesztel\u00e9s",
-            "TaskStepFK": "4",
-            "Employees": [
-                {
-                    "EmployeeId": "1",
-                    "EmployeeName": "Werner \u00c1d\u00e1m",
-                    "Ready": "0"
-                },
-                {
-                    "EmployeeId": "2",
-                    "EmployeeName": "S\u00e1gi D\u00e1vid",
-                    "Ready": "0"
-                }
-            ]
+/** Callbacks **/
+let Callbacks = {
+    /** Employees to step */
+    employeesToStep: function (data) {
+        let employees = data['Employees'];
+        if (data['Employees'] === undefined) {
+            return '';
         }
-    ]
+
+        let finalHTML = '';
+        for (let i = 0; i < employees.length; i++) {
+            const employee = employees[i];
+            let statusClass = Loadings.getEmplStatusColor(employee.Ready);
+
+            finalHTML += '<div class="row add-employee-card">';
+            finalHTML += '<div employee="' + employee.EmployeeId + '" class="btn btn-sm employee-box employee-button">';
+            finalHTML += '<i class="addemployee-icon ' + statusClass + '"></i>' + employee.EmployeeName;
+            if (employee.Ready === '0' && data['Active'] === '1') {
+                finalHTML += '<i id="tsk_way_empl_stat_' + data.TaskFK + '_' + employee.EmployeeId + '" class="tsk-way-empl-icon-check fas fa-check"></i>';
+            }
+
+            finalHTML += '</div></div>';
+        }
+        return finalHTML;
+    },
+    /**
+     * Success filter event
+     * @param {JSON} data
+     * @param {Boolean} isClear
+     * @param {Number} offset
+            */
+    successFilterEvent: function (data, isClear = true, offset = 0) {
+        if (isClear) {
+            Varibles.PageData.Data = [];
+        }
+
+        data.Data.forEach(entry => {
+            Varibles.PageData.Data.push(entry);
+        });
+
+        Loadings.reloadCardContainer(offset);
+    }
+}
+/** Designed cards **/
+let Cards = {
+    getTaskWayCard: function () {
+        let container = '<li><div class="task-timeline-item">';
+        container += '!<span>*1*</span>';
+        container += '!<div class="task-timeline-item-content"> <a data-toggle="collapse" href="#task_timel_*3*_!*4*" role="button" aria-expanded="false" aria-controls="task_timel" class="collapsed">';
+        container += '!<h3>*2*</h3>';
+        container += '!</a><div class="collapse" id="task_timel_*5*_!*6*">?';
+        container += '!</div></div></div ></li >';
+        return container;
+    },
+    getTaskWayActiveCard: function () {
+        let container = '<li><div class="task-timeline-item">';
+        container += '!<span class="actual-step">*1*</span>';
+        container += '!<div class="task-timeline-item-content"> <a data-toggle="collapse" href="#task_timel_*3*_!*4*" role="button" aria-expanded="true" aria-controls="task_timel">';
+        container += '!<h3>*2*</h3>';
+        container += '!</a><div class="show" id="task_timel_*5*_!*6*">?';
+        container += '!</div></div></div ></li >';
+        return container;
+    }
+}
+
+/** Events **/
+let Events = {
+    /**
+     * Card click event
+     * @param {Integer} cardId Card id
+     */
+    cardClick: function (cardId) {
+        let splittedId = cardId.split('_');
+        let id = splittedId[splittedId.length - 1];
+        //Data
+        let data = Varibles.PageData.Data;
+        let structure = Varibles.PageData.DetailsStructure;
+        let shellId = Varibles.FrameId + '_details';
+        let details = new DetailsDesigns().getSimpleDetails(shellId);
+        CardDetails.Create(
+            id,
+            data,
+            structure,
+            details,
+            shellId,
+            Varibles.MainTableIdName
+        );
+
+        //Steps
+        Database.getTaskWayData(id);
+    },
+    /**
+     * Is called when this modul closes
+     */
+    onDestroy: function () {
+        GlobalVaribles.setActiveModule("");
+    },
+    /**
+     * Task way employee status click event
+     * @param {String} fullId 
+     */
+    taskWayEmplStatusClick: function (fullId) {
+        let splittedId = fullId.split('_');
+        let taskFK = splittedId[splittedId.length - 2];
+        let emplId = splittedId[splittedId.length - 1];
+        $.ajax({
+            type: "POST",
+            url: "./php/TaskMWayStatus.php",
+            data: { 'task_fk': taskFK, 'empl_id': emplId },
+            success: function (data) {
+                Database.getTaskWayData(taskFK);
+            },
+            dataType: 'html'
+        });
+    }
 }

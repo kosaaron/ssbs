@@ -50,7 +50,7 @@ let Loaders = {
         let listData = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = Cards.getPartnersMCard();
-        let cardContainer = Varibles.FrameId + '_card_container';
+        let cardContainer = Varibles.FrameId + '_cc';
         CardContainerPlus.CreateWithData(listData, cardStructure, cardContainer, cardDesign, Callbacks.tagsToPartner);
         CardContainer.ClickableCard(Events.partnerMCardClick, 'partnerm');
         if (listData[0] !== undefined) {

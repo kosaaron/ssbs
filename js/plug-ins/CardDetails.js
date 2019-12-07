@@ -83,6 +83,8 @@ let CardDetails = {
         if (vObjectsLength === 0) {
             let readyHTML = '';
             readyHTML += '<div id="' + shellId + '_content">';
+            
+            readyHTML += '<div id="task_timeline" class="task-timeline"> </div>';
             readyHTML += '<div id="' + shellId + '_cc_g"> </div>';
             readyHTML += '</div>';
 

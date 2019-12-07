@@ -1,15 +1,15 @@
 export default class GlobalVaribles {
     //Varibles
-    static ActiveModul = "";
+    static ActiveModule = "";
     static CCLimitSize = 20;
 
     //Getters
-    static getActiveModul() {
-        return this.ActiveModul;
+    static getActiveModule() {
+        return this.ActiveModule;
     }
 
     //Setters
-    static setActiveModul(activeModul) {
-        this.ActiveModul = activeModul;
+    static setActiveModule(activeModul) {
+        this.ActiveModule = activeModul;
     }
 }

@@ -12,7 +12,7 @@
 /** Imports */
 import partnersManager from './partners_manager.js';
 import processesOverview from './processes_overview.js';
-import tasksManager from './tasks_manager.js';
+import TaskManager from './tasks_manager.js';
 import OrderManager from './order_manager.js';
 import { addListenerByAttr2, addListener } from './common.js';
 import showCharts from './show_charts.js';
@@ -128,33 +128,33 @@ function processesModulClick(id) {
 
     switch (id) {
         case "processes_overview_btn":
-            GlobalVaribles.setActiveModul('processes_overview');
+            GlobalVaribles.setActiveModule('processes_overview');
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             processesOverview.loadProcessesOverview();
             break;
         case "tasks_manager_btn":
-            GlobalVaribles.setActiveModul('tasks_manager');
+            GlobalVaribles.setActiveModule('tasks_manager');
             iframe.src = "feladatkezeles.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
-            tasksManager.loadTasksManager();
+            TaskManager.loadModule();
             break;
         case "partners_manager_btn":
-            GlobalVaribles.setActiveModul('partners_manager');
+            GlobalVaribles.setActiveModule('partners_manager');
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
             partnersManager.loadPartnersManager();
             break;
         case "operative_tasks_btn":
-            GlobalVaribles.setActiveModul('operative_tasks');
+            GlobalVaribles.setActiveModule('operative_tasks');
             iframe.src = "periodikusnaptar.html";
             document.getElementById('process_modul_content').appendChild(iframe);
             break;
         case "weekly_schedule_btn":
             break;
         case "order_manager_btn":
-            GlobalVaribles.setActiveModul('order_manager');
-            OrderManager.loadOrderManager();
+            GlobalVaribles.setActiveModule('order_manager');
+            OrderManager.loadModule();
             break;
         default:
             break;
@@ -244,15 +244,15 @@ function FinanceSubtabClick(id) {
 
 /** Resize window */
 window.onresize = function (event) {
-    switch (GlobalVaribles.getActiveModul()) {
+    switch (GlobalVaribles.getActiveModule()) {
         case 'processes_overview':
             processesOverview.resizeProcessesOverview();
             break;
         case 'tasks_manager':
-            tasksManager.resizeTasksManager();
+            TaskManager.resizeModule();
             break;
         case 'order_manager':
-            OrderManager.resizeOrderManager();
+            OrderManager.resizeModule();
             break;
     }
 };

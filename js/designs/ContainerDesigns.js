@@ -30,7 +30,7 @@ export default class ContainerDesigns {
             <div class="col-10 filtered-table display-flex flex-1">
                 <button id="${shellId}_add_new_btn" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
                 <div class="card-container col-8">
-                    <div id="${shellId}_card_container" class="row"> </div>
+                    <div id="${shellId}_cc" class="row"> </div>
                 </div>
                 <div class="col-4" id="${shellId}_detail_placeholder" style="display: none"> A részletekért válassz egy feladatot! </div>
                 <div id="${shellId}_details" class="col-4 cc-details"> </div>

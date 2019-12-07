@@ -13,7 +13,7 @@ import AutoScroll from './plug-ins/AutoScroll.js';
 import { addListenerByAttr, addListener, addOneListener } from './common.js';
 /** Public functions */
 var newTask = {
-    loadNewTask: function () {
+    loadModule: function () {
         //Title
         document.getElementById("back_to_menu_text").textContent = "Új feladat felvétele";
 
