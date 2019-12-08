@@ -67,7 +67,7 @@ let Loadings = {
     /**
      * Reload card container
      */
-    reloadCardContainer: function () {
+    reloadCardContainer: function (offset = 0) {
         // Load card container
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
