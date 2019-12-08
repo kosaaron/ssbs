@@ -15,7 +15,7 @@ import ContainerDesigns from './designs/ContainerDesigns.js';
 import DetailsDesigns from './designs/DetailsDesigns.js';
 import CardDesigns from './designs/CardDesigns.js';
 import ElementFunctions from './plug-ins/ElementFunctions.js';
-
+import Limiting from './moduls/Limiting.js';
 
 
 /** Local functions */
@@ -80,6 +80,15 @@ let Loadings = {
         if (data[0].EmployeeId !== null && data[0] !== undefined) {
             employeeCardClick(Varibles.FrameId + '_card_' + data[0].EmployeeId);
         }
+        //Limiting
+        if (Object.keys(data).length % GlobalVaribles.CCLimitSize === 0) {
+            new Limiting(
+                Varibles.FrameId,
+                Varibles.FilterPlace,
+                Callbacks.successFilterEvent,
+                offset
+            );
+        }
     }
 }
 
@@ -127,12 +136,24 @@ let Database = {
 
 /** Callbacks **/
 let Callbacks = {
-    successFilterEvent: function (data) {
-        Varibles.PageData.Data = data.Data;
+        /**
+     * Success filter event
+     * @param {JSON} data 
+     * @param {Boolean} isClear 
+     * @param {Number} offset 
+     */
+    successFilterEvent: function (data, isClear = true, offset = 0) {
+        if (isClear) {
+            Varibles.PageData.Data = [];
+        }
+        data.Data.forEach(entry => {
+            Varibles.PageData.Data.push(entry);
+        });
+
         /* String to date
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
-        Loadings.reloadCardContainer();
+        Loadings.reloadCardContainer(offset);
     }
 }
 

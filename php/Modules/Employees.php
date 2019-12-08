@@ -25,11 +25,24 @@ class Employees
         $this->main_data['Sorts'] = $fltrStructure['Sorts'];
     }
 
-    public function CreateCardContainer($filter = '', $sort = '')
-    {
+    public function CreateCardContainer(
+        $filter = '',
+        $sort = '',
+        $dataPos = array(
+            'Limit' => 20,
+            'Offset' => 0
+        )
+    ) {
         /** Partner's manager data */
         $dataAndStructure = new DataAndStructure();
-        $cardCResult = $dataAndStructure->CardContainer($this->userId, "emplmd", "employees", $filter);
+        $cardCResult = $dataAndStructure->CardContainer(
+            $this->userId,
+            "emplmd",
+            "employees",
+            $filter,
+            $sort,
+            $dataPos
+        );
         $this->main_data['DataStructure'] = $cardCResult['DataStructure'];
         $this->main_data['Data'] = $cardCResult['Data'];
 
