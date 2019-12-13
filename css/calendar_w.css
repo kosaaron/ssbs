@@ -1,0 +1,129 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #606fee;
+  font-family: "Open Sans", sans-serif;
+}
+
+#grid {
+  height: 80vh;
+}
+
+#create {
+  display: inline;
+  cursor: pointer;
+}
+
+.calendar {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: repeat(5, 1fr);
+}
+.calendar.row-6 {
+  grid-template-rows: repeat(6, 1fr);
+}
+.calendar__row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 25px repeat(4, 1fr);
+  grid-auto-flow: dense;
+}
+.calendar .task {
+  padding: 2px;
+}
+.calendar .task__inner {
+  background-color: yellowgreen;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 5px;
+  border-radius: 5px;
+  height: 100%;
+  line-height: 25px;
+}
+
+nav h2 {
+  text-align: center;
+  margin: 25px 0;
+}
+nav h2 a {
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #9fa8f5;
+  background-color: #9fa8f5c2;
+}
+.modal .task__container {
+  padding: 25px;
+  margin: 25px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #e4e1e1;
+  border-radius: 5px;
+}
+.modal .task__container p {
+  display: inline;
+  margin-right: 10px;
+}
+.modal .task__container #editTaskModal, .modal .task__container #closeTaskModal, .modal .task__container #deleteTask, .modal .task__container #markTaskDone, .modal .task__container #saveTaskChange, .modal .task__container #createNewTask {
+  cursor: pointer;
+  display: inline;
+}
+.modal .task__container #editTaskModal, .modal .task__container #markTaskDone {
+  margin-right: 15px;
+}
+.modal .task__container #closeTaskModal {
+  float: right;
+}
+.modal .task__interval p {
+  font-size: 20px;
+  color: #3c3b3b;
+}
+.modal .task__title {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid black;
+}
+.modal .task__title p {
+  font-size: 28px;
+}
+.modal .task__display-only {
+  display: block;
+  margin-top: 35px;
+}
+.modal .task__display-only--hidden {
+  display: none;
+}
+.modal .task__edit {
+  display: none;
+}
+.modal .task__edit--visible {
+  display: block;
+}
+.modal label, .modal input, .modal textarea {
+  display: block;
+  font-size: 18px;
+  width: 100%;
+}
+
+.task {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/*# sourceMappingURL=calendar.css.map */

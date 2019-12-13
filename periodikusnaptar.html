@@ -22,12 +22,16 @@
                 </div>
             </div>
         </div>
+        <script>
+            localStorage['calendar_type'] ='month';
+            
+        </script>
         <header>
             <nav>
                 <h2><a id="prev" class="nav-btn"><i class="fas fa-caret-left"></i></a>
-                    <span id="time"></span>
-                    <a id="next" class="nav-btn"><i class="fas fa-caret-right"></i></a>
-                    </h2><div id="create">ÚJ FELADAT</div>
+                <span id="time"></span>
+                <a id="next" class="nav-btn"><i class="fas fa-caret-right"></i></a>
+                </h2><div id="create">ÚJ FELADAT</div>
             </nav>
         </header>
         <div id="grid"></div>
@@ -35,7 +39,7 @@
         <div id="modal" class="modal">
         </div>
     
-        <script src="script.js"></script>
+        <script type="module" type="/text/javascript" src="js/calendar_monthly.js"></script>
 </body>
 
 </html>

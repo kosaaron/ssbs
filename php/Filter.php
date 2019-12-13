@@ -111,7 +111,7 @@ function getCardC($filterPlace, $userId, $filter, $sortString, $dataPos)
             require_once('Modules/Employees.php');
 
             $Employees = new Employees($userId);
-            $Employees->CreateCardContainer($filter);
+            $Employees->CreateCardContainer($filter, $sortString, $dataPos);
 
             $data = $Employees->main_data['Data'];
             break;
