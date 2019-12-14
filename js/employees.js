@@ -15,7 +15,7 @@ import ContainerDesigns from './designs/ContainerDesigns.js';
 import DetailsDesigns from './designs/DetailsDesigns.js';
 import CardDesigns from './designs/CardDesigns.js';
 import ElementFunctions from './plug-ins/ElementFunctions.js';
-import Limiting from './moduls/Limiting.js';
+import Limiting from './plug-ins/Limiting.js';
 
 
 /** Local functions */
@@ -72,7 +72,7 @@ let Loadings = {
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = new CardDesigns().getEmployeeCard(Varibles.FrameId);
-        let cardContainer = Varibles.FrameId + '_card_container';
+        let cardContainer = Varibles.FrameId + '_cc';
 
         new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);

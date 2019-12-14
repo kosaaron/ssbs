@@ -45,12 +45,8 @@ class VirtualObject
         return $this->mainData;
     }
 
-    public function GeneratingToArray($mainData)
+    public function GetNameAlias()
     {
-
-        foreach ($mainData as $key => $value) { }
-
-
-        return;
+        return $this->mainData['NameAlias'];
     }
 }

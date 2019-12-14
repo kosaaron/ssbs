@@ -30,10 +30,16 @@ class DataAndStructure
             $functionArray = explode(',', $row['BackendF']);
             foreach ($functionArray as $key => $bFunction) {
                 $funcWithParams = explode('/', $bFunction);
+                $vOParams = array();
                 if ($funcWithParams[0] === 'vo') {
-                    $vOParams = array();
                     $vOParams = $this->BackendFunctions($funcWithParams);
-                    $vOParams['vOName'] = explode(".", $row['ColumnName'])[1];
+                    if ($funcWithParams[3] === '') {
+                        $vOParams['vOName'] = $row['ColumnName'];
+                        $vOParams['IsCustom'] = true;
+                    } else {
+                        $vOParams['vOName'] = explode(".", $row['ColumnName'])[1];
+                        $vOParams['IsCustom'] = false;
+                    }
                     array_push($vOParamObjects, $vOParams);
                     continue 2;
                 }
@@ -72,12 +78,25 @@ class DataAndStructure
         if ($dataQuery) {
             $dataResult = $pdo->query($dataQuery)->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach ($vOParamObjects as $paramObject) {
+            foreach ($vOParamObjects as $paramObject) {/*
+                if ($paramObject['IsCustomVO']) {
+                    foreach ($dataResult as $key => $row) {
+                        $dataResult[$key][$paramObject['vOName']] = array();
+                    }
+                    continue;
+                }*/
+
                 $virtualObject = new VirtualObject(
                     $paramObject['vOId']
                 );
 
                 foreach ($dataResult as $key => $row) {
+                    if ($paramObject['IsCustom']) {
+                        $dataResult[$key][$paramObject['vOName']] = array();
+                        $dataResult[$key][$paramObject['vOName']]['NameAlias'] = $virtualObject->GetNameAlias();
+                        continue;
+                    }
+
                     $vOSelectArr = array();
                     $vOWhereArr = array();
 

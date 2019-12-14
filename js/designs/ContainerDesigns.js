@@ -15,6 +15,7 @@ export default class ContainerDesigns {
                 <div id="${shellId}_filters" class="task-filters"> </div>
                 <h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>
                 <div class="task-orders"> </div>
+                <div id="${shellId}_sorts" class="task-filters"> </div>
             </div>
         `;
         document.getElementById(targetId).insertAdjacentHTML(position, framework);

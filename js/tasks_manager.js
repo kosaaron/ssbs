@@ -101,15 +101,6 @@ let TaskManager = {
     },
     resizeModule() {
         AutoScroll.Integration(Varibles.FrameId + '_details_content');
-        /*
-        //details
-        let detailsContentH = document.getElementById('tasks_m_details').clientHeight;
-        let taskDetailsTitle = document.getElementById('task_details_title');
-        let taskDetailsTab = document.getElementById('task_details_tab');
-        detailsContentH -= (taskDetailsTitle.offsetHeight + taskDetailsTab.offsetHeight + 12);
-        document.getElementById('task_details_content').style = 'height: ' + detailsContentH + 'px';
-        //details end
-        */
     }
 };
 export default TaskManager;
@@ -138,7 +129,8 @@ let Database = {
             data: { task_id: taskId },
             success: function (data) {
                 if (jQuery.isEmptyObject(data.Data)) {
-                    document.getElementById('task_timeline').innerHTML = "Nincsenek lépések."
+                    document.getElementById(Varibles.FrameId + '_details_vo_oTl').innerHTML 
+                        = "Nincsenek lépések."
                 } else {
                     Varibles.TaskWayData = data;
                     Loadings.reloadTaskWay(Varibles.TaskWayData);
@@ -170,12 +162,11 @@ let Framework = {
 
         let framework = `<div id="${shellId}" class="display-flex flex-row full-screen">
                          </div>`;
-        document.getElementById(targetId).insertAdjacentHTML('beforeend',`<div id="${shellId}"></div>`);
+        document.getElementById(targetId).insertAdjacentHTML('beforeend', `<div id="${shellId}"></div>`);
         document.getElementById(targetId).innerHTML = framework;
 
         let containerDesigns = new ContainerDesigns();
-        alert(shellId);
-        alert(document.getElementById(shellId));
+
         //filter frame
         containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
         //card container frame
@@ -235,7 +226,8 @@ let Loadings = {
             Database.filterChange
         );
 
-        addOneListener("proceses_add_task_btn", "click", Loadings.loadAddNew);
+        //Events
+        addOneListener(Varibles.FrameId + '_add_new_btn', "click", Loadings.loadAddNew);
     },
     /**
      * Load 'add new entry' modul
@@ -272,22 +264,32 @@ let Loadings = {
                 offset
             );
         }
+
+        //Resize
+        TaskManager.resizeModule();
     },
     /**
      * Reload task way
      * @param {JSON} data
      */
     reloadTaskWay: function (data) {
-        let container = '<li><div class="task-timeline-item"> <span>1</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Előkészítés</h3> </a><div class="collapse" id="collapseExample"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div></div></div></div></li><li><div class="task-timeline-item"> <span>2</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Megbeszélés</h3> </a><div class="collapse" id="collapseExample2"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div></div></div></div></li><li><div class="task-timeline-item"> <span id="actual-step">3</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="true" aria-controls="collapseExample"><h3>Beszerzés</h3> </a><div class="show" id="collapseExample3"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Sági Dávid</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>4</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample"><h3>Alkatrész cseréje</h3> </a><div class="collapse" id="collapseExample4"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Werner Ádám</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Kósa Áron Balázs</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i> </button></div></div></div></div></li><li><div class="task-timeline-item"> <span>5</span><div class="task-timeline-item-content"> <a data-toggle="collapse" href="#collapseExample5" role="button" aria-expanded="false" aria-controls="collapseExample5"><h3>Tesztüzem</h3> </a><div class="collapse" id="collapseExample5"><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Luke Skywalker</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm employee-box employee-button"><i class="fas fa-user addemployee-icon "></i>Jabba</button></div><div class="row add-employee-card"> <button type="button" class="btn btn-sm add-employee-button employee-button"><i class="fas fa-user-plus addemployee-icon "></i></button></div></div></div></div></li>';
-        document.getElementById('task_timeline').innerHTML += container;
+        let stepShellId = Varibles.FrameId + '_details_vo_oTl';
+        document.getElementById(stepShellId).classList.add('task-timeline');
 
         let taskWayData = data.Data;
         let taskWayStructure = data.DataStructure;
         let stepCard = Cards.getTaskWayCard();
-        let stepShellId = "task_timeline";
         let taskWayActiveCard = Cards.getTaskWayActiveCard();
         let stepActiveColumn = 'Active';
-        CardContainerPlus.CreateWithActive(taskWayData, taskWayStructure, stepShellId, stepCard, taskWayActiveCard, stepActiveColumn, Callbacks.employeesToStep);
+        CardContainerPlus.CreateWithActive(
+            taskWayData,
+            taskWayStructure,
+            stepShellId,
+            stepCard,
+            taskWayActiveCard,
+            stepActiveColumn,
+            Callbacks.employeesToStep
+        );
 
         addListener('tsk-way-empl-icon-check', 'click', Events.taskWayEmplStatusClick)
     },

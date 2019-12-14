@@ -68,6 +68,7 @@ let CardDetails = {
                         ccDataItem['Name'] = structure.Names[key];
                         cCData.push(ccDataItem);
                     } else if (key[0] === 'o') {
+                        elementI[structure.Data[key]]['Number'] = key;
                         vObjects.push(elementI[structure.Data[key]]);
                     }
                 }
@@ -75,6 +76,7 @@ let CardDetails = {
                 break;
             }
         }
+
         // Default data
         document.getElementById(shellId).innerHTML = container;
 
@@ -83,8 +85,8 @@ let CardDetails = {
         if (vObjectsLength === 0) {
             let readyHTML = '';
             readyHTML += '<div id="' + shellId + '_content">';
-            
-            readyHTML += '<div id="task_timeline" class="task-timeline"> </div>';
+
+            //readyHTML += '<div id="task_timeline" class="task-timeline"> </div>';
             readyHTML += '<div id="' + shellId + '_cc_g"> </div>';
             readyHTML += '</div>';
 
@@ -102,7 +104,9 @@ let CardDetails = {
             for (let i = 0; i < vObjectsLength; i++) {
                 const vObject = vObjects[i];
 
-                readyHTML += '<label id="' + shellId + '_vo_' + i + '_btn" tab-cont-id="' + shellId + '_vo_' + i + '" class="btn btn-detail-menu">';
+                readyHTML += '<label id="' + shellId + '_vo_' + vObject['Number'] + '_btn"' 
+                    + ' tab-cont-id="' + shellId + '_vo_' + vObject['Number']
+                    + '" class="btn btn-detail-menu">';
                 readyHTML += vObject['NameAlias'] + '</label>';
             }
             readyHTML += '</div></div>';
@@ -111,7 +115,8 @@ let CardDetails = {
             readyHTML += '<div id="' + shellId + '_content">';
             readyHTML += '<div id="' + shellId + '_cc_g" class="' + shellId + '_vo"> </div>';
             for (let i = 0; i < vObjectsLength; i++) {
-                readyHTML += '<div id="' + shellId + '_vo_' + i + '" style="display: none;" class="' + shellId + '_vo"> </div>';
+                const vObject = vObjects[i];
+                readyHTML += '<div id="' + shellId + '_vo_' + vObject['Number'] + '" style="display: none;" class="' + shellId + '_vo"> </div>';
             }
             readyHTML += '</div>';
             document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
@@ -128,7 +133,8 @@ let CardDetails = {
             document.getElementById(shellId + '_data_btn').addEventListener('click', vOClick);
 
             for (let i = 0; i < vObjectsLength; i++) {
-                document.getElementById(shellId + '_vo_' + i + '_btn').addEventListener('click', vOClick);
+                const vObject = vObjects[i];
+                document.getElementById(shellId + '_vo_' + vObject['Number'] + '_btn').addEventListener('click', vOClick);
             }
         }
 
@@ -149,7 +155,10 @@ let CardDetails = {
         /** Virtual object generator */
         for (let i = 0; i < vObjects.length; i++) {
             const vObject = vObjects[i];
-            let vOShellId = shellId + '_vo_' + i;
+            if (!('Data' in vObject)) {
+                return;
+            }
+            let vOShellId = shellId + '_vo_' + vObject['Number'];
             VirtualObject.DetailsObj(vObject.Data, getVOCard(vObject.Card, vOShellId), vOShellId);
         }
 

@@ -64,7 +64,7 @@ let Loadings = {
         let data = Varibles.PageData.Data;
         let cardStructure = Varibles.PageData.DataStructure;
         let cardDesign = new CardDesigns().getToolCard(Varibles.FrameId);
-        let cardContainer = Varibles.FrameId + '_card_container';
+        let cardContainer = Varibles.FrameId + '_cc';
 
         new ElementFunctions().removeChilds(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
