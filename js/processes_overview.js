@@ -24,46 +24,9 @@
 import { addOneListener, mainFrame } from './common.js';
 import DateFunctions from './plug-ins/DateFunctions.js';
 
-/**
- * Public class
- */
-let processesOverview = {
-    /**
-     * Load framework
-     */
-    loadProcessesOverview: function () {
-        // Framework
-        document.getElementById("back_to_menu_text").textContent = "Feladatok átlátása";
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
-
-        var framework = '<div id="process_modul_content" class="full-screen"><div id="processes_overview" class="full-screen display-flex"><div id="processes_overview_header" class="display-flex flex-column"><div id="processes_overview_header_title" class="display-flex"><div class="margin-auto">Feladatok</div></div><div id="process_names_box" class="flex-1"></div></div><div id="processes_overview_content"><div id="processes_table_shell" class="display-flex full-screen align-center"><table id="processes_table" border="1" style="border: 1px solid transparent; border-bottom: #ddd"><tbody><tr><td style="padding: 0;"><table id="processes_table_table1" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><thead id="processes_t_t_thead"></thead></table></td></tr><tr><td style="padding: 0;"><div id="processes_t_scroll_table"><table id="processes_table_table2" border="1" style="border-color: #ddd;" class="full-screen processes-table-table"><tbody id="processes_t_t_tbody"></tbody></table></div></td></tr></tbody></table></div></div></div></div>';
-        document.getElementById("process_modul_content").innerHTML = framework;
-
-        Local.getProcessesData();
-    },
-    /**
-     * Processes overview resize event
-     */
-    resizeProcessesOverview: function () {
-        // Y scroll on the table
-        let processesTScrollTable = document.getElementById('processes_t_scroll_table');
-        if (processesTScrollTable !== null) {
-            let processesTableShell = document.getElementById('processes_table_shell');
-            let processesTTable = document.getElementById('processes_table_table1');
-            let processNamesBox = document.getElementById('process_names_box');
-            processesTScrollTable.style = "";
-            if (processesTableShell.clientHeight - processesTTable.clientHeight - 2 < processesTScrollTable.clientHeight) {
-                processesTScrollTable.style = "height: " + (processesTableShell.clientHeight - processesTTable.clientHeight - 2) + "px";
-                processNamesBox.style = "height: " + (processesTableShell.clientHeight - processesTTable.clientHeight + 9) + "px; flex: none;";
-            }
-        }
-    }
-}
-export default processesOverview;
-
-/** Local functions **/
-let Local = {
-    /** Varibles */
+let Varibles = {
+    //Module parameters
+    FrameId: 'prco',
     //Processes data array
     processesDataArray: null,
     //Opened projects
@@ -79,41 +42,67 @@ let Local = {
     //Timeline end date
     gTimeLineEnd: null,
     //Timeline length (day)
-    gTimeLineLength: null,
+    gTimeLineLength: null
+}
 
-    /** Functions */
+/**
+ * Public class
+ */
+let processesOverview = {
     /**
-     * Reload varibles
+     * Load framework
      */
-    reloadVaribles: function () {
-        Local.openedProjects = [];
-        Local.tasksTableTdWidth = 25;
-        Local.tasksTableWidth = null;
-        Local.taskLevels = [];
-        Local.gTimeLineStart = null;
-        Local.gTimeLineEnd = null;
-        Local.gTimeLineLength = null;
+    loadProcessesOverview: function () {
+        // Framework
+        document.getElementById("back_to_menu_text").textContent = "Feladatok átlátása";
+        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+
+        Framework.Load('process_modul_content', Varibles.FrameId);
+
+        Local.getProcessesData();
     },
+    /**
+     * Processes overview resize event
+     */
+    resizeProcessesOverview: function () {
+        // Y scroll on the table
+        let processesTScrollTable = document.getElementById('processes_t_scroll_table');
+        if (processesTScrollTable !== null) {
+            let processesTableShell = document.getElementById(Varibles.FrameId + '_table_shell');
+            let processesTTable = document.getElementById('processes_table_table1');
+            let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
+            processesTScrollTable.style = "";
+            if (processesTableShell.clientHeight - processesTTable.clientHeight - 2 < processesTScrollTable.clientHeight) {
+                processesTScrollTable.style = "height: " + (processesTableShell.clientHeight - processesTTable.clientHeight - 2) + "px";
+                processNamesBox.style = "height: " + (processesTableShell.clientHeight - processesTTable.clientHeight + 9) + "px; flex: none;";
+            }
+        }
+    }
+}
+export default processesOverview;
+
+/** Local functions **/
+let Local = {
     /**
      * Get processes data
      */
     getProcessesData: function () {
-        if (Local.processesDataArray === null) {
+        if (Varibles.processesDataArray === null) {
             $.ajax({
                 type: "POST",
                 url: "./php/ProcessesOverview.php",
                 data: "",
                 success: function (data) {
-                    Local.processesDataArray = JSON.parse(data);
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'Deadline');
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-                    Local.reloadFullPage(Local.processesDataArray);
+                    Varibles.processesDataArray = JSON.parse(data);
+                    Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'StartDate');
+                    Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'Deadline');
+                    Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'FinishDate');
+                    Local.reloadFullPage(Varibles.processesDataArray);
                 },
                 dataType: 'html'
             });
         } else {
-            Local.reloadFullPage(Local.processesDataArray);
+            Local.reloadFullPage(Varibles.processesDataArray);
         }
     },
     /**
@@ -121,9 +110,6 @@ let Local = {
      * @param {JSON} processesData Processes data
      */
     reloadFullPage: function (processesData) {
-        //reload varibles
-        Local.reloadVaribles();
-
         // Content
         // now
         var dateNow = new Date();
@@ -132,26 +118,30 @@ let Local = {
         Local.loadProcessesTable(processesData);
 
         if (dateNow.getDate() < 10) {
-            Local.gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth() - 1, 1);
-            Local.gTimeLineLength = 3;
-            Local.addMonthBefor(Local.gTimeLineStart, processesData);
+            Varibles.gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth() - 1, 1);
+            Varibles.gTimeLineLength = 3;
+            Local.addMonthBefor(Varibles.gTimeLineStart, processesData);
         } else {
-            Local.gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
-            Local.gTimeLineLength = 2;
+            Varibles.gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
+            Varibles.gTimeLineLength = 2;
         }
 
-        Local.gTimeLineEnd = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
-        Local.addMonthAfter(Local.gTimeLineEnd, processesData);
+        Varibles.gTimeLineEnd = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
+        Local.addMonthAfter(Varibles.gTimeLineEnd, processesData);
 
         processesOverview.resizeProcessesOverview();
 
         var tasksTableTdToday = document.getElementById("tasks_table_td_today");
-        var processesOverviewContent = document.getElementById("processes_overview_content");
+        var processesOverviewContent = document.getElementById(Varibles.FrameId + '_content');
         processesOverviewContent.scrollLeft = tasksTableTdToday.offsetLeft + 2;
 
         let processesTScrollTable = document.getElementById('processes_t_scroll_table');
-        let processNamesBox = document.getElementById('process_names_box');
+        let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
 
+        //Click events
+        $('.tasksTableTr').click(Events.processTrClick);
+
+        //Scroll event
         processesTScrollTable.addEventListener("wheel", processesTWheel);
         processNamesBox.addEventListener("wheel", processesTWheel);
         processesTScrollTable.addEventListener("scroll", Local.scrollContentProcessesO);
@@ -176,7 +166,7 @@ let Local = {
         let isOpened = false;
         let id = fullId.split('_')[1];
 
-        Local.openedProjects.forEach(projectId => {
+        Varibles.openedProjects.forEach(projectId => {
             if (projectId === fullId) {
                 isOpened = true;
             }
@@ -188,15 +178,15 @@ let Local = {
 
             const openedItems = document.querySelectorAll('.' + fullId);
             openedItems.forEach(item => {
-                var index = Local.openedProjects.indexOf(item.id);
+                var index = Varibles.openedProjects.indexOf(item.id);
                 if (index > -1) {
-                    Local.openedProjects.splice(index, 1);
+                    Varibles.openedProjects.splice(index, 1);
                 }
             });
 
-            var index = Local.openedProjects.indexOf(fullId);
+            var index = Varibles.openedProjects.indexOf(fullId);
             if (index > -1) {
-                Local.openedProjects.splice(index, 1);
+                Varibles.openedProjects.splice(index, 1);
             }
 
             $('.' + fullId).remove();
@@ -207,8 +197,8 @@ let Local = {
             processMenuItemIcon.classList.remove('fa-plus-square');
             processMenuItemIcon.classList.add('fa-minus-square');
 
-            Local.addSubProject(id, processesData, Local.gTimeLineStart, Local.gTimeLineLength);
-            Local.openedProjects.push(fullId);
+            Local.addSubProject(id, processesData, Varibles.gTimeLineStart, Varibles.gTimeLineLength);
+            Varibles.openedProjects.push(fullId);
         }
     },
     /**
@@ -223,7 +213,7 @@ let Local = {
         let dateNow = new Date();
 
         // processes box
-        let processNamesBox = document.getElementById('process_names_box');
+        let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
         for (var index = 0; index < processesData.length; index++) {
             // Task names
             const process = processesData[index];
@@ -233,7 +223,7 @@ let Local = {
                 continue;
 
             let level = 0;
-            Local.taskLevels.forEach(element => {
+            Varibles.taskLevels.forEach(element => {
                 if (element.Id === parentId) {
                     level = element.Level + 1;
                     return;
@@ -241,7 +231,7 @@ let Local = {
             });
 
             let object = { Id: process.ProjectId, Level: level };
-            Local.taskLevels.push(object);
+            Varibles.taskLevels.push(object);
 
             let processNamesBoxItem = document.createElement("div");
             processNamesBoxItem.style = "margin-left: " + level * 8 + "px;";
@@ -259,33 +249,37 @@ let Local = {
             pNBoxItemText.textContent = process.Name;
 
             let pNamesBoxRef = document.getElementById("process_" + parentId);
+            let pNamesBoxRefList = document.getElementsByClassName('process-names-box-item process_' + parentId);
 
+            if (pNamesBoxRefList[0]) {
+                pNamesBoxRef = pNamesBoxRefList[pNamesBoxRefList.length - 1];
+            }
 
             if (process.IsChild === '1') {
                 let pNBoxItemIcon = document.createElement("i");
                 pNBoxItemIcon.className = "far fa-plus-square margin-auto p-n-box-item-icon";
-                processNamesBoxItem.appendChild(pNBoxItemIcon);
+                processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemIcon);
 
-                processNamesBoxItem.appendChild(pNBoxItemText);
-                processNamesBox.insertBefore(processNamesBoxItem, pNamesBoxRef.nextSibling);
+                processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
+                pNamesBoxRef.insertAdjacentElement('afterend', processNamesBoxItem);
 
                 processNamesBoxItem.addEventListener('click', function (event) {
                     Local.projectClick(processesData, this.id);
                 });
             } else {
-                processNamesBoxItem.appendChild(pNBoxItemText);
-                processNamesBox.insertBefore(processNamesBoxItem, pNamesBoxRef.nextSibling);
+                processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
+                pNamesBoxRef.insertAdjacentElement('afterend', processNamesBoxItem);
             }
             // Task timelines
             let tasksTableTr4 = document.createElement("tr");
             tasksTableTr4.id = "process_row_" + process.ProjectId;
             tasksTableTr4.className = 'tasksTableTr' + processClassList;
-            tasksTableTr4.style = "height: " + Local.tasksTableTdWidth + "px;";
+            tasksTableTr4.style = "height: " + Varibles.tasksTableTdWidth + "px;";
 
             for (let index3 = 0; index3 < numOfMonth; index3++) {
                 let startDate = new Date(firthMonth.getFullYear(), firthMonth.getMonth() + index3, 1);
                 let monthDays = DateFunctions.daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
-                Local.tasksTableWidth = monthDays;
+                Varibles.tasksTableWidth = monthDays;
 
                 let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
                 let relativeDate = process.FinishDate;
@@ -309,7 +303,7 @@ let Local = {
 
                 for (let index2 = 1; index2 <= monthDays; index2++) {
                     let tasksTableTd4 = document.createElement("td");
-                    tasksTableTd4.style = "width: " + Local.tasksTableTdWidth + "px;";
+                    tasksTableTd4.style = "width: " + Varibles.tasksTableTdWidth + "px;";
 
                     let div4Background = "";
                     if (isDelayed && finishDays < index2) {
@@ -321,15 +315,15 @@ let Local = {
                     //
                     if (isNotThisMonth) {
                         tasksTableTd4.className = "processes-table-table-td";
-                        tasksTableTr4.appendChild(tasksTableTd4);
+                        tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
                         continue;
                     } else if (isBeforMonth && isAfterMonth) {
                         tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                         let tasksTableDiv4 = document.createElement("div");
                         tasksTableDiv4.className = "full-screen " + div4Background;
-                        tasksTableTd4.appendChild(tasksTableDiv4);
-                        tasksTableTr4.appendChild(tasksTableTd4);
+                        tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
+                        tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
                         continue;
                     }
 
@@ -342,39 +336,47 @@ let Local = {
 
                         let tasksTableDiv4 = document.createElement("div");
                         tasksTableDiv4.className = "full-screen " + div4Background;
-                        tasksTableTd4.appendChild(tasksTableDiv4);
+                        tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                     } else if (isOneMonth && process.StartDate.getDate() === index2 && relativeDate.getDate() === index2) {
                         tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                         let tasksTableDiv4 = document.createElement("div");
                         tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
-                        tasksTableTd4.appendChild(tasksTableDiv4);
+                        tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                     } else if ((isOneMonth && process.StartDate.getDate() === index2) ||
                         (isAfterMonth && process.StartDate.getDate() === index2)) {
                         tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                         let tasksTableDiv4 = document.createElement("div");
                         tasksTableDiv4.className = "full-screen " + div4Background + " process-start-line";
-                        tasksTableTd4.appendChild(tasksTableDiv4);
+                        tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                     } else if ((isOneMonth && relativeDate.getDate() === index2) ||
                         (isBeforMonth && relativeDate.getDate() === index2)) {
                         tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                         let tasksTableDiv4 = document.createElement("div");
                         tasksTableDiv4.className = "full-screen " + div4Background + " process-end-line";
-                        tasksTableTd4.appendChild(tasksTableDiv4);
+                        tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                     } else {
                         tasksTableTd4.className = "processes-table-table-td";
                     }
 
 
-                    tasksTableTr4.appendChild(tasksTableTd4);
+                    tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
                 }
             }
 
             let Tr4reference = document.getElementById("process_row_" + parentId);
-            processesTTTbody.insertBefore(tasksTableTr4, Tr4reference.nextSibling);
+            let Tr4ReferList = document.getElementsByClassName('tasksTableTr process_' + parentId);
+
+            if (Tr4ReferList[0]) {
+                Tr4reference = Tr4ReferList[Tr4ReferList.length - 1];
+            }
+            Tr4reference.insertAdjacentElement('afterend', tasksTableTr4);
         }
+
+        //Click events
+        $('.tasksTableTr.process_' + parentId).click(Events.processTrClick);
     },
     /**
      * Load default processes
@@ -386,7 +388,7 @@ let Local = {
         startDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
         //startDate = new Date("2019.8.01");
         let monthDays = DateFunctions.daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
-        Local.tasksTableWidth = monthDays;
+        Varibles.tasksTableWidth = monthDays;
 
         // Tasks table header
         let processesTTable = document.getElementById('processes_table_table1');
@@ -397,28 +399,28 @@ let Local = {
         // row
         let tasksTableTr = document.createElement("tr");
         tasksTableTr.className = "tasksTableTr";
-        tasksTableTr.style = "height: " + Local.tasksTableTdWidth + "px;";
+        tasksTableTr.style = "height: " + Varibles.tasksTableTdWidth + "px;";
 
         // columns
         let tasksTableTd = document.createElement("td");
         tasksTableTd.colSpan = monthDays;
         tasksTableTd.textContent = startDate.getFullYear() + ". " + DateFunctions.fullMonthDate(startDate);
 
-        tasksTableTr.appendChild(tasksTableTd);
-        processesTTThead.appendChild(tasksTableTr);
+        tasksTableTr.insertAdjacentElement('beforeend', tasksTableTd);
+        processesTTThead.insertAdjacentElement('beforeend', tasksTableTr);
 
         // level 2
         //row
         let tasksTableTr2 = document.createElement("tr");
         tasksTableTr2.className = "tasksTableTr";
-        tasksTableTr2.style = "height: " + Local.tasksTableTdWidth + "px;";
+        tasksTableTr2.style = "height: " + Varibles.tasksTableTdWidth + "px;";
 
         //columns
         let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(startDate).getDay());
         let startWeek = DateFunctions.getWeekNumber(startDate);
         let tasksTableTd2 = document.createElement("td");
         tasksTableTd2.colSpan = firstWeekDays;
-        tasksTableTr2.appendChild(tasksTableTd2);
+        tasksTableTr2.insertAdjacentElement('beforeend', tasksTableTd2);
         if (firstWeekDays >= 4) {
             tasksTableTd2.textContent = startWeek + ". hét";
         }
@@ -428,7 +430,7 @@ let Local = {
             tasksTableTd2.colSpan = 7;
             tasksTableTd2.textContent = (startWeek + index) + ". hét";
 
-            tasksTableTr2.appendChild(tasksTableTd2);
+            tasksTableTr2.insertAdjacentElement('beforeend', tasksTableTd2);
         }
 
         let lastWeekDays = (monthDays % 7) + (7 - firstWeekDays);
@@ -436,36 +438,36 @@ let Local = {
         if (lastWeekDays !== 0) {
             tasksTableTd2 = document.createElement("td");
             tasksTableTd2.colSpan = lastWeekDays;
-            tasksTableTr2.appendChild(tasksTableTd2);
+            tasksTableTr2.insertAdjacentElement('beforeend', tasksTableTd2);
             if (lastWeekDays >= 4) {
                 tasksTableTd2.textContent = startWeek + ". hét";
             }
         }
 
-        processesTTThead.appendChild(tasksTableTr2);
+        processesTTThead.insertAdjacentElement('beforeend', tasksTableTr2);
 
         // level 3
         // row 
         let tasksTableTr3 = document.createElement("tr");
         tasksTableTr3.className = "tasksTableTr";
-        tasksTableTr3.style = "height: " + Local.tasksTableTdWidth + "px;";
+        tasksTableTr3.style = "height: " + Varibles.tasksTableTdWidth + "px;";
 
         for (let index = 1; index <= monthDays; index++) {
             let tasksTableTd3 = document.createElement("td");
             tasksTableTd3.className = "processes-table-table-td";
             tasksTableTd3.textContent = index;
-            tasksTableTd3.style = "width: " + Local.tasksTableTdWidth + "px;";
+            tasksTableTd3.style = "width: " + Varibles.tasksTableTdWidth + "px;";
             if (index === dateNow.getDate()) {
                 tasksTableTd3.id = "tasks_table_td_today";
             }
-            tasksTableTr3.appendChild(tasksTableTd3);
+            tasksTableTr3.insertAdjacentElement('beforeend', tasksTableTd3);
         }
 
-        processesTTThead.appendChild(tasksTableTr3);
-        processesTTable.style = "width: " + Local.tasksTableTdWidth * monthDays + "px; border-color: #ddd;";
+        processesTTThead.insertAdjacentElement('beforeend', tasksTableTr3);
+        processesTTable.style = "width: " + Varibles.tasksTableTdWidth * monthDays + "px; border-color: #ddd;";
 
         // processes box
-        let processNamesBox = document.getElementById('process_names_box');
+        let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
         for (var index = 0; index < processesData.length; index++) {
             // Task names
             const process = processesData[index];
@@ -478,7 +480,7 @@ let Local = {
 
             // Levels of tasks
             let object = { Id: process.ProjectId, Level: 0 };
-            Local.taskLevels.push(object);
+            Varibles.taskLevels.push(object);
 
             let processNamesBoxItem = document.createElement("div");
             processNamesBoxItem.className = "process-names-box-item display-flex";
@@ -489,30 +491,30 @@ let Local = {
             pNBoxItemText.className = "full-width margin-auto text-o-ellipsis";
             pNBoxItemText.textContent = process.Name;
 
-            processNamesBoxItem.appendChild(pNBoxItemText);
-            processNamesBox.appendChild(processNamesBoxItem);
+            processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
+            processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
 
             if (process.IsChild === '1') {
                 let pNBoxItemIcon = document.createElement("i");
                 pNBoxItemIcon.className = "far fa-plus-square margin-auto p-n-box-item-icon";
-                processNamesBoxItem.appendChild(pNBoxItemIcon);
+                processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemIcon);
 
-                processNamesBoxItem.appendChild(pNBoxItemText);
-                processNamesBox.appendChild(processNamesBoxItem);
+                processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
+                processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
 
                 processNamesBoxItem.addEventListener('click', function (event) {
                     Local.projectClick(processesData, this.id);
                 });
             } else {
-                processNamesBoxItem.appendChild(pNBoxItemText);
-                processNamesBox.appendChild(processNamesBoxItem);
+                processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
+                processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
             }
 
             // Task timelines
             let tasksTableTr4 = document.createElement("tr");
             tasksTableTr4.id = "process_row_" + process.ProjectId;
             tasksTableTr4.className = "tasksTableTr";
-            tasksTableTr4.style = "height: " + Local.tasksTableTdWidth + "px;";
+            tasksTableTr4.style = "height: " + Varibles.tasksTableTdWidth + "px;";
 
             // Relative date
             let relativeDate = process.FinishDate;
@@ -536,7 +538,7 @@ let Local = {
 
             for (let index2 = 1; index2 <= monthDays; index2++) {
                 let tasksTableTd4 = document.createElement("td");
-                tasksTableTd4.style = "width: " + Local.tasksTableTdWidth + "px;";
+                tasksTableTd4.style = "width: " + Varibles.tasksTableTdWidth + "px;";
 
                 let div4Background = "";
                 if (isDelayed && finishDays < index2) {
@@ -547,15 +549,15 @@ let Local = {
 
                 if (isNotThisMonth) {
                     tasksTableTd4.className = "processes-table-table-td";
-                    tasksTableTr4.appendChild(tasksTableTd4);
+                    tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
                     continue;
                 } else if (isBeforMonth && isAfterMonth) {
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background;
-                    tasksTableTd4.appendChild(tasksTableDiv4);
-                    tasksTableTr4.appendChild(tasksTableTd4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
+                    tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
                     continue;
                 }
 
@@ -568,35 +570,35 @@ let Local = {
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background;
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else if (isOneMonth && process.StartDate.getDate() === index2 && relativeDate.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else if ((isOneMonth && process.StartDate.getDate() === index2) ||
                     (isAfterMonth && process.StartDate.getDate() === index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-start-line";
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else if ((isOneMonth && relativeDate.getDate() === index2) ||
                     (isBeforMonth && relativeDate.getDate() === index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-end-line";
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else {
                     tasksTableTd4.className = "processes-table-table-td";
                 }
 
-                tasksTableTr4.appendChild(tasksTableTd4);
+                tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
             }
 
-            processesTTTbody.appendChild(tasksTableTr4);
+            processesTTTbody.insertAdjacentElement('beforeend', tasksTableTr4);
         }
     },
     /**
@@ -608,12 +610,12 @@ let Local = {
         let startDate = new Date(date.getFullYear(), date.getMonth(), 1);
         //startDate = new Date("2019.8.01");
         let monthDays = DateFunctions.daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
-        Local.tasksTableWidth += monthDays;
+        Varibles.tasksTableWidth += monthDays;
 
         // Tasks table header
         let processesTTable = document.getElementById('processes_table_table1');
 
-        processesTTable.style = "width: " + (processesTTable.clientWidth + Local.tasksTableTdWidth * monthDays) + "px; border-color: #ddd;";
+        processesTTable.style = "width: " + (processesTTable.clientWidth + Varibles.tasksTableTdWidth * monthDays) + "px; border-color: #ddd;";
 
         let tasksTableTr = document.getElementsByClassName("tasksTableTr");
 
@@ -660,7 +662,7 @@ let Local = {
             let tasksTableTd3 = document.createElement("td");
             tasksTableTd3.className = "processes-table-table-td";
             tasksTableTd3.textContent = index + 1
-            tasksTableTd3.style = "width: " + Local.tasksTableTdWidth + "px;";
+            tasksTableTd3.style = "width: " + Varibles.tasksTableTdWidth + "px;";
             tasksTableTr[2].insertBefore(tasksTableTd3, tasksTableTr[2].childNodes[index]);
         }
 
@@ -701,7 +703,7 @@ let Local = {
             // Task timelines
             for (let index2 = 1; index2 <= monthDays; index2++) {
                 let tasksTableTd4 = document.createElement("td");
-                tasksTableTd4.style = "width: " + Local.tasksTableTdWidth + "px;";
+                tasksTableTd4.style = "width: " + Varibles.tasksTableTdWidth + "px;";
 
                 let div4Background = "";
                 if (isDelayed && finishDays < index2) {
@@ -719,7 +721,7 @@ let Local = {
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background;
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                     tasksTableTr[counter].insertBefore(tasksTableTd4, tasksTableTr[counter].childNodes[index2 - 1]);
                     continue;
                 }
@@ -733,27 +735,27 @@ let Local = {
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background;
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else if (isOneMonth && process.StartDate.getDate() === index2 && relativeDate.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else if ((isOneMonth && process.StartDate.getDate() === index2) ||
                     (isAfterMonth && process.StartDate.getDate() === index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-start-line";
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else if ((isOneMonth && relativeDate.getDate() === index2) ||
                     (isBeforMonth && relativeDate.getDate() === index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-end-line";
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else {
                     tasksTableTd4.className = "processes-table-table-td";
                 }
@@ -772,12 +774,12 @@ let Local = {
         let startDate = new Date(date.getFullYear(), date.getMonth(), 1);
         //startDate = new Date("2019.8.01");
         let monthDays = DateFunctions.daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
-        Local.tasksTableWidth += monthDays;
+        Varibles.tasksTableWidth += monthDays;
 
         // Tasks table header
         let processesTTable = document.getElementById('processes_table_table1');
 
-        processesTTable.style = "width: " + (processesTTable.clientWidth + Local.tasksTableTdWidth * monthDays) + "px; border-color: #ddd;";
+        processesTTable.style = "width: " + (processesTTable.clientWidth + Varibles.tasksTableTdWidth * monthDays) + "px; border-color: #ddd;";
 
         let tasksTableTr = document.getElementsByClassName("tasksTableTr");
 
@@ -787,7 +789,7 @@ let Local = {
         tasksTableTd.colSpan = monthDays;
         tasksTableTd.textContent = startDate.getFullYear() + ". " + DateFunctions.fullMonthDate(startDate);
 
-        tasksTableTr[0].appendChild(tasksTableTd);
+        tasksTableTr[0].insertAdjacentElement('beforeend', tasksTableTd);
 
         // level 2
         //columns
@@ -795,7 +797,7 @@ let Local = {
         let startWeek = DateFunctions.getWeekNumber(startDate);
         let tasksTableTd2 = document.createElement("td");
         tasksTableTd2.colSpan = firstWeekDays;
-        tasksTableTr[1].appendChild(tasksTableTd2);
+        tasksTableTr[1].insertAdjacentElement('beforeend', tasksTableTd2);
         if (firstWeekDays >= 4) {
             tasksTableTd2.textContent = startWeek + ". hét";
         }
@@ -805,7 +807,7 @@ let Local = {
             tasksTableTd2.colSpan = 7;
             tasksTableTd2.textContent = (startWeek + index) + ". hét";
 
-            tasksTableTr[1].appendChild(tasksTableTd2);
+            tasksTableTr[1].insertAdjacentElement('beforeend', tasksTableTd2);
         }
 
         let lastWeekDays = (monthDays % 7) + (7 - firstWeekDays);
@@ -813,7 +815,7 @@ let Local = {
         if (lastWeekDays !== 0) {
             tasksTableTd2 = document.createElement("td");
             tasksTableTd2.colSpan = lastWeekDays;
-            tasksTableTr[1].appendChild(tasksTableTd2);
+            tasksTableTr[1].insertAdjacentElement('beforeend', tasksTableTd2);
             if (lastWeekDays >= 4) {
                 tasksTableTd2.textContent = (startWeek + 4) + ". hét";
             }
@@ -824,8 +826,8 @@ let Local = {
             let tasksTableTd3 = document.createElement("td");
             tasksTableTd3.className = "processes-table-table-td";
             tasksTableTd3.textContent = index + 1
-            tasksTableTd3.style = "width: " + Local.tasksTableTdWidth + "px;";
-            tasksTableTr[2].appendChild(tasksTableTd3);
+            tasksTableTd3.style = "width: " + Varibles.tasksTableTdWidth + "px;";
+            tasksTableTr[2].insertAdjacentElement('beforeend', tasksTableTd3);
         }
 
         // Processes box
@@ -865,7 +867,7 @@ let Local = {
             // Task timelines
             for (let index2 = 1; index2 <= monthDays; index2++) {
                 let tasksTableTd4 = document.createElement("td");
-                tasksTableTd4.style = "width: " + Local.tasksTableTdWidth + "px;";
+                tasksTableTd4.style = "width: " + Varibles.tasksTableTdWidth + "px;";
 
                 let div4Background = "";
                 if (isDelayed && finishDays < index2) {
@@ -876,15 +878,15 @@ let Local = {
 
                 if (isNotThisMonth) {
                     tasksTableTd4.className = "processes-table-table-td";
-                    tasksTableTr[counter].appendChild(tasksTableTd4);
+                    tasksTableTr[counter].insertAdjacentElement('beforeend', tasksTableTd4);
                     continue;
                 } else if (isBeforMonth && isAfterMonth) {
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen" + div4Background;
-                    tasksTableTd4.appendChild(tasksTableDiv4);
-                    tasksTableTr[counter].appendChild(tasksTableTd4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
+                    tasksTableTr[counter].insertAdjacentElement('beforeend', tasksTableTd4);
                     continue;
                 }
 
@@ -897,32 +899,32 @@ let Local = {
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background;
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else if (isOneMonth && process.StartDate.getDate() === index2 && relativeDate.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else if ((isOneMonth && process.StartDate.getDate() === index2) ||
                     (isAfterMonth && process.StartDate.getDate() === index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-start-line";
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else if ((isOneMonth && relativeDate.getDate() === index2) ||
                     (isBeforMonth && relativeDate.getDate() === index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-end-line";
-                    tasksTableTd4.appendChild(tasksTableDiv4);
+                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
                 } else {
                     tasksTableTd4.className = "processes-table-table-td";
                 }
 
-                tasksTableTr[counter].appendChild(tasksTableTd4);
+                tasksTableTr[counter].insertAdjacentElement('beforeend', tasksTableTd4);
             }
         }
     },
@@ -931,17 +933,71 @@ let Local = {
      */
     scrollHeadProcessesO: function () {
         let processesTScrollTable = document.getElementById('processes_t_scroll_table');
-        let processNamesBox = document.getElementById('process_names_box');
+        let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
 
         processesTScrollTable.scrollTop = processNamesBox.scrollTop;
     },
     scrollContentProcessesO: function () {
         let processesTScrollTable = document.getElementById('processes_t_scroll_table');
-        let processNamesBox = document.getElementById('process_names_box');
+        let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
 
         processesTScrollTable.scrollTop = processNamesBox.scrollTop;
     }
 };
+
+let Events = {
+    /**
+     * Process tr click event
+     */
+    processTrClick() {
+        alert('semmi');
+    }
+}
+
+let Framework = {
+    /**
+     * 
+     * @param {String} targetId 
+     */
+    Load: function (targetId, frameId) {
+        document.getElementById(targetId).innerHTML =
+            `
+    <div id="${frameId}" class="processes-modul-frame full-screen display-flex">
+        <div class="processes_overview_header display-flex flex-column">
+            <div class="processes_overview_header_title display-flex">
+                <div class="margin-auto">Feladatok</div>
+            </div>
+            <div id="${frameId}_names_box" class="process_names_box flex-1"></div>
+        </div>
+        <div id="${frameId}_content" class="processes_content">
+            <button id="${frameId}_add_new_btn" class="btn btn-primary table-fxd-add-tbn"><i class="fas fa-plus"></i></button>
+            <div id="${frameId}_table_shell" class="display-flex full-screen align-center">
+                <table id="processes_table" border="1" style="border: 1px solid transparent; border-bottom: #ddd">
+                    <tbody>
+                        <tr>
+                            <td style="padding: 0;">
+                                <table id="processes_table_table1" border="1" style="border-color: #ddd;" class="full-screen processes-table-table">
+                                    <thead id="processes_t_t_thead"></thead>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0;">
+                                <div id="processes_t_scroll_table">
+                                    <table id="processes_table_table2" border="1" style="border-color: #ddd;" class="full-screen processes-table-table">
+                                        <tbody id="processes_t_t_tbody"></tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        `
+    }
+}
 /**
  * Example data
  */

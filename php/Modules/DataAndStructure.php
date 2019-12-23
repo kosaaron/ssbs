@@ -61,6 +61,8 @@ class DataAndStructure
 
                 if ($where === '') {
                     $where = ' WHERE ';
+                } else {
+                    $where .= ' && ';
                 }
                 $where .= $mainId . '<=' . $lastId;
             }

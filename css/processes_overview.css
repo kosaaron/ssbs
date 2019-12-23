@@ -2,18 +2,19 @@
 
 /* General */
 
-#processes_overview {
+.processes-modul-frame {
     padding: 1%;
 }
 
-#processes_overview_header {
+.processes_overview_header {
     width: 25%;
     border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     overflow: hidden;
 }
 
-#processes_overview_content {
+.processes_content {
     width: 75%;
     height: 100%;
     overflow-x: auto;
@@ -43,7 +44,7 @@
 }
 
 .processes-table-table {
-    font-size: 13px;
+    font-size: 0.8rem;
     margin: 0 auto;
     border-collapse: collapse;
     border-style: hidden;
@@ -55,6 +56,10 @@
 
 table, td {
     border-collapse: collapse;
+}
+
+.tasksTableTr {
+    cursor: pointer;
 }
 
 .process-start-td {
@@ -100,13 +105,13 @@ table, td {
     border-radius: 20px 20px 20px 20px;
 }
 
-#processes_overview_header_title {
+.processes_overview_header_title {
     min-height: 77px;
     max-height: 77px;
     border-bottom: 1px solid #ddd;
 }
 
-#process_names_box {
+.process_names_box {
     height: 100%;
     overflow: auto;
     direction: rtl;
@@ -144,16 +149,16 @@ table, td {
         color: #fff;
         border-radius: 0 30px 30px 0;
     }
-    #processes_overview_header_title {
+    .processes_overview_header_title {
         visibility: hidden;
         width: 0;
     }
-    #processes_overview_header {
+    .processes_overview_header {
         position: absolute;
         width: 140px;
         border: 0;
     }
-    #processes_overview_content {
+    .processes_content {
         width: 100%;
     }
 }
