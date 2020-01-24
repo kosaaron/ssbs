@@ -9,9 +9,8 @@ let CardContainerPlus = {
      * **use**
      * 1. Create html shell
      * 2. Get data from server
-     * 3. Create a card structure
-     * 4. Create card design
-     * 5. Call this function
+     * 3. Create a callback function
+     * 4. Call this function
      * @param {Array} data Object list
      * @param {String} shellId Shell id
      * @param {String} card Card design

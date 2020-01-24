@@ -23,10 +23,16 @@
  */
 import { addOneListener, mainFrame } from './common.js';
 import DateFunctions from './plug-ins/DateFunctions.js';
+import ArrayFunctions from './plug-ins/ArrayFunctions.js';
+import DinamicPopupForm from './plug-ins/DinamicPopupForm.js'
 
 let Varibles = {
     //Module parameters
     FrameId: 'prco',
+    //Frame id of add new item 
+    AddNFormId: 'nprc',
+    //Entry i
+    EntryIdName: 'ProjectId',
     //Processes data array
     processesDataArray: null,
     //Opened projects
@@ -93,13 +99,13 @@ let Local = {
                 url: "./php/ProcessesOverview.php",
                 data: "",
                 success: function (data) {
-                    Varibles.processesDataArray = JSON.parse(data);
+                    Varibles.processesDataArray = data;
                     Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'StartDate');
                     Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'Deadline');
                     Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'FinishDate');
                     Local.reloadFullPage(Varibles.processesDataArray);
                 },
-                dataType: 'html'
+                dataType: 'json'
             });
         } else {
             Local.reloadFullPage(Varibles.processesDataArray);
@@ -275,6 +281,7 @@ let Local = {
             tasksTableTr4.id = "process_row_" + process.ProjectId;
             tasksTableTr4.className = 'tasksTableTr' + processClassList;
             tasksTableTr4.style = "height: " + Varibles.tasksTableTdWidth + "px;";
+            tasksTableTr4.setAttribute('entry-id', process.ProjectId);
 
             for (let index3 = 0; index3 < numOfMonth; index3++) {
                 let startDate = new Date(firthMonth.getFullYear(), firthMonth.getMonth() + index3, 1);
@@ -515,6 +522,7 @@ let Local = {
             tasksTableTr4.id = "process_row_" + process.ProjectId;
             tasksTableTr4.className = "tasksTableTr";
             tasksTableTr4.style = "height: " + Varibles.tasksTableTdWidth + "px;";
+            tasksTableTr4.setAttribute('entry-id', process.ProjectId);
 
             // Relative date
             let relativeDate = process.FinishDate;
@@ -949,8 +957,46 @@ let Events = {
     /**
      * Process tr click event
      */
-    processTrClick() {
-        alert('semmi');
+    processTrClick(e) {
+        let id = this.getAttribute('entry-id');
+        Database.getAddNForm(id);
+    }
+}
+
+let Database = {
+    getAddNForm: function (id) {
+        let targetId = Varibles.FrameId;
+        let dinamicPopupForm = new DinamicPopupForm(
+            targetId,
+            'beforebegin'
+        );
+
+        $.ajax({
+            type: "POST",
+            url: "./php/GetFormData.php",
+            data: { 'FormId': Varibles.AddNFormId },
+            success: function (data) {
+                let formData = data.FormStructure.Data;
+                let entry = ArrayFunctions.GetItem(
+                    Varibles.processesDataArray,
+                    Varibles.EntryIdName,
+                    id
+                );
+
+                let fillFormData = { }
+
+                for (const formItem of formData) {
+                    let uploadName = formItem['UploadName'];
+                    let value = entry[formItem['ColumnName'].split(',')[1]]
+
+                    fillFormData[uploadName] = value;
+                }
+                alert(JSON.stringify(fillFormData));
+
+                dinamicPopupForm.onLoad(formData, fillFormData, targetId);
+            },
+            dataType: 'json'
+        });
     }
 }
 
