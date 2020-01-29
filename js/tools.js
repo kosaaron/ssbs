@@ -1,4 +1,5 @@
 /** tools.js */
+/*
 /**
  * 1. Imports
  * 2. Loacal functions
@@ -6,24 +7,216 @@
  *    -  Tools
  */
 /** Imports */
-import CardContainer from './plug-ins/CardContainer.js';
-import CardDetails from './plug-ins/CardDetails.js';
-import FilterAndSort from './plug-ins/FilterAndSort.js';
-import newTool from './new_tool.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
-import ElementFunctions from './plug-ins/ElementFunctions.js';
-import DetailsDesigns from './designs/DetailsDesigns.js';
-import CardDesigns from './designs/CardDesigns.js';
 import ContainerDesigns from './designs/ContainerDesigns.js';
+import FilterAndSort from './plug-ins/FilterAndSort.js';
+import CardDesigns from './designs/CardDesigns.js';
+import ElementFunctions from './plug-ins/ElementFunctions.js';
+import CardContainer from './plug-ins/CardContainer.js';
+import DetailsDesigns from './designs/DetailsDesigns.js';
+import CardDetails from './plug-ins/CardDetails.js';
+import GlobalVaribles from './plug-ins/GlobalVaribles.js';
+
+import newTool from './new_tool.js';
 
 
+/** Modul parameters **/
+let Varibles = {
+    FrameId: 'tls',
+    FrameName: 'Eszközök',
+    FilterPlace: 'toolfltr', //Kérdéses
+    MainTableIdName: 'ToolId',
+    //element ids
+    ModuleFrameId: 'resources_modul_content',
+    TitleTextId: 'resource_modul_title',
+    TitleIconId:'resources_reload_modul_btn',
+    //data
+    PageData: []
+}
 
-/** Loacal functions */
+/**Public object */
+let Tools = {
+    loadModule: function () {
+        //Title
+        document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
+        addOneListener(
+            Varibles.TitleIconId,
+            "click",
+            //<IconEvent> ez is kérdéses
+        );
+        //Loader
+        document.getElementById(Varibles.ModuleFrameId).innerHTML = `<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>`;
+        
+        //Data from server
+        Database.getFullPageData();
+    },
+    resizeModule: function (){
+
+    }
+};
+export default Tools;
+
+/**Data from database */
+let Database = {
+    /**
+     * Tools filter change
+     * @param {String} id 
+     */
+    filterChange: function (fullId) {
+        FilterAndSort.FilteringOnDB(
+            Varibles.FrameId,
+            Varibles.FilterPlace,
+            Callbacks.successFilterEvent
+        );
+    },
+    /**
+     * Get full page data
+     */
+    getFullPageData: function () {
+        $.ajax({
+            type: "POST",
+            url: "./php/ToolManager.php",
+            data: "",
+            success: function (data) {
+                Varibles.PageData = data;
+                Loadings.reloadFullPage();
+            },
+            dataType: 'json'
+        });
+    }
+}
+
+/**Framework */
+let Framework = {
+    Load: function (targetId, shellId) {
+        //main frame
+        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
+        document.getElementById(targetId).innerHTML = framework;
+
+        let containerDesigns = new ContainerDesigns();
+        // filter frame
+        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
+        //card container frame
+        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
+    }
+}
+
+/** Loadings functions **/
+let Loadings = {
+    reloadFullPage: function () {
+        // Load framework
+        Framework.Load(Varibles.ModuleFrameId, Varibles.FrameId);
+        //Card container generating cards
+        Loadings.reloadCardContainer();
+        //Filter and sort creater
+        FilterAndSort.Create(
+            Varibles.PageData.Filters,
+            Varibles.FrameId + '_filters',
+            Database.filterChange
+        );
+        FilterAndSort.CreateSort(
+            Varibles.PageData.Sorts,
+            Varibles.FrameId + '_sorts',
+            Database.filterChange
+        );
+        
+        //Events
+        addOneListener(Varibles.FrameId + '_add_new_btn', "click", Loadings.loadAddNew);
+    },
+    /**
+     * Reload card container
+     */
+    reloadCardContainer: function () {
+        // Load card container
+        let data = Varibles.PageData.Data;
+        let cardStructure = Varibles.PageData.DataStructure;
+        let cardDesign = new CardDesigns().getToolCard(Varibles.FrameId);
+        let cardContainer = Varibles.FrameId + '_cc';
+
+        document.getElementById(cardContainer).innerHTML='';
+        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
+
+        CardContainer.ClickableCard(Events.cardClick, Varibles.FrameId);
+        if (data[0] !== undefined) {
+            Events.cardClick(Varibles.FrameId + '_card_'
+            + data[0][Varibles.MainTableIdName]);
+        }
+
+        //Limiting
+        if (Object.keys(data).length % GlobalVaribles.CCLimitSize === 0) {
+            new Limiting(
+                Varibles.FrameId,
+                Varibles.FilterPlace,
+                Callbacks.successFilterEvent,
+                offset
+            );
+        }
+    },
+    /**
+     * Load 'add new entry' modul
+     */
+    loadAddNew: function () {
+        newTool.loadModule();
+        removeOneListener(Varibles.TitleIconId);
+        addOneListener(Varibles.TitleIconId, "click", Tools.loadModule);
+    }
+}
+
+/** Callbacks **/
+let Callbacks = {
+        /**
+     * Success filter event
+     * @param {JSON} data 
+     * @param {Boolean} isClear 
+     * @param {Number} offset 
+     */
+    successFilterEvent: function (data, isClear = true, offset = 0) {
+        if (isClear) {
+            Varibles.PageData.Data = [];
+        }
+        data.Data.forEach(entry => {
+            Varibles.PageData.Data.push(entry);
+        });
+        Loadings.reloadCardContainer(offset);
+    }
+}
+
+/** Events **/
+let Events = {
+        /**
+         * Card click event
+         * @param {Integer} cardId Card id
+         */
+        cardClick: function (cardId) {
+            let splittedId = cardId.split('_');
+            let id = splittedId[splittedId.length - 1];
+            //Data
+            let data = Varibles.PageData.Data;
+            let structure = Varibles.PageData.DetailsStructure;
+            let shellId = Varibles.FrameId + '_details';
+            let details = new DetailsDesigns().getSimpleDetails(shellId);
+            CardDetails.Create(
+                id, 
+                data, 
+                structure, 
+                details, 
+                shellId, 
+                Varibles.MainTableIdName
+            );
+        },
+        /**
+         * Is called when this modul closes
+         */
+        onDestroy: function () {
+            GlobalVaribles.setActiveModul("");
+        }
+    }
  
 /**
  * Card click event
  * @param {Integer} cardId Card id
  */
+/*
 function toolCardClick(cardId) {
     let splittedId = cardId.split('_');
     let toolId = splittedId[splittedId.length - 1];
@@ -43,124 +236,7 @@ function addTool() {
     newTool.loadNewTool();
     addOneListener("back_to_tool", "click", tools.loadTools);
 }
-
-/** Loadings functions **/
-let Loadings = {
-    reloadFullPage: function () {
-        // Load framework
-        Framework.Load('resources_content', Varibles.FrameId);
-
-        Loadings.reloadCardContainer();
-
-        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + '_filters', Database.toolsFilterChange);
-
-        addOneListener('add_' + Varibles.FrameId + '_btn', "click", addTool);
-    },
-    /**
-     * Reload card container
-     */
-    reloadCardContainer: function () {
-        // Load card container
-        let data = Varibles.PageData.Data;
-        let cardStructure = Varibles.PageData.DataStructure;
-        let cardDesign = new CardDesigns().getToolCard(Varibles.FrameId);
-        let cardContainer = Varibles.FrameId + '_cc';
-
-        new ElementFunctions().removeChilds(cardContainer);
-        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(toolCardClick, Varibles.FrameId);
-        if (data[0].ToolId !== null && data[0] !== undefined) {
-            toolCardClick(Varibles.FrameId + '_card_' + data[0].ToolId);
-        }
-
-    }
-}
-
-/** Public functions */
-var tools = {
-    loadTools: function () {
-        /*
-// Title
-document.getElementById("back_to_menu_text").textContent = "Feladatok";
-addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
 */
-
-
-        // Loader
-        document.getElementById('resources_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
-
-        // Data from server
-        Database.getContainerData();
-    }
-};
-export default tools;
-
-/** Local varibles **/
-let Varibles = {
-    FrameId: 'tls',
-    FilterPlace: 'toolfltr',
-    PageData: null,
-    TaskWayData: null
-}
-
-let Database = {
-    /**
-     * Tools filter change event
-     * @param {String} id 
-     */
-    toolsFilterChange: function (fullId) {
-        FilterAndSort.FilteringOnDB(Varibles.FrameId, Varibles.FilterPlace, Callbacks.successFilterEvent);
-    },
-    /**
-     * Get task way data
-     * @param {String} taskId 
-     */
-    getContainerData: function () {
-        //if (Varibles.PageData === null) {
-        $.ajax({
-            type: "POST",
-            url: "./php/ToolManager.php",
-            data: "",
-            success: function (data) {
-                Varibles.PageData = data;/*
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-                    */
-                Loadings.reloadFullPage(Varibles.PageData);
-            },
-            dataType: 'json'
-        });/*
-        } else {
-            Loadings.reloadFullPage(Varibles.PageData);
-        }*/
-    }
-}
-
-/** Callbacks **/
-let Callbacks = {
-    successFilterEvent: function (data) {
-        Varibles.PageData.Data = data.Data;
-        /* String to date
-        Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-        */
-        Loadings.reloadCardContainer();
-    }
-}
-
-let Framework = {
-    Load: function (targetId, shellId) {
-        //main frame
-        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
-        document.getElementById(targetId).innerHTML = framework;
-
-        let containerDesigns = new ContainerDesigns();
-        // filter frame
-        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
-        //card container frame
-        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
-    }
-}
-
 var PageDataJSONExample = {
     "Filters": [
         {

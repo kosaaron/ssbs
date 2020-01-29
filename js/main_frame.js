@@ -16,7 +16,7 @@ import TaskManager from './tasks_manager.js';
 import OrderManager from './order_manager.js';
 import { addListenerByAttr2, addListener } from './common.js';
 import showCharts from './show_charts.js';
-import tools from './tools.js';
+import Tools from './tools.js';
 import employees from './employees.js';
 import ProductsOverview from './products_overview.js';
 import newTable from './testproducttable.js';
@@ -211,7 +211,7 @@ function addResourcesEvents(attr) {
             employees.loadEmployees();
             break;
         case "tools":
-            tools.loadTools();
+            Tools.loadModule();
             break;
         case "allocation":
             alert();
