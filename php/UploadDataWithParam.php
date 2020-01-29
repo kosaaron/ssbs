@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Upload data
+ * Upload data with parameters
  */
 
 //Includes

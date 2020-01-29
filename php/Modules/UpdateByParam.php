@@ -1,11 +1,12 @@
 <?php
 
 /**
- * Insert by structure
+ * Update by parameters
  */
-class InsertByParam
+class UpdateByParam
 {
-    public function DefaultUpload($data)
+    public function
+    Default($data, $entryId)
     {
         require_once('Connect.php');
         $PDOConnect = new PDOConnect();
@@ -13,32 +14,29 @@ class InsertByParam
 
         $finalSQL = '';
 
+        //UPDATE `projects` SET `ProjectId`=[value-1] WHERE 1;
+
         foreach ($data as $table => $columns) {
-            $finalSQL .= 'INSERT INTO ' . $table;
-            $columnNames = '(';
-            $values = ' VALUES (';
+            $finalSQL .= 'UPDATE ' . $table . ' SET ';
 
             $isFirst = true;
             foreach ($columns as $column => $value) {
                 if ($isFirst) {
                     $isFirst = false;
                 } else {
-                    $columnNames .= ', ';
-                    $values .= ', ';
+                    $finalSQL .= ', ';
                 }
-                $columnNames .= $column;
-
+                $finalSQL .= $column;
                 if ($value === 'null') {
-                    $values .= 'null';
+                    $finalSQL .= '=null';
                 } else {
-                    $values .= '"' . $value . '"';
+                    $finalSQL .= '="' . $value . '"';
                 }
             }
 
-            $columnNames .= ')';
-            $values .= ');';
-            $finalSQL .= $columnNames . $values;
+            $finalSQL .= ' WHERE ' . $entryId['Name'] . '=' . $entryId['Id'] . ';';
         }
+        echo $finalSQL;
 
         if ($pdo->query($finalSQL)) {
             echo "S";

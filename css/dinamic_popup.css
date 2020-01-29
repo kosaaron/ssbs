@@ -37,6 +37,8 @@
 
 .dnmcppp-footer {
     height: 50px;
+    padding: 7px;
+    border-top: 1px solid #ccc;
 }
 
 .dnmcppp-content {

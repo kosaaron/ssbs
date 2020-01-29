@@ -40,7 +40,6 @@ class CreateForm
             $columnCaunter = 1;
             $oppQuery = 'SELECT DISTINCT ';
             $columns = explode(",", $row['ColumnName']);
-            $aliases = explode(",", $row['Alias']);
             $column = $columns[0];
             $oppQuery .= $row['TableName'] . '.' . $column;
             for ($i = 1; $i < sizeof($columns); $i++) {
@@ -56,9 +55,9 @@ class CreateForm
                 $i = 0;
                 foreach ($oppStructure as $row) {
                     $oppSubArr = array();
-                    for ($j = 0; $j < $columnCaunter; $j++) {
-                        $oppSubArr[$aliases[$j]] = $row[$j];
-                    }
+                    $oppSubArr['Id'] = $row[0];
+                    $oppSubArr['Name'] = $row[1];
+
                     $oppArr[$i] = $oppSubArr;
                     ++$i;
                 }

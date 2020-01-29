@@ -1,7 +1,101 @@
+/** Imports **/
+import DateFunctions from './../plug-ins/DateFunctions.js';
 /** 
  * Write inputs 
  */
 let FormInputs = {
+    /**
+     * 
+     * @param {String} placeName 
+     * @param {JSON} entryId 
+     * @param {Function} refreshFn 
+     */
+    UpdateInputs: function (placeName, entryId, refreshFn) {
+        let updateData = FormInputs.CreateJSON(placeName);
+
+        $.ajax({
+            type: "POST",
+            url: "./php/UpdateDataWithParam.php",
+            data: { 'Data': updateData, 'EntryId': entryId },
+            success: function (result) {
+                if (refreshFn !== null && refreshFn !== undefined) {
+                    refreshFn(result);
+                }
+            },
+            dataType: 'html'
+        });
+    },
+    /**
+     * 
+     * @param {String} placeName 
+     * @param {Function} refreshFn 
+     */
+    InsertInputs: function (placeName, refreshFn) {
+        let insertData = FormInputs.CreateJSON(placeName);
+
+        $.ajax({
+            type: "POST",
+            url: "./php/UploadDataWithParam.php",
+            data: { 'Data': insertData },
+            success: function (result) {
+                if (refreshFn !== null && refreshFn !== undefined) {
+                    refreshFn(result);
+                }
+            },
+            dataType: 'html'
+        });
+    },
+    /**
+     * Create json from inputs
+     * @param {String} placeName 
+     */
+    CreateJSON: function (placeName) {
+        let inputs = document.querySelectorAll('[data-place=' + placeName + ']');
+        let inputValues = [];
+        let tables = [];
+
+        //get data from input elements
+        for (const input of inputs) {
+            let uploadName = input.getAttribute('upload-name').split('.');
+            let tableName = uploadName[0];
+            let columnName = uploadName[1];
+            let isNew = true;
+
+            for (let i = 0; i < tables.length; i++) {
+                if (tableName === tables[i]) {
+                    isNew = false;
+                }
+            }
+
+            if (isNew) {
+                tables.push(tableName);
+            }
+
+            let inputValue = {
+                'tableName': tableName,
+                'columnName': columnName,
+                'value': input.value
+            };
+            inputValues.push(inputValue);
+        }
+
+        let result = {}
+        for (let i = 0; i < tables.length; i++) {
+            const table = tables[i];
+            let tableBlock = {};
+
+            for (let j = 0; j < inputValues.length; j++) {
+                const inputValue = inputValues[j];
+                if (table === inputValue['tableName']) {
+                    tableBlock[inputValue['columnName']] = inputValue['value'];
+                    inputValues.splice(j, 1);
+                    --j
+                }
+            }
+            result[table] = tableBlock;
+        }
+        return result;
+    },
     /**
      * Write input with label
      * @param {String} id 
@@ -10,7 +104,10 @@ let FormInputs = {
      * @param {String} uploadName 
      * @param {String} defaultValue 
      */
-    Write: function (id, name, shellId, uploadName, defaultValue) {
+    Write: function (id, name, shellId, uploadName, defaultValue = null) {
+        if (defaultValue === null) {
+            defaultValue = '';
+        }
         let readyHTML = "";
         readyHTML += '<div class="form-group">';
         readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
@@ -26,18 +123,33 @@ let FormInputs = {
      * @param {String} shellId 
      * @param {JSON} opportunities 
      * @param {String} uploadName 
+     * @param {Boolean} required 
+     * @param {String} default id
      */
-    Select: function (id, name, shellId, opportunities, uploadName) {
+    Select: function (id, name, shellId, opportunities, uploadName, required, defaultValue = null) {
+        if (defaultValue === null) {
+            defaultValue = 'null';
+        }
+
         let readyHTML = "";
         readyHTML += '<div class="form-group">';
         readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
-        readyHTML += '<select id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
+        readyHTML += '<select id="' + shellId + '_' + id + '" required="' + required + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
+        if (required === '0') {
+            readyHTML += '<option value="null" selected>---</option>';
+        }
+
         for (let k = 0; k < opportunities.length; k++) {
             readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
         }
         readyHTML += '</select> </div>';
 
         document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
+
+        //default value
+        if (defaultValue !== 'null') {
+            $('#' + shellId + '_' + id).val(defaultValue);
+        }
     },
     /**
      * Select ro create new entry
@@ -142,8 +254,12 @@ let FormInputs = {
      * @param {String} uploadName 
      * @param {String} defaultValue 
      */
-    DateTime: function (id, name, shellId, uploadName, defaultValue) {
-        defaultValue = defaultValue.toISOString().slice(0,10);
+    DateTime: function (id, name, shellId, uploadName, defaultValue = null) {
+        if (defaultValue === null) {
+            defaultValue = new Date();
+        }
+
+        defaultValue = DateFunctions.dateToString(defaultValue);
 
         let readyHTML = "";
         readyHTML += '<div class="form-group">';

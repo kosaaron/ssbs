@@ -32,7 +32,7 @@ let Varibles = {
     //Frame id of add new item 
     AddNFormId: 'nprc',
     //Entry i
-    EntryIdName: 'ProjectId',
+    EntryIdName: 'projects.ProjectId',
     //Processes data array
     processesDataArray: null,
     //Opened projects
@@ -64,7 +64,9 @@ let processesOverview = {
         addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
 
         Framework.Load('process_modul_content', Varibles.FrameId);
+        document.getElementById(Varibles.FrameId + '_add_new_btn').addEventListener('click', Events.addNew)
 
+        Local.initializationParams();
         Local.getProcessesData();
     },
     /**
@@ -90,26 +92,48 @@ export default processesOverview;
 /** Local functions **/
 let Local = {
     /**
+     * Parameters initialization 
+     */
+    initializationParams() {
+        //Processes data array
+        Varibles.processesDataArray = null;
+        //Opened projects
+        Varibles.openedProjects = [];
+        //Task table td width
+        Varibles.tasksTableTdWidth = 25;
+        //Task table width
+        Varibles.tasksTableWidth = null;
+        //Task levels
+        Varibles.taskLevels = [];
+        //Timeline start date
+        Varibles.gTimeLineStart = null;
+        //Timeline end date
+        Varibles.gTimeLineEnd = null;
+        //Timeline length (day)
+        Varibles.gTimeLineLength = null;
+    },
+    /**
      * Get processes data
      */
     getProcessesData: function () {
-        if (Varibles.processesDataArray === null) {
-            $.ajax({
-                type: "POST",
-                url: "./php/ProcessesOverview.php",
-                data: "",
-                success: function (data) {
-                    Varibles.processesDataArray = data;
-                    Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'StartDate');
-                    Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'Deadline');
-                    Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'FinishDate');
-                    Local.reloadFullPage(Varibles.processesDataArray);
-                },
-                dataType: 'json'
-            });
+        /*
+        if (Varibles.processesDataArray === null) {*/
+        $.ajax({
+            type: "POST",
+            url: "./php/ProcessesOverview.php",
+            data: "",
+            success: function (data) {
+                Varibles.processesDataArray = data;
+                Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.StartDate');
+                Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.Deadline');
+                Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.FinishDate');
+                Local.reloadFullPage(Varibles.processesDataArray);
+            },
+            dataType: 'json'
+        });/*
         } else {
             Local.reloadFullPage(Varibles.processesDataArray);
-        }
+        }*/
     },
     /**
      * Reload full page
@@ -225,7 +249,7 @@ let Local = {
             const process = processesData[index];
 
             // the empty parent element skipped
-            if (process.ParentFK !== parentId)
+            if (process['projects.ParentFK'] !== parentId)
                 continue;
 
             let level = 0;
@@ -236,14 +260,14 @@ let Local = {
                 }
             });
 
-            let object = { Id: process.ProjectId, Level: level };
+            let object = { Id: process['projects.ProjectId'], Level: level };
             Varibles.taskLevels.push(object);
 
             let processNamesBoxItem = document.createElement("div");
             processNamesBoxItem.style = "margin-left: " + level * 8 + "px;";
-            processNamesBoxItem.id = "process_" + process.ProjectId;
+            processNamesBoxItem.id = "process_" + process['projects.ProjectId'];
             let parentAttrs = document.getElementById('process_' + parentId).getAttribute('p-item-path');
-            processNamesBoxItem.setAttribute('p-item-path', parentAttrs + '.' + process.ProjectId);
+            processNamesBoxItem.setAttribute('p-item-path', parentAttrs + '.' + process['projects.ProjectId']);
             let processClassList = '';
             parentAttrs.split('.').forEach(parentId => {
                 processClassList += ' process_' + parentId;
@@ -252,7 +276,7 @@ let Local = {
 
             let pNBoxItemText = document.createElement("div");
             pNBoxItemText.className = "full-width margin-auto text-o-ellipsis";
-            pNBoxItemText.textContent = process.Name;
+            pNBoxItemText.textContent = process['projects.Name'];
 
             let pNamesBoxRef = document.getElementById("process_" + parentId);
             let pNamesBoxRefList = document.getElementsByClassName('process-names-box-item process_' + parentId);
@@ -261,7 +285,7 @@ let Local = {
                 pNamesBoxRef = pNamesBoxRefList[pNamesBoxRefList.length - 1];
             }
 
-            if (process.IsChild === '1') {
+            if (Functions.isChild(process[Varibles.EntryIdName])) {
                 let pNBoxItemIcon = document.createElement("i");
                 pNBoxItemIcon.className = "far fa-plus-square margin-auto p-n-box-item-icon";
                 processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemIcon);
@@ -278,10 +302,10 @@ let Local = {
             }
             // Task timelines
             let tasksTableTr4 = document.createElement("tr");
-            tasksTableTr4.id = "process_row_" + process.ProjectId;
+            tasksTableTr4.id = "process_row_" + process['projects.ProjectId'];
             tasksTableTr4.className = 'tasksTableTr' + processClassList;
             tasksTableTr4.style = "height: " + Varibles.tasksTableTdWidth + "px;";
-            tasksTableTr4.setAttribute('entry-id', process.ProjectId);
+            tasksTableTr4.setAttribute('entry-id', process['projects.ProjectId']);
 
             for (let index3 = 0; index3 < numOfMonth; index3++) {
                 let startDate = new Date(firthMonth.getFullYear(), firthMonth.getMonth() + index3, 1);
@@ -289,18 +313,18 @@ let Local = {
                 Varibles.tasksTableWidth = monthDays;
 
                 let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
-                let relativeDate = process.FinishDate;
+                let relativeDate = process['projects.FinishDate'];
                 // Is not it this month
-                let isNotThisMonth = relativeDate < startDate || process.StartDate > monthEnd;
-                let isBeforMonth = process.StartDate < startDate;
+                let isNotThisMonth = relativeDate < startDate || process['projects.StartDate'] > monthEnd;
+                let isBeforMonth = process['projects.StartDate'] < startDate;
                 let isAfterMonth = relativeDate > monthEnd;
                 let isOneMonth = !(isBeforMonth || isAfterMonth);
 
                 //delayed date
-                let isDelayed = process.FinishDate > relativeDate;
-                let finishDays = process.Deadline.getDate();
-                let deadlineStartDate = new Date(process.Deadline.getFullYear(), process.Deadline.getMonth(), 1);
-                let deadlineEndDate = new Date(process.Deadline.getFullYear(), process.Deadline.getMonth() + 1, 1);
+                let isDelayed = process['projects.FinishDate'] > relativeDate;
+                let finishDays = process['projects.Deadline'].getDate();
+                let deadlineStartDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth(), 1);
+                let deadlineEndDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth() + 1, 1);
 
                 if (isDelayed && (startDate >= deadlineEndDate)) {
                     finishDays = 0;
@@ -335,23 +359,23 @@ let Local = {
                     }
 
                     // simple line
-                    if (process.StartDate.getDate() < index2 && relativeDate.getDate() > index2 ||
+                    if (process['projects.StartDate'].getDate() < index2 && relativeDate.getDate() > index2 ||
                         (isBeforMonth && relativeDate.getDate() > index2) ||
-                        (isAfterMonth && process.StartDate.getDate() < index2)) {
+                        (isAfterMonth && process['projects.StartDate'].getDate() < index2)) {
 
                         tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                         let tasksTableDiv4 = document.createElement("div");
                         tasksTableDiv4.className = "full-screen " + div4Background;
                         tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                    } else if (isOneMonth && process.StartDate.getDate() === index2 && relativeDate.getDate() === index2) {
+                    } else if (isOneMonth && process['projects.StartDate'].getDate() === index2 && relativeDate.getDate() === index2) {
                         tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                         let tasksTableDiv4 = document.createElement("div");
                         tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
                         tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                    } else if ((isOneMonth && process.StartDate.getDate() === index2) ||
-                        (isAfterMonth && process.StartDate.getDate() === index2)) {
+                    } else if ((isOneMonth && process['projects.StartDate'].getDate() === index2) ||
+                        (isAfterMonth && process['projects.StartDate'].getDate() === index2)) {
                         tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                         let tasksTableDiv4 = document.createElement("div");
@@ -482,26 +506,26 @@ let Local = {
             let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
 
             // the empty parent element skipped
-            if (process.ParentFK !== null)
+            if (process['projects.ParentFK'] !== null)
                 continue;
 
             // Levels of tasks
-            let object = { Id: process.ProjectId, Level: 0 };
+            let object = { Id: process['projects.ProjectId'], Level: 0 };
             Varibles.taskLevels.push(object);
 
             let processNamesBoxItem = document.createElement("div");
             processNamesBoxItem.className = "process-names-box-item display-flex";
-            processNamesBoxItem.id = "process_" + process.ProjectId;
-            processNamesBoxItem.setAttribute("p-item-path", process.ProjectId);
+            processNamesBoxItem.id = "process_" + process['projects.ProjectId'];
+            processNamesBoxItem.setAttribute("p-item-path", process['projects.ProjectId']);
 
             let pNBoxItemText = document.createElement("div");
             pNBoxItemText.className = "full-width margin-auto text-o-ellipsis";
-            pNBoxItemText.textContent = process.Name;
+            pNBoxItemText.textContent = process['projects.Name'];
 
             processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
             processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
 
-            if (process.IsChild === '1') {
+            if (Functions.isChild(process[Varibles.EntryIdName])) {
                 let pNBoxItemIcon = document.createElement("i");
                 pNBoxItemIcon.className = "far fa-plus-square margin-auto p-n-box-item-icon";
                 processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemIcon);
@@ -519,24 +543,24 @@ let Local = {
 
             // Task timelines
             let tasksTableTr4 = document.createElement("tr");
-            tasksTableTr4.id = "process_row_" + process.ProjectId;
+            tasksTableTr4.id = "process_row_" + process['projects.ProjectId'];
             tasksTableTr4.className = "tasksTableTr";
             tasksTableTr4.style = "height: " + Varibles.tasksTableTdWidth + "px;";
-            tasksTableTr4.setAttribute('entry-id', process.ProjectId);
+            tasksTableTr4.setAttribute('entry-id', process['projects.ProjectId']);
 
             // Relative date
-            let relativeDate = process.FinishDate;
+            let relativeDate = process['projects.FinishDate'];
             // Is it not this month
-            let isNotThisMonth = relativeDate < startDate || process.StartDate > monthEnd;
-            let isBeforMonth = process.StartDate < startDate;
+            let isNotThisMonth = relativeDate < startDate || process['projects.StartDate'] > monthEnd;
+            let isBeforMonth = process['projects.StartDate'] < startDate;
             let isAfterMonth = relativeDate > monthEnd;
             let isOneMonth = !(isBeforMonth || isAfterMonth);
 
             //delayed date
-            let isDelayed = process.FinishDate > process.Deadline;
-            let finishDays = process.Deadline.getDate();
-            let deadlineStartDate = new Date(process.Deadline.getFullYear(), process.Deadline.getMonth(), 1);
-            let deadlineEndDate = new Date(process.Deadline.getFullYear(), process.Deadline.getMonth() + 1, 1);
+            let isDelayed = process['projects.FinishDate'] > process['projects.Deadline'];
+            let finishDays = process['projects.Deadline'].getDate();
+            let deadlineStartDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth(), 1);
+            let deadlineEndDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth() + 1, 1);
 
             if (isDelayed && (startDate >= deadlineEndDate)) {
                 finishDays = 0;
@@ -570,23 +594,23 @@ let Local = {
                 }
 
                 // simple line
-                if (process.StartDate.getDate() < index2 && relativeDate.getDate() > index2 ||
+                if (process['projects.StartDate'].getDate() < index2 && relativeDate.getDate() > index2 ||
                     (isBeforMonth && relativeDate.getDate() > index2) ||
-                    (isAfterMonth && process.StartDate.getDate() < index2)) {
+                    (isAfterMonth && process['projects.StartDate'].getDate() < index2)) {
 
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background;
                     tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else if (isOneMonth && process.StartDate.getDate() === index2 && relativeDate.getDate() === index2) {
+                } else if (isOneMonth && process['projects.StartDate'].getDate() === index2 && relativeDate.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
                     tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else if ((isOneMonth && process.StartDate.getDate() === index2) ||
-                    (isAfterMonth && process.StartDate.getDate() === index2)) {
+                } else if ((isOneMonth && process['projects.StartDate'].getDate() === index2) ||
+                    (isAfterMonth && process['projects.StartDate'].getDate() === index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                     let tasksTableDiv4 = document.createElement("div");
@@ -681,7 +705,7 @@ let Local = {
             // Task names
             const process = processesData[index];
 
-            if (process.ParentFK !== null)
+            if (process['projects.ParentFK'] !== null)
                 continue;
 
             counter++;
@@ -689,18 +713,18 @@ let Local = {
             let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
 
             // Relative date
-            let relativeDate = process.FinishDate;
+            let relativeDate = process['projects.FinishDate'];
             // Is it not this month
-            let isNotThisMonth = relativeDate < startDate || process.StartDate > monthEnd;
-            let isBeforMonth = process.StartDate < startDate;
+            let isNotThisMonth = relativeDate < startDate || process['projects.StartDate'] > monthEnd;
+            let isBeforMonth = process['projects.StartDate'] < startDate;
             let isAfterMonth = relativeDate > monthEnd;
             let isOneMonth = !(isBeforMonth || isAfterMonth);
 
             //delayed date
-            let isDelayed = process.FinishDate > process.Deadline;
-            let finishDays = process.Deadline.getDate();
-            let deadlineStartDate = new Date(process.Deadline.getFullYear(), process.Deadline.getMonth(), 1);
-            let deadlineEndDate = new Date(process.Deadline.getFullYear(), process.Deadline.getMonth() + 1, 1);
+            let isDelayed = process['projects.FinishDate'] > process['projects.Deadline'];
+            let finishDays = process['projects.Deadline'].getDate();
+            let deadlineStartDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth(), 1);
+            let deadlineEndDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth() + 1, 1);
 
             if (isDelayed && (startDate >= deadlineEndDate)) {
                 finishDays = 0;
@@ -735,23 +759,23 @@ let Local = {
                 }
 
                 // simple line
-                if (process.StartDate.getDate() < index2 && relativeDate.getDate() > index2 ||
+                if (process['projects.StartDate'].getDate() < index2 && relativeDate.getDate() > index2 ||
                     (isBeforMonth && relativeDate.getDate() > index2) ||
-                    (isAfterMonth && process.StartDate.getDate() < index2)) {
+                    (isAfterMonth && process['projects.StartDate'].getDate() < index2)) {
 
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background;
                     tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else if (isOneMonth && process.StartDate.getDate() === index2 && relativeDate.getDate() === index2) {
+                } else if (isOneMonth && process['projects.StartDate'].getDate() === index2 && relativeDate.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
                     tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else if ((isOneMonth && process.StartDate.getDate() === index2) ||
-                    (isAfterMonth && process.StartDate.getDate() === index2)) {
+                } else if ((isOneMonth && process['projects.StartDate'].getDate() === index2) ||
+                    (isAfterMonth && process['projects.StartDate'].getDate() === index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                     let tasksTableDiv4 = document.createElement("div");
@@ -845,7 +869,7 @@ let Local = {
             // Task names
             const process = processesData[index];
 
-            if (process.ParentFK !== null)
+            if (process['projects.ParentFK'] !== null)
                 continue;
 
             counter++;
@@ -853,18 +877,18 @@ let Local = {
             let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
 
             // Relative date
-            let relativeDate = process.FinishDate;
+            let relativeDate = process['projects.FinishDate'];
             // Is it not this month
-            let isNotThisMonth = relativeDate < startDate || process.StartDate > monthEnd;
-            let isBeforMonth = process.StartDate < startDate;
+            let isNotThisMonth = relativeDate < startDate || process['projects.StartDate'] > monthEnd;
+            let isBeforMonth = process['projects.StartDate'] < startDate;
             let isAfterMonth = relativeDate > monthEnd;
             let isOneMonth = !(isBeforMonth || isAfterMonth);
 
             //delayed date
-            let isDelayed = process.FinishDate > process.Deadline;
-            let finishDays = process.Deadline.getDate();
-            let deadlineStartDate = new Date(process.Deadline.getFullYear(), process.Deadline.getMonth(), 1);
-            let deadlineEndDate = new Date(process.Deadline.getFullYear(), process.Deadline.getMonth() + 1, 1);
+            let isDelayed = process['projects.FinishDate'] > process['projects.Deadline'];
+            let finishDays = process['projects.Deadline'].getDate();
+            let deadlineStartDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth(), 1);
+            let deadlineEndDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth() + 1, 1);
 
             if (isDelayed && (startDate >= deadlineEndDate)) {
                 finishDays = 0;
@@ -899,23 +923,23 @@ let Local = {
                 }
 
                 // simple line
-                if (process.StartDate.getDate() < index2 && relativeDate.getDate() > index2 ||
+                if (process['projects.StartDate'].getDate() < index2 && relativeDate.getDate() > index2 ||
                     (isBeforMonth && relativeDate.getDate() > index2) ||
-                    (isAfterMonth && process.StartDate.getDate() < index2)) {
+                    (isAfterMonth && process['projects.StartDate'].getDate() < index2)) {
 
                     tasksTableTd4.className = "processes-table-table-td process-line-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background;
                     tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else if (isOneMonth && process.StartDate.getDate() === index2 && relativeDate.getDate() === index2) {
+                } else if (isOneMonth && process['projects.StartDate'].getDate() === index2 && relativeDate.getDate() === index2) {
                     tasksTableTd4.className = "processes-table-table-td process-end-td";
 
                     let tasksTableDiv4 = document.createElement("div");
                     tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
                     tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else if ((isOneMonth && process.StartDate.getDate() === index2) ||
-                    (isAfterMonth && process.StartDate.getDate() === index2)) {
+                } else if ((isOneMonth && process['projects.StartDate'].getDate() === index2) ||
+                    (isAfterMonth && process['projects.StartDate'].getDate() === index2)) {
                     tasksTableTd4.className = "processes-table-table-td process-start-td";
 
                     let tasksTableDiv4 = document.createElement("div");
@@ -953,6 +977,35 @@ let Local = {
     }
 };
 
+/** Functions **/
+let Functions = {
+    isChild(projectId) {
+        // looking for child
+        for (const process of Varibles.processesDataArray) {
+            if (process['projects.ParentFK'] === projectId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+/** Callbacks **/
+let Callbacks = {
+    /**
+     * Refresh page
+     * @param {JSON} result Update/insert result
+     */
+    refreshPage(result) {
+        Framework.Load('process_modul_content', Varibles.FrameId);
+        document.getElementById(Varibles.FrameId + '_add_new_btn').addEventListener('click', Events.addNew)
+
+        Local.initializationParams();
+        Local.getProcessesData();
+    }
+}
+
+/** Events **/
 let Events = {
     /**
      * Process tr click event
@@ -960,43 +1013,75 @@ let Events = {
     processTrClick(e) {
         let id = this.getAttribute('entry-id');
         Database.getAddNForm(id);
+    },
+    addNew(e) {
+        let targetId = Varibles.FrameId;
+        let dinamicPopupForm = new DinamicPopupForm(
+            targetId,
+            'beforebegin',
+            'Projekt hozzáadása'
+        );
+        dinamicPopupForm.loadFormData(
+            Varibles.AddNFormId,
+            Varibles.processesDataArray,
+            targetId,
+            null,
+            null,
+            Callbacks.refreshPage
+        );
     }
 }
 
 let Database = {
     getAddNForm: function (id) {
         let targetId = Varibles.FrameId;
+        let entryIdJSON = {
+            'Name': Varibles.EntryIdName,
+            'Id': id
+        }
+
         let dinamicPopupForm = new DinamicPopupForm(
             targetId,
-            'beforebegin'
+            'beforebegin',
+            'Szerkesztés'
         );
-
-        $.ajax({
-            type: "POST",
-            url: "./php/GetFormData.php",
-            data: { 'FormId': Varibles.AddNFormId },
-            success: function (data) {
-                let formData = data.FormStructure.Data;
-                let entry = ArrayFunctions.GetItem(
-                    Varibles.processesDataArray,
-                    Varibles.EntryIdName,
-                    id
-                );
-
-                let fillFormData = { }
-
-                for (const formItem of formData) {
-                    let uploadName = formItem['UploadName'];
-                    let value = entry[formItem['ColumnName'].split(',')[1]]
-
-                    fillFormData[uploadName] = value;
-                }
-                alert(JSON.stringify(fillFormData));
-
-                dinamicPopupForm.onLoad(formData, fillFormData, targetId);
-            },
-            dataType: 'json'
-        });
+        dinamicPopupForm.loadFormData(
+            Varibles.AddNFormId,
+            Varibles.processesDataArray,
+            targetId,
+            entryIdJSON,
+            null,
+            Callbacks.refreshPage
+        );
+        /*
+                $.ajax({
+                    type: "POST",
+                    url: "./php/GetFormData.php",
+                    data: { 'FormId': Varibles.AddNFormId },
+                    success: function (data) {
+                        let formData = data.FormStructure.Data;
+                        let entry = ArrayFunctions.GetItem(
+                            Varibles.processesDataArray,
+                            Varibles.EntryIdName,
+                            id
+                        );
+        
+                        let fillFormData = { }
+                        for (const formItem of formData) {
+                            let uploadName = formItem['UploadName'];
+                            let value = entry[formItem['UploadName']];
+        
+                            fillFormData[uploadName] = value;
+                        }
+        
+                        let entryId = {
+                            'Name': Varibles.EntryIdName,
+                            'Id': id
+                        }
+                        dinamicPopupForm.onLoad(formData, fillFormData, targetId, entryId);
+                    },
+                    dataType: 'json'
+                });*/
     }
 }
 
@@ -1043,146 +1128,4 @@ let Framework = {
     </div>
         `
     }
-}
-/**
- * Example data
- */
-let exampleData = {
-    /** Data */
-    /*
-    let processesDataArray = [
-        {
-            ProjectId: "111",
-            Name: "Első projekt",
-            ParentFK: null,
-            StartDate: new Date('2019.08.11 00:00:00'),
-            Deadline: new Date('2019.10.16 00:00:00')
-        },
-        {
-            ProjectId: "112",
-            Name: "Második projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.13 00:00:00'),
-            Deadline: new Date('2019.09.14 00:00:00')
-        },
-        {
-            ProjectId: "113",
-            Name: "Harmadik projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.14 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "114",
-            Name: "Negyedik projekt",
-            ParentFK: null,
-            StartDate: new Date('2019.09.16 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "115",
-            Name: "Öt projekt",
-            ParentFK: null,
-            StartDate: new Date('2019.09.03 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "116",
-            Name: "Hat projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.13 00:00:00'),
-            Deadline: new Date('2019.09.14 00:00:00')
-        },
-        {
-            ProjectId: "117",
-            Name: "Hét projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.14 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "118",
-            Name: "Nyolc projekt",
-            ParentFK: "113",
-            StartDate: new Date('2019.09.16 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "119",
-            Name: "Első projekt",
-            ParentFK: null,
-            StartDate: new Date('2019.08.11 00:00:00'),
-            Deadline: new Date('2019.10.16 00:00:00')
-        },
-        {
-            ProjectId: "120",
-            Name: "Második projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.13 00:00:00'),
-            Deadline: new Date('2019.09.14 00:00:00')
-        },
-        {
-            ProjectId: "121",
-            Name: "Harmadik projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.14 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "122",
-            Name: "Negyedik projekt",
-            ParentFK: null,
-            StartDate: new Date('2019.09.16 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "123",
-            Name: "Öt projekt",
-            ParentFK: null,
-            StartDate: new Date('2019.09.03 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "124",
-            Name: "Hat projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.13 00:00:00'),
-            Deadline: new Date('2019.09.14 00:00:00')
-        },
-        {
-            ProjectId: "125",
-            Name: "Hét projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.14 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "126",
-            Name: "Nyolc projekt",
-            ParentFK: "113",
-            StartDate: new Date('2019.09.16 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "127",
-            Name: "Hat projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.13 00:00:00'),
-            Deadline: new Date('2019.09.14 00:00:00')
-        },
-        {
-            ProjectId: "128",
-            Name: "Hét projekt",
-            ParentFK: "111",
-            StartDate: new Date('2019.09.14 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        },
-        {
-            ProjectId: "129",
-            Name: "Nyolc projekt",
-            ParentFK: "113",
-            StartDate: new Date('2019.09.16 00:00:00'),
-            Deadline: new Date('2019.09.16 00:00:00')
-        }
-    ];*/
 }

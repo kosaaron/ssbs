@@ -20,50 +20,6 @@ import AutoScroll from './plug-ins/AutoScroll.js';
 import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame, addListener } from './common.js';
 
-
-/** Local functions */
-/**
- * Partners manager details template
- */
-function getTasksMDetail(shellId) {
-    let container = "";
-    container += '!<h2 id="task_details_title" class="name-grey">*1*</h2>';
-    container += '<div id="task_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons"> <label id="detail_data_btn" class="btn btn-detail-menu btn-detail-menu-active"> <input type="radio" name="options" id="option1" autocomplete="off" onchange="showData()"> Adatok </label> <label id="detail_timeline_btn" class="btn btn-detail-menu"> <input type="radio" name="options" id="option2" autocomplete="off" onchange="showTimeline()"> Idővonal </label></div></div><div id="task_details_content">';
-    container += '!<div id="task_data_container">';
-    container += '!<div id="' + shellId + '_cc_g"> </div>';
-    container += '!</div><div id="task_timeline_container" style="display: none" ><ul id="task_timeline" class="task-timeline"></ul></div></div>';
-
-    return container;
-}
-
-/**
- * Card click event
- * @param {Integer} cardId Card id
- */
-/*
-function taskMCardClick(cardId) {
-    let splittedId = cardId.split('_');
-    let taskId = splittedId[splittedId.length - 1];
-    //Data
-    let data = Varibles.PageData.Data;
-    let structure = Varibles.PageData.DetailsStructure;
-    let shellId = "tasks_m_details";
-    let card = getTasksMDetail(shellId);
-    CardDetails.Create(taskId, data, structure, card, shellId, 'TaskId');
-
-    //Steps
-    Database.getTaskWayData(taskId);
-    TaskManager.resizeModule();
-}*/
-/*
-function addTask() {
-    newTask.loadModule();
-
-    removeOneListener("processes_back_to_menu");
-    Events.onDestroy();
-    addOneListener("processes_back_to_menu", "click", TaskManager.loadModule);
-}*/
-
 /** Modul parameters **/
 let Varibles = {
     FrameId: 'tskm',

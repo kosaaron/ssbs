@@ -2,6 +2,7 @@ export default class GlobalVaribles {
     //Varibles
     static ActiveModule = "";
     static CCLimitSize = 20;
+    static Langauge = "HU";
 
     //Getters
     static getActiveModule() {
