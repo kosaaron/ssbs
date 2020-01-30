@@ -15,12 +15,9 @@ import CardContainer from './plug-ins/CardContainer.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
 import DetailsDesigns from './designs/DetailsDesigns.js';
 import CardDetails from './plug-ins/CardDetails.js';
+import Limiting from './plug-ins/Limiting.js';
 
 import newEmployee from './new_employee.js';
-
-/*
-import Limiting from './plug-ins/Limiting.js';
-*/
 
 
 /** Modul parameters */

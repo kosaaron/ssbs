@@ -16,6 +16,7 @@ import CardContainer from './plug-ins/CardContainer.js';
 import DetailsDesigns from './designs/DetailsDesigns.js';
 import CardDetails from './plug-ins/CardDetails.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
+import Limiting from './plug-ins/Limiting.js';
 
 import newTool from './new_tool.js';
 
@@ -42,7 +43,7 @@ let Tools = {
         addOneListener(
             Varibles.TitleIconId,
             "click",
-            //<IconEvent> ez is kérdéses
+            //<IconEvent>
         );
         //Loader
         document.getElementById(Varibles.ModuleFrameId).innerHTML = `<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>`;
@@ -183,60 +184,35 @@ let Callbacks = {
 
 /** Events **/
 let Events = {
-        /**
-         * Card click event
-         * @param {Integer} cardId Card id
-         */
-        cardClick: function (cardId) {
-            let splittedId = cardId.split('_');
-            let id = splittedId[splittedId.length - 1];
-            //Data
-            let data = Varibles.PageData.Data;
-            let structure = Varibles.PageData.DetailsStructure;
-            let shellId = Varibles.FrameId + '_details';
-            let details = new DetailsDesigns().getSimpleDetails(shellId);
-            CardDetails.Create(
-                id, 
-                data, 
-                structure, 
-                details, 
-                shellId, 
-                Varibles.MainTableIdName
-            );
-        },
-        /**
-         * Is called when this modul closes
-         */
-        onDestroy: function () {
-            GlobalVaribles.setActiveModul("");
-        }
+    /**
+     * Card click event
+     * @param {Integer} cardId Card id
+     */
+    cardClick: function (cardId) {
+        let splittedId = cardId.split('_');
+        let id = splittedId[splittedId.length - 1];
+        //Data
+        let data = Varibles.PageData.Data;
+        let structure = Varibles.PageData.DetailsStructure;
+        let shellId = Varibles.FrameId + '_details';
+        let details = new DetailsDesigns().getSimpleDetails(shellId);
+        CardDetails.Create(
+            id, 
+            data, 
+            structure, 
+            details, 
+            shellId, 
+            Varibles.MainTableIdName
+        );
+    },
+    /**
+     * Is called when this modul closes
+     */
+    onDestroy: function () {
+        GlobalVaribles.setActiveModul("");
     }
- 
-/**
- * Card click event
- * @param {Integer} cardId Card id
- */
-/*
-function toolCardClick(cardId) {
-    let splittedId = cardId.split('_');
-    let toolId = splittedId[splittedId.length - 1];
-    //Data
-    let data = Varibles.PageData.Data;
-    let structure = Varibles.PageData.DetailsStructure;
-    let shellId = Varibles.FrameId + '_details';
-    let details = new DetailsDesigns().getSimpleDetails(shellId);
-    CardDetails.Create(toolId, data, structure, details, shellId, 'ToolId');
 }
 
-function toolFileterChange(id) {
-    alert(id);
-}
-
-function addTool() {
-    newTool.loadNewTool();
-    addOneListener("back_to_tool", "click", tools.loadTools);
-}
-*/
 var PageDataJSONExample = {
     "Filters": [
         {
