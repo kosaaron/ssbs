@@ -6,157 +6,90 @@
  *    -  Employees
  */
 /** Imports */
-import CardContainer from './plug-ins/CardContainer.js';
-import CardDetails from './plug-ins/CardDetails.js';
-import FilterAndSort from './plug-ins/FilterAndSort.js';
-import { addOneListener } from './common.js';
-import newEmployee from './new_employee.js';
+import { addOneListener, removeOneListener } from './common.js';
 import ContainerDesigns from './designs/ContainerDesigns.js';
-import DetailsDesigns from './designs/DetailsDesigns.js';
+import FilterAndSort from './plug-ins/FilterAndSort.js';
 import CardDesigns from './designs/CardDesigns.js';
 import ElementFunctions from './plug-ins/ElementFunctions.js';
+import CardContainer from './plug-ins/CardContainer.js';
+import GlobalVaribles from './plug-ins/GlobalVaribles.js';
+import DetailsDesigns from './designs/DetailsDesigns.js';
+import CardDetails from './plug-ins/CardDetails.js';
+
+import newEmployee from './new_employee.js';
+
+/*
 import Limiting from './plug-ins/Limiting.js';
+*/
 
 
-/** Local functions */
-
-function employeeCardClick(cardId) {
-    let splittedId = cardId.split('_');
-    let employeeId = splittedId[splittedId.length - 1];
-    //Data
-    let data = Varibles.PageData.Data;
-    let structure = Varibles.PageData.DetailsStructure;
-    let shellId = Varibles.FrameId + "_details";
-    let details = new DetailsDesigns().getSimpleDetails(shellId);
-    
-
-    CardDetails.Create(employeeId, data, structure, details, shellId, 'EmployeeId');
-}
-
-function addEmployee() {
-    newEmployee.loadNewEmployee();
-    addOneListener("back_to_employee", "click", employees.loadEmployees);
-}
-
-
-
-var employees = {
-    loadEmployees: function () {
-        // Loader
-        document.getElementById('resources_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
-
-        // Data from server
-        Database.getContainerData();
-    }
-}
-export default employees;
-
-/** Loadings functions **/
-let Loadings = {
-    reloadFullPage: function () {
-        // Load framework
-        Framework.Load('resources_content', Varibles.FrameId);
-
-        Loadings.reloadCardContainer();
-
-        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + '_filters',
-            Database.employeesFilterChange);
-
-        addOneListener("add_employee_btn", "click", addEmployee);
-    },
-    /**
-     * Reload card container
-     */
-    reloadCardContainer: function (offset = 0) {
-        // Load card container
-        let data = Varibles.PageData.Data;
-        let cardStructure = Varibles.PageData.DataStructure;
-        let cardDesign = new CardDesigns().getEmployeeCard(Varibles.FrameId);
-        let cardContainer = Varibles.FrameId + '_cc';
-
-        new ElementFunctions().removeChilds(cardContainer);
-        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
-        CardContainer.ClickableCard(employeeCardClick, Varibles.FrameId);
-        if (data[0].EmployeeId !== null && data[0] !== undefined) {
-            employeeCardClick(Varibles.FrameId + '_card_' + data[0].EmployeeId);
-        }
-        //Limiting
-        if (Object.keys(data).length % GlobalVaribles.CCLimitSize === 0) {
-            new Limiting(
-                Varibles.FrameId,
-                Varibles.FilterPlace,
-                Callbacks.successFilterEvent,
-                offset
-            );
-        }
-    }
-}
-
-/** Local varibles **/
+/** Modul parameters */
 let Varibles = {
     FrameId: 'empl',
+    FrameName: 'Alkalmazottak',
     FilterPlace: 'emplfltr',
-    PageData: null,
-    TaskWayData: null
+    MainTableIdName: 'EmployeeId',
+    //element ids
+    ModulFrameId: 'resources_modul_content',
+    TitleTextId: 'resource_modul_title',
+    TitleIconId: 'resources_reload_modul_btn',
+    //data
+    PageData: []
 }
 
+var Employees = {
+    loadModule: function () {
+        // Title
+        document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
+        addOneListener(
+            Varibles.TitleIconId,
+            "click",
+            //<Iconevent>
+        );
+        // Loader
+        document.getElementById(Varibles.ModulFrameId).innerHTML =
+            '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+        // Data from server
+        Database.getFullPageData();
+    },
+    resizeModule: function () {
+        //code
+    }
+}
+export default Employees;
+
+/** Data from database */
 let Database = {
     /**
-     * Employees filter change event
+     * Employees filter change
      * @param {String} id 
      */
-    employeesFilterChange: function (fullId) {
-        FilterAndSort.FilteringOnDB(Varibles.FrameId, Varibles.FilterPlace, Callbacks.successFilterEvent);
+    filterChange: function (fullId) {
+        FilterAndSort.FilteringOnDB(
+            Varibles.FrameId,
+            Varibles.FilterPlace,
+            Callbacks.successFilterEvent
+        );
     },
     /**
-     * Get task way data
-     * @param {String} taskId 
+     * Get full page data
      */
-    getContainerData: function () {
+    getFullPageData: function () {
         //if (Varibles.PageData === null) {
         $.ajax({
             type: "POST",
             url: "./php/GetEmployees.php",
             data: "",
             success: function (data) {
-                Varibles.PageData = data;/*
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
-                    Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-                    */
-                Loadings.reloadFullPage(Varibles.PageData);
+                Varibles.PageData = data;
+                Loadings.reloadFullPage();
             },
             dataType: 'json'
-        });/*
-        } else {
-            Loadings.reloadFullPage(Varibles.PageData);
-        }*/
-    }
-}
-
-
-/** Callbacks **/
-let Callbacks = {
-        /**
-     * Success filter event
-     * @param {JSON} data 
-     * @param {Boolean} isClear 
-     * @param {Number} offset 
-     */
-    successFilterEvent: function (data, isClear = true, offset = 0) {
-        if (isClear) {
-            Varibles.PageData.Data = [];
-        }
-        data.Data.forEach(entry => {
-            Varibles.PageData.Data.push(entry);
         });
-
-        /* String to date
-        Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
-        */
-        Loadings.reloadCardContainer(offset);
     }
 }
 
+/** Framework */
 let Framework = {
     Load: function (targetId, shellId) {
         let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
@@ -170,6 +103,110 @@ let Framework = {
     }
 }
 
+/** Loadings functions **/
+let Loadings = {
+    reloadFullPage: function () {
+        // Load framework
+        Framework.Load(Varibles.ModulFrameId, Varibles.FrameId);
+        //Card container fenerating cards
+        Loadings.reloadCardContainer();
+        //Filter and sort creater
+        FilterAndSort.Create(
+            Varibles.PageData.Filters,
+            Varibles.FrameId + '_filters',
+            Database.filterChange
+        );
+        FilterAndSort.CreateSort(
+            Varibles.PageData.Sorts,
+            Varibles.FrameId + '_sorts',
+            Database.filterChange
+        );
+        
+        //Events
+        addOneListener(Varibles.FrameId + '_add_new_btn', "click", Loadings.loadAddNew);
+    },
+    /**
+     * Reload card container
+     */
+    reloadCardContainer: function () {
+        // Load card container
+        let data = Varibles.PageData.Data;
+        let cardStructure = Varibles.PageData.DataStructure;
+        let cardDesign = new CardDesigns().getEmployeeCard(Varibles.FrameId);
+        let cardContainer = Varibles.FrameId + '_cc';
+
+        new ElementFunctions().removeChilds(cardContainer);
+        CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
+        CardContainer.ClickableCard(Events.cardClick, Varibles.FrameId);
+        if (data[0] !== undefined) {
+            Events.cardClick(Varibles.FrameId + '_card_' + data[0][Varibles.MainTableIdName]);
+        }
+        //Limiting
+        if (Object.keys(data).length % GlobalVaribles.CCLimitSize === 0) {
+            new Limiting(
+                Varibles.FrameId,
+                Varibles.FilterPlace,
+                Callbacks.successFilterEvent,
+                offset
+            );
+        }
+    },
+    loadAddNew: function () {
+        newEmployee.loadModule();
+        removeOneListener(Varibles.TitleIconId);
+        addOneListener(Varibles.TitleIconId, "click", Employees.loadModule);
+    }
+}
+
+/** Callbacks **/
+let Callbacks = {
+    /**
+     * Success filter event
+     * @param {JSON} data 
+     * @param {Boolean} isClear 
+     * @param {Number} offset 
+     */
+    successFilterEvent: function (data, isClear = true, offset = 0) {
+        if (isClear) {
+            Varibles.PageData.Data = [];
+        }
+        data.Data.forEach(entry => {
+            Varibles.PageData.Data.push(entry);
+        });
+        Loadings.reloadCardContainer(offset);
+    }
+}
+
+/** Events **/
+let Events = {
+    /**
+     * Card click event
+     * @param {Integer} cardId Card id
+     */
+    cardClick: function (cardId) {
+        let splittedId = cardId.split('_');
+        let id = splittedId[splittedId.length - 1];
+        //Data
+        let data = Varibles.PageData.Data;
+        let structure = Varibles.PageData.DetailsStructure;
+        let shellId = Varibles.FrameId + '_details';
+        let details = new DetailsDesigns().getSimpleDetails(shellId);
+        CardDetails.Create(
+            id, 
+            data, 
+            structure, 
+            details, 
+            shellId, 
+            Varibles.MainTableIdName
+        );
+    },
+    /**
+     * Is called when this modul closes
+     */
+    onDestroy: function () {
+        GlobalVaribles.setActiveModul("");
+    }
+}
 
 let PageDataJSONExample = {
     "Filters": [

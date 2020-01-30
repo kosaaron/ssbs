@@ -17,7 +17,7 @@ import OrderManager from './order_manager.js';
 import { addListenerByAttr2, addListener } from './common.js';
 import showCharts from './show_charts.js';
 import Tools from './tools.js';
-import employees from './employees.js';
+import Employees from './employees.js';
 import ProductsOverview from './products_overview.js';
 import newTable from './testproducttable.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
@@ -208,7 +208,7 @@ function addResourcesEvents(attr) {
     Varibles.isOpenedRsrc = true;
     switch (attr) {
         case "employees":
-            employees.loadEmployees();
+            Employees.loadModule();
             break;
         case "tools":
             Tools.loadModule();
