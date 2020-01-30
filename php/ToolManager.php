@@ -1,37 +1,55 @@
 <?php
-require_once('Modules/Connect.php');
-        $PDOConnect = new PDOConnect();
-        $pdo = $PDOConnect->pdo;
 require_once('Modules/CreateFilter.php');
 require_once('Modules/DataAndStructure.php');
 
-//Post varibles
-$userId = 1;
+class Tools
+{
+    //Post varibles
+    public $userId;
 
-//Local varibles
-$main_data = array();
+    //Local varibles
+    public $main_data;
 
-/** Tool's manager filters */
-$createFilter = new CreateFilter();
-$fltrStructure = $createFilter->DefaultFilter($userId, "tlsfltr");
-$main_data['Filters'] = $fltrStructure;
+    function __construct($userId)
+    {
+        $this->userId = $userId;
+        $this->main_data = array();
+    }
 
-/** Tool's manager data */
-$dataAndStructure = new DataAndStructure();
-$cardCResult = $dataAndStructure->CardContainer($userId, "tlsmd", "tools");
-$main_data['DataStructure'] = $cardCResult['DataStructure'];
+    public function CreateFilter()
+    {
+        /** Tool's manager filters */
+        $createFilter = new CreateFilter();
+        $fltrStructure = $createFilter->DefaultFilter($this->userId, "tlsfltr");
+        $this->main_data['Filters'] = $fltrStructure['Filters'];
+        $this->main_data['Sorts'] = $fltrStructure['Sorts'];
+    }
 
-foreach ($cardCResult['Data'] as $row) {
-    $remarks = $pdo->query('SELECT ToolRemarkId, tool_remarks.RemarkText, EmployeeFK, employees.FirstName, employees.LastName FROM tool_remarks INNER JOIN employees ON EmployeeFK=EmployeeId WHERE (' . $row['ToolId'] . '=ToolFK)')->fetchAll(PDO::FETCH_ASSOC);
-    $row['remarks'] = $remarks;
-    $main_data['Data'][] = $row;
+    public function CreateCardContainer(
+        $filter = '',
+        $sort = '',
+        $dataPos = array(
+            'Limit' => 20,
+            'Offset' => 0
+        )
+    ) {
+        /** Partner's manager data */
+        $dataAndStructure = new DataAndStructure();
+        $cardCResult = $dataAndStructure->CardContainer(
+            $this->userId,
+            "tlsmd",
+            "tools",
+            $filter,
+            $sort,
+            $dataPos
+        );
+        $this->main_data['DetailsStructure']['Names'] = $cardCResult['Names'];
+        $this->main_data['DetailsStructure']['Data'] = $cardCResult['Data'];
+    
+        /** Partner's manager details */
+        $cardCResult = $dataAndStructure->Details($this->userId, "tlsdtls");
+        $this->main_data['DetailsStructure']['Names'] = $cardCResult['Names'];
+        $this->main_data['DetailsStructure']['Data'] = $cardCResult['Data'];
+
+    }
 }
-
-/** Tool's manager details */
-$cardCResult = $dataAndStructure->Details($userId, "tlsdtls");
-$main_data['DetailsStructure']['Names'] = $cardCResult['Names'];
-$main_data['DetailsStructure']['Data'] = $cardCResult['Data'];
-
-/** Finish */
-$json = json_encode($main_data);
-print_r($json);

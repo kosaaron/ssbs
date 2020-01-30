@@ -25,7 +25,7 @@ import newTool from './new_tool.js';
 let Varibles = {
     FrameId: 'tls',
     FrameName: 'Eszközök',
-    FilterPlace: 'toolfltr', //Kérdéses
+    FilterPlace: 'tlsfltr',
     MainTableIdName: 'ToolId',
     //element ids
     ModuleFrameId: 'resources_modul_content',
@@ -76,7 +76,7 @@ let Database = {
     getFullPageData: function () {
         $.ajax({
             type: "POST",
-            url: "./php/ToolManager.php",
+            url: "./php/GetTools.php",
             data: "",
             success: function (data) {
                 Varibles.PageData = data;
