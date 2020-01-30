@@ -49,10 +49,10 @@ export default class CardDesigns {
         </div>
         `
     }
-    getEmployeeCard(){
+    getEmployeeCard(shellId){
         return `
         <div class="col-lg-12">
-            <div id="empl_card_*1*" class="card employeecard empl-show-details">
+            <div id="${shellId}_card_*1*" class="card employeecard ${shellId}-show-details">
                 <div class="card-body">
                     <div class="display-flex justify-content-between">
                         <div class="employee-image-container display-flex align-items-center"><i class="far fa-user"></i></div>
