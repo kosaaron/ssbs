@@ -17,6 +17,10 @@ let CardContainerPlus = {
      * @param {Function} secundCardF Secund card function with object parameter
      */
     Create: function (data, shellId, cardF) {
+        if (data === undefined || data === null) {
+            return;
+        }
+
         for (let i = 0; i < data.length; i++) {
             const elementI = data[i];
             cardF(elementI, shellId);
@@ -38,6 +42,10 @@ let CardContainerPlus = {
      * @param {Function} secundCardF Secund card function with object, shell id parameters
      */
     CreateWithData: function (data, structure, shellId, card, secundCardF) {
+        if (data === undefined || data === null) {
+            return;
+        }
+
         let cardBlock = card.split('!');
         let container = "";
         for (let i = 0; i < data.length; i++) {
@@ -69,6 +77,10 @@ let CardContainerPlus = {
 
     },
     CreateWithActive: function (data, structure, shellId, card, activeCard, activeColumn, secundCardF) {
+        if (data === undefined || data === null) {
+            return;
+        }
+        
         let cardBlock = card.split('!');
         let activeCardBlock = activeCard.split('!');
         let container = "";
