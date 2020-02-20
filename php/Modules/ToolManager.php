@@ -33,7 +33,7 @@ class Tools
             'Offset' => 0
         )
     ) {
-        /** Partner's manager data */
+        /** Tool's manager data */
         $dataAndStructure = new DataAndStructure();
         $cardCResult = $dataAndStructure->CardContainer(
             $this->userId,
@@ -43,10 +43,10 @@ class Tools
             $sort,
             $dataPos
         );
-        $this->main_data['DetailsStructure']['Names'] = $cardCResult['Names'];
-        $this->main_data['DetailsStructure']['Data'] = $cardCResult['Data'];
+        $this->main_data['DataStructure'] = $cardCResult['DataStructure'];
+        $this->main_data['Data'] = $cardCResult['Data'];
     
-        /** Partner's manager details */
+        /** Tool's manager details */
         $cardCResult = $dataAndStructure->Details($this->userId, "tlsdtls");
         $this->main_data['DetailsStructure']['Names'] = $cardCResult['Names'];
         $this->main_data['DetailsStructure']['Data'] = $cardCResult['Data'];

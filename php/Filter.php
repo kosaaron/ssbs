@@ -123,6 +123,14 @@ function getCardC($filterPlace, $userId, $filter, $sortString, $dataPos)
 
             $data = $OrderManager->main_data['Data'];
             break;
+        case 'tlsfltr':
+            require_once('Modules/ToolManager.php');
+
+            $Tools = new Tools($userId);
+            $Tools->CreateCardContainer($filter, $sortString, $dataPos);
+
+            $data = $Tools->main_data['Data'];
+            break;
         default:
             break;
     }
