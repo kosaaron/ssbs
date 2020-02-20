@@ -9,41 +9,108 @@ import CardContainerPlus from './plug-ins/CardContainerPlus.js';
 import ContainerDesigns from './designs/ContainerDesigns.js';
 import DetailsDesigns from './designs/DetailsDesigns.js';
 
-/** Public functions **/
-var partnersManager = {
-    loadPartnersManager: function () {
-        // Title
-        document.getElementById("back_to_menu_text").textContent = "Partnerek";
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
-
-        // Loader
-        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
-
-        // Get data from database
-        Database.getPageData();
-    }
-};
-export default partnersManager;
+import DinamicFormPopup from './plug-ins/DinamicFormPopup.js';
+import GlobalVaribles from './plug-ins/GlobalVaribles.js';
+import Limiting from './plug-ins/Limiting.js';
 
 /** Varibles */
 let Varibles = {
     FrameId: 'prtnrm',
     FilterPlace: 'prtnrfltr',
-    PageData: null
+    PageData: null,
+    //Frame id of add new item (for process overview!!!)
+    AddNFormId: 'nprtnr',    
+    //Processes data array
+    processesDataArray: null,
+    TitleIconId: "processes_back_to_menu",
+    ModuleFrameId: 'process_modul_content',
+    MainTableIdName: 'PartnerId'
+
 }
 
-/** Loaders functions **/
-let Loaders = {
+/** Public functions **/
+var partnersManager = {
+    loadPartnersManager: function () {
+        // Title
+        document.getElementById("back_to_menu_text").textContent = "Partnerek";
+        addOneListener(
+            Varibles.TitleIconId,
+            "click",
+            mainFrame.backToProcessesMenu
+        );
+
+        // Loader
+        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+
+        // Get data from database
+        Database.getFullPageData();
+    },
+    resizeModule: function(){
+
+    }
+};
+export default partnersManager;
+
+/** Data from database **/
+let Database = {
+    /** Get card container data */
+    getFullPageData: function() {
+        $.ajax({
+            type: "POST",
+            url: "./php/GetPartnerManager.php",
+            data: "",
+            success: function (data) {
+                Varibles.PageData = data;
+
+                /*  Convert string data to date simple
+                Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
+                */
+                Loadings.reloadFullPage();
+            },
+            dataType: 'json'
+        });
+    },
+    filterChange: function (fullId) {
+        FilterAndSort.FilteringOnDB(Varibles.FrameId, Varibles.FilterPlace, Callbacks.successFilterEvent);
+    }
+}
+
+/** Framework **/
+let Framework = {
+    Load: function (targetId, shellId) {
+        //partner manager frame
+        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
+        document.getElementById(targetId).innerHTML = framework;
+
+        let containerDesigns = new ContainerDesigns();
+        //filter frame
+        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
+        //card container frame
+        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
+    }
+}
+
+/** Loadings functions **/
+let Loadings = {
     reloadFullPage() {
         // Load framework
-        Framework.Load('process_modul_content', Varibles.FrameId);
+        Framework.Load(Varibles.ModuleFrameId, Varibles.FrameId);
 
-        // Load card container
-        Loaders.reloadCardContainer();
-
-        FilterAndSort.Create(Varibles.PageData.Filters, Varibles.FrameId + "_filters", Database.partnersMFileterChange);
-
-        addOneListener(Varibles.FrameId + '_add_new_btn', 'click', Loaders.loadNewPartner);
+        // Card container generating cards
+        Loadings.reloadCardContainer();
+        // Filter and sort creater
+        FilterAndSort.Create(
+            Varibles.PageData.Filters,
+            Varibles.FrameId + "_filters",
+            Database.filterChange
+        );
+        FilterAndSort.CreateSort(
+            Varibles.PageData.Sorts,
+            Varibles.FrameId + "_sorts",
+            Database.filterChange
+        );
+        // Events
+        addOneListener(Varibles.FrameId + '_add_new_btn', 'click', Loadings.loadAddNew);
     },
     reloadCardContainer: function () {
         // Load card container
@@ -56,37 +123,39 @@ let Loaders = {
         if (listData[0] !== undefined) {
             Events.partnerMCardClick('partners_card_' + listData[0].PartnerId);
         }
+        /*
+        //Limiting
+        if (Object.keys(data).length % GlobalVaribles.CCLimitSize === 0) {
+            new Limiting(
+                Varibles.FrameId,
+                Varibles.FilterPlace,
+                Callbacks.successFilterEvent,
+                offset
+            );
+        }
+        */
     },
-    loadNewPartner: function () {
+    loadAddNew: function () {
+        let targetId = Varibles.FrameId;
+        let dinamicFormPopup = new DinamicFormPopup(
+            targetId,
+            'beforebegin',
+            'Partner hozzáadása'
+        );
+        dinamicFormPopup.loadFormData(
+            Varibles.AddNFormId,
+            Varibles.processesDataArray,
+            targetId,
+            null,
+            null,
+            Callbacks.refreshPage
+        );
+        /*
         newPartner.loadNewPartner();
-
         //set navigation parent page
         removeOneListener("processes_back_to_menu");
         addOneListener("processes_back_to_menu", "click", partnersManager.loadPartnersManager);
-    }
-}
-
-/** Database **/
-let Database = {
-    /** Get card container data */
-    getPageData() {
-        $.ajax({
-            type: "POST",
-            url: "./php/GetPartnerManager.php",
-            data: "",
-            success: function (data) {
-                Varibles.PageData = data;
-
-                /*  Convert string data to date simple
-                Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
-                */
-                Loaders.reloadFullPage();
-            },
-            dataType: 'json'
-        });
-    },
-    partnersMFileterChange: function (fullId) {
-        FilterAndSort.FilteringOnDB(Varibles.FrameId, Varibles.FilterPlace, Callbacks.successFilterEvent);
+        */
     }
 }
 
@@ -159,13 +228,21 @@ let Callbacks = {
     /**
      * Success filter event
      * @param {JSON} data 
+     * @param {Boolean} isClear 
+     * @param {Number} offset 
      */
-    successFilterEvent: function (data) {
-        Varibles.PageData.Data = data.Data;
+    successFilterEvent: function (data, isClear = true, offset = 0) {
+        if (isClear) {
+            Varibles.PageData.Data = [];
+        }
+        data.Data.forEach(entry => {
+            Varibles.PageData.Data.push(entry);
+        });
+
         /* String to date
         Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'FinishDate');
         */
-        Loaders.reloadCardContainer();
+        Loadings.reloadCardContainer(offset);
     },
     /**
      * Get contact data
@@ -173,7 +250,19 @@ let Callbacks = {
      */
     getContactData: function (data) {
         return data["Contacts"];
+    },
+        /**
+     * Refresh page
+     * @param {JSON} result Update/insert result
+     */
+    refreshPage(result) {
+        Framework.Load('process_modul_content', Varibles.FrameId);
+        document.getElementById(Varibles.FrameId + '_add_new_btn').addEventListener('click', Loadings.loadAddNew)
+
+        Local.initializationParams();
+        Local.getProcessesData();
     }
+    
 }
 
 /** Events **/
@@ -231,22 +320,14 @@ let Events = {
         let structure = Varibles.PageData.DetailsStructure;
         let shellId = Varibles.FrameId + '_details';
         let details = new DetailsDesigns().getSimpleDetails(shellId);
-        CardDetails.Create(id, data, structure, details, shellId, 'PartnerId');
-    }
-}
-
-/** Framework **/
-let Framework = {
-    Load: function (targetId, shellId) {
-        //partner manager frame
-        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"> </div>`;
-        document.getElementById(targetId).innerHTML = framework;
-
-        let containerDesigns = new ContainerDesigns();
-        //filter frame
-        containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
-        //card container frame
-        containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
+        CardDetails.Create(
+            id,
+            data,
+            structure,
+            details,
+            shellId,
+            Varibles.MainTableIdName
+        );
     }
 }
 
