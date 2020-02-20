@@ -7,21 +7,21 @@ import NameAndText from './NameAndText.js';
 import ArrayFunctions from './ArrayFunctions.js';
 import FormInputs from './../designs/FormInputs.js';
 
-export default class DinamicPopupForm {
+export default class DinamicFormPopup {
     /**
      * Constructor
      * @param {String} targetId 
      * @param {String} targetPos 
      * @param {String} title 
      */
-    constructor(targetId, targetPos = 'afterbegin', title) {
+    constructor(targetId, targetPos = 'afterbegin', title, isFullscreen = true) {
         const frameId = targetId + '_dnmcppp';
-        document.getElementById(targetId).insertAdjacentHTML(targetPos, this.getFrame(targetId, title));
+        document.getElementById(targetId).insertAdjacentHTML(targetPos, this.getFrame(targetId, title, isFullscreen));
         document.getElementById(frameId).innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
     }
 
     /**
-     * 
+     * Load form data
      * @param {String} addNFormId 
      * @param {JSON} processesDataArray 
      * @param {String} targetId 
@@ -68,7 +68,7 @@ export default class DinamicPopupForm {
                     formObject = setUploadsCallback(formObject);
                 }
 
-                DinamicPopupForm.onLoad(formData, fillFormData, targetId, entryIdJSON, refreshFn);
+                DinamicFormPopup.onLoad(formData, fillFormData, targetId, entryIdJSON, refreshFn);
             },
             dataType: 'json'
         });
@@ -100,19 +100,19 @@ export default class DinamicPopupForm {
         }
 
         document.getElementById(frameId).innerHTML = '';
-        CardContainerPlus.Create(formData, frameId, DinamicPopupForm.loadFormItem);
+        CardContainerPlus.Create(formData, frameId, DinamicFormPopup.loadFormItem);
 
         //Add click
         document.getElementById(targetId + '_dnmcppp_cancel').addEventListener(
             'click',
             function (e) {
-                DinamicPopupForm.cancel(targetId);
+                DinamicFormPopup.cancel(targetId);
             }
         );
         document.getElementById(targetId + '_dnmcppp_save').addEventListener(
             'click',
             function (e) {
-                DinamicPopupForm.save(targetId, entryId, refreshFn);
+                DinamicFormPopup.save(targetId, entryId, refreshFn);
             }
         );
     }
@@ -186,15 +186,24 @@ export default class DinamicPopupForm {
             FormInputs.UpdateInputs(targetId + '_dnmcppp', entryId, refreshFn);
         }
 
-        DinamicPopupForm.cancel(targetId)
+        DinamicFormPopup.cancel(targetId)
     }
 
-    //Frame
-    getFrame(targetId, title) {
+    /**
+     * Frame
+     * @param {String} targetId 
+     * @param {String} title 
+     * @param {Boolean} isFullscreen 
+     */
+    getFrame(targetId, title, isFullscreen) {
+        let fullscreenHTML = '';
+        if (isFullscreen) {
+            fullscreenHTML = 'full-screen'
+        }
         return `
             <div id="${targetId}_dnmcppp_frame" class="dnmcppp-frame">
                 <div class="dnmcppp-container-shell">
-                    <div class="dnmcppp-container display-flex flex-column">
+                    <div class="dnmcppp-container ${fullscreenHTML} display-flex flex-column">
                         <div class="dnmcppp-header">${title}</div>
                         <div id="${targetId}_dnmcppp" class="dnmcppp-content flex-1"></div>
                         <div class="dnmcppp-footer">

@@ -24,7 +24,7 @@
 import { addOneListener, mainFrame } from './common.js';
 import DateFunctions from './plug-ins/DateFunctions.js';
 import ArrayFunctions from './plug-ins/ArrayFunctions.js';
-import DinamicPopupForm from './plug-ins/DinamicPopupForm.js'
+import DinamicFormPopup from './plug-ins/DinamicFormPopup.js'
 
 let Varibles = {
     //Module parameters
@@ -1016,12 +1016,12 @@ let Events = {
     },
     addNew(e) {
         let targetId = Varibles.FrameId;
-        let dinamicPopupForm = new DinamicPopupForm(
+        let dinamicFormPopup = new DinamicFormPopup(
             targetId,
             'beforebegin',
             'Projekt hozzáadása'
         );
-        dinamicPopupForm.loadFormData(
+        dinamicFormPopup.loadFormData(
             Varibles.AddNFormId,
             Varibles.processesDataArray,
             targetId,
@@ -1040,12 +1040,12 @@ let Database = {
             'Id': id
         }
 
-        let dinamicPopupForm = new DinamicPopupForm(
+        let dinamicFormPopup = new DinamicFormPopup(
             targetId,
             'beforebegin',
             'Szerkesztés'
         );
-        dinamicPopupForm.loadFormData(
+        dinamicFormPopup.loadFormData(
             Varibles.AddNFormId,
             Varibles.processesDataArray,
             targetId,
@@ -1053,35 +1053,6 @@ let Database = {
             null,
             Callbacks.refreshPage
         );
-        /*
-                $.ajax({
-                    type: "POST",
-                    url: "./php/GetFormData.php",
-                    data: { 'FormId': Varibles.AddNFormId },
-                    success: function (data) {
-                        let formData = data.FormStructure.Data;
-                        let entry = ArrayFunctions.GetItem(
-                            Varibles.processesDataArray,
-                            Varibles.EntryIdName,
-                            id
-                        );
-        
-                        let fillFormData = { }
-                        for (const formItem of formData) {
-                            let uploadName = formItem['UploadName'];
-                            let value = entry[formItem['UploadName']];
-        
-                            fillFormData[uploadName] = value;
-                        }
-        
-                        let entryId = {
-                            'Name': Varibles.EntryIdName,
-                            'Id': id
-                        }
-                        dinamicPopupForm.onLoad(formData, fillFormData, targetId, entryId);
-                    },
-                    dataType: 'json'
-                });*/
     }
 }
 

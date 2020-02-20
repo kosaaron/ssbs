@@ -18,6 +18,7 @@ import CardDetails from './plug-ins/CardDetails.js';
 import Limiting from './plug-ins/Limiting.js';
 
 import newEmployee from './new_employee.js';
+import DinamicFormPopup from './plug-ins/DinamicFormPopup.js';
 
 
 /** Modul parameters */
@@ -118,7 +119,7 @@ let Loadings = {
             Varibles.FrameId + '_sorts',
             Database.filterChange
         );
-        
+
         //Events
         addOneListener(Varibles.FrameId + '_add_new_btn', "click", Loadings.loadAddNew);
     },
@@ -149,14 +150,34 @@ let Loadings = {
         }
     },
     loadAddNew: function () {
+        let dinamicFormPopup = new DinamicFormPopup(
+            Varibles.ModulFrameId,
+            undefined,
+            'Alkalmazott hozzáadása'
+        );
+        dinamicFormPopup.loadFormData(
+            'n' + Varibles.FrameId, //n as new 
+            Varibles.PageData.Data,
+            Varibles.ModulFrameId,
+            undefined,
+            undefined,
+            Callbacks.refreshPage
+        );
+
+        /*
         newEmployee.loadModule();
         removeOneListener(Varibles.TitleIconId);
         addOneListener(Varibles.TitleIconId, "click", Employees.loadModule);
+        */
     }
 }
 
 /** Callbacks **/
 let Callbacks = {
+    refreshPage: function () {
+        Varibles.PageData = [];
+        Database.getFullPageData();
+    },
     /**
      * Success filter event
      * @param {JSON} data 
@@ -189,11 +210,11 @@ let Events = {
         let shellId = Varibles.FrameId + '_details';
         let details = new DetailsDesigns().getSimpleDetails(shellId);
         CardDetails.Create(
-            id, 
-            data, 
-            structure, 
-            details, 
-            shellId, 
+            id,
+            data,
+            structure,
+            details,
+            shellId,
             Varibles.MainTableIdName
         );
     },
