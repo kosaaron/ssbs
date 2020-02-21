@@ -17,6 +17,7 @@ import DetailsDesigns from './designs/DetailsDesigns.js';
 import CardDetails from './plug-ins/CardDetails.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
 import Limiting from './plug-ins/Limiting.js';
+import DinamicFormPopup from './plug-ins/DinamicFormPopup.js';
 
 import newTool from './new_tool.js';
 
@@ -32,7 +33,9 @@ let Varibles = {
     TitleTextId: 'resource_modul_title',
     TitleIconId:'resources_reload_modul_btn',
     //data
-    PageData: []
+    PageData: [],
+    //Frame id of add new item
+    AddNFormId: '' // Not specified in database yet!!
 }
 
 /**Public object */
@@ -157,9 +160,25 @@ let Loadings = {
      * Load 'add new entry' modul
      */
     loadAddNew: function () {
+        let targetId = Varibles.FrameId;
+        let dinamicFormPopup = new DinamicFormPopup(
+            targetId,
+            'beforebegin',
+            'Eszköz hozzáadása'
+        );
+        dinamicFormPopup.loadFormData(
+            Varibles.AddNFormId,
+            Varibles.processesDataArray,
+            targetId,
+            null,
+            null,
+            Callbacks.refreshPage
+        );
+        /*
         newTool.loadModule();
         removeOneListener(Varibles.TitleIconId);
         addOneListener(Varibles.TitleIconId, "click", Tools.loadModule);
+        */
     }
 }
 

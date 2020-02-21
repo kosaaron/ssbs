@@ -6,10 +6,12 @@ import ContainerDesigns from './designs/ContainerDesigns.js';
 import ElementFunctions from './plug-ins/ElementFunctions.js';
 import AutoScroll from './plug-ins/AutoScroll.js';
 import FilterAndSort from './plug-ins/FilterAndSort.js';
-import newTask from './new_task.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
 import CardDesigns from './designs/CardDesigns.js';
 import DetailsDesigns from './designs/DetailsDesigns.js';
+import DinamicFormPopup from './plug-ins/DinamicFormPopup.js';
+
+import newTask from './new_task.js';
 
 /** Modul parameters **/
 let Varibles = {
@@ -22,7 +24,9 @@ let Varibles = {
     TitleTextId: 'back_to_menu_text',
     TitleIconId: 'processes_back_to_menu',
     //data
-    PageData: []
+    PageData: [],
+    //Frame id of add new item
+    AddNFormId: '' // Not specified in database yet!!
 }
 
 /** Public object */
@@ -134,9 +138,25 @@ let Loadings = {
      * Load 'add new entry' modul
      */
     loadAddNew: function () {
+        let targetId = Varibles.FrameId;
+        let dinamicFormPopup = new DinamicFormPopup(
+            targetId,
+            'beforebegin',
+            'Rendelés hozzáadása'
+        );
+        dinamicFormPopup.loadFormData(
+            Varibles.AddNFormId,
+            Varibles.processesDataArray,
+            targetId,
+            null,
+            null,
+            Callbacks.refreshPage
+        );
+        /*
         //newTask.loadModule();
         removeOneListener(Varibles.TitleIconId);
         addOneListener(Varibles.TitleIconId, "click", OrderManager.loadModule);
+        */
     }
 }
 
