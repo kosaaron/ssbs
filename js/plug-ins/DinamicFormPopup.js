@@ -14,7 +14,7 @@ export default class DinamicFormPopup {
      * @param {String} targetPos 
      * @param {String} title 
      */
-    constructor(targetId, targetPos = 'afterbegin', title, isFullscreen = true) {
+    constructor(targetId, targetPos = 'afterbegin', title, isFullscreen = false) {
         const frameId = targetId + '_dnmcppp';
         document.getElementById(targetId).insertAdjacentHTML(targetPos, this.getFrame(targetId, title, isFullscreen));
         document.getElementById(frameId).innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
@@ -198,7 +198,7 @@ export default class DinamicFormPopup {
     getFrame(targetId, title, isFullscreen) {
         let fullscreenHTML = '';
         if (isFullscreen) {
-            fullscreenHTML = 'full-screen'
+            fullscreenHTML = 'dnmcppp-container-full'
         }
         return `
             <div id="${targetId}_dnmcppp_frame" class="dnmcppp-frame">

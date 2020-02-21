@@ -26,6 +26,12 @@
     border-radius: 10px;
 }
 
+.dnmcppp-container-full {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+}
+
 .dnmcppp-header {
     height: 40px;
     color: #0067a5;
