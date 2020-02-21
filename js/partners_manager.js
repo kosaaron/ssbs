@@ -3,7 +3,6 @@
 import CardContainer from './plug-ins/CardContainer.js';
 import CardDetails from './plug-ins/CardDetails.js';
 import FilterAndSort from './plug-ins/FilterAndSort.js';
-import newPartner from './new_partner.js';
 import { addOneListener, removeOneListener, mainFrame } from './common.js';
 import CardContainerPlus from './plug-ins/CardContainerPlus.js';
 import ContainerDesigns from './designs/ContainerDesigns.js';
@@ -12,27 +11,31 @@ import DetailsDesigns from './designs/DetailsDesigns.js';
 import DinamicFormPopup from './plug-ins/DinamicFormPopup.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
 import Limiting from './plug-ins/Limiting.js';
+import newPartner from './new_partner.js';
 
 /** Varibles */
 let Varibles = {
     FrameId: 'prtnrm',
+    FrameName: 'Partnerek',
     FilterPlace: 'prtnrfltr',
-    PageData: null,
-    //Frame id of add new item (for process overview!!!)
+    MainTableIdName: 'PartnerId',
+    //element ids
+    ModuleFrameId: 'process_modul_content',
+    TitleTextId: 'back_to_menu_text',
+    TitleIconId: "processes_back_to_menu",
+    //Frame id of add new item
     AddNFormId: 'nprtnr',    
     //Processes data array
     processesDataArray: null,
-    TitleIconId: "processes_back_to_menu",
-    ModuleFrameId: 'process_modul_content',
-    MainTableIdName: 'PartnerId'
-
+    //data
+    PageData: []
 }
 
 /** Public functions **/
 var partnersManager = {
     loadPartnersManager: function () {
         // Title
-        document.getElementById("back_to_menu_text").textContent = "Partnerek";
+        document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
         addOneListener(
             Varibles.TitleIconId,
             "click",
@@ -190,7 +193,7 @@ let Cards = {
         container += '!<p><i class="far fa-envelope partnercard-logo"></i>*4*</p></div></div>';
         container += '!<div class="display-flex flex-wrap tag-container">?';
         //container += '!<button type="button" class="btn btn-sm partner-tag"><i class="fas fa-tag partner-tag-icon "></i>Nagyobb cimke</button>';
-        container += '</div></div></div></div>';
+        container += '</div></div></div></div></div></div>';
 
         return container;
     },
@@ -258,9 +261,10 @@ let Callbacks = {
     refreshPage(result) {
         Framework.Load('process_modul_content', Varibles.FrameId);
         document.getElementById(Varibles.FrameId + '_add_new_btn').addEventListener('click', Loadings.loadAddNew)
-
+        /*
         Local.initializationParams();
         Local.getProcessesData();
+        */
     }
     
 }
