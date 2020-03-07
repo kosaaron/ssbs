@@ -21,6 +21,7 @@ import Employees from './employees.js';
 import ProductsOverview from './products_overview.js';
 import newTable from './testproducttable.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
+import LoadFrame from './plug-ins/LoadFrame.js';
 
 /** Varibles */
 let Varibles = {
@@ -131,7 +132,7 @@ function processesModulClick(id) {
             GlobalVaribles.setActiveModule('processes_overview');
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
-            processesOverview.loadProcessesOverview();
+            processesOverview.loadModule();
             break;
         case "tasks_manager_btn":
             GlobalVaribles.setActiveModule('tasks_manager');
@@ -246,7 +247,7 @@ function FinanceSubtabClick(id) {
 window.onresize = function (event) {
     switch (GlobalVaribles.getActiveModule()) {
         case 'processes_overview':
-            processesOverview.resizeProcessesOverview();
+            processesOverview.resize();
             break;
         case 'tasks_manager':
             TaskManager.resizeModule();
@@ -259,6 +260,8 @@ window.onresize = function (event) {
 
 /** Ready document */
 $(document).ready(function () {
+    let loadFrame = new LoadFrame();
+
     addClickEvents(menuItemClick, "menu-item");
     addClickEvents(processesModulClick, "processes-mo-click");
     addClickEvents(prodMenuChange, "prod-subm-i");

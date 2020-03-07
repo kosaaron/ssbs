@@ -20,11 +20,9 @@ let Varibles = {
     FilterPlace: 'prtnrfltr',
     MainTableIdName: 'PartnerId',
     //element ids
-    ModuleFrameId: 'process_modul_content',
-    TitleTextId: 'back_to_menu_text',
-    TitleIconId: "processes_back_to_menu",
+    ShellId: null,
     //Frame id of add new item
-    AddNFormId: 'nprtnr',    
+    AddNFormId: 'nprtnr',
     //Processes data array
     processesDataArray: null,
     //data
@@ -33,22 +31,13 @@ let Varibles = {
 
 /** Public functions **/
 var partnersManager = {
-    loadPartnersManager: function () {
-        // Title
-        document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
-        addOneListener(
-            Varibles.TitleIconId,
-            "click",
-            mainFrame.backToProcessesMenu
-        );
-
-        // Loader
-        document.getElementById('process_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+    loadModule: function (shellId) {
+        Varibles.ShellId = shellId;
 
         // Get data from database
         Database.getFullPageData();
     },
-    resizeModule: function(){
+    resize: function () {
 
     }
 };
@@ -57,7 +46,7 @@ export default partnersManager;
 /** Data from database **/
 let Database = {
     /** Get card container data */
-    getFullPageData: function() {
+    getFullPageData: function () {
         $.ajax({
             type: "POST",
             url: "./php/GetPartnerManager.php",
@@ -97,7 +86,7 @@ let Framework = {
 let Loadings = {
     reloadFullPage() {
         // Load framework
-        Framework.Load(Varibles.ModuleFrameId, Varibles.FrameId);
+        Framework.Load(Varibles.ShellId, Varibles.FrameId);
 
         // Card container generating cards
         Loadings.reloadCardContainer();
@@ -254,10 +243,10 @@ let Callbacks = {
     getContactData: function (data) {
         return data["Contacts"];
     },
-        /**
-     * Refresh page
-     * @param {JSON} result Update/insert result
-     */
+    /**
+ * Refresh page
+ * @param {JSON} result Update/insert result
+ */
     refreshPage(result) {
         Framework.Load('process_modul_content', Varibles.FrameId);
         document.getElementById(Varibles.FrameId + '_add_new_btn').addEventListener('click', Loadings.loadAddNew)
@@ -266,7 +255,7 @@ let Callbacks = {
         Local.getProcessesData();
         */
     }
-    
+
 }
 
 /** Events **/

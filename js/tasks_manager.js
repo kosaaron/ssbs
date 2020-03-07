@@ -27,9 +27,8 @@ let Varibles = {
     FilterPlace: 'tskfltr',
     MainTableIdName: 'TaskId',
     //element ids
-    ModuleFrameId: 'process_modul_content',
-    TitleTextId: 'back_to_menu_text',
-    TitleIconId: 'processes_back_to_menu',
+    ShellId: null,
+
     //data
     PageData: [],
     TaskWayData: null
@@ -37,20 +36,12 @@ let Varibles = {
 
 /** Public functions */
 let TaskManager = {
-    loadModule: function () {
+    loadModule: function (shellId) {
         // Title
-        document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
-        addOneListener(
-            Varibles.TitleIconId,
-            "click",
-            mainFrame.backToProcessesMenu
-        );
-        addOneListener(Varibles.TitleIconId, "click", Events.onDestroy);
+        //document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
+        Varibles.ShellId = shellId;
 
-        // Loader
-        document.getElementById(Varibles.ModuleFrameId).innerHTML = `
-            <img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli">
-            </img>`;
+        //addOneListener(Varibles.TitleIconId, "click", Events.onDestroy);
 
         // Data from server
         Database.getFullPageData();
@@ -85,7 +76,7 @@ let Database = {
             data: { task_id: taskId },
             success: function (data) {
                 if (jQuery.isEmptyObject(data.Data)) {
-                    document.getElementById(Varibles.FrameId + '_details_vo_oTl').innerHTML 
+                    document.getElementById(Varibles.FrameId + '_details_vo_oTl').innerHTML
                         = "Nincsenek lépések."
                 } else {
                     Varibles.TaskWayData = data;
@@ -166,7 +157,7 @@ let Framework = {
 let Loadings = {
     reloadFullPage: function () {
         //Load framework
-        Framework.Load(Varibles.ModuleFrameId, Varibles.FrameId);
+        Framework.Load(Varibles.ShellId, Varibles.FrameId);
         //Card container generating cards
         Loadings.reloadCardContainer();
 
@@ -189,9 +180,10 @@ let Loadings = {
      * Load 'add new entry' modul
      */
     loadAddNew: function () {
+        /*
         newTask.loadModule();
         removeOneListener(Varibles.TitleIconId);
-        addOneListener(Varibles.TitleIconId, "click", TaskManager.loadModule);
+        addOneListener(Varibles.TitleIconId, "click", TaskManager.loadModule);*/
     },
     /**
      * Reload card container

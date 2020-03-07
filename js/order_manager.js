@@ -20,9 +20,7 @@ let Varibles = {
     FilterPlace: 'ordrfltr',
     MainTableIdName: 'OrderId',
     //element ids
-    ModuleFrameId: 'process_modul_content',
-    TitleTextId: 'back_to_menu_text',
-    TitleIconId: 'processes_back_to_menu',
+    ShellId: null,
     //data
     PageData: [],
     //Frame id of add new item
@@ -31,20 +29,8 @@ let Varibles = {
 
 /** Public object */
 let OrderManager = {
-    loadModule: function () {
-        // Title
-        document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
-        addOneListener(
-            Varibles.TitleIconId,
-            "click",
-            mainFrame.backToProcessesMenu
-        );
-
-        // Loader
-        document.getElementById(Varibles.ModuleFrameId).innerHTML = `
-            <img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli">
-            </img>`;
-
+    loadModule: function (shellId) {
+        Varibles.ShellId = shellId;
         // Data from server
         Database.getFullPageData();
     },
@@ -104,7 +90,7 @@ let Framework = {
 let Loadings = {
     reloadFullPage: function () {
         //Load framework
-        Framework.Load(Varibles.ModuleFrameId, Varibles.FrameId);
+        Framework.Load(Varibles.ShellId, Varibles.FrameId);
         //Card container generating cards
         Loadings.reloadCardContainer();
         //Filter creater
@@ -130,7 +116,7 @@ let Loadings = {
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(Events.cardClick, Varibles.FrameId);
         if (data[0] !== undefined) {
-            Events.cardClick(Varibles.FrameId + '_card_' 
+            Events.cardClick(Varibles.FrameId + '_card_'
                 + data[0][Varibles.MainTableIdName]);
         }
     },
@@ -152,11 +138,6 @@ let Loadings = {
             null,
             Callbacks.refreshPage
         );
-        /*
-        //newTask.loadModule();
-        removeOneListener(Varibles.TitleIconId);
-        addOneListener(Varibles.TitleIconId, "click", OrderManager.loadModule);
-        */
     }
 }
 
@@ -187,11 +168,11 @@ let Events = {
         let shellId = Varibles.FrameId + '_details';
         let details = new DetailsDesigns().getSimpleDetails(shellId);
         CardDetails.Create(
-            id, 
-            data, 
-            structure, 
-            details, 
-            shellId, 
+            id,
+            data,
+            structure,
+            details,
+            shellId,
             Varibles.MainTableIdName
         );
     }

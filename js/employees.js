@@ -28,25 +28,15 @@ let Varibles = {
     FilterPlace: 'emplfltr',
     MainTableIdName: 'EmployeeId',
     //element ids
-    ModulFrameId: 'resources_modul_content',
-    TitleTextId: 'resource_modul_title',
-    TitleIconId: 'resources_reload_modul_btn',
+    ShallId: null,
     //data
     PageData: []
 }
 
 var Employees = {
-    loadModule: function () {
-        // Title
-        document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
-        addOneListener(
-            Varibles.TitleIconId,
-            "click",
-            //<Iconevent>
-        );
-        // Loader
-        document.getElementById(Varibles.ModulFrameId).innerHTML =
-            '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+    loadModule: function (shellId) {
+        Varibles.ShallId = shellId;
+
         // Data from server
         Database.getFullPageData();
     },
@@ -105,7 +95,7 @@ let Framework = {
 let Loadings = {
     reloadFullPage: function () {
         // Load framework
-        Framework.Load(Varibles.ModulFrameId, Varibles.FrameId);
+        Framework.Load(Varibles.ShallId, Varibles.FrameId);
         //Card container fenerating cards
         Loadings.reloadCardContainer();
         //Filter and sort creater

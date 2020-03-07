@@ -29,6 +29,8 @@ import DinamicFormPopup from './plug-ins/DinamicFormPopup.js'
 let Varibles = {
     //Module parameters
     FrameId: 'prco',
+    //Shell id
+    ShellId: null,
     //Frame id of add new item 
     AddNFormId: 'nprc',
     //Entry i
@@ -58,12 +60,13 @@ let processesOverview = {
     /**
      * Load framework
      */
-    loadProcessesOverview: function () {
+    loadModule: function (shellId) {
         // Framework
-        document.getElementById("back_to_menu_text").textContent = "Feladatok átlátása";
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+        //document.getElementById("back_to_menu_text").textContent = "Feladatok átlátása";
+        //addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+        Varibles.ShellId = shellId;
 
-        Framework.Load('process_modul_content', Varibles.FrameId);
+        Framework.Load(shellId, Varibles.FrameId);
         document.getElementById(Varibles.FrameId + '_add_new_btn').addEventListener('click', Events.addNew)
 
         Local.initializationParams();
@@ -72,7 +75,7 @@ let processesOverview = {
     /**
      * Processes overview resize event
      */
-    resizeProcessesOverview: function () {
+    resize: function () {
         // Y scroll on the table
         let processesTScrollTable = document.getElementById('processes_t_scroll_table');
         if (processesTScrollTable !== null) {
@@ -159,7 +162,7 @@ let Local = {
         Varibles.gTimeLineEnd = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
         Local.addMonthAfter(Varibles.gTimeLineEnd, processesData);
 
-        processesOverview.resizeProcessesOverview();
+        processesOverview.resize();
 
         var tasksTableTdToday = document.getElementById("tasks_table_td_today");
         var processesOverviewContent = document.getElementById(Varibles.FrameId + '_content');
@@ -997,7 +1000,7 @@ let Callbacks = {
      * @param {JSON} result Update/insert result
      */
     refreshPage(result) {
-        Framework.Load('process_modul_content', Varibles.FrameId);
+        Framework.Load(Varibles.ShellId, Varibles.FrameId);
         document.getElementById(Varibles.FrameId + '_add_new_btn').addEventListener('click', Events.addNew)
 
         Local.initializationParams();

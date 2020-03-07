@@ -1,26 +1,27 @@
 /** products_overview.js */
-
 /**Imports */
 import TableCreator from './plug-ins/TableCreator.js';
+
+/** Modul parameters **/
+let Varibles = {
+    ShellId: null,
+    PageData: null
+}
 
 /**
  * Products overview
  */
-var ProductsOverview = {
-    loadProductsOverview: function () {
-        // Modul title
-        document.getElementById('prod_modul_title').innerHTML = "Termékek áttekintése";
-        // Loader
-        document.getElementById('products_modul_content').innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
+let ProductsOverview = {
+    loadModule: function (shellId) {
+        Varibles.ShellId = shellId;
+
         // Load page
         Database.getPageData();
     }
 }
 export default ProductsOverview;
-let Varibles = {
-    PageData: null
-}
 
+/** Database **/
 let Database = {
     getPageData: function () {
         $.ajax({
@@ -42,7 +43,7 @@ let Database = {
 
 let Loaders = {
     reloadFullPage: function () {
-        document.getElementById('products_modul_content').innerHTML = Framework.load;
+        document.getElementById(Varibles.ShellId).innerHTML = Framework.load;
 
         Loaders.reloadTableData();
     },
