@@ -191,6 +191,10 @@ export default class LoadFrame {
                 return '../employees.js';
             case '1012':
                 return '../processes_overview.js';
+            case '1013':
+                return '../processes_overview.js';
+            case '1014':
+                return '../log_out.js';
             default:
                 return '../financial_charts.js';
         }

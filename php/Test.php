@@ -40,7 +40,7 @@ $data = array(
 );
 $data = json_encode($data);
 
-print_r($data);*/
+print_r($data);
 header('Content-Type: text/csv');
 header('Content-Disposition: attachment; filename="sample.csv"');
 $data = array(
@@ -54,4 +54,11 @@ foreach ( $data as $line ) {
     $val = explode(",", $line);
     fputcsv($fp, $val);
 }
-fclose($fp);
+fclose($fp);*/
+$to = "adamprofi20@gmail.com";
+$subject = "My subject";
+$txt = "Hello world!";
+$headers = "From: webmaster@example.com" . "\r\n" .
+"CC: somebodyelse@example.com";
+
+mail($to,$subject,$txt,$headers);

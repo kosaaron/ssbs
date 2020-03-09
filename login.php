@@ -1,3 +1,13 @@
+<?php
+session_start();
+if (isset($_SESSION['loggedin'])) {
+    if ($_SESSION['loggedin']) {
+        $url = 'http://localhost/index.php';
+        header("Location: $url");
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="hu">
 

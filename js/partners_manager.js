@@ -7,11 +7,7 @@ import { addOneListener, removeOneListener, mainFrame } from './common.js';
 import CardContainerPlus from './plug-ins/CardContainerPlus.js';
 import ContainerDesigns from './designs/ContainerDesigns.js';
 import DetailsDesigns from './designs/DetailsDesigns.js';
-
 import DinamicFormPopup from './plug-ins/DinamicFormPopup.js';
-import GlobalVaribles from './plug-ins/GlobalVaribles.js';
-import Limiting from './plug-ins/Limiting.js';
-import newPartner from './new_partner.js';
 
 /** Varibles */
 let Varibles = {
