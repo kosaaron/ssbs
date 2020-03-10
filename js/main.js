@@ -13,10 +13,10 @@ document.head.appendChild(ChartTest);
 /**
  * Processes overview
  */
-var processes_overview = document.createElement('script');
-processes_overview.src = "js/processes_overview.js";
-processes_overview.type = "module";
-document.head.appendChild(processes_overview);
+var projects = document.createElement('script');
+projects.src = "js/projects.js";
+projects.type = "module";
+document.head.appendChild(projects);
 
 /**
  * Common

@@ -245,7 +245,7 @@ if (isset($_SESSION['loggedin'])) {
                 <div id="processes" class="menu-content display-none">
                     <div id="processes_menu" class="tile_menu full-screen">
                         <div class="one-tile col-6 col-md-4 col-lg-3">
-                            <div id="processes_overview_btn" class="content processes-mo-click">
+                            <div id="projects_btn" class="content processes-mo-click">
                                 <div class="tile-icon-shell display-flex flex-column">
                                     <i class="tile-icon align-center fas fa-project-diagram"></i>
                                 </div>

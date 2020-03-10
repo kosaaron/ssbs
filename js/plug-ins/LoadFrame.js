@@ -172,27 +172,27 @@ export default class LoadFrame {
             case '1002':
                 return '../reports.js';
             case '1003':
-                return '../processes_overview.js';
+                return '../projects.js';
             case '1004':
                 return '../tasks_manager.js';
             case '1005':
                 return '../partners_manager.js';
             case '1006':
-                return '../processes_overview.js';
+                return '../projects.js';
             case '1007':
-                return '../processes_overview.js';
+                return '../projects.js';
             case '1008':
                 return '../order_manager.js';
             case '1009':
                 return '../products_overview.js';
             case '1010':
-                return '../processes_overview.js';
+                return '../projects.js';
             case '1011':
                 return '../employees.js';
             case '1012':
-                return '../processes_overview.js';
+                return '../projects.js';
             case '1013':
-                return '../processes_overview.js';
+                return '../projects.js';
             case '1014':
                 return '../log_out.js';
             default:
