@@ -21,6 +21,8 @@ import Employees from './employees.js';
 import ProductsOverview from './products_overview.js';
 import newTable from './testproducttable.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
+import Notifications from './notification.js';
+import notifications from './notification.js';
 
 /** Varibles */
 let Varibles = {
@@ -239,6 +241,29 @@ function FinanceSubtabClick(id) {
             break;
     }
 }
+function settingsModulClick(id) {
+    document.getElementById("settings_menu").style.display = "none";
+    document.getElementById("settings_content").style.display = "block";
+
+    document.getElementById("settings_modul_content").innerHTML = "";
+
+    switch (id) {
+        case "notifications_btn":
+            //GlobalVaribles.setActiveModule('processes_overview');
+            //iframe.src = "folyamatok_attekintese.html";
+            //document.getElementById("process_modul_content").appendChild(iframe);
+            notifications.loadModule();
+            break;
+        case "setting2_btn":
+            break;
+        case "setting3_btn":
+            break;
+        case "setting4_btn":
+            break;
+        default:
+            break;
+    }
+}
 /** Click events end */
 
 
@@ -262,6 +287,7 @@ $(document).ready(function () {
     addClickEvents(menuItemClick, "menu-item");
     addClickEvents(processesModulClick, "processes-mo-click");
     addClickEvents(prodMenuChange, "prod-subm-i");
+    addClickEvents(settingsModulClick, "settings-mo-click");
     addListener('finance-subtab', 'click', FinanceSubtabClick);
 
     addProductsClick();

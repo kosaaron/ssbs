@@ -48,6 +48,10 @@ let mainFrame = {
     backToProcessesMenu: function () {
         document.getElementById("processes_menu").style.display = "block";
         document.getElementById("processes_content").style.display = "none";
+    },
+    backToSettingsMenu: function () {
+        document.getElementById("settings_menu").style.display = "block";
+        document.getElementById("settings_content").style.display = "none";
     }
 }
 

@@ -230,6 +230,15 @@ let FormElements = {
             $("#" + shellId).click(function () {
                 document.getElementById(inputId).click();
             });
+        },        
+        CheckBox: function (id, name, shellId, uploadName) {
+            let readyHTML = "";
+            readyHTML += '<div class="form-group">';
+            readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
+            readyHTML += '<input type="checkbox" id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
+            readyHTML += '</div>';
+
+            document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
         }
     },
     /**
