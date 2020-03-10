@@ -1,5 +1,5 @@
 /**
- * **processes_overview.js**
+ * **projects.js**
  * 1 Imports
  * 2 Public class
  * 2.1 Load framework
@@ -29,6 +29,8 @@ import DinamicFormPopup from './plug-ins/DinamicFormPopup.js'
 let Varibles = {
     //Module parameters
     FrameId: 'prco',
+    //Shell id
+    ShellId: null,
     //Frame id of add new item 
     AddNFormId: 'nprc',
     //Entry i
@@ -54,16 +56,17 @@ let Varibles = {
 /**
  * Public class
  */
-let processesOverview = {
+let Projects = {
     /**
      * Load framework
      */
-    loadProcessesOverview: function () {
+    loadModule: function (shellId) {
         // Framework
-        document.getElementById("back_to_menu_text").textContent = "Feladatok átlátása";
-        addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+        //document.getElementById("back_to_menu_text").textContent = "Feladatok átlátása";
+        //addOneListener("processes_back_to_menu", "click", mainFrame.backToProcessesMenu);
+        Varibles.ShellId = shellId;
 
-        Framework.Load('process_modul_content', Varibles.FrameId);
+        Framework.Load(shellId, Varibles.FrameId);
         document.getElementById(Varibles.FrameId + '_add_new_btn').addEventListener('click', Events.addNew)
 
         Local.initializationParams();
@@ -72,7 +75,7 @@ let processesOverview = {
     /**
      * Processes overview resize event
      */
-    resizeProcessesOverview: function () {
+    resize: function () {
         // Y scroll on the table
         let processesTScrollTable = document.getElementById('processes_t_scroll_table');
         if (processesTScrollTable !== null) {
@@ -87,7 +90,7 @@ let processesOverview = {
         }
     }
 }
-export default processesOverview;
+export default Projects;
 
 /** Local functions **/
 let Local = {
@@ -120,13 +123,14 @@ let Local = {
         if (Varibles.processesDataArray === null) {*/
         $.ajax({
             type: "POST",
-            url: "./php/ProcessesOverview.php",
+            url: "./php/Projects.php",
             data: "",
             success: function (data) {
+                alert(JSON.stringify(data));
                 Varibles.processesDataArray = data;
-                Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.StartDate');
-                Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.Deadline');
-                Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.FinishDate');
+                //Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.StartDate');
+                //Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.Deadline');
+                //Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.FinishDate');
                 Local.reloadFullPage(Varibles.processesDataArray);
             },
             dataType: 'json'
@@ -159,11 +163,11 @@ let Local = {
         Varibles.gTimeLineEnd = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
         Local.addMonthAfter(Varibles.gTimeLineEnd, processesData);
 
-        processesOverview.resizeProcessesOverview();
+        Projects.resize();
 
         var tasksTableTdToday = document.getElementById("tasks_table_td_today");
-        var processesOverviewContent = document.getElementById(Varibles.FrameId + '_content');
-        processesOverviewContent.scrollLeft = tasksTableTdToday.offsetLeft + 2;
+        var ProjectsContent = document.getElementById(Varibles.FrameId + '_content');
+        ProjectsContent.scrollLeft = tasksTableTdToday.offsetLeft + 2;
 
         let processesTScrollTable = document.getElementById('processes_t_scroll_table');
         let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
@@ -427,19 +431,15 @@ let Local = {
         let processesTTThead = document.getElementById('processes_t_t_thead');
 
         // level 1
-        // row
-        let tasksTableTr = document.createElement("tr");
-        tasksTableTr.className = "tasksTableTr";
-        tasksTableTr.style = "height: " + Varibles.tasksTableTdWidth + "px;";
-
-        // columns
-        let tasksTableTd = document.createElement("td");
-        tasksTableTd.colSpan = monthDays;
-        tasksTableTd.textContent = startDate.getFullYear() + ". " + DateFunctions.fullMonthDate(startDate);
-
-        tasksTableTr.insertAdjacentElement('beforeend', tasksTableTd);
-        processesTTThead.insertAdjacentElement('beforeend', tasksTableTr);
-
+        processesTTThead.insertAdjacentHTML(
+            'beforeend',
+            `<tr style="height: ${Varibles.tasksTableTdWidth}px" class="tasksTableTr">
+                <td colspan="${monthDays}">
+                    ${startDate.getFullYear()}. ${DateFunctions.fullMonthDate(startDate)}
+                <td>
+            </tr>`
+        );
+/*
         // level 2
         //row
         let tasksTableTr2 = document.createElement("tr");
@@ -449,6 +449,7 @@ let Local = {
         //columns
         let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(startDate).getDay());
         let startWeek = DateFunctions.getWeekNumber(startDate);
+
         let tasksTableTd2 = document.createElement("td");
         tasksTableTd2.colSpan = firstWeekDays;
         tasksTableTr2.insertAdjacentElement('beforeend', tasksTableTd2);
@@ -474,8 +475,41 @@ let Local = {
                 tasksTableTd2.textContent = startWeek + ". hét";
             }
         }
+*/
 
-        processesTTThead.insertAdjacentElement('beforeend', tasksTableTr2);
+        let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(startDate).getDay());
+        let startWeek = DateFunctions.getWeekNumber(startDate);
+
+        processesTTThead.insertAdjacentHTML(
+            'beforeend',
+            `<tr class="tasksTableTr 
+                 style="height: ${Varibles.tasksTableTdWidth}px">
+                <td colspan="${firstWeekDays}">
+            ${getFirstWeekDays()}
+                </td>
+            </tr>`
+        );
+        function getFirstWeekDays() {
+            if (firstWeekDays >= 4) {
+                return startWeek + '. hét';
+            } else {
+                return '';
+            }
+        }
+/*
+        for (let index = 1; index <= 3; index++) {
+            tasksTableTd2 = document.createElement("td");
+            tasksTableTd2.colSpan = 7;
+            tasksTableTd2.textContent = (startWeek + index) + ". hét";
+
+            tasksTableTr2.insertAdjacentHTML(
+                'beforeend',
+                `<td colspan="7">
+                    ${(startWeek + index)}. hét
+                </td>`
+            );
+        }*/
+
 
         // level 3
         // row 
@@ -497,141 +531,166 @@ let Local = {
         processesTTThead.insertAdjacentElement('beforeend', tasksTableTr3);
         processesTTable.style = "width: " + Varibles.tasksTableTdWidth * monthDays + "px; border-color: #ddd;";
 
-        // processes box
         let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
-        for (var index = 0; index < processesData.length; index++) {
-            // Task names
-            const process = processesData[index];
-
-            let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
-
-            // the empty parent element skipped
-            if (process['projects.ParentFK'] !== null)
-                continue;
-
-            // Levels of tasks
-            let object = { Id: process['projects.ProjectId'], Level: 0 };
-            Varibles.taskLevels.push(object);
-
-            let processNamesBoxItem = document.createElement("div");
-            processNamesBoxItem.className = "process-names-box-item display-flex";
-            processNamesBoxItem.id = "process_" + process['projects.ProjectId'];
-            processNamesBoxItem.setAttribute("p-item-path", process['projects.ProjectId']);
-
+        processesData.forEach(process => {
             let pNBoxItemText = document.createElement("div");
             pNBoxItemText.className = "full-width margin-auto text-o-ellipsis";
             pNBoxItemText.textContent = process['projects.Name'];
 
-            processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
-            processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
-
-            if (Functions.isChild(process[Varibles.EntryIdName])) {
-                let pNBoxItemIcon = document.createElement("i");
-                pNBoxItemIcon.className = "far fa-plus-square margin-auto p-n-box-item-icon";
-                processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemIcon);
-
-                processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
-                processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
-
-                processNamesBoxItem.addEventListener('click', function (event) {
-                    Local.projectClick(processesData, this.id);
-                });
-            } else {
-                processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
-                processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
+            let dropDownClass = '';
+            if (process['Childs'].length !== 0) {
+                dropDownClass = '<i class="far fa-plus-square margin-auto p-n-box-item-icon"></i>';
             }
 
-            // Task timelines
-            let tasksTableTr4 = document.createElement("tr");
-            tasksTableTr4.id = "process_row_" + process['projects.ProjectId'];
-            tasksTableTr4.className = "tasksTableTr";
-            tasksTableTr4.style = "height: " + Varibles.tasksTableTdWidth + "px;";
-            tasksTableTr4.setAttribute('entry-id', process['projects.ProjectId']);
+            processNamesBox.insertAdjacentHTML(
+                'beforeend',
+                `<div id="process_${process['projects.ProjectId']}" 
+                      class="process-names-box-item display-flex
+                      p-item-path="${process['projects.ProjectId']}">
+                    ${dropDownClass}
+                    <div class="full-width margin-auto text-o-ellipsis">
+                        ${process['projects.Name']}
+                    </div>
+                </div>`
+            );
+        });
 
-            // Relative date
-            let relativeDate = process['projects.FinishDate'];
-            // Is it not this month
-            let isNotThisMonth = relativeDate < startDate || process['projects.StartDate'] > monthEnd;
-            let isBeforMonth = process['projects.StartDate'] < startDate;
-            let isAfterMonth = relativeDate > monthEnd;
-            let isOneMonth = !(isBeforMonth || isAfterMonth);
-
-            //delayed date
-            let isDelayed = process['projects.FinishDate'] > process['projects.Deadline'];
-            let finishDays = process['projects.Deadline'].getDate();
-            let deadlineStartDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth(), 1);
-            let deadlineEndDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth() + 1, 1);
-
-            if (isDelayed && (startDate >= deadlineEndDate)) {
-                finishDays = 0;
-            } else if (isDelayed && (monthEnd < deadlineStartDate)) {
-                finishDays = 31;
-            }
-
-            for (let index2 = 1; index2 <= monthDays; index2++) {
-                let tasksTableTd4 = document.createElement("td");
-                tasksTableTd4.style = "width: " + Varibles.tasksTableTdWidth + "px;";
-
-                let div4Background = "";
-                if (isDelayed && finishDays < index2) {
-                    div4Background = "processes-data-line-lred";
-                } else {
-                    div4Background = "processes-data-line-green";
-                }
-
-                if (isNotThisMonth) {
-                    tasksTableTd4.className = "processes-table-table-td";
-                    tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
-                    continue;
-                } else if (isBeforMonth && isAfterMonth) {
-                    tasksTableTd4.className = "processes-table-table-td process-line-td";
-
-                    let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen " + div4Background;
-                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                    tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
-                    continue;
-                }
-
-                // simple line
-                if (process['projects.StartDate'].getDate() < index2 && relativeDate.getDate() > index2 ||
-                    (isBeforMonth && relativeDate.getDate() > index2) ||
-                    (isAfterMonth && process['projects.StartDate'].getDate() < index2)) {
-
-                    tasksTableTd4.className = "processes-table-table-td process-line-td";
-
-                    let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen " + div4Background;
-                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else if (isOneMonth && process['projects.StartDate'].getDate() === index2 && relativeDate.getDate() === index2) {
-                    tasksTableTd4.className = "processes-table-table-td process-end-td";
-
-                    let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
-                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else if ((isOneMonth && process['projects.StartDate'].getDate() === index2) ||
-                    (isAfterMonth && process['projects.StartDate'].getDate() === index2)) {
-                    tasksTableTd4.className = "processes-table-table-td process-start-td";
-
-                    let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen " + div4Background + " process-start-line";
-                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else if ((isOneMonth && relativeDate.getDate() === index2) ||
-                    (isBeforMonth && relativeDate.getDate() === index2)) {
-                    tasksTableTd4.className = "processes-table-table-td process-end-td";
-
-                    let tasksTableDiv4 = document.createElement("div");
-                    tasksTableDiv4.className = "full-screen " + div4Background + " process-end-line";
-                    tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
-                } else {
-                    tasksTableTd4.className = "processes-table-table-td";
-                }
-
-                tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
-            }
-
-            processesTTTbody.insertAdjacentElement('beforeend', tasksTableTr4);
-        }
+        /*
+                // processes box
+                let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
+                for (var index = 0; index < processesData.length; index++) {
+                    // Task names
+                    const process = processesData[index];
+        
+                    let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
+        
+                    // the empty parent element skipped
+                    if (process['projects.ParentFK'] !== null)
+                        continue;
+        
+                    // Levels of tasks
+                    let object = { Id: process['projects.ProjectId'], Level: 0 };
+                    Varibles.taskLevels.push(object);
+        
+                    let processNamesBoxItem = document.createElement("div");
+                    processNamesBoxItem.className = "process-names-box-item display-flex";
+                    processNamesBoxItem.id = "process_" + process['projects.ProjectId'];
+                    processNamesBoxItem.setAttribute("p-item-path", process['projects.ProjectId']);
+        
+                    let pNBoxItemText = document.createElement("div");
+                    pNBoxItemText.className = "full-width margin-auto text-o-ellipsis";
+                    pNBoxItemText.textContent = process['projects.Name'];
+        
+                    processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
+                    processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
+        
+                    if (Functions.isChild(process[Varibles.EntryIdName])) {
+                        let pNBoxItemIcon = document.createElement("i");
+                        pNBoxItemIcon.className = "far fa-plus-square margin-auto p-n-box-item-icon";
+                        processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemIcon);
+        
+                        processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
+                        processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
+        
+                        processNamesBoxItem.addEventListener('click', function (event) {
+                            Local.projectClick(processesData, this.id);
+                        });
+                    } else {
+                        processNamesBoxItem.insertAdjacentElement('beforeend', pNBoxItemText);
+                        processNamesBox.insertAdjacentElement('beforeend', processNamesBoxItem);
+                    }
+        
+                    // Task timelines
+                    let tasksTableTr4 = document.createElement("tr");
+                    tasksTableTr4.id = "process_row_" + process['projects.ProjectId'];
+                    tasksTableTr4.className = "tasksTableTr";
+                    tasksTableTr4.style = "height: " + Varibles.tasksTableTdWidth + "px;";
+                    tasksTableTr4.setAttribute('entry-id', process['projects.ProjectId']);
+        
+                    // Relative date
+                    let relativeDate = process['projects.FinishDate'];
+                    // Is it not this month
+                    let isNotThisMonth = relativeDate < startDate || process['projects.StartDate'] > monthEnd;
+                    let isBeforMonth = process['projects.StartDate'] < startDate;
+                    let isAfterMonth = relativeDate > monthEnd;
+                    let isOneMonth = !(isBeforMonth || isAfterMonth);
+        
+                    //delayed date
+                    let isDelayed = process['projects.FinishDate'] > process['projects.Deadline'];
+                    let finishDays = process['projects.Deadline'].getDate();
+                    let deadlineStartDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth(), 1);
+                    let deadlineEndDate = new Date(process['projects.Deadline'].getFullYear(), process['projects.Deadline'].getMonth() + 1, 1);
+        
+                    if (isDelayed && (startDate >= deadlineEndDate)) {
+                        finishDays = 0;
+                    } else if (isDelayed && (monthEnd < deadlineStartDate)) {
+                        finishDays = 31;
+                    }
+        
+                    for (let index2 = 1; index2 <= monthDays; index2++) {
+                        let tasksTableTd4 = document.createElement("td");
+                        tasksTableTd4.style = "width: " + Varibles.tasksTableTdWidth + "px;";
+        
+                        let div4Background = "";
+                        if (isDelayed && finishDays < index2) {
+                            div4Background = "processes-data-line-lred";
+                        } else {
+                            div4Background = "processes-data-line-green";
+                        }
+        
+                        if (isNotThisMonth) {
+                            tasksTableTd4.className = "processes-table-table-td";
+                            tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
+                            continue;
+                        } else if (isBeforMonth && isAfterMonth) {
+                            tasksTableTd4.className = "processes-table-table-td process-line-td";
+        
+                            let tasksTableDiv4 = document.createElement("div");
+                            tasksTableDiv4.className = "full-screen " + div4Background;
+                            tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
+                            tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
+                            continue;
+                        }
+        
+                        // simple line
+                        if (process['projects.StartDate'].getDate() < index2 && relativeDate.getDate() > index2 ||
+                            (isBeforMonth && relativeDate.getDate() > index2) ||
+                            (isAfterMonth && process['projects.StartDate'].getDate() < index2)) {
+        
+                            tasksTableTd4.className = "processes-table-table-td process-line-td";
+        
+                            let tasksTableDiv4 = document.createElement("div");
+                            tasksTableDiv4.className = "full-screen " + div4Background;
+                            tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
+                        } else if (isOneMonth && process['projects.StartDate'].getDate() === index2 && relativeDate.getDate() === index2) {
+                            tasksTableTd4.className = "processes-table-table-td process-end-td";
+        
+                            let tasksTableDiv4 = document.createElement("div");
+                            tasksTableDiv4.className = "full-screen " + div4Background + " process-one-line";
+                            tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
+                        } else if ((isOneMonth && process['projects.StartDate'].getDate() === index2) ||
+                            (isAfterMonth && process['projects.StartDate'].getDate() === index2)) {
+                            tasksTableTd4.className = "processes-table-table-td process-start-td";
+        
+                            let tasksTableDiv4 = document.createElement("div");
+                            tasksTableDiv4.className = "full-screen " + div4Background + " process-start-line";
+                            tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
+                        } else if ((isOneMonth && relativeDate.getDate() === index2) ||
+                            (isBeforMonth && relativeDate.getDate() === index2)) {
+                            tasksTableTd4.className = "processes-table-table-td process-end-td";
+        
+                            let tasksTableDiv4 = document.createElement("div");
+                            tasksTableDiv4.className = "full-screen " + div4Background + " process-end-line";
+                            tasksTableTd4.insertAdjacentElement('beforeend', tasksTableDiv4);
+                        } else {
+                            tasksTableTd4.className = "processes-table-table-td";
+                        }
+        
+                        tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
+                    }
+        
+                    processesTTTbody.insertAdjacentElement('beforeend', tasksTableTr4);
+                }*/
     },
     /**
      * Add month to view (before)
@@ -997,7 +1056,7 @@ let Callbacks = {
      * @param {JSON} result Update/insert result
      */
     refreshPage(result) {
-        Framework.Load('process_modul_content', Varibles.FrameId);
+        Framework.Load(Varibles.ShellId, Varibles.FrameId);
         document.getElementById(Varibles.FrameId + '_add_new_btn').addEventListener('click', Events.addNew)
 
         Local.initializationParams();
@@ -1065,8 +1124,8 @@ let Framework = {
         document.getElementById(targetId).innerHTML =
             `
     <div id="${frameId}" class="processes-modul-frame full-screen display-flex">
-        <div class="processes_overview_header display-flex flex-column">
-            <div class="processes_overview_header_title display-flex">
+        <div class="projects_header display-flex flex-column">
+            <div class="projects_header_title display-flex">
                 <div class="margin-auto">Feladatok</div>
             </div>
             <div id="${frameId}_names_box" class="process_names_box flex-1"></div>

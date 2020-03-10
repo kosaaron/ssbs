@@ -37,9 +37,9 @@ function checkLogin(){
         success: function (data) {
             var x = document.getElementById('login_message_container')
             if(data['LoggedIn']){
-                x.innerHTML='<p>' + data['Message'] + '</p><i class="fas fa-check-circle"></i>';
+                x.innerHTML='<p>' + data['Message'] + '</p>'; //<i class="fas fa-check-circle"></i>
                 x.style.display= "block";
-                window.location.replace("index.html");
+                window.location.replace("index.php");
             }
             else{
                 x.style.display= "block";

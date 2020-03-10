@@ -1,5 +1,5 @@
 .card-container {
-    padding-top: 15px;
+    padding-top: 20px;
     padding-left: 30px;
     padding-right: 30px;
     overflow-y: auto;
@@ -106,7 +106,7 @@
 }
 
 .filter-box {
-    padding: 0 1% 0 2%;
+    padding: 7px 1% 0 2%;
     width: 200px;
     overflow-y: auto;
     overflow-x: hidden;

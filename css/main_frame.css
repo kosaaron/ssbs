@@ -471,6 +471,7 @@ iframe[seamless] {
 }
 
 .cc-details {
+    padding-top: 5px;
     border-left: 1px solid #ddd;
 }
 
@@ -559,13 +560,14 @@ iframe[seamless] {
 .finance-subtab {
     text-align: center;
     cursor: pointer;
-    padding: 10px 0 6px 0;
+    padding: 10px 0 10px 0;
     border-bottom: 2px solid #ddd;
 }
 
 .finance-subtab-active {
     border-bottom: 2px solid #434b75;
     color: #434b75;
+    background: #eee;
 }
 
 .finance-subtab:hover {

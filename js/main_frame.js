@@ -11,7 +11,7 @@
 
 /** Imports */
 import partnersManager from './partners_manager.js';
-import processesOverview from './processes_overview.js';
+import Projects from './projects.js';
 import TaskManager from './tasks_manager.js';
 import OrderManager from './order_manager.js';
 import { addListenerByAttr2, addListener } from './common.js';
@@ -23,6 +23,7 @@ import newTable from './testproducttable.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
 import Notifications from './notification.js';
 import notifications from './notification.js';
+import LoadFrame from './plug-ins/LoadFrame.js';
 
 /** Varibles */
 let Varibles = {
@@ -129,11 +130,11 @@ function processesModulClick(id) {
     const iframe = createIframe('full-screen');
 
     switch (id) {
-        case "processes_overview_btn":
-            GlobalVaribles.setActiveModule('processes_overview');
+        case "projects_btn":
+            GlobalVaribles.setActiveModule('projects');
             iframe.src = "folyamatok_attekintese.html";
             //document.getElementById("process_modul_content").appendChild(iframe);
-            processesOverview.loadProcessesOverview();
+            Projects.loadModule();
             break;
         case "tasks_manager_btn":
             GlobalVaribles.setActiveModule('tasks_manager');
@@ -270,8 +271,8 @@ function settingsModulClick(id) {
 /** Resize window */
 window.onresize = function (event) {
     switch (GlobalVaribles.getActiveModule()) {
-        case 'processes_overview':
-            processesOverview.resizeProcessesOverview();
+        case 'projects':
+            Projects.resize();
             break;
         case 'tasks_manager':
             TaskManager.resizeModule();
@@ -284,6 +285,8 @@ window.onresize = function (event) {
 
 /** Ready document */
 $(document).ready(function () {
+    let loadFrame = new LoadFrame();
+
     addClickEvents(menuItemClick, "menu-item");
     addClickEvents(processesModulClick, "processes-mo-click");
     addClickEvents(prodMenuChange, "prod-subm-i");
