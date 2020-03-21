@@ -22,7 +22,7 @@ foreach ($projects as $p_key => $p_value) {
     $new_prjct_arr['Level'] = $lvl;
     $new_prjct_arr['Childs'] = childProjects($projects, $projectId, $lvl);
 
-    $n_projects[] = $new_prjct_arr;
+    $n_projects[$p_value['ProjectId']] = $new_prjct_arr;
 }
 
 print_r(json_encode($n_projects));
@@ -47,7 +47,7 @@ function childProjects(&$data, $parentFK, $lvl)
         $new_entry_arr['Level'] = $lvl;
         $new_entry_arr['Childs'] = childProjects($data, $projectId, $lvl);
 
-        $n_projects[] = $new_entry_arr;
+        $n_projects[$d_value['ProjectId']] = $new_entry_arr;
     }
 
     return $n_projects;

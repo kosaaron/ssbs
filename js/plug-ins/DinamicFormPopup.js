@@ -59,6 +59,7 @@ export default class DinamicFormPopup {
                         fillFormData[uploadName] = value;
                     }
                 }
+
                 let formObject = {
                     'FormData': formData,
                     'FillFormData': fillFormData
@@ -115,9 +116,23 @@ export default class DinamicFormPopup {
                 DinamicFormPopup.save(targetId, entryId, refreshFn);
             }
         );
+
+        document.onkeydown = function (e) {
+            switch (e.code) {
+                case 'Escape':
+                    DinamicFormPopup.cancel(targetId);
+                    break;
+            }
+        }
     }
 
-    //Events
+    /** Events **/
+    //click
+    /**
+     * Load form item
+     * @param {JSON} objectItem 
+     * @param {String} shellId 
+     */
     static loadFormItem(objectItem, shellId) {
         switch (objectItem.Type) {
             case "W":
@@ -170,6 +185,7 @@ export default class DinamicFormPopup {
      */
     static cancel(targetId) {
         $('#' + targetId + '_dnmcppp_frame').remove();
+        document.onkeydown = null;
     }
 
     /**
@@ -189,8 +205,9 @@ export default class DinamicFormPopup {
         DinamicFormPopup.cancel(targetId)
     }
 
+    /** Frame **/
     /**
-     * Frame
+     * Get frame
      * @param {String} targetId 
      * @param {String} title 
      * @param {Boolean} isFullscreen 

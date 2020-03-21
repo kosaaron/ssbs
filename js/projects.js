@@ -1,31 +1,9 @@
-/**
- * **projects.js**
- * 1 Imports
- * 2 Public class
- * 2.1 Load framework
- * 2.2 Load framework
- * 3 Local
- * 3.1 Local varibles
- * 3.2 Local functions
- * 3.2.1 Reload varibles
- * 3.2.2 Get processes data
- * 3.2.3 Reload full page
- * 3.2.4 Project click event
- * 3.2.5 Add subproject
- * 3.2.6 Load default processes
- * 3.2.7 Add month to view (before)
- * 3.2.8 Add month to view (after)
- * 3.2.9 Processes overview scroll events
- */
-
-/**
- * Imports
- */
-import { addOneListener, mainFrame } from './common.js';
+/** projects.js **/
+/** Imports **/
 import DateFunctions from './plug-ins/DateFunctions.js';
-import ArrayFunctions from './plug-ins/ArrayFunctions.js';
 import DinamicFormPopup from './plug-ins/DinamicFormPopup.js'
 
+/** Varibles **/
 let Varibles = {
     //Module parameters
     FrameId: 'prco',
@@ -50,12 +28,12 @@ let Varibles = {
     //Timeline end date
     gTimeLineEnd: null,
     //Timeline length (day)
-    gTimeLineLength: null
+    gTimeLineLength: null,
+    datesDisplayed: null,
+    tableWidth: null
 }
 
-/**
- * Public class
- */
+/** Public class **/
 let Projects = {
     /**
      * Load framework
@@ -92,6 +70,11 @@ let Projects = {
 }
 export default Projects;
 
+/** Loadings **/
+let Loadings = {
+
+}
+
 /** Local functions **/
 let Local = {
     /**
@@ -114,6 +97,16 @@ let Local = {
         Varibles.gTimeLineEnd = null;
         //Timeline length (day)
         Varibles.gTimeLineLength = null;
+
+        Varibles.tableWidth = 0;
+
+        let startDate = new Date();
+        startDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+        Varibles.datesDisplayed = [];
+        for (let i = -3; i <= 2; i++) {
+            let relativeDate = new Date(startDate.getFullYear(), startDate.getMonth() + i, 1);
+            Varibles.datesDisplayed.push(relativeDate);
+        }
     },
     /**
      * Get processes data
@@ -126,11 +119,7 @@ let Local = {
             url: "./php/Projects.php",
             data: "",
             success: function (data) {
-                alert(JSON.stringify(data));
                 Varibles.processesDataArray = data;
-                //Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.StartDate');
-                //Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.Deadline');
-                //Varibles.processesDataArray = DateFunctions.dataColumnToDate(Varibles.processesDataArray, 'projects.FinishDate');
                 Local.reloadFullPage(Varibles.processesDataArray);
             },
             dataType: 'json'
@@ -154,35 +143,37 @@ let Local = {
         if (dateNow.getDate() < 10) {
             Varibles.gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth() - 1, 1);
             Varibles.gTimeLineLength = 3;
-            Local.addMonthBefor(Varibles.gTimeLineStart, processesData);
+            //Local.addMonthBefor(Varibles.gTimeLineStart, processesData);
         } else {
             Varibles.gTimeLineStart = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1);
             Varibles.gTimeLineLength = 2;
         }
 
         Varibles.gTimeLineEnd = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, 1);
-        Local.addMonthAfter(Varibles.gTimeLineEnd, processesData);
+        //Local.addMonthAfter(Varibles.gTimeLineEnd, processesData);
 
         Projects.resize();
 
+        //Click events
+
+        //Scroll events
+        //content scroll
         var tasksTableTdToday = document.getElementById("tasks_table_td_today");
         var ProjectsContent = document.getElementById(Varibles.FrameId + '_content');
         ProjectsContent.scrollLeft = tasksTableTdToday.offsetLeft + 2;
+        ProjectsContent.addEventListener("scroll", Events.scrollMonth);
 
+        //name box scroll
         let processesTScrollTable = document.getElementById('processes_t_scroll_table');
         let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
 
-        //Click events
-        $('.tasksTableTr').click(Events.processTrClick);
-
-        //Scroll event
         processesTScrollTable.addEventListener("wheel", processesTWheel);
         processNamesBox.addEventListener("wheel", processesTWheel);
         processesTScrollTable.addEventListener("scroll", Local.scrollContentProcessesO);
         processNamesBox.addEventListener("scroll", Local.scrollHeadProcessesO);
 
-        function processesTWheel(event) {
-            const delta = Math.sign(event.deltaY);
+        function processesTWheel(e) {
+            const delta = Math.sign(e.deltaY);
             if (delta === 1) {
                 processNamesBox.scrollTop += 20;
             } else {
@@ -415,131 +406,137 @@ let Local = {
     },
     /**
      * Load default processes
-     * @param {Array} processesData 
+     * @param {Array} processesData
      */
     loadProcessesTable: function (processesData) {
+        Local.loadTimelineHeaderFame();
+
+        for (let i = 0; i < Varibles.datesDisplayed.length; i++) {
+            const dateDisplayed = Varibles.datesDisplayed[i];
+
+            Local.loadTimelineHeaderContent(dateDisplayed, true);
+            Varibles.tableWidth += DateFunctions.daysInMonth(
+                dateDisplayed.getMonth() + 1,
+                dateDisplayed.getFullYear()
+            );
+        }
+
+        //Resize table
+        Functions.resizeScrollTable();
+
+        Local.addProcess(processesData, null, null);
+        /*
         let dateNow = new Date();
-        let startDate = dateNow;
-        startDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+        let isNow = dateNow.getFullYear() === startDate.getFullYear() &&
+            dateNow.getMonth() === startDate.getMonth();
+
         //startDate = new Date("2019.8.01");
         let monthDays = DateFunctions.daysInMonth(startDate.getMonth() + 1, startDate.getFullYear());
         Varibles.tasksTableWidth = monthDays;
 
-        // Tasks table header
+        //Tasks table header
         let processesTTable = document.getElementById('processes_table_table1');
         let processesTTTbody = document.getElementById('processes_t_t_tbody');
         let processesTTThead = document.getElementById('processes_t_t_thead');
 
-        // level 1
+        //Year and month labels
         processesTTThead.insertAdjacentHTML(
             'beforeend',
             `<tr style="height: ${Varibles.tasksTableTdWidth}px" class="tasksTableTr">
                 <td colspan="${monthDays}">
                     ${startDate.getFullYear()}. ${DateFunctions.fullMonthDate(startDate)}
-                <td>
-            </tr>`
-        );
-/*
-        // level 2
-        //row
-        let tasksTableTr2 = document.createElement("tr");
-        tasksTableTr2.className = "tasksTableTr";
-        tasksTableTr2.style = "height: " + Varibles.tasksTableTdWidth + "px;";
-
-        //columns
-        let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(startDate).getDay());
-        let startWeek = DateFunctions.getWeekNumber(startDate);
-
-        let tasksTableTd2 = document.createElement("td");
-        tasksTableTd2.colSpan = firstWeekDays;
-        tasksTableTr2.insertAdjacentElement('beforeend', tasksTableTd2);
-        if (firstWeekDays >= 4) {
-            tasksTableTd2.textContent = startWeek + ". hét";
-        }
-
-        for (let index = 1; index <= 3; index++) {
-            tasksTableTd2 = document.createElement("td");
-            tasksTableTd2.colSpan = 7;
-            tasksTableTd2.textContent = (startWeek + index) + ". hét";
-
-            tasksTableTr2.insertAdjacentElement('beforeend', tasksTableTd2);
-        }
-
-        let lastWeekDays = (monthDays % 7) + (7 - firstWeekDays);
-
-        if (lastWeekDays !== 0) {
-            tasksTableTd2 = document.createElement("td");
-            tasksTableTd2.colSpan = lastWeekDays;
-            tasksTableTr2.insertAdjacentElement('beforeend', tasksTableTd2);
-            if (lastWeekDays >= 4) {
-                tasksTableTd2.textContent = startWeek + ". hét";
-            }
-        }
-*/
-
-        let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(startDate).getDay());
-        let startWeek = DateFunctions.getWeekNumber(startDate);
-
-        processesTTThead.insertAdjacentHTML(
-            'beforeend',
-            `<tr class="tasksTableTr 
-                 style="height: ${Varibles.tasksTableTdWidth}px">
-                <td colspan="${firstWeekDays}">
-            ${getFirstWeekDays()}
                 </td>
             </tr>`
         );
-        function getFirstWeekDays() {
+
+        //Week labels
+        let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(startDate).getDay());
+        let startWeek = DateFunctions.getWeekNumber(startDate);
+        let dayCounter = firstWeekDays;
+
+        processesTTThead.insertAdjacentHTML(
+            'beforeend',
+            `<tr class="tasksTableTr"  
+                 style="height: ${Varibles.tasksTableTdWidth}px">
+                <td colspan="${firstWeekDays}">${getFirstWeekDayNum()}</td>
+                ${getFullWeeksHTML()}
+                ${getEndWeekOfMonth()}
+            </tr>`
+        );
+
+        function getFirstWeekDayNum() {
             if (firstWeekDays >= 4) {
                 return startWeek + '. hét';
             } else {
                 return '';
             }
         }
-/*
-        for (let index = 1; index <= 3; index++) {
-            tasksTableTd2 = document.createElement("td");
-            tasksTableTd2.colSpan = 7;
-            tasksTableTd2.textContent = (startWeek + index) + ". hét";
 
-            tasksTableTr2.insertAdjacentHTML(
-                'beforeend',
-                `<td colspan="7">
-                    ${(startWeek + index)}. hét
-                </td>`
-            );
-        }*/
+        function getFullWeeksHTML() {
+            let readyHTML = '';
 
-
-        // level 3
-        // row 
-        let tasksTableTr3 = document.createElement("tr");
-        tasksTableTr3.className = "tasksTableTr";
-        tasksTableTr3.style = "height: " + Varibles.tasksTableTdWidth + "px;";
-
-        for (let index = 1; index <= monthDays; index++) {
-            let tasksTableTd3 = document.createElement("td");
-            tasksTableTd3.className = "processes-table-table-td";
-            tasksTableTd3.textContent = index;
-            tasksTableTd3.style = "width: " + Varibles.tasksTableTdWidth + "px;";
-            if (index === dateNow.getDate()) {
-                tasksTableTd3.id = "tasks_table_td_today";
+            for (let i = 1; dayCounter <= monthDays - 7; i++) {
+                readyHTML += `<td colspan="7">${(startWeek + i)}. hét</td>`;
+                dayCounter += 7;
             }
-            tasksTableTr3.insertAdjacentElement('beforeend', tasksTableTd3);
+            return readyHTML;
         }
 
-        processesTTThead.insertAdjacentElement('beforeend', tasksTableTr3);
+        function getEndWeekOfMonth() {
+            let lastWeekDays = monthDays - dayCounter;
+            let readyHTML = '';
+
+            if (lastWeekDays !== 0) {
+                readyHTML +=
+                    `<td colspan="${lastWeekDays}">${lastWeekText()}</td>`;
+                function lastWeekText() {
+                    if (lastWeekDays >= 4) {
+                        return startWeek + '. hét';
+                    } else {
+                        return '';
+                    }
+                }
+            }
+            return readyHTML;
+        }
+
+        //Day labels
+        processesTTThead.insertAdjacentHTML(
+            'beforeend',
+            `<tr class="tasksTableTr"  
+                 style="height: ${Varibles.tasksTableTdWidth}px">
+                ${getDaysTdHTML()}
+            </tr>`
+        );
+
+        function getDaysTdHTML() {
+            let readyHTML = '';
+            for (let i = 1; i <= monthDays; i++) {
+                let todayId = '';
+                if (i === dateNow.getDate() && isNow) {
+                    todayId = 'id="tasks_table_td_today"';
+                }
+                readyHTML += `<td ${todayId} class="processes-table-table-td" 
+                    style="width: ${Varibles.tasksTableTdWidth}px">${i}</td>`;
+            }
+
+            return readyHTML;
+        }
+
+        //Resize table
         processesTTable.style = "width: " + Varibles.tasksTableTdWidth * monthDays + "px; border-color: #ddd;";
 
+        //Load data items
         let processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
         processesData.forEach(process => {
-            let pNBoxItemText = document.createElement("div");
-            pNBoxItemText.className = "full-width margin-auto text-o-ellipsis";
-            pNBoxItemText.textContent = process['projects.Name'];
+            // the empty parent element skipped
+            if (process['projects.ParentFK'] !== null) {
+                return;
+            }
 
             let dropDownClass = '';
             if (process['Childs'].length !== 0) {
-                dropDownClass = '<i class="far fa-plus-square margin-auto p-n-box-item-icon"></i>';
+                dropDownClass = `<i class="far fa-plus-square margin-auto p-n-box-item-icon"></i>`;
             }
 
             processNamesBox.insertAdjacentHTML(
@@ -553,6 +550,126 @@ let Local = {
                     </div>
                 </div>`
             );
+
+            // date varibles
+            let startDate = new Date(process['projects.StartDate']);
+            let finishDate = new Date(process['projects.FinishDate']);
+            let deadline = new Date(process['projects.Deadline']);
+            let monthEnd = new Date(startDate.getFullYear(), startDate.getMonth(), monthDays);
+
+            // Is it not this month
+            let isNotThisMonth = finishDate < startDate || startDate > monthEnd;
+            let isBeforMonth = startDate < startDate;
+            let isAfterMonth = finishDate > monthEnd;
+            let isOneMonth = !(isBeforMonth || isAfterMonth);
+            //delayed date
+            let isDelayed = startDate > deadline;
+            let finishDays = deadline.getDate();
+            let deadlineStartDate = new Date(
+                deadline.getFullYear(),
+                deadline.getMonth(),
+                1
+            );
+            let deadlineEndDate = new Date(
+                deadline.getFullYear(),
+                deadline.getMonth() + 1,
+                1
+            );
+
+            if (isDelayed && (startDate >= deadlineEndDate)) {
+                finishDays = 0;
+            } else if (isDelayed && (monthEnd < deadlineStartDate)) {
+                finishDays = 31;
+            }
+
+            // Task timelines
+            processesTTTbody.insertAdjacentHTML(
+                'beforeend',
+                `<tr id="process_row_${process['projects.ProjectId']}" 
+                     class="tasksTableTr"
+                     style="height: ${Varibles.tasksTableTdWidth}px"
+                     entry-id: "${process['projects.ProjectId']}">
+                    ${getProcessLine()}
+                </tr>`
+            );
+
+            function getProcessLine() {
+                let readyHTML = '';
+                for (let j = 1; j <= monthDays; j++) {
+                    let div4Background = '';
+                    if (isDelayed && finishDays < j) {
+                        div4Background = "processes-data-line-lred";
+                    } else {
+                        div4Background = "processes-data-line-green";
+                    }
+
+                    //not in this month
+                    if (isNotThisMonth) {
+                        readyHTML += `
+                            <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                                class="processes-table-table-td">
+                            </td>`;
+                        continue;
+                    }
+
+                    //whole month
+                    if (isBeforMonth && isAfterMonth) {
+                        tasksTableTd4.className = "processes-table-table-td process-line-td";
+                        readyHTML += `
+                            <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                                class="processes-table-table-td process-line-td">
+                                <div class="full-screen ${div4Background}">
+                                </div>
+                            </td>`;
+                        continue;
+                    }
+
+                    if (startDate.getDate() < j &&
+                        finishDate.getDate() > j ||
+                        (isBeforMonth && finishDate.getDate() > j) ||
+                        (isAfterMonth && startDate.getDate() < j)) {
+                        //simple line
+                        readyHTML += `
+                            <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                                class="processes-table-table-td process-line-td">
+                                <div class="full-screen ${div4Background}"></div>
+                            </td>`;
+
+                    } else if (isOneMonth && startDate.getDate() === j
+                        && finishDate.getDate() === j) {
+                        //one day process line
+                        readyHTML += `
+                            <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                                class="processes-table-table-td process-end-td">
+                                <div class="full-screen  process-one-line ${div4Background}"></div>
+                            </td>`;
+                    } else if ((isOneMonth && startDate.getDate() === j) ||
+                        (isAfterMonth && startDate.getDate() === j)) {
+                        //"start of process" element
+                        readyHTML += `
+                            <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                                class="processes-table-table-td process-start-td">
+                                <div class="full-screen process-start-line ${div4Background}"></div>
+                            </td>`;
+                    } else if ((isOneMonth && finishDate.getDate() === j) ||
+                        (isBeforMonth && finishDate.getDate() === j)) {
+                        //"end of process" element
+                        readyHTML += `
+                            <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                                class="processes-table-table-td process-end-td">
+                                <div class="full-screen process-end-line ${div4Background}"></div>
+                            </td>`;
+                    } else {
+                        //empty day                        
+                        readyHTML += `
+                            <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                                class="processes-table-table-td">
+                            </td>`;
+                    }
+                }
+
+                return readyHTML;
+            }
         });
 
         /*
@@ -637,7 +754,7 @@ let Local = {
                         } else {
                             div4Background = "processes-data-line-green";
                         }
-        
+                        
                         if (isNotThisMonth) {
                             tasksTableTd4.className = "processes-table-table-td";
                             tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
@@ -651,7 +768,7 @@ let Local = {
                             tasksTableTr4.insertAdjacentElement('beforeend', tasksTableTd4);
                             continue;
                         }
-        
+        ///////////////////////////////////
                         // simple line
                         if (process['projects.StartDate'].getDate() < index2 && relativeDate.getDate() > index2 ||
                             (isBeforMonth && relativeDate.getDate() > index2) ||
@@ -691,6 +808,366 @@ let Local = {
         
                     processesTTTbody.insertAdjacentElement('beforeend', tasksTableTr4);
                 }*/
+    },
+    /**
+     * Load timeline header fame
+     */
+    loadTimelineHeaderFame: function () {
+        let processesTTThead = document.getElementById('processes_t_t_thead');
+
+        //Year and month labels
+        processesTTThead.insertAdjacentHTML(
+            'beforeend',
+            `<tr id="${Varibles.FrameId}_tbl_hdr_month" 
+                 style="height: ${Varibles.tasksTableTdWidth}px" 
+                 class="tasksTableTr">
+            </tr>`
+        );
+
+        //Week labels
+        processesTTThead.insertAdjacentHTML(
+            'beforeend',
+            `<tr id="${Varibles.FrameId}_tbl_hdr_week" 
+                 class="tasksTableTr" 
+                 style="height: ${Varibles.tasksTableTdWidth}px">
+            </tr>`
+        );
+
+        //Day labels
+        processesTTThead.insertAdjacentHTML(
+            'beforeend',
+            `<tr id="${Varibles.FrameId}_tbl_hdr_day" 
+                 class="tasksTableTr"  
+                 style="height: ${Varibles.tasksTableTdWidth}px">
+            </tr>`
+        );
+    },
+    /**
+     * Load content of timeline header
+     * @param {Date} startDate 
+     * @param {Boolean} isNextMonth 
+     */
+    loadTimelineHeaderContent: function (relativeDate, isNextMonth) {
+        let dateNow = new Date();
+        let isNow = dateNow.getFullYear() === relativeDate.getFullYear() &&
+            dateNow.getMonth() === relativeDate.getMonth();
+        let monthDays = DateFunctions.daysInMonth(relativeDate.getMonth() + 1, relativeDate.getFullYear());
+        let afterBefore = 'afterbegin';
+        if (isNextMonth) {
+            afterBefore = 'beforeend';
+        }
+
+        //Year and month labels
+        document.getElementById(`${Varibles.FrameId}_tbl_hdr_month`).insertAdjacentHTML(
+            afterBefore,
+            `<td colspan="${monthDays}">
+                ${relativeDate.getFullYear()}. ${DateFunctions.fullMonthDate(relativeDate)}
+            </td>`
+        );
+
+        //Week labels
+        let firstWeekDays = 7 - DateFunctions.mondayIsFirthDay(new Date(relativeDate).getDay());
+        let dayCounter = firstWeekDays;
+        let weekCounter = DateFunctions.getWeekNumber(relativeDate);
+
+        document.getElementById(`${Varibles.FrameId}_tbl_hdr_week`).insertAdjacentHTML(
+            afterBefore,
+            `<td colspan="${firstWeekDays}">${getFirstWeekDayNum()}</td>
+            ${getFullWeeksHTML()}
+            ${getEndWeekOfMonth()}`
+        );
+
+        function getFirstWeekDayNum() {
+            let readyText = '';
+
+            if (firstWeekDays >= 4) {
+                readyText = weekCounter + '. hét';
+            }
+
+            weekCounter++;
+            return readyText;
+        }
+
+        function getFullWeeksHTML() {
+            let readyHTML = '';
+
+            for (let i = 1; dayCounter <= monthDays - 7; i++) {
+                readyHTML += `<td colspan="7">${(weekCounter)}. hét</td>`;
+                dayCounter += 7;
+                weekCounter++;
+            }
+            return readyHTML;
+        }
+
+        function getEndWeekOfMonth() {
+            let lastWeekDays = monthDays - dayCounter;
+            let readyHTML = '';
+
+            if (lastWeekDays !== 0) {
+                readyHTML +=
+                    `<td colspan="${lastWeekDays}">${lastWeekText()}</td>`;
+                function lastWeekText() {
+                    if (lastWeekDays >= 4) {
+                        return weekCounter + '. hét';
+                    } else {
+                        return '';
+                    }
+                }
+            }
+            return readyHTML;
+        }
+
+        //Day labels
+        document.getElementById(`${Varibles.FrameId}_tbl_hdr_day`).insertAdjacentHTML(
+            afterBefore,
+            `${getDaysTdHTML()}`
+        );
+
+        function getDaysTdHTML() {
+            let readyHTML = '';
+            for (let i = 1; i <= monthDays; i++) {
+                let todayId = '';
+                if (i === dateNow.getDate() && isNow) {
+                    todayId = 'id="tasks_table_td_today"';
+                }
+                readyHTML += `<td ${todayId} class="processes-table-table-td" 
+                    style="width: ${Varibles.tasksTableTdWidth}px">${i}</td>`;
+            }
+
+            return readyHTML;
+        }
+    },
+    /**
+     * Get process name box HTML
+     * @param {JSON} process 
+     * @param {String} prcItemPath 
+     * @param {String} prntPrcClssList 
+     */
+    getProcessNameBox: function (process, prcItemPath, prntPrcClssList) {
+        return `<div id="process_${process[Varibles.EntryIdName]}" 
+                      class="process-names-box-item display-flex ${prntPrcClssList}" 
+                      p-item-path="${prcItemPath}"
+                      entry-id="${process[Varibles.EntryIdName]}"
+                      style="padding-left:${getLeftOffset()}px">
+                      ${getDropDownClass()}
+                    <div class="full-width margin-auto text-o-ellipsis">${process['projects.Name']}</div>
+                </div>`
+
+        function getLeftOffset() {
+            return 8 + process['Level'] * 5;
+        }
+
+        function getDropDownClass() {
+            if (process['Childs'].length === 0) {
+                return ``;
+            } else {
+                return `<i class="far fa-plus-square margin-auto p-n-box-item-icon"></i>`;
+            }
+        }
+    },
+    /**
+     * Add process
+     * @param {JSON} processesArray 
+     * @param {String} processId 
+     * @param {String} prcItemPath 
+     */
+    addProcess: function (processesArray, processId, prcItemPath) {
+        //Load data items
+        let lastProcessId = processId;
+        for (const key in processesArray) {
+            if (!processesArray.hasOwnProperty(key)) {
+                continue;
+            }
+            const process = processesArray[key];
+
+            //create parent processes class list
+            let prntPrcClssList = '';
+            let nPrcItemPath = '';
+            if (prcItemPath === null) {
+                nPrcItemPath = process[Varibles.EntryIdName];
+            } else {
+                prcItemPath.split('.').forEach(processId => {
+                    prntPrcClssList += ' process_' + processId;
+                });
+
+                nPrcItemPath = prcItemPath + '.' + process[Varibles.EntryIdName];
+            }
+
+            //Name box
+            let processNamesBox = document.getElementById('process_' + lastProcessId);
+            let processesTTTbody = document.getElementById('process_row_' + lastProcessId);
+            let afterBefore = 'afterend';
+
+            if (processId === null) {
+                processNamesBox = document.getElementById(Varibles.FrameId + '_names_box');
+                processesTTTbody = document.getElementById('processes_t_t_tbody');
+                afterBefore = 'beforeend';
+            }
+
+            processNamesBox.insertAdjacentHTML(
+                afterBefore,
+                Local.getProcessNameBox(process, nPrcItemPath, prntPrcClssList)
+            );
+
+            // Task timelines frame
+            processesTTTbody.insertAdjacentHTML(
+                afterBefore,
+                Local.getProcessLineFrame(process, prntPrcClssList)
+            );
+
+            let processLineFrame = document.getElementById(
+                `process_row_${process[Varibles.EntryIdName]}`
+            );
+
+            Varibles.datesDisplayed.forEach(relativeDate => {
+                // Task timelines content
+                processLineFrame.insertAdjacentHTML(
+                    'beforeend',
+                    Local.getProcessLineContent(process, relativeDate)
+                );
+            });
+
+            $('.process-names-box-item#process_' + process[Varibles.EntryIdName]).click(
+                Events.NameBoxItemClick
+            );
+            $('.tasksTableTr#process_row_' + process[Varibles.EntryIdName]).click(
+                Events.processTrClick
+            );
+
+            lastProcessId = process[Varibles.EntryIdName];
+        }
+    },
+    /**
+     * Get process line HTML
+     * @param {JSON} process 
+     * @param {String} prntPrcClssList 
+     */
+    getProcessLineFrame: function (process, prntPrcClssList) {
+        // Task timelines
+        return `<tr id="process_row_${process[Varibles.EntryIdName]}" 
+                    class="tasksTableTr ${prntPrcClssList}"
+                    style="height: ${Varibles.tasksTableTdWidth}px"
+                    entry-id= "${process[Varibles.EntryIdName]}">
+                </tr>`;
+    },
+    /**
+     * 
+     * @param {JSON} process 
+     * @param {Date} relativeDate 
+     */
+    getProcessLineContent: function (process, relativeDate) {
+        // date varibles
+        let startDate = new Date(process['projects.StartDate']);
+        let finishDate = new Date(process['projects.FinishDate']);
+        let deadline = new Date(process['projects.Deadline']);
+        let monthDays = DateFunctions.daysInMonth(relativeDate.getMonth() + 1, relativeDate.getFullYear());
+        let monthEnd = new Date(relativeDate.getFullYear(), relativeDate.getMonth(), monthDays);
+
+        // Is it not this month
+        let isNotThisMonth = finishDate < relativeDate || startDate > monthEnd;
+        let isBeforMonth = startDate < relativeDate;
+        let isAfterMonth = finishDate > monthEnd;
+        let isOneMonth = !(isBeforMonth || isAfterMonth);
+        //delayed date
+        let isDelayed = finishDate > deadline;
+        let finishDays = deadline.getDate();
+        let deadlineStartDate = new Date(
+            deadline.getFullYear(),
+            deadline.getMonth(),
+            1
+        );
+        let deadlineEndDate = new Date(
+            deadline.getFullYear(),
+            deadline.getMonth() + 1,
+            1
+        );
+
+        if (isDelayed && (startDate >= deadlineEndDate)) {
+            finishDays = 0;
+        } else if (isDelayed && (monthEnd < deadlineStartDate)) {
+            finishDays = 31;
+        }
+
+        // Task timelines
+        return getLineItems();
+
+        function getLineItems() {
+            let readyHTML = '';
+            for (let j = 1; j <= monthDays; j++) {
+                let div4Background = '';
+                if (isDelayed && finishDays < j) {
+                    div4Background = "processes-data-line-lred";
+                } else {
+                    div4Background = "processes-data-line-green";
+                }
+
+                //not in this month
+                if (isNotThisMonth) {
+                    readyHTML += `
+                    <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                        class="processes-table-table-td">
+                    </td>`;
+                    continue;
+                }
+
+                //whole month
+                if (isBeforMonth && isAfterMonth) {
+                    tasksTableTd4.className = "processes-table-table-td process-line-td";
+                    readyHTML += `
+                    <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                        class="processes-table-table-td process-line-td">
+                        <div class="full-screen ${div4Background}">
+                        </div>
+                    </td>`;
+                    continue;
+                }
+
+                if (startDate.getDate() < j &&
+                    finishDate.getDate() > j ||
+                    (isBeforMonth && finishDate.getDate() > j) ||
+                    (isAfterMonth && startDate.getDate() < j)) {
+                    //simple line
+                    readyHTML += `
+                    <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                        class="processes-table-table-td process-line-td">
+                        <div class="full-screen ${div4Background}"></div>
+                    </td>`;
+
+                } else if (isOneMonth && startDate.getDate() === j
+                    && finishDate.getDate() === j) {
+                    //one day process line
+                    readyHTML += `
+                    <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                        class="processes-table-table-td process-end-td">
+                        <div class="full-screen  process-one-line ${div4Background}"></div>
+                    </td>`;
+                } else if ((isOneMonth && startDate.getDate() === j) ||
+                    (isAfterMonth && startDate.getDate() === j)) {
+                    //"start of process" element
+                    readyHTML += `
+                    <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                        class="processes-table-table-td process-start-td">
+                        <div class="full-screen process-start-line ${div4Background}"></div>
+                    </td>`;
+                } else if ((isOneMonth && finishDate.getDate() === j) ||
+                    (isBeforMonth && finishDate.getDate() === j)) {
+                    //"end of process" element
+                    readyHTML += `
+                    <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                        class="processes-table-table-td process-end-td">
+                        <div class="full-screen process-end-line ${div4Background}"></div>
+                    </td>`;
+                } else {
+                    //empty day                        
+                    readyHTML += `
+                    <td style="width: ${Varibles.tasksTableTdWidth}px;" 
+                        class="processes-table-table-td">
+                    </td>`;
+                }
+            }
+
+            return readyHTML;
+        }
     },
     /**
      * Add month to view (before)
@@ -1047,8 +1524,73 @@ let Functions = {
         }
 
         return false;
+    },
+    /**
+     * Object from JSON array
+     * @param {JSON} array 
+     * @param {String} path example: "1234.1235.1236"
+     */
+    objectFromJSON: function (array, path) {
+        let currentArray = Functions.childsFromJSON(
+            array,
+            path
+        );
+        let entryIdArr = path.split('.')
+        let lasEntryId = entryIdArr[entryIdArr.length - 1];
+        let newProcess = {};
+        for (const key in currentArray[lasEntryId]) {
+            if (currentArray[lasEntryId].hasOwnProperty(key)) {
+                const value = currentArray[lasEntryId][key];
+                if (key !== 'Childs') {
+                    newProcess[key] = value;
+                }
+            }
+        }
+
+        return newProcess;
+    },
+    /**
+     * Object from JSON array
+     * @param {JSON} array 
+     * @param {String} path example: "1234.1235.1236"
+     */
+    objectFromJSONWCh: function (array, path) {
+        let currentArray = Functions.childsFromJSON(
+            array,
+            path
+        );
+        let entryIdArr = path.split('.')
+        let lasEntryId = entryIdArr[entryIdArr.length - 1];
+        currentArray = currentArray[lasEntryId];
+
+        return currentArray;
+    },
+    /**
+     * Parent childs from JSON array by path
+     * @param {JSON} array 
+     * @param {String} path example: "1234.1235.1236"
+     */
+    childsFromJSON: function (array, path) {
+        let ids = path.split('.');
+        let currentArray = array;
+
+        for (let i = 0; i < ids.length - 1; i++) {
+            const entryId = ids[i];
+            currentArray = currentArray[entryId]['Childs'];
+        }
+
+        return currentArray;
+    },
+    /**
+     * 
+     */
+    resizeScrollTable: function () {
+        let processesTTable = document.getElementById('processes_table_table1');
+        processesTTable.style = "width: " + Varibles.tableWidth * Varibles.tasksTableTdWidth +
+            "px; border-color: #ddd;";
     }
 }
+
 /** Callbacks **/
 let Callbacks = {
     /**
@@ -1066,13 +1608,18 @@ let Callbacks = {
 
 /** Events **/
 let Events = {
+    /** Click **/
     /**
      * Process tr click event
      */
     processTrClick(e) {
-        let id = this.getAttribute('entry-id');
-        Database.getAddNForm(id);
+        let entryId = this.getAttribute('entry-id');
+        Database.getAddNForm(entryId);
     },
+    /**
+     * addNew
+     * @param {Event} e 
+     */
     addNew(e) {
         let targetId = Varibles.FrameId;
         let dinamicFormPopup = new DinamicFormPopup(
@@ -1088,16 +1635,111 @@ let Events = {
             null,
             Callbacks.refreshPage
         );
+    },
+    /**
+     * Name box item click
+     * @param {Event} e 
+     */
+    NameBoxItemClick: function (e) {
+        let elementId = this.id;
+        let entryId = this.getAttribute('entry-id');
+        let prcItemPath = this.getAttribute('p-item-path');
+        let processMenuItemIcon = $('#' + elementId + ' i');
+
+        if (processMenuItemIcon.hasClass('fa-plus-square')) {
+            processMenuItemIcon.removeClass('fa-plus-square');
+            processMenuItemIcon.addClass('fa-minus-square');
+
+            Local.addProcess(
+                Functions.objectFromJSONWCh(Varibles.processesDataArray, prcItemPath)['Childs'],
+                entryId,
+                prcItemPath
+            );
+        } else {
+            $('.' + elementId).remove();
+
+            processMenuItemIcon.addClass('fa-plus-square');
+            processMenuItemIcon.removeClass('fa-minus-square');
+        }
+    },
+    /**
+     * Month scrolled
+     * @param {Event} e 
+     */
+    scrollMonth: function (e) {
+        let frameElement = document.getElementById(Varibles.FrameId + '_content');
+        let tableElement = document.getElementById('processes_table');
+        let scrollPosition = frameElement.scrollLeft;
+
+        if (scrollPosition > tableElement.offsetWidth - 1000) {
+            let lastDate = Varibles.datesDisplayed[Varibles.datesDisplayed.length - 1];
+            loadMonth(lastDate, true);
+        }
+
+        if (scrollPosition < 100) {
+            let firstDate = Varibles.datesDisplayed[0];
+            loadMonth(firstDate, false);
+        }
+
+        function loadMonth(date, isNextMonth) {
+            let afterBefore = 'afterbegin';
+            let plusMinus = -1;
+            if (isNextMonth) {
+                afterBefore = 'beforeend';
+                plusMinus = 1;
+            }
+
+            date = new Date(date.getFullYear(), date.getMonth() + plusMinus, 1);
+
+            Local.loadTimelineHeaderContent(date, isNextMonth);
+
+            let pNamesBox = document.getElementsByClassName('process-names-box-item');
+            for (let i = 0; i < pNamesBox.length; i++) {
+                const element = pNamesBox[i];
+
+                document.getElementById(
+                    'process_row_' + element.getAttribute('entry-id')
+                ).insertAdjacentHTML(
+                    afterBefore,
+                    Local.getProcessLineContent(
+                        Functions.objectFromJSON(
+                            Varibles.processesDataArray,
+                            element.getAttribute('p-item-path')
+                        ),
+                        date
+                    )
+                );
+            }
+
+            let monthDaysNum = DateFunctions.daysInMonth(
+                date.getMonth() + plusMinus,
+                date.getFullYear()
+            );
+
+            if (isNextMonth) {
+                Varibles.datesDisplayed.push(date);
+
+            } else {
+                frameElement.scrollLeft += monthDaysNum * Varibles.tasksTableTdWidth;
+                Varibles.datesDisplayed.unshift(date);
+            }
+
+            Varibles.tableWidth += monthDaysNum;
+
+            Functions.resizeScrollTable();
+        }
     }
 }
 
+/** Database **/
 let Database = {
-    getAddNForm: function (id) {
+    getAddNForm: function (entryId) {
         let targetId = Varibles.FrameId;
         let entryIdJSON = {
             'Name': Varibles.EntryIdName,
-            'Id': id
+            'Id': entryId
         }
+        let nameBoxItem = document.getElementById('process_' + entryId);
 
         let dinamicFormPopup = new DinamicFormPopup(
             targetId,
@@ -1106,7 +1748,10 @@ let Database = {
         );
         dinamicFormPopup.loadFormData(
             Varibles.AddNFormId,
-            Varibles.processesDataArray,
+            [Functions.objectFromJSONWCh(
+                Varibles.processesDataArray,
+                nameBoxItem.getAttribute('p-item-path')
+            )],
             targetId,
             entryIdJSON,
             null,
@@ -1115,6 +1760,7 @@ let Database = {
     }
 }
 
+/** Framework **/
 let Framework = {
     /**
      * 
