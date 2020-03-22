@@ -295,9 +295,9 @@ let currentFirstDay;
 let prevCellsNum;
 let nextCellsNum;
 
-// if (localStorage['calendar_type'] == 'month') {
-//     drawCalendar(2019, 10, 'grid');
-// }
+ if (localStorage['calendar_type'] == 'month') {
+     drawCalendar(2019, 10, 'grid');
+ }
 
 //let currentMonth = new Month(new Date().getFullYear(), new Date().getMonth());
 
@@ -367,7 +367,7 @@ function drawCalendar(_year, _month, DOMId) {
         currentMonth.calendarEndPoints => a látszó naptár 2 végpontja, a köztes dátumokkal rendelkező feladatokat kell lekérni számold hozzá a feladat hosszát is, ne csak a start időt nézd (struktúra a Month Class-ban)
         fillCalendar => az ajax ezt hívja meg a lekérés eredményével
     */
-    fillCalendar(PageData);
+    fillCalendar(fillData);
     document.getElementById('time').innerHTML = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][currentMonth.monthId] + ' ' + _year;
     document.getElementById('prev').addEventListener('click', moveBack);
     document.getElementById('next').addEventListener('click', moveFwd);
