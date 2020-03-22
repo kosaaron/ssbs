@@ -1,5 +1,52 @@
 import {Month, Task, handleTaskClick} from './calendar_monthly.js';
+let Varibles = {
+    FrameId: 'tskm',
+    FrameName: 'Feladatok',
+    FilterPlace: 'tskfltr',
+    MainTableIdName: 'TaskId',
+    //element ids
+    ShellId: null,
 
+    //data
+    PageData: [],
+    TaskWayData: null
+}
+
+let WeekCalendar = {
+    loadModule: function (shellId) {
+        // Title
+        //document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
+        Varibles.ShellId = shellId;
+
+        //addOneListener(Varibles.TitleIconId, "click", Events.onDestroy);
+
+        // Data from server
+        Database.getFullPageData();
+
+        drawWeekView('week_wrapper');
+    },
+    resizeModule() {
+        AutoScroll.Integration(Varibles.FrameId + '_details_content');
+    }
+}
+export default WeekCalendar;
+let Database = {
+    /**
+     * Get full page data
+     */
+    getFullPageData: function () {
+        $.ajax({
+            type: "POST",
+            url: "./php/GetWeeklyCalendar.php",
+            data: "",
+            success: function (data) {
+                Varibles.PageData = data;
+                Loadings.reloadFullPage(Varibles.PageData);
+            },
+            dataType: 'json'
+        });
+    }
+}
 //FONTOS
 //start_time és end_time legyen az első két adat!
 const fillData = [
@@ -125,7 +172,7 @@ const timeInterval = 60;
 
 let week = new Week(2019, 11);
 
-drawWeekView('week_wrapper');
+//drawWeekView('week_wrapper');
 
 const date = new Date();
 let monthPos = date.getMonth();

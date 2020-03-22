@@ -95,7 +95,7 @@ export default class LoadFrame {
                     let targetId = 'tab_' + tabId + '_mdl';
                     let modulePath = LoadFrame.getModulePath(Object.keys(modules)[0]);
 
-                    //Load module if it has been never loaded
+                    //Load module if it never has been loaded before
                     if (document.getElementById(targetId).innerHTML === '') {
                         Promise.all([
                             import(modulePath),
@@ -178,9 +178,9 @@ export default class LoadFrame {
             case '1005':
                 return '../partners_manager.js';
             case '1006':
-                return '../projects.js';
+                return '../calendar_monthly.js';
             case '1007':
-                return '../projects.js';
+                return '../weekly_calendar.js';
             case '1008':
                 return '../order_manager.js';
             case '1009':

@@ -1,3 +1,58 @@
+
+
+let Varibles = {
+    FrameId: 'tskm',
+    FrameName: 'Feladatok',
+    FilterPlace: 'tskfltr',
+    MainTableIdName: 'TaskId',
+    //element ids
+    ShellId: null,
+
+    //data
+    PageData: [],
+    TaskWayData: null
+}
+
+let Calendar = {
+    loadModule: function (shellId) {
+        // Title
+        //document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
+        Varibles.ShellId = shellId;
+
+        //addOneListener(Varibles.TitleIconId, "click", Events.onDestroy);
+
+        // Data from server
+        Database.getFullPageData();
+
+        if (localStorage['calendar_type'] == 'month') {
+            drawCalendar(2019, 10, 'grid');
+        }
+
+        createTaskListener();
+    },
+    resizeModule() {
+        AutoScroll.Integration(Varibles.FrameId + '_details_content');
+    }
+}
+export default Calendar;
+
+let Database = {
+    /**
+     * Get full page data
+     */
+    getFullPageData: function () {
+        $.ajax({
+            type: "POST",
+            url: "./php/GetMonthlyCalendar.php",
+            data: "",
+            success: function (data) {
+                Varibles.PageData = data;
+            },
+            dataType: 'json'
+        });
+    }
+}
+
 const fillData = [
     {
         task_id: 'asdasd',
@@ -240,9 +295,9 @@ let currentFirstDay;
 let prevCellsNum;
 let nextCellsNum;
 
-if (localStorage['calendar_type'] == 'month') {
-    drawCalendar(2019, 10, 'grid');
-}
+// if (localStorage['calendar_type'] == 'month') {
+//     drawCalendar(2019, 10, 'grid');
+// }
 
 //let currentMonth = new Month(new Date().getFullYear(), new Date().getMonth());
 
@@ -312,7 +367,7 @@ function drawCalendar(_year, _month, DOMId) {
         currentMonth.calendarEndPoints => a látszó naptár 2 végpontja, a köztes dátumokkal rendelkező feladatokat kell lekérni számold hozzá a feladat hosszát is, ne csak a start időt nézd (struktúra a Month Class-ban)
         fillCalendar => az ajax ezt hívja meg a lekérés eredményével
     */
-    fillCalendar(fillData);
+    fillCalendar(PageData);
     document.getElementById('time').innerHTML = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][currentMonth.monthId] + ' ' + _year;
     document.getElementById('prev').addEventListener('click', moveBack);
     document.getElementById('next').addEventListener('click', moveFwd);
@@ -694,6 +749,9 @@ function createTaskListener() {
         })
     });
 }
-createTaskListener();
+
+//createTaskListener();
+
 
 export {Month, Task, handleTaskClick, handleTaskModal, deleteTaskFromCalendar, createTaskListener};
+//export {Month, Task, handleTaskClick, handleTaskModal, deleteTaskFromCalendar};
