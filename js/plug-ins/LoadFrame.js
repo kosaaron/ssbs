@@ -1,5 +1,6 @@
 /** Imports **/
 import FrameDesign from "../designs/FrameDesign.js";
+import AutoScroll from "./AutoScroll.js";
 
 export default class LoadFrame {
     /**
@@ -50,6 +51,8 @@ export default class LoadFrame {
                         'beforeend',
                         FrameDesign.moduleSubtab(tabId, entry['Modules'])
                     );
+
+                    AutoScroll.Integration(`tab_${tabId}_mdl`);
                 }
 
                 if (isFirst) {
