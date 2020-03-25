@@ -395,7 +395,7 @@ function moveCalendar(num) {
         yearPos--;
         monthPos = 11;
     }
-    drawCalendar(yearPos, monthPos);
+    drawCalendar(yearPos, monthPos, 'grid');
 }
 
 function fillCalendar(taskData) {

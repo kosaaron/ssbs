@@ -6,16 +6,18 @@ import ArrayFunctions from './ArrayFunctions.js';
 /**
  * **Auto scroll**
  */
-let AutoScroll = {
+class AutoScroll {
     /**
      * Integration
      * @param {String} elementId 
      */
-    Integration: function (elementId) {
+    static Integration(elementId) {
         let element = $("#" + elementId);
-        let sHeight = element.parent().outerHeight();
+        let parent = element.parent();
+        let sHeight = parent.outerHeight() - parent.innerHeight() 
+                        + parent.height();
 
-        element.parent().children().each(function () {
+        parent.children().each(function () {
             if ($(this).attr('id') !== element.attr('id'))
                 sHeight -= $(this).outerHeight(true);
         });
