@@ -5,6 +5,7 @@
     <title>SSBS</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/calendar.css">
     <script type="module" type="/text/javascript" src="js/calendar_monthly.js"></script>
@@ -13,32 +14,40 @@
 <body>
     <div class="periodic-page">
         <div class="d-flex justify-content-center calendar-view-shifterbox">
-            <div class="btn-group btn-group-toggle center" data-toggle="buttons">
+            <!-- <div class="btn-group btn-group-toggle center" data-toggle="buttons">
                 <div class="btn-group btn-group-toggle center" data-toggle="buttons">
                     <a id="menu_button_left" class="btn btn-secondary periodic-menu-btn" href="periodikuslista.html"
                         role="button"><i class="fas fa-list"></i> Lista</a>
                     <a id="menu_button_right" class="btn btn-secondary periodic-menu-btn active" href="#"
                         role="button"><i class="fas fa-calendar-alt"></i> Naptár</a>
                 </div>
+            </div> -->
+            <div class="btn-group btn-group-toggle btn-group-detailmenu center" data-toggle="buttons">
+                <a id="prtnrm_details_data_btn" tab-cont-id="prtnrm_details_cc_g"
+                    class="btn btn-detail-menu active" href="periodikuslista.html" aria-pressed="true">Lista nézet</a>
+                <a id="prtnrm_details_vo_o1_btn" tab-cont-id="prtnrm_details_vo_o1"
+                    class="btn btn-detail-menu btn-detail-menu-active active" aria-pressed="true">Naptár nézet</a>
             </div>
+            
         </div>
         <script>
-            localStorage['calendar_type'] ='month';
-            
+            localStorage['calendar_type'] = 'month';
+
         </script>
         <header>
             <nav>
                 <h2><a id="prev" class="nav-btn"><i class="fas fa-caret-left"></i></a>
-                <span id="time"></span>
-                <a id="next" class="nav-btn"><i class="fas fa-caret-right"></i></a>
-                </h2><div id="create">ÚJ FELADAT</div>
+                    <span id="time"></span>
+                    <a id="next" class="nav-btn"><i class="fas fa-caret-right"></i></a>
+                </h2>
+                
             </nav>
         </header>
         <div id="grid"></div>
-        
+
         <div id="modal" class="modal">
         </div>
-    
+        <button id="create" class="btn btn-primary fixedaddbutton"><i class="fas fa-plus"></i></button>
         <script type="module" type="/text/javascript" src="js/calendar_monthly.js"></script>
 </body>
 
