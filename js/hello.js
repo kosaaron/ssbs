@@ -53,4 +53,12 @@ var TxtRotate = function(el, toRotate, period) {
     css.type = "text/css";
     css.innerHTML = ".txt-rotate > .wrap { border-right: 0.08em solid #666 }";
     document.body.appendChild(css);
+
+    setTimeout(function(){
+      var element = document.getElementById('to_fade_out');
+      element.classList.add('fade-out');
+    }, 3000);
   };
+
+
+

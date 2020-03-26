@@ -1,178 +1,3 @@
-
-
-let Varibles = {
-    FrameId: 'tskm',
-    FrameName: 'Feladatok',
-    FilterPlace: 'tskfltr',
-    MainTableIdName: 'TaskId',
-    //element ids
-    ShellId: null,
-
-    //data
-    PageData: [],
-    TaskWayData: null
-}
-
-let Calendar = {
-    loadModule: function (shellId) {
-        // Title
-        //document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
-        Varibles.ShellId = shellId;
-
-        //addOneListener(Varibles.TitleIconId, "click", Events.onDestroy);
-
-        // Data from server
-        Database.getFullPageData();
-
-        if (localStorage['calendar_type'] == 'month') {
-            drawCalendar(2019, 10, 'grid');
-        }
-
-        createTaskListener();
-    },
-    resizeModule() {
-        AutoScroll.Integration(Varibles.FrameId + '_details_content');
-    }
-}
-export default Calendar;
-
-let Database = {
-    /**
-     * Get full page data
-     */
-    getFullPageData: function () {
-        $.ajax({
-            type: "POST",
-            url: "./php/GetMonthlyCalendar.php",
-            data: "",
-            success: function (data) {
-                Varibles.PageData = data;
-            },
-            dataType: 'json'
-        });
-    }
-}
-
-const fillData = [
-    {
-        task_id: 'asdasd',
-        start_year: 2019,
-        start_month: 10,
-        start_day: 5,
-        end_year: 2019,
-        end_month: 10,
-        end_day: 25,
-        length: 21,
-        title: 'November 5 - 25',
-        description: 'Valami random leírás a taskról mert miért ne',
-        state: 1
-    },
-    {
-        task_id: 'dfgdfg',
-        start_year: 2019,
-        start_month: 10,
-        start_day: 1,
-        end_year: 2019,
-        end_month: 10,
-        end_day: 9,
-        length: 9,
-        title: 'November 1 - 9',
-        description: 'Valami random leírás a taskról mert miért ne',
-        state: 0
-    },
-    {
-        task_id: 'sdfsdf',
-        start_year: 2019,
-        start_month: 9,
-        start_day: 16,
-        end_year: 2019,
-        end_month: 10,
-        end_day: 24,
-        length: 40,
-        title: 'Október 16 - November 24',
-        description: 'Valami random leírás a taskról mert miért ne',
-        state: 0
-    },
-    {
-        task_id: 'cvdfg',
-        start_year: 2019,
-        start_month: 8,
-        start_day: 30,
-        end_year: 2019,
-        end_month: 10,
-        end_day: 8,
-        length: 9,
-        title: 'Szeptember 30 - Október 8',
-        description: 'Valami random leírás a taskról mert miért ne',
-        state: 0
-    },
-    {
-        task_id: 'kghfbdf',
-        start_year: 2019,
-        start_month: 10,
-        start_day: 7,
-        end_year: 2019,
-        end_month: 10,
-        end_day: 12,
-        length: 5,
-        title: 'November 7 - 12',
-        description: 'Valami random leírás a taskról mert miért ne',
-        state: 0
-    },
-    {
-        task_id: 'bnnvf',
-        start_year: 2019,
-        start_month: 10,
-        start_day: 7,
-        end_year: 2019,
-        end_month: 10,
-        end_day: 16,
-        length: 10,
-        title: 'November 7 - 16',
-        description: 'Valami random leírás a taskról mert miért ne',
-        state: 0
-    },
-    {
-        task_id: 'iuztgh',
-        start_year: 2019,
-        start_month: 10,
-        start_day: 7,
-        end_year: 2019,
-        end_month: 10,
-        end_day: 14,
-        length: 8,
-        title: 'November 7 - 14',
-        description: 'Valami random leírás a taskról mert miért ne',
-        state: 0
-    },
-    {
-        task_id: 'vbnrfdtz',
-        start_year: 2019,
-        start_month: 10,
-        start_day: 8,
-        end_year: 2019,
-        end_month: 10,
-        end_day: 29,
-        length: 22,
-        title: 'November 8 - 29',
-        description: 'Valami random leírás a taskról mert miért ne',
-        state: 0
-    },
-    {
-        task_id: 'xcbnhfg',
-        start_year: 2019,
-        start_month: 10,
-        start_day: 9,
-        end_year: 2019,
-        end_month: 10,
-        end_day: 10,
-        length: 2,
-        title: 'November 9 - 10',
-        description: 'Valami random leírás a taskról mert miért ne',
-        state: 0
-    }
-];
-
 class Task{
     constructor(obj) {
         let task_id, start_year, start_month, start_day, end_year, end_month, end_day, length, title, description, state;
@@ -295,10 +120,190 @@ let currentFirstDay;
 let prevCellsNum;
 let nextCellsNum;
 
- if (localStorage['calendar_type'] == 'month') {
-     drawCalendar(2019, 10, 'grid');
- }
 
+let Varibles = {
+    FrameId: 'tskm',
+    FrameName: 'Feladatok',
+    FilterPlace: 'tskfltr',
+    MainTableIdName: 'TaskId',
+    //element ids
+    ShellId: null,
+
+    //data
+    PageData: [],
+    TaskWayData: null
+}
+
+let Calendar = {
+    loadModule: function (shellId) {
+        // Title
+        //document.getElementById(Varibles.TitleTextId).textContent = Varibles.FrameName;
+        Varibles.ShellId = shellId;
+
+        //addOneListener(Varibles.TitleIconId, "click", Events.onDestroy);
+
+        // Data from server
+        Database.getFullPageData();
+
+        if (localStorage['calendar_type'] == 'month') {
+            let currentYear = new Date().getFullYear();
+            let currentMonth2 = new Date().getMonth();
+            drawCalendar(currentYear, currentMonth2, 'grid');
+        }
+
+        createTaskListener();
+    },
+    resizeModule() {
+        AutoScroll.Integration(Varibles.FrameId + '_details_content');
+    }
+}
+export default Calendar;
+
+let Database = {
+    /**
+     * Get full page data
+     */
+    getFullPageData: function () {
+        $.ajax({
+            type: "POST",
+            url: "./php/GetMonthlyCalendar.php",
+            data: "",
+            success: function (data) {
+                Varibles.PageData = data;
+                //alert(data);
+            },
+            dataType: 'json'
+        });
+    }
+}
+Calendar.loadModule();
+const fillData = [
+    {
+        task_id: 'asdasd',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 5,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 25,
+        length: 21,
+        title: 'November 5 - 25',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 1
+    },
+    {
+        task_id: 'dfgdfg',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 1,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 9,
+        length: 9,
+        title: 'November 1 - 9',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'sdfsdf',
+        start_year: 2019,
+        start_month: 9,
+        start_day: 16,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 24,
+        length: 40,
+        title: 'Október 16 - November 24',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'cvdfg',
+        start_year: 2019,
+        start_month: 8,
+        start_day: 30,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 8,
+        length: 9,
+        title: 'Szeptember 30 - Október 8',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'kghfbdf',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 7,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 12,
+        length: 5,
+        title: 'November 7 - 12',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'bnnvf',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 7,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 16,
+        length: 10,
+        title: 'November 7 - 16',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'iuztgh',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 7,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 14,
+        length: 8,
+        title: 'November 7 - 14',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'vbnrfdtz',
+        start_year: 2019,
+        start_month: 10,
+        start_day: 8,
+        end_year: 2019,
+        end_month: 10,
+        end_day: 29,
+        length: 22,
+        title: 'November 8 - 29',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    },
+    {
+        task_id: 'xcbnhfg',
+        start_year: 2020,
+        start_month: 2,
+        start_day: 15,
+        end_year: 2020,
+        end_month: 3,
+        end_day: 2,
+        length: 18,
+        title: 'Márc. 15 - Ápr. 2',
+        description: 'Valami random leírás a taskról mert miért ne',
+        state: 0
+    }
+];
+
+/*
+ if (localStorage['calendar_type'] == 'month') {
+     let currentYear = new Date().getFullYear();
+     let currentMonth2 = new Date().getMonth();
+     drawCalendar(currentYear, currentMonth2, 'grid');
+ }
+*/
 //let currentMonth = new Month(new Date().getFullYear(), new Date().getMonth());
 
 function drawCalendar(_year, _month, DOMId) {
@@ -367,7 +372,7 @@ function drawCalendar(_year, _month, DOMId) {
         currentMonth.calendarEndPoints => a látszó naptár 2 végpontja, a köztes dátumokkal rendelkező feladatokat kell lekérni számold hozzá a feladat hosszát is, ne csak a start időt nézd (struktúra a Month Class-ban)
         fillCalendar => az ajax ezt hívja meg a lekérés eredményével
     */
-    fillCalendar(fillData);
+    fillCalendar(Varibles.PageData);
     document.getElementById('time').innerHTML = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][currentMonth.monthId] + ' ' + _year;
     document.getElementById('prev').addEventListener('click', moveBack);
     document.getElementById('next').addEventListener('click', moveFwd);
@@ -750,7 +755,7 @@ function createTaskListener() {
     });
 }
 
-//createTaskListener();
+createTaskListener();
 
 
 export {Month, Task, handleTaskClick, handleTaskModal, deleteTaskFromCalendar, createTaskListener};
