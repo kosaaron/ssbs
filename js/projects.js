@@ -72,6 +72,12 @@ let Projects = {
                 processNamesBox.style = "height: " + (processesTableShell.clientHeight - processesTTable.clientHeight + 9) + "px; flex: none;";
             }
         }
+
+        let processTableHeaight = $('#processes_table_table2').outerHeight();
+        let nameBoxItems = $('.process-names-box-item');
+        let processMargin = nameBoxItems.outerHeight(true) - nameBoxItems.height();
+
+        nameBoxItems.height(processTableHeaight / nameBoxItems.length - processMargin / 2);
     }
 }
 export default Projects;
@@ -165,7 +171,8 @@ let Local = {
         //content scroll
         var tasksTableTdToday = document.getElementById("tasks_table_td_today");
         var ProjectsContent = document.getElementById(Varibles.FrameId + '_content');
-        ProjectsContent.scrollLeft = tasksTableTdToday.offsetLeft + 2;
+        ProjectsContent.scrollLeft = tasksTableTdToday.offsetLeft -
+            $(`#${Varibles.FrameId}_table_shell`).width() / 3;
         //ProjectsContent.addEventListener("scroll", Events.scrollMonth);
 
         //name box scroll
@@ -781,6 +788,8 @@ let Events = {
             processMenuItemIcon.addClass('fa-plus-square');
             processMenuItemIcon.removeClass('fa-minus-square');
         }
+
+        Projects.resize();
     },
     /**
      * Month scrolled

@@ -41,9 +41,9 @@ class InsertByParam
         }
 
         if ($pdo->query($finalSQL)) {
-            echo "S";
+            return array('result' =>'S');
         } else {
-            echo "F";
+            return array('result' =>'F');
         }
     }
 }

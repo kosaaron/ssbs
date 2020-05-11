@@ -7,10 +7,11 @@ class VirtualObject
 
     //Local varibles
     private $pdo;
-    private $vOSelectString;
-    private $vOWhereString;
+    private $queryString;
 
-
+    /**
+     * {String} vOId - ID of virtual object
+     */
     function __construct($vOId)
     {
         $this->main_data = array();
@@ -23,24 +24,28 @@ class VirtualObject
         $vOQuery = $this->pdo->query('SELECT * FROM virtual_objects WHERE VirtualObjectId="' . $vOId . '"')->fetchAll(PDO::FETCH_ASSOC);
         $this->mainData['Card'] = $vOQuery[0]['Card'];
         $this->mainData['NameAlias'] = $vOQuery[0]['ObjNameAlias'];
-        $this->vOSelectString = $vOQuery[0]['SelectString'];
-        $this->vOWhereString = $vOQuery[0]['WhereString'];
+        $this->queryString = $vOQuery[0]['QueryString'];
     }
 
-    public function CreateVO($selectArr, $whereArr)
+    /**
+     * {JSON} vOParamArr
+     * <Example>
+     * [
+     *    testKey1: testValue1,
+     *    testKey2: testValue2
+     *    ...
+     * ]
+     * </Example>
+     */
+    public function CreateVO($vOParamArr)
     {
-        $vOSelectString = $this->vOSelectString;
-        $vOWhereString = $this->vOWhereString;
+        $queryString = $this->queryString;
 
-        foreach ($selectArr as $key => $value) {
-            $vOSelectString = str_replace('<' . $key . '>', $value, $this->vOSelectString);
+        foreach ($vOParamArr as $key => $value) {
+            $queryString = str_replace('<' . $key . '>', $value, $queryString);
         }
 
-        foreach ($whereArr as $key => $value) {
-            $vOWhereString = str_replace('<' . $key . '>', $value, $this->vOWhereString);
-        }
-
-        $queryResult = $this->pdo->query($vOSelectString . ' WHERE ' . $vOWhereString)->fetchAll(PDO::FETCH_ASSOC);
+        $queryResult = $this->pdo->query($queryString)->fetchAll(PDO::FETCH_ASSOC);
         $this->mainData['Data'] = $queryResult;
         return $this->mainData;
     }

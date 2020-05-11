@@ -143,7 +143,8 @@ let Calendar = {
         //addOneListener(Varibles.TitleIconId, "click", Events.onDestroy);
 
         // Data from server
-        Database.getFullPageData();
+        //Database.getFullPageData();
+        Varibles.PageData = fillData;
 
         if (localStorage['calendar_type'] == 'month') {
             let currentYear = new Date().getFullYear();
@@ -169,15 +170,15 @@ let Database = {
             url: "./php/GetMonthlyCalendar.php",
             data: "",
             success: function (data) {
-                Varibles.PageData = data;
+                Varibles.PageData = fillData;
                 //alert(data);
             },
             dataType: 'json'
         });
     }
 }
-Calendar.loadModule();
-const fillData = [
+
+let fillData = [
     {
         task_id: 'asdasd',
         start_year: 2019,
@@ -296,7 +297,7 @@ const fillData = [
         state: 0
     }
 ];
-
+Calendar.loadModule();
 /*
  if (localStorage['calendar_type'] == 'month') {
      let currentYear = new Date().getFullYear();

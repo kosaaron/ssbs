@@ -1,0 +1,11 @@
+Tables:
+    - virtual_objects (7.) ---
+    - c_plugins (create) ---
+    - c_input_types (create) ---
+    - user_modules (f_user_modules, Id) ---
+    - f_module_plugins (create) ---
+    - f_plugin_plugins (create) ---
+    - f_plugin_form_inputs (create) ---
+    - f_plugin_vo (create) ---
+    - f_form_inputs (create) ---
+    - cardc_structures (-/) 

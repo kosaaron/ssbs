@@ -13,8 +13,8 @@ $data = $_POST['Data'];
 
 //Call upload function
 $insertByParam = new InsertByParam();
-$insertByParam->DefaultUpload($data);
-
+$main_data = $insertByParam->DefaultUpload($data);
+print_r(json_encode($main_data));
 
 /*
 $data = array(

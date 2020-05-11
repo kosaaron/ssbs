@@ -33,7 +33,7 @@ class DataAndStructure
                 $vOParams = array();
                 if ($funcWithParams[0] === 'vo') {
                     $vOParams = $this->BackendFunctions($funcWithParams);
-                    if ($funcWithParams[3] === '') {
+                    if ($funcWithParams[2] === '') {
                         $vOParams['vOName'] = $row['ColumnName'];
                         $vOParams['IsCustom'] = true;
                     } else {
@@ -80,14 +80,7 @@ class DataAndStructure
         if ($dataQuery) {
             $dataResult = $pdo->query($dataQuery)->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach ($vOParamObjects as $paramObject) {/*
-                if ($paramObject['IsCustomVO']) {
-                    foreach ($dataResult as $key => $row) {
-                        $dataResult[$key][$paramObject['vOName']] = array();
-                    }
-                    continue;
-                }*/
-
+            foreach ($vOParamObjects as $paramObject) {
                 $virtualObject = new VirtualObject(
                     $paramObject['vOId']
                 );
@@ -99,16 +92,12 @@ class DataAndStructure
                         continue;
                     }
 
-                    $vOSelectArr = array();
-                    $vOWhereArr = array();
+                    $vOParamArr = array();
 
-                    foreach ($paramObject['vOSelectParams'] as $param) {
-                        array_push($vOSelectArr, $row[$param]);
+                    foreach ($paramObject['vOParams'] as $param) {
+                        array_push($vOParamArr, $row[$param]);
                     }
-                    foreach ($paramObject['vOWhereParams'] as $param) {
-                        array_push($vOWhereArr, $row[$param]);
-                    }
-                    $dataResult[$key][$paramObject['vOName']] = $virtualObject->CreateVO($vOSelectArr, $vOWhereArr);
+                    $dataResult[$key][$paramObject['vOName']] = $virtualObject->CreateVO($vOParamArr);
                 }
             }
 
@@ -147,14 +136,9 @@ class DataAndStructure
         $result = array();
         $result['vOId'] = $funcWithParams[1];
         if ($funcWithParams[2]) {
-            $result['vOSelectParams'] = explode(',', $funcWithParams[2]);
+            $result['vOParams'] = explode(',', $funcWithParams[2]);
         } else {
-            $result['vOSelectParams'] = array();
-        }
-        if ($funcWithParams[3]) {
-            $result['vOWhereParams'] = explode(',', $funcWithParams[3]);
-        } else {
-            $result['vOWhereParams'] = array();
+            $result['vOParams'] = array();
         }
         return $result;
     }

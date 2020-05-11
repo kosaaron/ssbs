@@ -180,10 +180,9 @@ let Loadings = {
      * Load 'add new entry' modul
      */
     loadAddNew: function () {
-        /*
         newTask.loadModule();
-        removeOneListener(Varibles.TitleIconId);
-        addOneListener(Varibles.TitleIconId, "click", TaskManager.loadModule);*/
+        //removeOneListener(Varibles.TitleIconId);
+        //addOneListener(Varibles.TitleIconId, "click", TaskManager.loadModule(Varibles.ShellId));
     },
     /**
      * Reload card container

@@ -15,7 +15,7 @@ import { addListenerByAttr, addListener, addOneListener } from './common.js';
 var newTask = {
     loadModule: function () {
         //Title
-        document.getElementById("back_to_menu_text").textContent = "Új feladat felvétele";
+        //document.getElementById("back_to_menu_text").textContent = "Új feladat felvétele";
 
         //Load data
         Database.getDataFromDB();
@@ -171,7 +171,7 @@ let General = {
         /** Load elements */
         //load framework
         let framework = NewTaskFramework.load();
-        document.getElementById("process_modul_content").innerHTML = framework;
+        document.getElementById('tab_102_mdl').innerHTML = framework;
 
         var processesNewTSlides = document.getElementById("ntskstps_slides");
         new Sortable(processesNewTSlides, {
@@ -191,9 +191,9 @@ let General = {
         //add step select
         let addStepSelectId = 'ntsk_saved_step_selector';
         let addStepSelectShellId = 'ntsk_saved_step_slct_shell';
-        let addStepSelectOpp = Varibles.PageData.AddStepSelect.Data[0].Opportunities;
+        //let addStepSelectOpp = Varibles.PageData.AddStepSelect.Data[0].Opportunities;
         let addStepSelectPos = 'afterbegin';
-        FormElements.S.Select(addStepSelectId, addStepSelectShellId, addStepSelectOpp, addStepSelectPos);
+        //FormElements.S.Select(addStepSelectId, addStepSelectShellId, addStepSelectOpp, addStepSelectPos);
 
         /** Definition of task type change events */
         let firstTaskT = true;

@@ -103,6 +103,8 @@
 }
 
 .new-obj-shell {
+    display: inline-block;
+    float: left;
     overflow: hidden;
     padding: 0 4%;
 }
@@ -360,6 +362,7 @@ input:checked[type="checkbox"]:before {
 }
 
 .collapsable-form-tabs {
+    cursor: pointer;
     background-color: #fff;
     border: none;
     color: #999;

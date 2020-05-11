@@ -50,7 +50,7 @@ class CreateForm
             $oppQuery .= ' FROM ' . $row['TableName'] . ';';
 
             $oppStructure = $pdo->query($oppQuery)->fetchAll();
-            if ($row['Type'] == 'S' || $row['Type'] == 'SN') {
+            if ($row['Type'] == 'S' || $row['Type'] == 'SN' || $row['Type'] == 'ST') {
                 $oppArr = array();
                 $i = 0;
                 foreach ($oppStructure as $row) {

@@ -1,5 +1,7 @@
 /** Imports **/
 import DateFunctions from './../plug-ins/DateFunctions.js';
+import AutoScroll from '../plug-ins/AutoScroll.js';
+
 /** 
  * Write inputs 
  */
@@ -244,6 +246,198 @@ let FormInputs = {
                 },
                 dataType: 'html'
             });
+        });
+    },
+    /**
+     * 
+     * @param {String} id 
+     * @param {String} name 
+     * @param {String} shellId 
+     * @param {JSON} opportunities 
+     * @param {String} uploadName 
+     * @param {String} truncatedIdName 
+     */
+    StepBox: function (id, name, shellId, opportunities, uploadName, truncatedIdName, isFullWidth = false) {
+        let frameId = `${shellId}_step_box`;
+
+        /** Frame */
+        let Frame = {
+            load: function () {
+                document.getElementById(shellId).parentNode.insertAdjacentHTML(
+                    'beforeend',
+                    this.getHTML()
+                );
+            },
+            getHTML: function () {
+                return `
+            <div class="new-obj-shell col-12  ${this.getWidthClass()}" style="height: 100%;">
+                <h2 id="ntsk_steps_title" class="new-obj-subtitle">Feladat lépései</h2>
+                <div id="ntsk_steps_new_box" class="d-flex justify-content-between align-items-center">
+                    <div class="add-taskstep-container">
+                        <div id="${frameId}_collapse_btn" class="cursor-pointer">
+                            <h7 class="collapsable-form-title">Lépés hozzáadása</h7>
+                            <span class="btn-show-forms">
+                                <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </div>
+                        <div id="${frameId}_collapse" style="display:none;">
+                            <div class="add-taskstep-btn-container">
+                                <div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">
+                                    <label id="${frameId}_new_tab" class="btn collapsable-form-tabs collapsable-form-tabs-active">+ Új lépés</label>
+                                    <label id="${frameId}_saved_tab" class="btn collapsable-form-tabs">Mentett lépések</label>
+                                </div>
+                            </div>
+                            <div id="${frameId}_new_cnt" class="add-taskstep-form-container">
+                                <div class="form-group">
+                                    <label class="newtaskstep-label">Lépés neve:</label>
+                                    <div class="tasktype-group">
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="ntsk_new_taskstep_name" class="flex-1 newtask-formcontrol">
+                                            <div class="input-group-append">
+                                                <button id="${frameId}_upld_n_stp_btn" class="btn btn-outline-secondary" type="button"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="${frameId}_saved_cnt" class="add-taskstep-form-container" style="display: none">
+                                <div class="form-group">
+                                    <label class="newtaskstep-label">Lépés neve:</label>
+                                    <div class="tasktype-group">
+                                        <div id="ntsk_saved_step_slct_shell" class="input-group mb-3">
+                                            <div class="input-group-append">
+                                                <button id="ntsk_add_saved_step_btn" class="btn btn-outline-secondary" type="button"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="${frameId}_cont" class="taskstep-container">
+                    <div id="ntskstps_slides" class="slides">
+                    </div>
+                </div>
+                <div id="ntsk_steps_footer">
+                    <button type="reset" id="ntsk_steps_trash_btn" class="btn btn-primary grey-button"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            </div>`
+            },
+            getWidthClass: function () {
+                if (!isFullWidth) {
+                    return 'col-md-6';
+                }
+            }
+        }
+
+        /** Events **/
+        let Events = {
+            /** CLick */
+            addStepToWay: function (e) {
+                if (document.getElementById(`${frameId}_collapse`).style.display === "none") {
+                    document.getElementById(`${frameId}_collapse`).style.display = "block";
+                }
+                else {
+                    document.getElementById(`${frameId}_collapse`).style.display = "none";
+                }
+
+                AutoScroll.Integration(`${frameId}_cont`);
+            },
+            /**
+             * Show 'new task step' tab
+             * @param {Element} e 
+             */
+            showSavedTab: function (e) {
+                let element = document.getElementById(`${frameId}_new_tab`);
+                let element2 = document.getElementById(`${frameId}_saved_tab`);
+
+                element.classList.remove("collapsable-form-tabs-active");
+                element2.classList.add("collapsable-form-tabs-active");
+
+                document.getElementById(`${frameId}_saved_cnt`).style.display = "block";
+                document.getElementById(`${frameId}_new_cnt`).style.display = "none";
+            },
+            /**
+             * Show 'new task step' tab
+             * @param {Element} e 
+             */
+            showNewTab: function (e) {
+                let element = document.getElementById(`${frameId}_saved_tab`);
+                let element2 = document.getElementById(`${frameId}_new_tab`);
+
+                element.classList.remove("collapsable-form-tabs-active");
+                element2.classList.add("collapsable-form-tabs-active");
+
+                document.getElementById(`${frameId}_saved_cnt`).style.display = "none ";
+                document.getElementById(`${frameId}_new_cnt`).style.display = "block";
+            },
+            /**
+             * Create and add new step ot task
+             * @param {String} fullId 
+             */
+            uploadNewStep: function (fullId) {
+                //let place = 'ntskstpsew';
+                let inputBox = document.getElementById('ntsk_new_taskstep_name');
+                let stepName = inputBox.value;
+
+                let data = {
+                    'task_steps': {
+                        'Name': stepName
+                    }
+                };
+
+                if (stepName === '') {
+                    Swal.fire({
+                        type: 'warning',
+                        title: 'Üres mező!',
+                        text: 'Kérem töltse ki a mezőt.',
+                        heightAuto: false
+                    });
+                    return;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "./php/UploadDataWithParam.php",
+                    data: { 'Data': data},
+                    success: function (data) {
+                        inputBox.value = "";
+                        //General.addNewStep(data[0].InsertedId, stepName);
+
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Sikeres tranzakció!',
+                            text: 'Az új lépés létre lett hozva.',
+                            heightAuto: false
+                        });
+                    },
+                    dataType: 'json'
+                });
+            },
+        }
+
+        /** Database **/
+        let Database = {
+            getStep
+        }
+
+        /** Functions **/
+        let Functions = {
+
+        }
+
+        //frame
+        Frame.load();
+
+        //Events
+        document.getElementById(`${frameId}_collapse_btn`).addEventListener('click', Events.addStepToWay);
+        document.getElementById(`${frameId}_new_tab`).addEventListener('click', Events.showNewTab);
+        document.getElementById(`${frameId}_saved_tab`).addEventListener('click', Events.showSavedTab);
+        document.getElementById(`${frameId}_upld_n_stp_btn`).addEventListener('click', Events.uploadNewStep);
+
+        window.addEventListener('resize', function () {
+            AutoScroll.Integration(`${frameId}_cont`);
         });
     },
     /**

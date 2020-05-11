@@ -24,7 +24,7 @@ let Varibles = {
     //data
     PageData: [],
     //Frame id of add new item
-    AddNFormId: '' // Not specified in database yet!!
+    AddNFormId: 'newtsk' // Not specified in database yet!!
 }
 
 /** Public object */
@@ -128,7 +128,8 @@ let Loadings = {
         let dinamicFormPopup = new DinamicFormPopup(
             targetId,
             'beforebegin',
-            'Rendelés hozzáadása'
+            'Rendelés hozzáadása',
+            true
         );
         dinamicFormPopup.loadFormData(
             Varibles.AddNFormId,
