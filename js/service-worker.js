@@ -1,1 +1,1 @@
-alert("valami");
+//alert("valami");
