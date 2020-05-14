@@ -308,18 +308,21 @@ iframe[seamless] {
 }
 
 .menu-item:hover {
-    width: 105%;
+    width: 110%;
     border-radius: 5%;
-    border-right: 1px solid #ddd;
+    border: 1px solid #ddd;
     color: #0067A5;
     cursor: pointer;
+    transform: translate(-5%, 0%);
 }
 
 .menu-item-active {
-    width: 105%;
+    width: 110%;
     border-radius: 5%;
-    border-right: 1px solid #ddd;
+    border: 1px solid #ddd;
     color: #0067A5;
+    background-color: #F6F6F6;
+    transform: translate(-5%, 0%);
 }
 
 .item-icon {

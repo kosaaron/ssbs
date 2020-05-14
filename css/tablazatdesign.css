@@ -43,8 +43,10 @@
 }
 
 .table-fix-head thead th {
-    background-color: rgb(109, 117, 163);
+    background-color: #f2f4fa;
     z-index: 1;
+    border-bottom: 0;
+    font-weight: 400;
 }
 
 .table-fix-head thead {

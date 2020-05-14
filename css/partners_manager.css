@@ -21,15 +21,18 @@
     margin-right: 30px;
     padding: 0px;
     position: relative;
-    border: 1px solid #0067A5;
-    background-color: #fff;
+    background: #fff 50%;
+    background-size: cover;
+    border-radius: .25rem;
+    box-shadow: 0 0 0.25rem rgba(0,0,0,.08), 0 0.5rem 0.75rem rgba(0,0,0,.14);
+    transition: all .2s ease;
 }
 
 .partnercard:hover {
     cursor: pointer;
-    -webkit-box-shadow: 2px 1px 6px 1px #3B4372;
-    -moz-box-shadow: 2px 1px 6px 1px #3B4372;
-    box-shadow: 2px 1px 6px 1px #3B4372;
+    box-shadow: 0 0 1px rgba(39,44,49,.1), 0 3px 16px rgba(39,44,49,.07);
+    transition: all .3s ease;
+    transform: translate3D(0,-1px,0);
 }
 
 .partner-datas {
