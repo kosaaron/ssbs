@@ -56,7 +56,6 @@ let Framework = {
         let screens = Varibles.ScreenStructure;
         let screenModules = "";
         for (let i = 1; i < ( Object.keys(screens).length + 1 ) ; i++) {
-            //alert(screens[i].Place);
             switch (screens[i].Place) {
                 case '1':
                     screenModules += `<div id="${screens[i].Place}" class="display-flex flex-row full-screen" style="background-color:#888;">`+ screens[i].Plugin_name +`</div>`;
@@ -78,34 +77,6 @@ let Framework = {
         let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"><h1>Betöltve</h1></div>`;
         document.getElementById(targetId).innerHTML = framework;
         document.getElementById(shellId).innerHTML = screenModules;
-        //partner manager frame
-        // let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"><h1>Betöltve</h1></div>`;
-        // document.getElementById(targetId).innerHTML = framework;
-        // let screenId = Varibles.ScreenStructure; 
-        
-        // if (screenId[0] == '1') {
-        //     let screenModules = `<div id="${screenId[0]}" class="display-flex flex-row full-screen" style="background-color:#888;"></div>`;
-        //     document.getElementById(shellId).innerHTML = screenModules;
-        // }
-        // else{
-        //     if (screenId[1] == '3') {
-        //         let screenModules = `<div id="${screenId[0]}" class="flex-fill col-2 filter-box" style="background-color:#888;"></div>`;
-        //         screenModules += `<div id="${screenId[1]}" class="flex-fill table-container-xscroll" style="background-color:#888;"></div>`;
-        //         document.getElementById(shellId).innerHTML = screenModules;
-        //     }
-        //     else if(screenId[1] == '4'){
-        //         let screenModules = `<div id="${screenId[0]}" class="flex-fill col-2 filter-box" style="background-color:#888;"></div>`;
-        //         screenModules += `<div id="${screenId[1]}" class="card-container col-6" style="background-color:#888;"></div>`;
-        //         screenModules += `<div id="${screenId[2]}" class="col-4 cc-details" style="background-color:#888;"></div>`;
-        //         document.getElementById(shellId).innerHTML = screenModules;
-        //     }
-        // }
-
-        // let containerDesigns = new ContainerDesigns();
-        // //filter frame
-        // containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
-        // //card container frame
-        // containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
     }
 }
 export default generalModule;
