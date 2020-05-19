@@ -1,8 +1,12 @@
 /** LoadModule.js */
+/** Imports */
+import SwitchPlugin from './SwitchPlugin.js';
+
+
 let SSData = {
     "2":{
         "Place":"4",
-        "CPluginId:":"4",
+        "CPluginId":"4",
         "Plugin_name":"Card Container",
         "Data": {
             "Valami":"valami"
@@ -10,7 +14,7 @@ let SSData = {
     },
     "3":{
         "Place":"5",
-        "CPluginId:":"5",
+        "CPluginId":"5",
         "Plugin_name":"Details",
         "Data": {
             "Valami":"valami"
@@ -18,7 +22,7 @@ let SSData = {
     },
     "1":{
         "Place":"2",
-        "CPluginId:":"3",
+        "CPluginId":"3",
         "Plugin_name":"Filter",
         "Data": {
             "Valami":"valami"
@@ -44,7 +48,7 @@ let Varibles = {
 var generalModule = {
     loadModule: function (shellId) {
         Varibles.ShellId = shellId;
-        Framework.Load(Varibles.ShellId, Varibles.FrameId);
+        Framework.LoadGrid(Varibles.ShellId, Varibles.FrameId);
     },
     resize: function () {
 
@@ -52,7 +56,7 @@ var generalModule = {
 };
 /** Framework **/
 let Framework = {
-    Load: function (targetId, shellId) {
+    LoadGrid: function (targetId, shellId) {
         let screens = Varibles.ScreenStructure;
         let screenModules = "";
         for (let i = 1; i < ( Object.keys(screens).length + 1 ) ; i++) {
@@ -77,6 +81,25 @@ let Framework = {
         let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"><h1>Betöltve</h1></div>`;
         document.getElementById(targetId).innerHTML = framework;
         document.getElementById(shellId).innerHTML = screenModules;
+        Framework.LoadPlugins();
+        
+    },
+    LoadPlugins: function (){
+        let screens = Varibles.ScreenStructure;
+        for (let i = 1; i < ( Object.keys(screens).length + 1 ) ; i++) {
+            let pluginType = "";
+            let pluginData = [];
+            pluginType = screens[i].CPluginId;
+            pluginData = screens[i].Data;
+
+            let pluginHTML = "";
+            pluginHTML = SwitchPlugin.Create(pluginType, pluginData);
+
+            let placeId = "";
+            placeId = screens[i].Place
+
+            document.getElementById(placeId).innerHTML = pluginHTML; 
+        }
     }
 }
 export default generalModule;
