@@ -22,7 +22,10 @@ class CreateFormInputs
         foreach ($resultFormStructure as $input) {
             $new_input = $input;
             //opportunities
-            if ($input['Type'] == 'S' || $input['Type'] == 'SN' || $input['Type'] == 'ST') {
+            if (
+                $input['Type'] == 'S' || $input['Type'] == 'SN' || $input['Type'] == 'ST'
+                || $input['Type'] == 'SP'
+            ) {
                 $oppArr = array();
 
                 $oppTable = $input['TableName'];

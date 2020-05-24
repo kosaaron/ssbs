@@ -1,11 +1,12 @@
 /**
- * Limit data from server
+ * Dinamic Form Popup
  */
 /** Imports */
 import CardContainerPlus from './CardContainerPlus.js';
 import NameAndText from './NameAndText.js';
 import ArrayFunctions from './ArrayFunctions.js';
 import FormInputs from './../designs/FormInputs.js';
+import StepBox from './Input/StepBox.js';
 
 export default class DinamicFormPopup {
     /**
@@ -16,6 +17,7 @@ export default class DinamicFormPopup {
      */
     constructor(targetId, targetPos = 'afterbegin', title, isFullscreen = false) {
         const dataFrameId = targetId + '_dnmcppp_data';
+
 
         document.getElementById(targetId).insertAdjacentHTML(
             targetPos,
@@ -50,14 +52,26 @@ export default class DinamicFormPopup {
         targetId,
         entryIdJSON = null,
         setUploadsCallback = null,
-        refreshFn = null
+        refreshFn = null,
     ) {
+        let module = 'ModuleData';
+        let data = {};
+        data['CTabId'] = '102';
+        data['CModuleId'] = '1004';
+        // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
+        data['RequestType'] = 'MP';
+        data['FModulePluginId'] = '1';
+
         $.ajax({
             type: "POST",
-            url: "./php/GetFormData.php",
-            data: { 'FormId': addNFormId },
+            url: "./php/Router.php",
+            data: { 'Module': module, 'Data': data },
             success: function (data) {
-                let formData = data.FormStructure.Data;
+                let number = '1';
+                let place = '100';
+
+                let formData = data[0].Data;
+                let formInputs = data[0].Data.Inputs;
                 let fillFormData = {}
                 if (entryIdJSON !== null) {
                     let entry = ArrayFunctions.GetItem(
@@ -66,16 +80,16 @@ export default class DinamicFormPopup {
                         entryIdJSON['Id']
                     );
 
-                    for (const formItem of formData) {
+                    for (const formItem of formInputs) {
                         let uploadName = formItem['UploadName'];
-                        let value = entry[formItem['UploadName']];
+                        let value = entry[uploadName];
 
                         fillFormData[uploadName] = value;
                     }
                 }
 
                 let formObject = {
-                    'FormData': formData,
+                    'FormData': formInputs,
                     'FillFormData': fillFormData
                 }
 
@@ -88,7 +102,7 @@ export default class DinamicFormPopup {
             dataType: 'json'
         });
     }
-
+    
     /**
      * Loads
      * @param {JSON} formData
@@ -99,15 +113,17 @@ export default class DinamicFormPopup {
      */
     static onLoad(formData, fillFormData, targetId, entryId = null, refreshFn) {
         const dataFrameId = targetId + '_dnmcppp_data';
+        const frameId = targetId + '_dnmcppp';
+        let formInputs = formData.Inputs;
 
         for (const uploadName in fillFormData) {
             if (fillFormData.hasOwnProperty(uploadName)) {
                 const defaultValue = fillFormData[uploadName];
 
-                for (let i = 0; i < formData.length; i++) {
-                    const entry = formData[i];
+                for (let i = 0; i < formInputs.length; i++) {
+                    const entry = formInputs[i];
                     if (entry.UploadName === uploadName) {
-                        formData[i].DefaultValue = defaultValue;
+                        formInputs[i].DefaultValue = defaultValue;
                         break;
                     }
                 }
@@ -116,7 +132,20 @@ export default class DinamicFormPopup {
 
         document.getElementById(dataFrameId).innerHTML =
             '<h2 id="ntsk_steps_title" class="new-obj-subtitle">Adatok</h2>';
-        CardContainerPlus.Create(formData, dataFrameId, DinamicFormPopup.loadFormItem);
+
+        CardContainerPlus.Create(formInputs, dataFrameId, DinamicFormPopup.loadFormItem);
+
+        //Childs
+        let childs = formData.Childs;
+
+        for (const plugin of childs) {
+            let place = plugin.Place;
+            let number = plugin.Number;
+            let childFrameId = `${frameId}_dnmcppp_data_${number}`;
+
+            DinamicFormPopup.placeSwitch(place, frameId, childFrameId);
+            DinamicFormPopup.pluginSwitch(frameId, childFrameId, plugin);
+        }
 
         //Add click
         document.getElementById(targetId + '_dnmcppp_cancel').addEventListener(
@@ -125,9 +154,15 @@ export default class DinamicFormPopup {
                 DinamicFormPopup.cancel(targetId);
             }
         );
+
         document.getElementById(targetId + '_dnmcppp_save').addEventListener(
             'click',
             function (e) {
+                //Broadcast for subplug-ins
+                let customEvent = new Event(`${frameId}_save`);
+                document.getElementById(frameId).dispatchEvent(customEvent);
+
+                //Save default inputs in form
                 DinamicFormPopup.save(targetId, entryId, refreshFn);
             }
         );
@@ -139,6 +174,29 @@ export default class DinamicFormPopup {
                     break;
             }
         }
+    }
+
+    /**
+     * placeSwitch
+     * @param {String} place 
+     * @param {String} targetId 
+     * @param {String} childFrameId 
+     */
+    static placeSwitch(place, targetId, childFrameId) {
+        let readyHTML;
+        switch (place) {
+            case '1':
+                readyHTML = `<div id="${childFrameId}" class="new-obj-shell col-12 col-xl-6 full-height"></div>`;
+        }
+
+        document.getElementById(targetId).insertAdjacentHTML(
+            'beforeend',
+            readyHTML
+        );
+    }
+
+    static pluginSwitch(frameId, target, plugin) {
+        let stepBox = new StepBox(frameId, target, plugin);
     }
 
     /** Events **/
@@ -156,7 +214,20 @@ export default class DinamicFormPopup {
                     objectItem.Name,
                     shellId,
                     objectItem.UploadName,
-                    objectItem.DefaultValue
+                    objectItem.DefaultValue,
+                    objectItem.TableName,
+                    objectItem.ColumnName
+                );
+                break;
+            case "WP":
+                FormInputs.WritePlus(
+                    objectItem.FormStructureId,
+                    objectItem.Name,
+                    shellId,
+                    objectItem.UploadName,
+                    objectItem.DefaultValue,
+                    objectItem.TableName,
+                    objectItem.ColumnName
                 );
                 break;
             case "S":
@@ -181,6 +252,7 @@ export default class DinamicFormPopup {
                 );
                 break;
             case "ST":
+                /*
                 FormInputs.StepBox(
                     objectItem.FormStructureId,
                     objectItem.Name,
@@ -188,7 +260,7 @@ export default class DinamicFormPopup {
                     objectItem.Opportunities,
                     objectItem.UploadName,
                     objectItem.TruncatedIdName
-                );
+                );*/
                 break;
             case "DT":
                 FormInputs.DateTime(
@@ -209,7 +281,8 @@ export default class DinamicFormPopup {
      * @param {String} targetId 
      */
     static cancel(targetId) {
-        $('#' + targetId + '_dnmcppp_frame').remove();
+        let frameId = targetId + '_dnmcppp_frame';
+        $('#' + frameId).remove();
         document.onkeydown = null;
     }
 
@@ -222,9 +295,9 @@ export default class DinamicFormPopup {
     static save(targetId, entryId, refreshFn) {
         //prco_dnmcppp
         if (entryId === null) {
-            FormInputs.InsertInputs(targetId + '_dnmcppp', refreshFn);
+            FormInputs.InsertInputs(targetId + '_dnmcppp_data', refreshFn);
         } else {
-            FormInputs.UpdateInputs(targetId + '_dnmcppp', entryId, refreshFn);
+            FormInputs.UpdateInputs(targetId + '_dnmcppp_data', entryId, refreshFn);
         }
 
         DinamicFormPopup.cancel(targetId)
@@ -242,7 +315,7 @@ export default class DinamicFormPopup {
         let fullWidthData = ''
         if (isFullscreen) {
             fullscreenHTML = 'dnmcppp-container-full';
-            fullWidthData = 'col-md-6';
+            fullWidthData = 'col-xl-6';
         }
         return `
             <div id="${targetId}_dnmcppp_frame" class="dnmcppp-frame">

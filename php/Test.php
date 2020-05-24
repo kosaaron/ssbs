@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Define MyClass
  */
@@ -55,10 +56,25 @@ foreach ( $data as $line ) {
     fputcsv($fp, $val);
 }
 fclose($fp);*/
+/*
 $to = "adamprofi20@gmail.com";
 $subject = "My subject";
 $txt = "Hello world!";
 $headers = "From: webmaster@example.com" . "\r\n" .
 "CC: somebodyelse@example.com";
 
-mail($to,$subject,$txt,$headers);
+mail($to,$subject,$txt,$headers);*/
+
+require_once('Modules/Connect.php');
+$PDOConnect = new PDOConnect();
+$pdo = $PDOConnect->pdo;
+
+// select a particular user by id
+$id = 1;
+$stmt = $pdo->prepare("SELECT * FROM employees WHERE EmployeeId=?");
+$stmt->execute([$id]);
+$user = $stmt->fetch();
+
+echo $pdo->lastInsertId();
+
+print_r($user);

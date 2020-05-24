@@ -33,7 +33,7 @@ let FormInputs = {
      * @param {Function} refreshFn 
      */
     InsertInputs: function (placeName, refreshFn) {
-        let insertData = FormInputs.CreateJSON(placeName);
+        let insertData = [FormInputs.CreateJSON(placeName)];
 
         $.ajax({
             type: "POST",
@@ -43,8 +43,15 @@ let FormInputs = {
                 if (refreshFn !== null && refreshFn !== undefined) {
                     refreshFn(result);
                 }
+
+                Swal.fire({
+                    type: 'success',
+                    title: 'Siker',
+                    text: 'A feladat létrehozása sikeres volt!',
+                    heightAuto: false
+                });
             },
-            dataType: 'html'
+            dataType: 'json'
         });
     },
     /**
@@ -106,22 +113,54 @@ let FormInputs = {
      * @param {String} uploadName 
      * @param {String} defaultValue 
      */
-    Write: function (id, name, shellId, uploadName, defaultValue = null) {
+    Write: function (id, name, shellId, uploadName, defaultValue = null, tableName = null, columnName = null) {
         if (defaultValue === null) {
             defaultValue = '';
         }
         let readyHTML = "";
-        readyHTML += '<div class="form-group">';
+        readyHTML += '<div class="form-group input-row">';
         readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
-        readyHTML += '<input value="' + defaultValue + '" type="text" id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
+        readyHTML += `<input value="${defaultValue}" type="text" id="${shellId}_${id}" 
+            class="newtask-formcontrol" upload-name="${uploadName}" data-place="${shellId}"
+            table-name="${tableName}" column-name="${columnName}">`;
         readyHTML += '</div>';
+
+        document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
+    },
+    /**
+     * Write input with label
+     * @param {String} id 
+     * @param {String} name 
+     * @param {String} shellId 
+     * @param {String} uploadName 
+     * @param {String} defaultValue 
+     */
+    WritePlus: function (id, name, shellId, uploadName, defaultValue = null, tableName = null, columnName = null) {
+        if (defaultValue === null) {
+            defaultValue = '';
+        }
+        let readyHTML = "";
+        readyHTML += '<div class="form-group input-row">';
+        //select
+        readyHTML += '<div class="form-group input-row">';
+        readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
+        readyHTML += '<div class="tasktype-group">';
+        readyHTML += '<div class="input-group">';
+        readyHTML += `<input value="${defaultValue}" type="text" id="${shellId}_${id}" 
+            class="newtask-formcontrol flex-1" upload-name="${uploadName}" data-place="${shellId}"
+            table-name="${tableName}" column-name="${columnName}">`;
+
+        readyHTML += '<div class="input-group-append">';
+        readyHTML += '<button class="btn btn-outline-secondary" type="button" id="' + shellId + '_i_' + id + '_upl" data-place="new_' + shellId + '">';
+        readyHTML += '<i class="fas fa-plus"></i>';
+        readyHTML += '</button> </div></div></div></div></div>';
 
         document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
     },
     /**
      * Select
      * @param {String} id 
-     * @param {String} name 
+     * @param {String} name if null: input without label
      * @param {String} shellId 
      * @param {JSON} opportunities 
      * @param {String} uploadName 
@@ -129,14 +168,22 @@ let FormInputs = {
      * @param {String} default id
      */
     Select: function (id, name, shellId, opportunities, uploadName, required, defaultValue = null) {
-        if (defaultValue === null) {
-            defaultValue = 'null';
+        let readyHTML = '';
+        let fullWidth = '';
+        let formGroup = '';
+        let label = '';
+        if (name !== null) {
+            formGroup = 'form-group';
+            label += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
+        } else {
+            fullWidth = 'full-width-i';
         }
 
-        let readyHTML = "";
-        readyHTML += '<div class="form-group">';
-        readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
-        readyHTML += '<select id="' + shellId + '_' + id + '" required="' + required + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
+        readyHTML += `<div class="${formGroup} input-row">`;
+        readyHTML += label;
+        readyHTML += `<select id="${shellId}_${id}" required="${required}" 
+                        class="newtask-formcontrol ${fullWidth}" 
+                        upload-name="${uploadName}" data-place="${shellId}">`;
         if (required === '0') {
             readyHTML += '<option value="null" selected>---</option>';
         }
@@ -149,7 +196,47 @@ let FormInputs = {
         document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
 
         //default value
-        if (defaultValue !== 'null') {
+        if (defaultValue !== 'null' && defaultValue !== null && defaultValue !== '') {
+            $('#' + shellId + '_' + id).val(defaultValue);
+        }
+    },
+    /**
+     * Select plus
+     * @param {String} id 
+     * @param {String} name 
+     * @param {String} shellId 
+     * @param {JSON} opportunities 
+     * @param {String} uploadName 
+     * @param {Boolean} required 
+     * @param {String} defaultValue id
+     */
+    SelectPlus: function (id, name, shellId, opportunities, uploadName, required, defaultValue = null) {
+        let readyHTML = "";
+        //select
+        readyHTML += '<div class="form-group input-row">';
+        readyHTML += '<label for="taskCat" class="newtask-label">' + name + '</label>';
+        readyHTML += '<div class="tasktype-group">';
+        readyHTML += '<div class="input-group">';
+        readyHTML += '<select id="' + shellId + '_' + id + '" class="form-control newtask-formcontrol" aria-describedby="button-addon2" upload-name="' + uploadName + '" data-place="' + shellId + '">';
+
+        if (required === '0') {
+            readyHTML += '<option value="null" selected>---</option>';
+        }
+        for (let k = 0; k < opportunities.length; k++) {
+            readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
+        }
+        readyHTML += '</select>';
+        readyHTML += '<div class="input-group-append">';
+        readyHTML += `<button class="btn btn-outline-secondary" type="button" 
+                        id="${shellId}_i_${id}_upl" 
+                        data-place="new_${shellId}">`;
+        readyHTML += '<i class="fas fa-plus"></i>';
+        readyHTML += '</button> </div></div></div></div>';
+
+        document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
+
+        //default value
+        if (defaultValue !== 'null' && defaultValue !== null && defaultValue !== '') {
             $('#' + shellId + '_' + id).val(defaultValue);
         }
     },
@@ -165,10 +252,10 @@ let FormInputs = {
     SelectOrNew: function (id, name, shellId, opportunities, uploadName, truncatedIdName) {
         let readyHTML = "";
         //select
-        readyHTML += '<div class="form-group">';
+        readyHTML += '<div class="form-group input-row">';
         readyHTML += '<label for="taskCat" class="newtask-label">' + name + '</label>';
         readyHTML += '<div class="tasktype-group">';
-        readyHTML += '<div class="input-group mb-3">';
+        readyHTML += '<div class="input-group">';
         readyHTML += '<select id="' + shellId + '_' + id + '" class="form-control newtask-formcontrol" aria-describedby="button-addon2" upload-name="' + uploadName + '" data-place="' + shellId + '">';
         for (let k = 0; k < opportunities.length; k++) {
             readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
@@ -288,7 +375,7 @@ let FormInputs = {
                                 </div>
                             </div>
                             <div id="${frameId}_new_cnt" class="add-taskstep-form-container">
-                                <div class="form-group">
+                                <div class="form-group input-row">
                                     <label class="newtaskstep-label">Lépés neve:</label>
                                     <div class="tasktype-group">
                                         <div class="input-group mb-3">
@@ -301,7 +388,7 @@ let FormInputs = {
                                 </div>
                             </div>
                             <div id="${frameId}_saved_cnt" class="add-taskstep-form-container" style="display: none">
-                                <div class="form-group">
+                                <div class="form-group input-row">
                                     <label class="newtaskstep-label">Lépés neve:</label>
                                     <div class="tasktype-group">
                                         <div id="ntsk_saved_step_slct_shell" class="input-group mb-3">
@@ -400,7 +487,7 @@ let FormInputs = {
                 $.ajax({
                     type: "POST",
                     url: "./php/UploadDataWithParam.php",
-                    data: { 'Data': data},
+                    data: { 'Data': data },
                     success: function (data) {
                         inputBox.value = "";
                         //General.addNewStep(data[0].InsertedId, stepName);
@@ -419,7 +506,7 @@ let FormInputs = {
 
         /** Database **/
         let Database = {
-            getStep
+
         }
 
         /** Functions **/
@@ -456,7 +543,7 @@ let FormInputs = {
         defaultValue = DateFunctions.dateToString(defaultValue);
 
         let readyHTML = "";
-        readyHTML += '<div class="form-group">';
+        readyHTML += '<div class="form-group input-row">';
         readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
         readyHTML += '<input type="date" id="' + shellId + '_' + id + '" value="' + defaultValue + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
         readyHTML += '</div>';

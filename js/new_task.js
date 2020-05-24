@@ -475,7 +475,7 @@ let NewTaskFramework = {
         let shellId = 'ntsk';
 
         return `
-        <div id="new_task" class="d-flex display-flex flex-row full-screen">
+        <div id="new_task"  class="${shellId} d-flex display-flex flex-row full-screen">
             <div class="flex-fill col-12">
                 <div class="row page-content">
                     <div class="full-height new-obj-shell col-md-6 col-12">
@@ -504,7 +504,7 @@ let NewTaskFramework = {
                                         </div>
                                     </div>
                                     <div id="new_taskstep_container" class="add-taskstep-form-container">
-                                        <div class="form-group">
+                                        <div class="form-group input-row">
                                             <label class="newtaskstep-label">Lépés neve:</label>
                                             <div class="tasktype-group">
                                                 <div class="input-group mb-3">
@@ -517,7 +517,7 @@ let NewTaskFramework = {
                                         </div>
                                     </div>
                                     <div id="saved_taskstep_container" class="add-taskstep-form-container">
-                                        <div class="form-group">
+                                        <div class="form-group input-row">
                                             <label class="newtaskstep-label">Lépés neve:</label>
                                             <div class="tasktype-group">
                                                 <div id="${shellId}_saved_step_slct_shell" class="input-group mb-3">

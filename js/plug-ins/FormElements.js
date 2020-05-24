@@ -58,7 +58,7 @@ let FormElements = {
          */
         Select: function (id, name, shellId, opportunities) {
             let readyHTML = "";
-            readyHTML += '<div class="form-group">';
+            readyHTML += '<div class="form-group input-row">';
             readyHTML += '<label class="taskfilter-label">' + name + '</label>';
             readyHTML += '<select class="selectpicker my-0 form-control taskfilter" id="' + shellId + '_' + id + '" data-place="' + shellId + '" data-live-search="true">';
             for (let k = 0; k < opportunities.length; k++) {
@@ -78,7 +78,7 @@ let FormElements = {
          */
         SortSelect: function (id, name, shellId, defaultValue, required) {
             let readyHTML = "";
-            readyHTML += '<div class="form-group">';
+            readyHTML += '<div class="form-group input-row">';
             readyHTML += '<label class="taskfilter-label">' + name + '</label>';
             readyHTML += '<select class="selectpicker my-0 form-control taskfilter" id="' + shellId + '_' + id + '" data-place="' + shellId + '" data-live-search="false">';
             if (required === '0') {
@@ -98,7 +98,7 @@ let FormElements = {
     B: {
         Write: function (id, name, shellId, uploadName) {
             let readyHTML = "";
-            readyHTML += '<div class="form-group">';
+            readyHTML += '<div class="form-group input-row">';
             readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
             readyHTML += '<input type="text" id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
             readyHTML += '</div>';
@@ -107,7 +107,7 @@ let FormElements = {
         },
         Select: function (id, name, shellId, opportunities, uploadName) {
             let readyHTML = "";
-            readyHTML += '<div class="form-group">';
+            readyHTML += '<div class="form-group input-row">';
             readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
             readyHTML += '<select id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
             for (let k = 0; k < opportunities.length; k++) {
@@ -120,7 +120,7 @@ let FormElements = {
         SelectOrNew: function (id, name, shellId, opportunities, uploadName, truncatedIdName) {
             let readyHTML = "";
             //select
-            readyHTML += '<div class="form-group">';
+            readyHTML += '<div class="form-group input-row">';
             readyHTML += '<label for="taskCat" class="newtask-label">' + name + '</label>';
             readyHTML += '<div class="tasktype-group">';
             readyHTML += '<div class="input-group mb-3">';
@@ -205,7 +205,7 @@ let FormElements = {
         },
         DateTime: function (id, name, shellId, uploadName) {
             let readyHTML = "";
-            readyHTML += '<div class="form-group">';
+            readyHTML += '<div class="form-group input-row">';
             readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
             readyHTML += '<input type="date" id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
             readyHTML += '</div>';
@@ -233,7 +233,7 @@ let FormElements = {
         },        
         CheckBox: function (id, name, shellId, uploadName) {
             let readyHTML = "";
-            readyHTML += '<div class="form-group">';
+            readyHTML += '<div class="form-group input-row">';
             readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
             readyHTML += '<input type="checkbox" id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
             readyHTML += '</div>';

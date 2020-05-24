@@ -1,6 +1,6 @@
 <?php
 
-class CreateFrame
+class ModuleData
 {
     /**
      * Post varibles
@@ -9,6 +9,12 @@ class CreateFrame
     public $userId;
     // {JSON} main_data - Main data
     public $main_data;
+
+    /**
+     * Local varibles
+     */
+    // {String} fUserModuleId
+    public $fUserModuleId;
 
     /**
      * Construct
@@ -29,16 +35,35 @@ class CreateFrame
         $this->main_data = array();
 
         /** Create frame data object */
-        $fUserModuleId = $this->getFUserModuleId(
+        $this->fUserModuleId = $this->getFUserModuleId(
             $userId,
             $cTabId,
             $cModuleId
         );
-        $fModulePlugins = $this->getFModulePlugins($fUserModuleId);
+    }
 
+    function createData()
+    {
+        $fModulePlugins = $this->getFModulePlugins($this->fUserModuleId);
         $this->main_data = $this->createModuleData($fModulePlugins);
+    }
 
-        print_r(json_encode($this->main_data));
+    function createDataMP($fModulePluginId)
+    {
+        $fModulePlugin = $this->getFModulePluginById($fModulePluginId);
+        $this->main_data[] = $this->switchPlugin(
+            $fModulePlugin,
+            'MP'
+        );
+    }
+
+    function createDataPP($fPluginPluginId)
+    {
+        $fPluginPlugin = $this->getFPluginPluginById($fPluginPluginId);
+        $this->main_data[] = $this->switchPlugin(
+            $fPluginPlugin,
+            'PP'
+        );
     }
 
     /** getFUserModuleId */
@@ -58,8 +83,31 @@ class CreateFrame
     function getFModulePlugins($fUserModuleId)
     {
         return $this->pdo->query(
-            "SELECT * FROM f_module_plugins WHERE FUserModuleFK='$fUserModuleId' && DefaultScreen='1'"
+            "SELECT * FROM f_module_plugins WHERE FUserModuleFK='$fUserModuleId' && DefaultScreen='1' 
+             ORDER BY f_module_plugins.Number ASC"
         )->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * getFModulePluginById
+     * @param string $fModulePluginId Module's plugin ID (frame)
+     */
+    function getFModulePluginById($fModulePluginId)
+    {
+        return $this->pdo->query(
+            "SELECT * FROM f_module_plugins WHERE FModulePluginId='$fModulePluginId'"
+        )->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * getFPluginPluginById
+     * @param string $fPluginPluginId Plugin ID (frame)
+     */
+    function getFPluginPluginById($fPluginPluginId)
+    {
+        return $this->pdo->query(
+            "SELECT * FROM f_plugin_plugins WHERE FPluginPluginId='$fPluginPluginId'"
+        )->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -72,11 +120,9 @@ class CreateFrame
         $moduleData = array();
 
         foreach ($fModulePlugins as $fModulePlugin) {
-            $cPluginFK = $fModulePlugin['CPluginFK'];
-            $moduleData[$cPluginFK] = $this->switchPlugin(
-                $cPluginFK,
-                $fModulePlugin['FModulePluginId'],
-                null
+            $moduleData[] = $this->switchPlugin(
+                $fModulePlugin,
+                'MP'
             );
         }
 
@@ -85,13 +131,38 @@ class CreateFrame
 
     /**
      * switchPlugin
-     * @param json $fModulePlugin
+     * @param json $plugin
+     * @param json $type - type of plugin
      * @return null
      */
-    function switchPlugin($cPluginFK, $fModulePluginId, $fPluginPluginFK)
+    function switchPlugin($fPlugin, $type)
     {
-        $pluginData = array();
+        $place = $fPlugin['Place'];
+        $cPluginFK = $fPlugin['CPluginFK'];
+        $number = $fPlugin['Number'];
+        switch ($type) {
+            case 'MP':
+                $fModulePluginId = $fPlugin['FModulePluginId'];
+                $fPluginPluginFK = null;
+                break;
+            case 'PP':
+                $fModulePluginId = null;
+                $fPluginPluginFK = $fPlugin['FPluginPluginId'];
+                break;
+        }
 
+        $plugin = array();
+        $plugin['Place'] = $place;
+        $plugin['Number'] = $number;
+        $plugin['CPluginId'] = $cPluginFK;
+
+        $cPlugin = $this->pdo->query(
+            "SELECT * FROM c_plugins WHERE CPluginId='$cPluginFK'"
+        )->fetch(PDO::FETCH_ASSOC);
+
+        $plugin['Plugin name'] = $cPlugin['Name'];
+
+        $pluginData = array();
         switch ($cPluginFK) {
             case '1':
                 # Step Box
@@ -101,13 +172,17 @@ class CreateFrame
                 # Dinamic Popup Form
                 $pluginData = $this->creatDinamicForm($fModulePluginId, $fPluginPluginFK);
                 break;
-
+            case '3':
+                # Filter And Sort
+                $pluginData = $this->creatFilter($fModulePluginId, $fPluginPluginFK);
+                break;
             default:
                 //error
                 break;
         }
+        $plugin['Data'] = $pluginData;
 
-        return $pluginData;
+        return $plugin;
     }
 
     /** Plugins **/
@@ -117,30 +192,26 @@ class CreateFrame
         //includes
         require_once('CreateFormInputs.php');
 
-
-        $dinamicForm = array();
-        $dinamicForm['Data name'] = 'Dinamic forms';
-
         //get dinamic form(s) of plugin
         $fPluginDinamicForms = $this->pdo->query(
             "SELECT * FROM f_plugin_form_inputs WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
         )->fetchAll(PDO::FETCH_ASSOC);
 
+        $dinamicForm = array();
+
         foreach ($fPluginDinamicForms as $fPluginDinamicForm) {
             $fPluginFormInputId = $fPluginDinamicForm['FPluginFormInputId'];
-            $place = $fPluginDinamicForm['Place'];
 
             $createFormInputs = new CreateFormInputs();
             $fDinamicFormInputs = $createFormInputs->Create($this->userId, $fPluginFormInputId);
 
-            $dinamicForm['Forms'][$place]['Title'] = $fPluginDinamicForm['Title'];
-            $dinamicForm['Forms'][$place]['Inputs'] = $fDinamicFormInputs;
-            $dinamicForm['Forms'][$place]['Childs'] = $this->checkChild(
+            $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
+            $dinamicForm['Inputs'] = $fDinamicFormInputs;
+            $dinamicForm['Childs'] = $this->checkChild(
                 $fModulePluginFK,
                 $fPluginPluginFK,
-                '1',
-                $place
+                '1'
             );
         }
 
@@ -155,7 +226,6 @@ class CreateFrame
         require_once('VirtualObject.php');
 
         $dinamicForm = array();
-        $dinamicForm['Data name'] = 'Step Box';
 
         $fPluginFormInput = $this->pdo->query(
             "SELECT * FROM f_plugin_form_inputs WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
@@ -166,12 +236,14 @@ class CreateFrame
         $fPluginFormInputId = $fPluginFormInput['FPluginFormInputId'];
         $dinamicForm['Inputs'] = $createFormInputs->Create($this->userId, $fPluginFormInputId);
 
-        /*
+
         $fPluginVO = $this->pdo->query(
             "SELECT * FROM f_plugin_vo WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
         )->fetch(PDO::FETCH_ASSOC);
-        
+
+        $dinamicForm['VoId'] = $fPluginVO['VirtualObjectFK'];
+        /*
         $virtualObject = new VirtualObject($fPluginVO['VirtualObjectFK']);
         $vOParamArr['0'] = 'input';
         $dinamicForm['Template'] = $virtualObject->CreateVO($);*/
@@ -179,23 +251,57 @@ class CreateFrame
         return $dinamicForm;
     }
 
-    function checkChild($fModulePluginFK, $fPluginPluginFK, $defaultScreen, $parentPlace = '1')
+    # Filter And Sort
+    function creatFilter($fModulePluginFK, $fPluginPluginFK)
+    {
+        //includes
+        require_once('CreateFormInputs.php');
+
+        //get dinamic form(s) of plugin
+        $formInputMetaDataArr = $this->pdo->query(
+            "SELECT * FROM f_plugin_form_inputs WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
+                . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
+        )->fetchAll(PDO::FETCH_ASSOC);
+
+        $dinamicForm = array();
+
+        foreach ($formInputMetaDataArr as $formInputMetaData) {
+            $fPluginFormInputId = $formInputMetaData['FPluginFormInputId'];
+
+            $createFormInputs = new CreateFormInputs();
+            $formInputs = $createFormInputs->Create($this->userId, $fPluginFormInputId);
+
+            $dinamicForm[$formInputMetaData['Number']]['Title'] = $formInputMetaData['Title'];
+            $dinamicForm[$formInputMetaData['Number']]['Inputs'] = $formInputs;
+        }
+
+        $dinamicForm['Childs'] = $this->checkChild(
+            $fModulePluginFK,
+            $fPluginPluginFK,
+            '1'
+        );
+
+        return $dinamicForm;
+    }
+
+    function checkChild($fModulePluginFK, $fPluginPluginFK, $defaultScreen)
     {
         $data = array();
 
+        $defScreenCond = '';
+        if ($defaultScreen === 1) {
+            $defScreenCond = "&& DefaultScreen='$defaultScreen'";
+        }
+
         $fPluginPlugins = $this->pdo->query(
             "SELECT * FROM f_plugin_plugins WHERE FModulePluginFK='$fModulePluginFK' && 
-            FPluginPluginFK" . $this->ifNull($fPluginPluginFK) . " && DefaultScreen='$defaultScreen' && 
-            ParentPlace='$parentPlace'"
+            FPluginPluginFK" . $this->ifNull($fPluginPluginFK) . " $defScreenCond"
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($fPluginPlugins as $fPluginPlugin) {
-            $cPluginFK = $fPluginPlugin['CPluginFK'];
-
-            $data[$cPluginFK] = $this->switchPlugin(
-                $cPluginFK,
-                null,
-                $fPluginPlugin['FPluginPluginId']
+            $data[] = $this->switchPlugin(
+                $fPluginPlugin,
+                'PP'
             );
         }
 
@@ -211,4 +317,8 @@ class CreateFrame
         }
     }
 }
-$stg = new CreateFrame(1, 102, 1004);
+/*
+$moduleData = new ModuleData(1, 102, 1004);
+$moduleData->createData();
+print_r(json_encode($moduleData->main_data));
+*/

@@ -38,6 +38,10 @@
     background-color: #333;
 }
 
+.input-row {
+    /*display: flex;*/
+}
+
 .newtask-formcontrol {
     width: 60%;
     height: calc(1.5em + .75rem + 2px);
@@ -49,16 +53,16 @@
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0;
+    border: 1px solid #aaa;
+    border-radius: 10px;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 .newtask-formcontrol:focus {
-    outline: 2px solid rgba(0, 0, 0, 0.2);
     box-shadow: none;
-    border: 1px solid #ced4da;
-    ;
+    border: 1px solid #0067a5;
+    border-radius: 4px;
+    outline-style: unset;
 }
 
 .newtask-label {
@@ -107,6 +111,7 @@
     float: left;
     overflow: hidden;
     padding: 0 4%;
+    border-bottom: 1px solid #ddd;
 }
 
 .taskstep-formcontrol {
@@ -426,6 +431,7 @@ input:checked[type="checkbox"]:before {
     width: 100%;
     padding: 4%;
     margin: 0;
+    text-align: left;
     cursor: pointer;
     color: #666;
 }
@@ -480,4 +486,10 @@ input:checked[type="checkbox"]:before {
 
 #ntskstps_slides {
     padding-top: 10px;
+}
+
+@media (max-width: 1199px) {
+    .new-obj-shell {
+        border-bottom: none;
+    }
 }

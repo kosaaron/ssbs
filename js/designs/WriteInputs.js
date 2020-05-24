@@ -27,7 +27,7 @@ let WriteInputs = {
      */
     WithLabel: function (id, name, shellId, uploadName) {
         let readyHTML = "";
-        readyHTML += '<div class="form-group">';
+        readyHTML += '<div class="form-group input-row">';
         readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
         readyHTML += '<input type="text" id="' + shellId + '_' + id + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
         readyHTML += '</div>';

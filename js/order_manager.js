@@ -11,8 +11,6 @@ import CardDesigns from './designs/CardDesigns.js';
 import DetailsDesigns from './designs/DetailsDesigns.js';
 import DinamicFormPopup from './plug-ins/DinamicFormPopup.js';
 
-import newTask from './new_task.js';
-
 /** Modul parameters **/
 let Varibles = {
     FrameId: 'ordrm',
