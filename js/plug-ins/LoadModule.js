@@ -1,24 +1,34 @@
 /** LoadModule.js */
-let SSData = [
-    {
-        screens: [
-            '1'
-        ]
+/** Imports */
+import SwitchPlugin from './SwitchPlugin.js';
+
+
+let SSData = {
+    "2":{
+        "Place":"4",
+        "CPluginId":"4",
+        "Plugin_name":"Card Container",
+        "Data": {
+            "Valami":"valami"
+        }
     },
-    {
-        screens: [
-            '2',
-            '3'
-        ]
+    "3":{
+        "Place":"5",
+        "CPluginId":"5",
+        "Plugin_name":"Details",
+        "Data": {
+            "Valami":"valami"
+        }
     },
-    {
-        screens: [
-            '2',
-            '4',
-            '5'
-        ]
+    "1":{
+        "Place":"2",
+        "CPluginId":"3",
+        "Plugin_name":"Filter",
+        "Data": {
+            "Valami":"valami"
+        }
     }
-];
+};
 let Varibles = {
     FrameId: 'prtnrm', //???
     //FrameName: 'Partnerek',
@@ -26,7 +36,7 @@ let Varibles = {
     //MainTableIdName: 'PartnerId',
     //element ids
     ShellId: null,
-    ScreenStructure: SSData[1].screens
+    ScreenStructure: SSData
     //Frame id of add new item
     //AddNFormId: 'nprtnr',
     //Processes data array
@@ -38,7 +48,7 @@ let Varibles = {
 var generalModule = {
     loadModule: function (shellId) {
         Varibles.ShellId = shellId;
-        Framework.Load(Varibles.ShellId, Varibles.FrameId);
+        Framework.LoadGrid(Varibles.ShellId, Varibles.FrameId);
     },
     resize: function () {
 
@@ -46,36 +56,50 @@ var generalModule = {
 };
 /** Framework **/
 let Framework = {
-    Load: function (targetId, shellId) {
-        //partner manager frame
+    LoadGrid: function (targetId, shellId) {
+        let screens = Varibles.ScreenStructure;
+        let screenModules = "";
+        for (let i = 1; i < ( Object.keys(screens).length + 1 ) ; i++) {
+            switch (screens[i].Place) {
+                case '1':
+                    screenModules += `<div id="${screens[i].Place}" class="display-flex flex-row full-screen" style="background-color:#888;">`+ screens[i].Plugin_name +`</div>`;
+                    break;
+                case '2':
+                    screenModules += `<div id="${screens[i].Place}" class="flex-fill col-2 filter-box" style="background-color:#888;">`+ screens[i].Plugin_name +`</div>`;
+                    break;
+                case '3':
+                    screenModules += `<div id="${screens[i].Place}" class="flex-fill table-container-xscroll" style="background-color:#888;">`+ screens[i].Plugin_name +`</div>`;
+                    break;
+                case '4':
+                    screenModules += `<div id="${screens[i].Place}" class="card-container col-6" style="background-color:#888;">`+ screens[i].Plugin_name +`</div>`;
+                    break;
+                case '5':
+                    screenModules += `<div id="${screens[i].Place}" class="col-4 cc-details" style="background-color:#888;">`+ screens[i].Plugin_name +`</div>`;
+                    break;
+            }
+        }
         let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"><h1>Betöltve</h1></div>`;
         document.getElementById(targetId).innerHTML = framework;
-        let screenId = Varibles.ScreenStructure; 
+        document.getElementById(shellId).innerHTML = screenModules;
+        Framework.LoadPlugins();
         
-        if (screenId[0] == '1') {
-            let screenModules = `<div id="${screenId[0]}" class="display-flex flex-row full-screen" style="background-color:#888;"></div>`;
-            document.getElementById(shellId).innerHTML = screenModules;
-        }
-        else{
-            if (screenId[1] == '3') {
-                let screenModules = `<div id="${screenId[0]}" class="flex-fill col-2 filter-box" style="background-color:#888;"></div>`;
-                screenModules += `<div id="${screenId[1]}" class="flex-fill table-container-xscroll" style="background-color:#888;"></div>`;
-                document.getElementById(shellId).innerHTML = screenModules;
-            }
-            else if(screenId[1] == '4'){
-                let screenModules = `<div id="${screenId[0]}" class="flex-fill col-2 filter-box" style="background-color:#888;"></div>`;
-                screenModules += `<div id="${screenId[1]}" class="card-container col-6" style="background-color:#888;"></div>`;
-                screenModules += `<div id="${screenId[2]}" class="col-4 cc-details" style="background-color:#888;"></div>`;
-                document.getElementById(shellId).innerHTML = screenModules;
-            }
-        }
+    },
+    LoadPlugins: function (){
+        let screens = Varibles.ScreenStructure;
+        for (let i = 1; i < ( Object.keys(screens).length + 1 ) ; i++) {
+            let pluginType = "";
+            let pluginData = [];
+            pluginType = screens[i].CPluginId;
+            pluginData = screens[i].Data;
 
-        // let containerDesigns = new ContainerDesigns();
-        // //filter frame
-        // containerDesigns.loadSimpleFilterFw(shellId, shellId, 'beforeend');
-        // //card container frame
-        // containerDesigns.loadSimpleCCFw(shellId, shellId, 'beforeend');
+            let pluginHTML = "";
+            pluginHTML = SwitchPlugin.Create(pluginType, pluginData);
+
+            let placeId = "";
+            placeId = screens[i].Place
+
+            document.getElementById(placeId).innerHTML = pluginHTML; 
+        }
     }
 }
 export default generalModule;
-
