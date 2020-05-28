@@ -574,6 +574,85 @@ let FormInputs = {
         $("#" + shellId).click(function () {
             document.getElementById(inputId).click();
         });
+    },
+    /**
+     * Write input with label
+     * @param {String} id 
+     * @param {String} name 
+     * @param {String} shellId 
+     * @param {String} uploadName 
+     * @param {String} defaultValue 
+     */
+    WriteFilter: function (id, name, shellId, uploadName, defaultValue = null, tableName = null, columnName = null) {
+        if (defaultValue === null) {
+            defaultValue = '';
+        }
+
+        let readyHTML = "";
+        readyHTML += '<div class="my-3">';
+        readyHTML += `<input type="text" class="form-control" id="${shellId}_${id}
+         data-place="${shellId}" placeholder="${name}" aria-label="${name}" aria-describedby="addon-wrapping">`;
+        readyHTML += '</div >';
+
+        document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
+    },
+    /**
+     * Select
+     * @param {String} id 
+     * @param {String} name if null: input without label
+     * @param {String} shellId 
+     * @param {JSON} opportunities 
+     * @param {String} uploadName 
+     * @param {Boolean} required 
+     * @param {String} default id
+     */
+    SelectFilter: function (id, name, shellId, opportunities, uploadName, required, defaultValue = null) {
+        let readyHTML = '';
+        let fullWidth = '';
+        let formGroup = '';
+        let label = '';
+        if (name !== null) {
+            formGroup = 'form-group';
+            label += '<label for="' + shellId + '_' + id + '" class="taskfilter-label">' + name + '</label>';
+        } else {
+            fullWidth = 'full-width-i';
+        }
+
+        readyHTML += `<div class="${formGroup} input-row">`;
+        readyHTML += label;
+        readyHTML += `<select id="${shellId}_${id}" required="${required}" 
+                        class="selectpicker my-0 form-control taskfilter ${fullWidth}" 
+                        upload-name="${uploadName}" data-place="${shellId}" data-live-search="true">`;
+        if (required === '0') {
+            readyHTML += '<option value="null" selected>---</option>';
+        }
+
+        for (let k = 0; k < opportunities.length; k++) {
+            readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
+        }
+        readyHTML += '</select></div>';
+
+        document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
+
+
+        /*
+        let readyHTML = "";
+            readyHTML += '<div class="form-group input-row">';
+            readyHTML += '<label class="taskfilter-label">' + name + '</label>';
+            readyHTML += '<select class="selectpicker my-0 form-control taskfilter" id="' + shellId + '_' + id + '" data-place="' + shellId + '" data-live-search="true">';
+            for (let k = 0; k < opportunities.length; k++) {
+                readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
+            }
+            readyHTML += '</select></div>';
+
+            document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
+            */
+
+
+        //default value
+        if (defaultValue !== 'null' && defaultValue !== null && defaultValue !== '') {
+            $('#' + shellId + '_' + id).val(defaultValue);
+        }
     }
 }
 export default FormInputs;
