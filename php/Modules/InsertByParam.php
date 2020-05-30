@@ -7,9 +7,11 @@ class InsertByParam
 {
     public function DefaultUpload($data)
     {
+        $main_data = array();
         foreach ($data as $object) {
             $main_data[] =  $this->UploadOneObject($object);
         }
+        return $main_data;
     }
 
     function UploadOneObject($object)
@@ -47,13 +49,20 @@ class InsertByParam
             $columnNames .= ')';
             $values .= ');';
             $finalSQL .= $columnNames . $values;
-            $finalSQL .= 'SELECT LAST_INSERT_ID();';
 
-            $finalQueary = $pdo->query($finalSQL);
+            $finalQueary = $pdo->prepare($finalSQL);
+            $finalQueary->execute();
+            $lastId = $pdo->lastInsertId();
+
+            $tableIdQueary = $pdo->prepare("SHOW KEYS FROM $table WHERE Key_name = 'PRIMARY'");
+            $tableIdQueary->execute();
+            $tableIdArr = $tableIdQueary->fetchAll();
+            $tableIdColumn = $tableIdArr[0]['Column_name'];
 
             if ($finalQueary) {
-                $main_data[$table]['result'] = 'S';
-                $main_data[$table]['lastId'] = $finalQueary;
+                $main_data[$table]['Result'] = 'S';
+                $main_data[$table]['LastIdColumn'] = $tableIdColumn;
+                $main_data[$table]['LastId'] = $lastId;
             } else {
                 $main_data[$table]['result'] = 'F';
             }

@@ -42,7 +42,7 @@ switch ($module) {
         require_once('Modules/InsertByParam.php');
 
         $insertByParam = new InsertByParam();
-        $main_data[] =  $insertByParam->DefaultUpload($data);
+        $main_data =  $insertByParam->DefaultUpload($data);
 
         print_r(json_encode($main_data));
     default:

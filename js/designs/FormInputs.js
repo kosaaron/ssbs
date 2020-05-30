@@ -34,22 +34,16 @@ let FormInputs = {
      */
     InsertInputs: function (placeName, refreshFn) {
         let insertData = [FormInputs.CreateJSON(placeName)];
+        let className = 'InsertByParam';
 
         $.ajax({
             type: "POST",
-            url: "./php/UploadDataWithParam.php",
-            data: { 'Data': insertData },
+            url: "./php/Router.php",
+            data: { 'Module': className, 'Data': insertData },
             success: function (result) {
                 if (refreshFn !== null && refreshFn !== undefined) {
                     refreshFn(result);
                 }
-
-                Swal.fire({
-                    type: 'success',
-                    title: 'Siker',
-                    text: 'A feladat létrehozása sikeres volt!',
-                    heightAuto: false
-                });
             },
             dataType: 'json'
         });
@@ -145,9 +139,9 @@ let FormInputs = {
         readyHTML += '<div class="form-group input-row">';
         readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
         readyHTML += '<div class="tasktype-group">';
-        readyHTML += '<div class="input-group">';
+        readyHTML += '<div class="input-group ">';
         readyHTML += `<input value="${defaultValue}" type="text" id="${shellId}_${id}" 
-            class="newtask-formcontrol flex-1" upload-name="${uploadName}" data-place="${shellId}"
+            class="newtask-formcontrol form-control flex-1" upload-name="${uploadName}" data-place="${shellId}"
             table-name="${tableName}" column-name="${columnName}">`;
 
         readyHTML += '<div class="input-group-append">';
@@ -210,7 +204,8 @@ let FormInputs = {
      * @param {Boolean} required 
      * @param {String} defaultValue id
      */
-    SelectPlus: function (id, name, shellId, opportunities, uploadName, required, defaultValue = null) {
+    SelectPlus: function (id, name, shellId, opportunities, uploadName, required, defaultValue = null,
+        tableName = null, columnName = null) {
         let readyHTML = "";
         //select
         readyHTML += '<div class="form-group input-row">';
@@ -249,47 +244,83 @@ let FormInputs = {
      * @param {String} uploadName 
      * @param {String} truncatedIdName 
      */
-    SelectOrNew: function (id, name, shellId, opportunities, uploadName, truncatedIdName) {
+    SelectOrNew: function (id, name, shellId, opportunities, uploadName, truncatedIdName, required,
+        defaultValue = null, tableName = null, columnName = null) {
         let readyHTML = "";
-        //select
-        readyHTML += '<div class="form-group input-row">';
-        readyHTML += '<label for="taskCat" class="newtask-label">' + name + '</label>';
-        readyHTML += '<div class="tasktype-group">';
-        readyHTML += '<div class="input-group">';
-        readyHTML += '<select id="' + shellId + '_' + id + '" class="form-control newtask-formcontrol" aria-describedby="button-addon2" upload-name="' + uploadName + '" data-place="' + shellId + '">';
-        for (let k = 0; k < opportunities.length; k++) {
-            readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
-        }
-        readyHTML += '</select>';
-        readyHTML += '<div class="input-group-append">';
-        readyHTML += '<button class="btn btn-outline-secondary" type="button" id="new_' + shellId + '_' + id + '" data-place="new_' + shellId + '">';
-        readyHTML += '<i class="fas fa-plus"></i>';
-        readyHTML += '</button> </div></div></div></div>';
+        FormInputs.SelectPlus(id, name, shellId, opportunities, uploadName, required, defaultValue, tableName, columnName);
+
+        let collapseInputId = `${shellId}_collapse_inp_${id}`;
         //new
-        readyHTML += '<div id="collapse_' + shellId + '_' + id + '" class="collapse">';
-        readyHTML += '<div class="sn-collapse-body"><div class="sn-collapse-card new-element-card">';
-        readyHTML += '<label class="sn-collapse-label">' + name + '</label>';
-        readyHTML += '<input id="' + shellId + '_collapse_inp_' + id + '" class="sn-collapse-input" type="text">';
-        readyHTML += '<button id="' + shellId + '_collapse_btn_' + id + '" class="sn-collapse-button btn btn-primary">Létrehozás</button>';
-        readyHTML += '</div></div></div>';
+        readyHTML += `
+            <div id="${shellId}_${id}_collapse" class="collapse">
+                <div class="sn-collapse-body">
+                    <div class="sn-collapse-card new-element-card">
+                        <label class="sn-collapse-label">${name}</label>
+                        <input id="${collapseInputId}" class="sn-collapse-input" upload-name="${tableName}.${columnName}" 
+                            type="text" data-place="${collapseInputId}">
+                        <button id="${shellId}_i_${id}_collapse_btn" class="sn-collapse-button btn btn-primary">Létrehozás</button>
+                    </div>
+                </div>
+            </div>`;
 
         document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
-        document.getElementById(shellId + '_collapse_btn_' + id).addEventListener('click', function () {
-            if (document.getElementById(shellId + '_collapse_inp_' + id).value === "") {
-                document.getElementById(shellId + '_collapse_inp_' + id).style.border = "1px solid #ca3333";
+
+        document.getElementById(`${shellId}_i_${id}_upl`).addEventListener('click', function () {
+            let collapseElement = document.getElementById(`${shellId}_${id}_collapse`);
+
+            if (collapseElement.style.display === 'block') {
+                collapseElement.style.display = 'none'
+
+                $(`#${shellId}_i_${id}_upl .fa-minus`).addClass('fa-plus');
+                $(`#${shellId}_i_${id}_upl .fa-minus`).removeClass('fa-minus');
+            } else {
+                collapseElement.style.display = 'block'
+
+                $(`#${shellId}_i_${id}_upl .fa-plus`).addClass('fa-minus');
+                $(`#${shellId}_i_${id}_upl .fa-plus`).removeClass('fa-plus');
+            }
+        });
+
+        document.getElementById(`${shellId}_i_${id}_collapse_btn`).addEventListener('click', function () {
+            let collapseInputElement = document.getElementById(collapseInputId);
+            if (collapseInputElement.value === "") {
+                collapseInputElement.style.border = "1px solid #ca3333";
                 return;
             } else {
-                document.getElementById(shellId + '_collapse_inp_' + id).style.border = "1px solid #aaa";
+                collapseInputElement.style.border = "1px solid #aaa";
             }
 
+            FormInputs.InsertInputs(collapseInputId, function (result) {
+                let tableResultData = {};
+
+                for (const table in result[0]) {
+                    if (result[0].hasOwnProperty(table)) {
+                        tableResultData = result[0][table];
+                    }
+                }
+
+                let optionId = tableResultData['LastId'];
+
+                document.getElementById(shellId + '_' + id).insertAdjacentHTML(
+                    'beforeend',
+                    `<option value="${optionId}">${collapseInputElement.value}</option>`
+                );
+
+                document.querySelector(`#${shellId}_${id} [value="${optionId}"]`).selected = true;
+                document.getElementById(`${shellId}_i_${id}_upl`).click();
+            })
+
+            /*
             let splittedUploadName = uploadName.split('.');
+            let inputTable = splittedUploadName[0];
+            let inputColumn = splittedUploadName[1];
             let columns = {};
             let data = {};
-            columns[splittedUploadName[1]] = document.getElementById(shellId + '_collapse_inp_' + id).value;
+            columns[splittedUploadName[1]] = document.getElementById(collapseInputId).value;
             data[splittedUploadName[0]] = columns;
 
-            document.getElementById(shellId + '_collapse_inp_' + id).value = "";
-            document.getElementById('new_' + shellId + '_' + id).click();
+            document.getElementById(collapseInputId).value = "";
+            //document.getElementById('new_' + shellId + '_' + id).click();
 
             $.ajax({
                 type: "POST",
@@ -332,7 +363,7 @@ let FormInputs = {
                     }
                 },
                 dataType: 'html'
-            });
+            });*/
         });
     },
     /**
