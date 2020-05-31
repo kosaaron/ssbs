@@ -219,6 +219,10 @@ iframe[seamless] {
 .sn-collapse-input {
     width: 65%;
     margin-right: 2%;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    float: left;
+    line-height: 2;
 }
 
 .sn-collapse-button {
@@ -229,6 +233,8 @@ iframe[seamless] {
 }
 
 .sn-collapse-label {
+    text-align: left;
+    padding-left: 1%;
     width: 100%;
     font-weight: 600;
     color: #777;

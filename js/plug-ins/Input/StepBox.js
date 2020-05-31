@@ -113,9 +113,15 @@ export default class StepBox {
             AutoScroll.Integration(`${frameId}_cont`);
         });
 
-        document.getElementById(parentFrameId).addEventListener(`${parentFrameId}_save`, function (e) {
-            StepBox.uploadSteps('TaskFK', '1');
-        }, false);
+        $(`#${parentFrameId}`).bind(`${parentFrameId}_save`, function (e) {
+            let parentFrameElement = document.getElementById(parentFrameId);
+            let lastId = parentFrameElement.getAttribute('last-id');
+            let lastIdColumn = parentFrameElement.getAttribute('last-id-colomn');
+            let columnLength = lastIdColumn.length;
+            let fkColumn = lastIdColumn.substr(0, columnLength - 2);
+            fkColumn +='FK';
+            StepBox.uploadSteps(fkColumn, lastId, parentFrameId);
+        });
     }
 
     /**
@@ -355,8 +361,9 @@ export default class StepBox {
      * uploadSteps
      * @param {String} itemIdColumn 
      * @param {String} itemId 
+     * @param {String} parentFrameId 
      */
-    static uploadSteps(itemIdColumn, itemId) {
+    static uploadSteps(itemIdColumn, itemId, parentFrameId) {
         let uploadSteps = [];
         let steps = document.querySelectorAll('[data-place=processes_new_t_steps]');
         let number = 1;
@@ -420,10 +427,29 @@ export default class StepBox {
                 url: "./php/Router.php",
                 data: { 'Module': className, 'Data': uploadData },
                 success: function (result) {
-                    //success
+                    let tableResultData = {};
+
+                    for (const table in result[0]) {
+                        if (result[0].hasOwnProperty(table)) {
+                            tableResultData = result[0][table];
+                        }
+                    }
+            
+                    if (tableResultData['Result'] === 'S') {
+                        $(`#${parentFrameId}`).trigger(`${parentFrameId}_save_end`);
+                    } else {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Sikertelen',
+                            text: 'A feladat létrehozása sikertelen volt!',
+                            heightAuto: false
+                        });
+                    }
                 },
                 dataType: 'json'
             });
+        } else {
+            $(`#${parentFrameId}`).trigger(`${parentFrameId}_save_end`);
         }
     }
 }

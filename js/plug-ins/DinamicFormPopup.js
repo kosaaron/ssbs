@@ -9,6 +9,8 @@ import FormInputs from './../designs/FormInputs.js';
 import StepBox from './Input/StepBox.js';
 
 export default class DinamicFormPopup {
+    static saveEventMax = 0;
+    static saveEventCounter = 0;
     /**
      * Constructor
      * @param {String} targetId 
@@ -17,7 +19,6 @@ export default class DinamicFormPopup {
      */
     constructor(targetId, targetPos = 'afterbegin', title, isFullscreen = false) {
         const dataFrameId = targetId + '_dnmcppp_data';
-
 
         document.getElementById(targetId).insertAdjacentHTML(
             targetPos,
@@ -44,7 +45,6 @@ export default class DinamicFormPopup {
      * @param {String} targetId 
      * @param {JSON} entryIdJSON use it only for update
      * @param {Function} setUploadsCallback 
-     * @param {Function} refreshFn 
      */
     loadFormData(
         addNFormId,
@@ -52,7 +52,6 @@ export default class DinamicFormPopup {
         targetId,
         entryIdJSON = null,
         setUploadsCallback = null,
-        refreshFn = null,
     ) {
         let module = 'ModuleData';
         let data = {};
@@ -97,21 +96,20 @@ export default class DinamicFormPopup {
                     formObject = setUploadsCallback(formObject);
                 }
 
-                DinamicFormPopup.onLoad(formData, fillFormData, targetId, entryIdJSON, refreshFn);
+                DinamicFormPopup.onLoad(formData, fillFormData, targetId, entryIdJSON);
             },
             dataType: 'json'
         });
     }
-    
+
     /**
      * Loads
      * @param {JSON} formData
      * @param {JSON} fillFormData 
      * @param {String} targetId 
      * @param {JSON} entryId 
-     * @param {Function} refreshFn 
      */
-    static onLoad(formData, fillFormData, targetId, entryId = null, refreshFn) {
+    static onLoad(formData, fillFormData, targetId, entryId = null) {
         const dataFrameId = targetId + '_dnmcppp_data';
         const frameId = targetId + '_dnmcppp';
         let formInputs = formData.Inputs;
@@ -158,12 +156,8 @@ export default class DinamicFormPopup {
         document.getElementById(targetId + '_dnmcppp_save').addEventListener(
             'click',
             function (e) {
-                //Broadcast for subplug-ins
-                let customEvent = new Event(`${frameId}_save`);
-                document.getElementById(frameId).dispatchEvent(customEvent);
-
                 //Save default inputs in form
-                DinamicFormPopup.save(targetId, entryId, refreshFn);
+                DinamicFormPopup.save(targetId, entryId);
             }
         );
 
@@ -248,7 +242,11 @@ export default class DinamicFormPopup {
                     shellId,
                     objectItem.Opportunities,
                     objectItem.UploadName,
-                    objectItem.TruncatedIdName
+                    objectItem.TruncatedIdName,
+                    objectItem.Required,
+                    objectItem.DefaultValue,
+                    objectItem.TableName,
+                    objectItem.ColumnName
                 );
                 break;
             case "ST":
@@ -290,17 +288,62 @@ export default class DinamicFormPopup {
      * Save
      * @param {String} targetId 
      * @param {JSON} entryId 
-     * @param {Function} refreshFn 
      */
-    static save(targetId, entryId, refreshFn) {
+    static save(frameId, entryId) {
+        let dataFrameId = frameId + '_dnmcppp_data';
+
         //prco_dnmcppp
         if (entryId === null) {
-            FormInputs.InsertInputs(targetId + '_dnmcppp_data', refreshFn);
+            FormInputs.InsertInputs(dataFrameId, function (result) {
+                DinamicFormPopup.saveCallback(frameId, result);
+            });
         } else {
-            FormInputs.UpdateInputs(targetId + '_dnmcppp_data', entryId, refreshFn);
+            FormInputs.UpdateInputs(dataFrameId, entryId, DinamicFormPopup.saveCallback);
+        }
+    }
+
+    static saveCallback(targetId, result) {
+        let frameId = `${targetId}_dnmcppp`;
+        let tableResultData = {};
+
+        for (const table in result[0]) {
+            if (result[0].hasOwnProperty(table)) {
+                tableResultData = result[0][table];
+            }
         }
 
-        DinamicFormPopup.cancel(targetId)
+        if (tableResultData['Result'] === 'S') {
+            let frameElement = document.getElementById(frameId);
+            frameElement.setAttribute('last-id', tableResultData['LastId']);
+            frameElement.setAttribute('last-id-colomn', tableResultData['LastIdColumn']);
+
+            let counter = 1;
+            //Broadcast event get response
+            $(`#${frameId}`).bind(`${frameId}_save_end`, function (e) {
+                if (counter === saveEventMax) {
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Siker',
+                        text: 'A feladat létrehozása sikeres volt!',
+                        heightAuto: false
+                    });
+                    DinamicFormPopup.cancel(targetId);
+                }
+                ++counter;
+            });
+
+            //Broadcast for subplug-ins
+            let saveEventMax = 0;
+            $.each($._data($(`#${frameId}`)[0], "events"), function (i, event) {
+                if (i === `${frameId}_save`) {
+                    $.each(event, function (j, h) {
+                        ++saveEventMax;
+                    });
+                }
+            });
+
+            $(`#${frameId}`).trigger(`${frameId}_save`);
+        }
     }
 
     /** Frame **/
