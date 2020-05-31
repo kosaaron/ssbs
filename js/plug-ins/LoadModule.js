@@ -92,7 +92,9 @@ let Framework = {
             // pluginData = screen.Data;
 
             let moduleName = Varibles.FrameId;
-            SwitchPlugin.Create(screen, moduleName);
+
+            let switchPlugin = new SwitchPlugin();
+            switchPlugin.Create(screen, moduleName);
         }
     }
 }

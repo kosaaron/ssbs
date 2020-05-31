@@ -5,7 +5,7 @@
 import Filter from './Filter.js';
 import FormInputs from '../designs/FormInputs.js';
 
-let SwitchPlugin = {
+export default class SwitchPlugin {
     /**
      * **Create**
      * Generate filters
@@ -18,7 +18,7 @@ let SwitchPlugin = {
      * @param {String} shellId 
      * @param {Function} eventFunction Selectpicker change event
      */
-    Create: function (plugin, moduleName) {
+    Create(plugin, moduleName) {
         let pluginHTML = "";
         let placeId = `${moduleName}_${plugin.Place}`;
         switch (plugin.CPluginId) {
@@ -27,19 +27,11 @@ let SwitchPlugin = {
             // case '2':
             //     break;
             case '3': //Filter
-                pluginHTML = `<h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>`;
-                pluginHTML += `<div id="${moduleName}_filters" class="task-filters"> </div>`;
-                pluginHTML += `<h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>`;
-                pluginHTML += `<div class="task-orders"> </div>`;
-                pluginHTML += `<div id="${moduleName}_sorts" class="task-filters"> </div>`;
-                let shellId = `${moduleName}_filters`;
-                document.getElementById(placeId).innerHTML = pluginHTML;
                 Filter.Create(
-                    plugin.Data[1].Inputs,
-                    shellId,
-                    DataBase.filterChange(shellId)
+                    placeId,
+                    moduleName,
+                    plugin.Data[1].Inputs
                 );
-
                 break;
 
             case '4': //Card Container
@@ -57,11 +49,3 @@ let SwitchPlugin = {
         }
     }
 }
-
-let DataBase = {
-    filterChange: function (shellId){
-        let filterdata = FormInputs.CreateJSON(shellId);
-        alert(JSON.stringify(filterdata));
-    }
-}
-export default SwitchPlugin;
