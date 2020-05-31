@@ -4,12 +4,15 @@
 /** Imports */
 import CardContainerPlus from './CardContainerPlus.js';
 import FormInputs from '../designs/FormInputs.js';
+import { addListenerByAttr } from '../common.js';
 
 
 let Filter = {
-    Create: function(filters, shellId){
+    Create: function(filters, shellId, eventFunction){
         CardContainerPlus.Create(filters, shellId, Local.getFilterHTML);
         
+
+        addListenerByAttr(shellId, 'change', eventFunction);
     }
 }
 let Local = {
@@ -40,6 +43,7 @@ let Local = {
             default:
                 break;
         }
+        
     }
 }
 export default Filter;

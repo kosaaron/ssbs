@@ -3,7 +3,7 @@
  */
 /** Imports */
 import Filter from './Filter.js';
-
+import FormInputs from '../designs/FormInputs.js';
 
 let SwitchPlugin = {
     /**
@@ -32,13 +32,14 @@ let SwitchPlugin = {
                 pluginHTML += `<h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>`;
                 pluginHTML += `<div class="task-orders"> </div>`;
                 pluginHTML += `<div id="${moduleName}_sorts" class="task-filters"> </div>`;
-                
+                let shellId = `${moduleName}_filters`;
                 document.getElementById(placeId).innerHTML = pluginHTML;
                 Filter.Create(
                     plugin.Data[1].Inputs,
-                    moduleName + "_filters"
+                    shellId,
+                    DataBase.filterChange(shellId)
                 );
-                 
+
                 break;
 
             case '4': //Card Container
@@ -54,6 +55,13 @@ let SwitchPlugin = {
             default:
                 break;
         }
+    }
+}
+
+let DataBase = {
+    filterChange: function (shellId){
+        let filterdata = FormInputs.CreateJSON(shellId);
+        alert(JSON.stringify(filterdata));
     }
 }
 export default SwitchPlugin;

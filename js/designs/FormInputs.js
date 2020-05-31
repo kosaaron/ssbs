@@ -590,8 +590,8 @@ let FormInputs = {
 
         let readyHTML = "";
         readyHTML += '<div class="my-3">';
-        readyHTML += `<input type="text" class="form-control" id="${shellId}_${id}
-         data-place="${shellId}" placeholder="${name}" aria-label="${name}" aria-describedby="addon-wrapping">`;
+        readyHTML += `<input type="text" class="form-control" id="${shellId}_${id}"
+         data-place="${shellId}" upload-name="${uploadName}" placeholder="${name}" aria-label="${name}" aria-describedby="addon-wrapping">`;
         readyHTML += '</div >';
 
         document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
