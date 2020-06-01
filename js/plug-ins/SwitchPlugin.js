@@ -40,7 +40,7 @@ export default class SwitchPlugin {
                 Promise.all([
                     import('./Display/CardBox.js'),
                 ]).then(([Module]) => {
-                    let cardBox = new Module(moduleName, placeId, plugin);
+                    //let cardBox = new Module(moduleName, placeId, plugin);
                 });
                 break;
             case '5': //Details

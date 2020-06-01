@@ -191,7 +191,7 @@ class SwitchPlugin
             $fPluginFormInputId = $formInputMetaData['FPluginFormInputId'];
 
             $createFormInputs = new CreateFormInputs();
-            $formInputs = $createFormInputs->Create($this->userId, $fPluginFormInputId);
+            $formInputs = $createFormInputs->Create($fPluginFormInputId);
 
             $dinamicForm[$formInputMetaData['Number']]['Title'] = $formInputMetaData['Title'];
             $dinamicForm[$formInputMetaData['Number']]['Inputs'] = $formInputs;
