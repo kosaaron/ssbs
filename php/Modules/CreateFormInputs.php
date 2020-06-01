@@ -5,7 +5,7 @@
  */
 class CreateFormInputs
 {
-    public function Create($employee, $fPluginFormInputFK)
+    public function Create($fPluginFormInputFK)
     {
         require_once('Connect.php');
         $PDOConnect = new PDOConnect();

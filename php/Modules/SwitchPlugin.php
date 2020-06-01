@@ -1,145 +1,25 @@
 <?php
 
-class ModuleData
+/**
+ * Switch plugin
+ */
+class SwitchPlugin
 {
-    /**
-     * Post varibles
-     */
-    // {String} userId - User ID
-    public $userId;
-    // {JSON} main_data - Main data
-    public $main_data;
-
-    /**
-     * Local varibles
-     */
-    // {String} fUserModuleId
-    public $fUserModuleId;
-
-    /**
-     * Construct
-     * @param string $userId User ID
-     * @param string $cTabId Tab ID (frame)
-     * @param string $cModuleId Module ID (frame)
-     */
-    function __construct($userId, $cTabId, $cModuleId)
+    function __construct()
     {
-        /** Includes */
-        //Switch plugin
-        require_once('SwitchPlugin.php');
-        $this->switchPlugin = new SwitchPlugin();
-
         //PDO connection
         require_once('Connect.php');
         $PDOConnect = new PDOConnect();
         $this->pdo = $PDOConnect->pdo;
-
-        /** Varibles definition */
-        $this->userId = $userId;
-        $this->main_data = array();
-
-        /** Create frame data object */
-        $this->fUserModuleId = $this->getFUserModuleId(
-            $userId,
-            $cTabId,
-            $cModuleId
-        );
-    }
-
-    function createData()
-    {
-        $fModulePlugins = $this->getFModulePlugins($this->fUserModuleId);
-        $this->main_data = $this->createModuleData($fModulePlugins);
-    }
-
-    function createDataMP($fModulePluginId)
-    {
-        $fModulePlugin = $this->getFModulePluginById($fModulePluginId);
-        $this->main_data[] = $this->switchPlugin->switch(
-            $fModulePlugin,
-            'MP'
-        );
-    }
-
-    function createDataPP($fPluginPluginId)
-    {
-        $fPluginPlugin = $this->getFPluginPluginById($fPluginPluginId);
-        $this->main_data[] = $this->switchPlugin->switch(
-            $fPluginPlugin,
-            'PP'
-        );
-    }
-
-    /** getFUserModuleId */
-    function getFUserModuleId($userId, $cTabId, $cModuleId)
-    {
-        $fUserModule = $this->pdo->query(
-            "SELECT * FROM f_user_modules WHERE EmployeeFK='$userId' && CTabFK='$cTabId' && CModuleFK='$cModuleId'"
-        )->fetch(PDO::FETCH_ASSOC);
-
-        return $fUserModule['FUserModuleId'];
     }
 
     /**
-     * getFModulePlugins
-     * @param string $fUserModuleId User module ID (frame)
-     */
-    function getFModulePlugins($fUserModuleId)
-    {
-        return $this->pdo->query(
-            "SELECT * FROM f_module_plugins WHERE FUserModuleFK='$fUserModuleId' && DefaultScreen='1' 
-             ORDER BY f_module_plugins.Number ASC"
-        )->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * getFModulePluginById
-     * @param string $fModulePluginId Module's plugin ID (frame)
-     */
-    function getFModulePluginById($fModulePluginId)
-    {
-        return $this->pdo->query(
-            "SELECT * FROM f_module_plugins WHERE FModulePluginId='$fModulePluginId'"
-        )->fetch(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * getFPluginPluginById
-     * @param string $fPluginPluginId Plugin ID (frame)
-     */
-    function getFPluginPluginById($fPluginPluginId)
-    {
-        return $this->pdo->query(
-            "SELECT * FROM f_plugin_plugins WHERE FPluginPluginId='$fPluginPluginId'"
-        )->fetch(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * createModuleData
-     * @param json $fModulePlugins
-     * @return null
-     */
-    function createModuleData($fModulePlugins)
-    {
-        $moduleData = array();
-
-        foreach ($fModulePlugins as $fModulePlugin) {
-            $moduleData[] = $this->switchPlugin->switch(
-                $fModulePlugin,
-                'MP'
-            );
-        }
-
-        return $moduleData;
-    }
-
-    /**
-     * switchPlugin
+     * switch
      * @param json $plugin
      * @param json $type - type of plugin
      * @return null
      */
-    function switchPlugin($fPlugin, $type)
+    function switch($fPlugin, $type)
     {
         $place = $fPlugin['Place'];
         $cPluginFK = $fPlugin['CPluginFK'];
@@ -183,7 +63,8 @@ class ModuleData
             case '4':
                 # Card box
                 require_once('Display/GetData.php');
-                $getData = new GetData($fModulePluginId, $fPluginPluginFK);
+                //$getData = new GetData($fModulePluginId, $fPluginPluginFK);
+                $pluginData;
                 break;
             default:
                 //error
@@ -192,6 +73,39 @@ class ModuleData
         $plugin['Data'] = $pluginData;
 
         return $plugin;
+    }
+
+    public function checkChild($fModulePluginFK, $fPluginPluginFK, $defaultScreen)
+    {
+        $data = array();
+
+        $defScreenCond = '';
+        if ($defaultScreen === 1) {
+            $defScreenCond = "&& DefaultScreen='$defaultScreen'";
+        }
+
+        $fPluginPlugins = $this->pdo->query(
+            "SELECT * FROM f_plugin_plugins WHERE FModulePluginFK='$fModulePluginFK' && 
+            FPluginPluginFK" . $this->ifNull($fPluginPluginFK) . " $defScreenCond"
+        )->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($fPluginPlugins as $fPluginPlugin) {
+            $data[] = $this->switch(
+                $fPluginPlugin,
+                'PP'
+            );
+        }
+
+        return $data;
+    }
+
+    function ifNull($varible)
+    {
+        if ($varible === null) {
+            return   " IS NULL";
+        } else {
+            return "='$varible'";
+        }
     }
 
     /** Plugins **/
@@ -213,7 +127,7 @@ class ModuleData
             $fPluginFormInputId = $fPluginDinamicForm['FPluginFormInputId'];
 
             $createFormInputs = new CreateFormInputs();
-            $fDinamicFormInputs = $createFormInputs->Create($this->userId, $fPluginFormInputId);
+            $fDinamicFormInputs = $createFormInputs->Create($fPluginFormInputId);
 
             $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
             $dinamicForm['Inputs'] = $fDinamicFormInputs;
@@ -243,8 +157,7 @@ class ModuleData
 
         $createFormInputs = new CreateFormInputs();
         $fPluginFormInputId = $fPluginFormInput['FPluginFormInputId'];
-        $dinamicForm['Inputs'] = $createFormInputs->Create($this->userId, $fPluginFormInputId);
-
+        $dinamicForm['Inputs'] = $createFormInputs->Create($fPluginFormInputId);
 
         $fPluginVO = $this->pdo->query(
             "SELECT * FROM f_plugin_vo WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
@@ -292,42 +205,4 @@ class ModuleData
 
         return $dinamicForm;
     }
-
-    public function checkChild($fModulePluginFK, $fPluginPluginFK, $defaultScreen)
-    {
-        $data = array();
-
-        $defScreenCond = '';
-        if ($defaultScreen === 1) {
-            $defScreenCond = "&& DefaultScreen='$defaultScreen'";
-        }
-
-        $fPluginPlugins = $this->pdo->query(
-            "SELECT * FROM f_plugin_plugins WHERE FModulePluginFK='$fModulePluginFK' && 
-            FPluginPluginFK" . $this->ifNull($fPluginPluginFK) . " $defScreenCond"
-        )->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach ($fPluginPlugins as $fPluginPlugin) {
-            $data[] = $this->switchPlugin->switch(
-                $fPluginPlugin,
-                'PP'
-            );
-        }
-
-        return $data;
-    }
-
-    function ifNull($varible)
-    {
-        if ($varible === null) {
-            return   " IS NULL";
-        } else {
-            return "='$varible'";
-        }
-    }
 }
-/*
-$moduleData = new ModuleData(1, 102, 1004);
-$moduleData->createData();
-print_r(json_encode($moduleData->main_data));
-*/
