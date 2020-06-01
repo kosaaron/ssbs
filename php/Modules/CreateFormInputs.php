@@ -12,8 +12,9 @@ class CreateFormInputs
         $pdo = $PDOConnect->pdo;
         //Result form structure
         $resultFormStructure = $pdo->query(
-            'SELECT * FROM f_form_inputs WHERE ' . $employee . '=EmployeeFK && FPluginFormInputFK="'
-                . $fPluginFormInputFK . '" ORDER BY Number;'
+            'SELECT * FROM f_form_inputs INNER JOIN f_columns ON FColumnId=FColumnFK WHERE '
+             . 'FPluginFormInputFK="' . $fPluginFormInputFK 
+             . '" ORDER BY Number;'
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $mainResult = array();
@@ -23,8 +24,7 @@ class CreateFormInputs
             $new_input = $input;
             //opportunities
             if (
-                $input['Type'] == 'S' || $input['Type'] == 'SN' || $input['Type'] == 'ST'
-                || $input['Type'] == 'SP'
+                $input['Type'] == 'S' || $input['Type'] == 'SN' || $input['Type'] == 'SP'
             ) {
                 $oppArr = array();
 
