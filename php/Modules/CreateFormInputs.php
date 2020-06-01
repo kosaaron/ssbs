@@ -13,8 +13,7 @@ class CreateFormInputs
         //Result form structure
         $resultFormStructure = $pdo->query(
             'SELECT * FROM f_form_inputs INNER JOIN f_columns ON FColumnId=FColumnFK WHERE '
-             . 'FPluginFormInputFK="' . $fPluginFormInputFK 
-             . '" ORDER BY Number;'
+             . 'FPluginFormInputFK="' . $fPluginFormInputFK . '" ORDER BY Number;'
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $mainResult = array();

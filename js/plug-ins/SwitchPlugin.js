@@ -33,17 +33,20 @@ export default class SwitchPlugin {
                     plugin.Data[1].Inputs
                 );
                 break;
-
             case '4': //Card Container
                 pluginHTML = '<div>Card Container</div>'
                 document.getElementById(placeId).innerHTML = pluginHTML;
-                break;
 
+                Promise.all([
+                    import('./Display/CardBox.js'),
+                ]).then(([Module]) => {
+                    let cardBox = new Module(moduleName, placeId, plugin);
+                });
+                break;
             case '5': //Details
                 pluginHTML = '<div>Details</div>'
                 document.getElementById(placeId).innerHTML = pluginHTML;
                 break;
-        
             default:
                 break;
         }
