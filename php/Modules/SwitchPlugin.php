@@ -62,9 +62,9 @@ class SwitchPlugin
                 break;
             case '4':
                 # Card box
-                require_once('Display/GetData.php');
-                //$getData = new GetData($fModulePluginId, $fPluginPluginFK);
-                $pluginData;
+                require_once('GetData.php');
+                $getData = new GetData();
+                $pluginData = $getData->Create($fModulePluginId, $fPluginPluginFK);
                 break;
             default:
                 //error

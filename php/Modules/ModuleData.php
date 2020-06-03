@@ -34,6 +34,11 @@ class ModuleData
         $PDOConnect = new PDOConnect();
         $this->pdo = $PDOConnect->pdo;
 
+        //Switch plugin
+        require_once('ModuleMetadata.php');
+        $moduleMetadata = new ModuleMetadata();
+        $moduleMetadata->setDefaultData($userId, $cTabId, $cModuleId);
+
         /** Varibles definition */
         $this->userId = $userId;
         $this->main_data = array();
