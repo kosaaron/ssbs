@@ -70,10 +70,10 @@ let Framework = {
                     screenModules += `<div id="${moduleName}_${screen.Place}" class="flex-fill table-container-xscroll" style="background-color:#888;">`+ screen.Plugin_name +`</div>`;
                     break;
                 case '4':
-                    screenModules += `<div id="${moduleName}_${screen.Place}" class="card-container col-6" style="background-color:#888;">`+ screen.Plugin_name +`</div>`;
+                    screenModules += `<div id="${moduleName}_${screen.Place}" class="card-container col-7" style="background-color:#888;">`+ screen.Plugin_name +`</div>`;
                     break;
                 case '5':
-                    screenModules += `<div id="${moduleName}_${screen.Place}" class="col-4 cc-details" style="background-color:#888;">`+ screen.Plugin_name +`</div>`;
+                    screenModules += `<div id="${moduleName}_${screen.Place}" class="col-3 cc-details" style="background-color:#888;">`+ screen.Plugin_name +`</div>`;
                     break;
             }
         }

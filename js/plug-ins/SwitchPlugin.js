@@ -27,10 +27,12 @@ export default class SwitchPlugin {
             // case '2':
             //     break;
             case '3': //Filter
-                Filter.Create(
+                let filter = new Filter;
+                filter.Create(
                     placeId,
                     moduleName,
-                    plugin.Data[1].Inputs
+                    plugin
+                    //plugin.Data[1].Inputs
                 );
                 break;
             case '4': //Card Container
