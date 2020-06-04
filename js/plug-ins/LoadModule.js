@@ -19,18 +19,19 @@ let Varibles = {
 }
 
 var generalModule = {
-    loadModule: function (shellId) {
-        Varibles.ShellId = shellId;
-        Database.getFullPageData();
-        
+    loadModule: function (parentFrameId) {
+        Database.getFullPageData(parentFrameId);
     },
     resize: function () {
 
     }
 };
 let Database = {
-    /** Get card container data */
-    getFullPageData: function () {
+    /**
+     * Get card container data
+     * @param {String} parentFrameId 
+     */
+    getFullPageData: function (parentFrameId) {
         let module = 'ModuleData';
         let data = {};
         data['CTabId'] = '102';
@@ -43,10 +44,10 @@ let Database = {
             url: "./php/Router.php",
             data: { 'Module': module, 'Data': data },
             success: function (data) {
-                Varibles.ScreenStructure = data; 
+                Varibles.ScreenStructure = data;
                 //console.log(data);
                 console.log(JSON.stringify(data));
-                Framework.LoadGrid(Varibles.ShellId, Varibles.FrameId);
+                Framework.LoadGrid(parentFrameId);
             },
             dataType: 'json'
         });
@@ -54,47 +55,50 @@ let Database = {
 }
 /** Framework **/
 let Framework = {
-    LoadGrid: function (targetId, shellId) {
-        let screens = Varibles.ScreenStructure;
-        let moduleName = Varibles.FrameId;
-        let screenModules = "";
-        for (const screen of screens) {
-            switch (screen.Place) {
+    LoadGrid: function (parentFrameId) {
+        let plugins = Varibles.ScreenStructure;
+        let frameId = Varibles.FrameId;
+
+        //Load module frame
+        document.getElementById(parentFrameId).innerHTML =
+            `<div id="${frameId}" class="display-flex flex-row full-screen"></div>`;
+
+        //Define SwitchPlugin
+        let switchPlugin = new SwitchPlugin();
+
+        for (const plugin of plugins) {
+            let childFrameId = `${frameId}_${plugin.Number}`;
+            let testText = plugin.Plugin_name;
+
+            //Load frame for child by place
+            let screenModules = "";
+
+            //switch plugin
+            switch (plugin.Place) {
                 case '1':
-                    screenModules += `<div id="${moduleName}_${screen.Place}" class="display-flex flex-row full-screen" style="background-color:#888;">`+ screen.Plugin_name +`</div>`;
+                    screenModules += `<div id="${childFrameId}" class="display-flex flex-row full-screen" 
+                                        style="background-color:#888;">${testText}</div>`;
                     break;
                 case '2':
-                    screenModules += `<div id="${moduleName}_${screen.Place}" class="flex-fill col-2 filter-box">`+ screen.Plugin_name +`</div>`;
+                    screenModules += `<div id="${childFrameId}" class="flex-fill col-2 filter-box">${testText}</div>`;
                     break;
                 case '3':
-                    screenModules += `<div id="${moduleName}_${screen.Place}" class="flex-fill table-container-xscroll" style="background-color:#888;">`+ screen.Plugin_name +`</div>`;
+                    screenModules += `<div id="${childFrameId}" class="flex-fill table-container-xscroll" 
+                                        style="background-color:#888;">${testText}</div>`;
                     break;
                 case '4':
-                    screenModules += `<div id="${moduleName}_${screen.Place}" class="card-container col-7" style="background-color:#888;">`+ screen.Plugin_name +`</div>`;
+                    screenModules += `<div id="${childFrameId}" class="card-container col-7" 
+                                        style="background-color:#888;">${testText}</div>`;
                     break;
                 case '5':
-                    screenModules += `<div id="${moduleName}_${screen.Place}" class="col-3 cc-details" style="background-color:#888;">`+ screen.Plugin_name +`</div>`;
+                    screenModules += `<div id="${childFrameId}" class="col-3 cc-details" 
+                                        style="background-color:#888;">${testText}</div>`;
                     break;
             }
-        }
-        let framework = `<div id="${shellId}" class="display-flex flex-row full-screen"><h1>Betöltve</h1></div>`;
-        document.getElementById(targetId).innerHTML = framework;
-        document.getElementById(shellId).innerHTML = screenModules;
-        Framework.LoadPlugins();
-        
-    },
-    LoadPlugins: function (){
-        let screens = Varibles.ScreenStructure;
-        for (const screen of screens) {
-            // let pluginType = "";
-            // let pluginData = [];
-            // pluginType = screen.CPluginId;
-            // pluginData = screen.Data;
+            document.getElementById(frameId).insertAdjacentHTML('beforeend', screenModules);
 
-            let moduleName = Varibles.FrameId;
-
-            let switchPlugin = new SwitchPlugin();
-            switchPlugin.Create(screen, moduleName);
+            //Call current plugin creater functiono
+            switchPlugin.Create(plugin, childFrameId, frameId);
         }
     }
 }

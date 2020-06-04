@@ -14,6 +14,7 @@ export default class CardBox {
      * @param {JSON} data 
      */
     constructor(parentFrameId, frameId, data) {
+        alert();
         
     }
 }

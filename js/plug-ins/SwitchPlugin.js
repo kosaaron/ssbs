@@ -18,36 +18,45 @@ export default class SwitchPlugin {
      * @param {String} shellId 
      * @param {Function} eventFunction Selectpicker change event
      */
-    Create(plugin, moduleName) {
+    Create(plugin, frameId, parentFrameId) {
         let pluginHTML = "";
-        let placeId = `${moduleName}_${plugin.Place}`;
+
         switch (plugin.CPluginId) {
             // case '1':
             //     break;
             // case '2':
             //     break;
-            case '3': //Filter
+            /** Filter */
+            case '3':
                 let filter = new Filter;
                 filter.Create(
-                    placeId,
-                    moduleName,
+                    frameId,
+                    parentFrameId,
                     plugin
                     //plugin.Data[1].Inputs
                 );
                 break;
-            case '4': //Card Container
+            /** Card Container */
+            case '4':
                 pluginHTML = '<div>Card Container</div>'
-                document.getElementById(placeId).innerHTML = pluginHTML;
+                document.getElementById(frameId).innerHTML = pluginHTML;
+
 
                 Promise.all([
                     import('./Display/CardBox.js'),
                 ]).then(([Module]) => {
-                    //let cardBox = new Module(moduleName, placeId, plugin);
+                    let CardBox = Module.default;
+                    //let cardBox = new Module(parentFrameId, placeId, plugin);
+                    new CardBox(parentFrameId, frameId, plugin);
                 });
+/*
+                let obj = await import('./Display/CardBox.js');
+                let CardBox = obj.default;*/
                 break;
-            case '5': //Details
+            /** Details */
+            case '5':
                 pluginHTML = '<div>Details</div>'
-                document.getElementById(placeId).innerHTML = pluginHTML;
+                document.getElementById(frameId).innerHTML = pluginHTML;
                 break;
             default:
                 break;

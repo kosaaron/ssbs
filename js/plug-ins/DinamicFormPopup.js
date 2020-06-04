@@ -68,6 +68,7 @@ export default class DinamicFormPopup {
             success: function (data) {
                 let number = '1';
                 let place = '100';
+                console.log(JSON.stringify(data));
 
                 let formData = data[0].Data;
                 let formInputs = data[0].Data.Inputs;

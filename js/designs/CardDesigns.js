@@ -2,7 +2,10 @@
  * Card designs
  */
 export default class CardDesigns {
-    /** CC cards */
+    /**
+     * getSimpleCard
+     * @param {String} shellId 
+     */
     getSimpleCard(shellId) {
         return `
         <div class="col-lg-6">
@@ -15,6 +18,10 @@ export default class CardDesigns {
         </div>
         `
     }
+    /**
+     * getToolCard
+     * @param {String} shellId 
+     */
     getToolCard(shellId) {
         return `
         <div class="col-lg-12">
@@ -49,7 +56,11 @@ export default class CardDesigns {
         </div>
         `
     }
-    getEmployeeCard(shellId){
+    /**
+     * getEmployeeCard
+     * @param {String} shellId 
+     */
+    getEmployeeCard(shellId) {
         return `
         <div class="col-lg-12">
             <div id="${shellId}_card_*1*" class="card employeecard ${shellId}-show-details">
