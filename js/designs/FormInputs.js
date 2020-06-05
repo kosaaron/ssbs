@@ -684,6 +684,46 @@ let FormInputs = {
         if (defaultValue !== 'null' && defaultValue !== null && defaultValue !== '') {
             $('#' + shellId + '_' + id).val(defaultValue);
         }
+    },
+    /**
+     * Select
+     * @param {String} id 
+     * @param {String} name if null: input without label
+     * @param {String} shellId
+     * @param {String} uploadName 
+     * @param {Boolean} required 
+     * @param {String} default id
+     */
+    SelectSort: function (id, name, shellId, uploadName, required, defaultValue = null) {
+        let readyHTML = '';
+        let fullWidth = '';
+        let formGroup = '';
+        let label = '';
+        if (name !== null) {
+            formGroup = 'form-group';
+            label += '<label for="' + shellId + '_' + id + '" class="taskfilter-label">' + name + '</label>';
+        } else {
+            fullWidth = 'full-width-i';
+        }
+
+        readyHTML += `<div class="${formGroup} input-row">`;
+        readyHTML += label;
+
+        readyHTML += `<select id="${shellId}_${id}" required="${required}"
+                        class="selectpicker my-0 form-control taskfilter"
+                        upload-name="${uploadName}" data-place="${shellId}" data-live-search="false">`;
+        if (required === '0') {
+            readyHTML += '<option value="2">Nincs</option>';
+        } readyHTML += '<option value="0">Csökkenő</option>';
+        readyHTML += '<option value="1">Növekvő</option>';
+        readyHTML += '</select></div>';
+
+        document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
+
+        //default value
+        if (defaultValue !== 'null' && defaultValue !== null && defaultValue !== '') {
+            $('#' + shellId + '_' + id).val(defaultValue);
+        }
     }
 }
 export default FormInputs;

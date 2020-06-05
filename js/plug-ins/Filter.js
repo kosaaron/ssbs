@@ -75,6 +75,16 @@ export default class Filter {
                     objectItem.DefaultValue
                 );
                 break;
+            case "SO":
+                FormInputs.SelectSort(
+                    objectItem.FormStructureId,
+                    objectItem.Name,
+                    shellId,
+                    objectItem.UploadName,
+                    objectItem.Required,
+                    objectItem.DefaultValue
+                )
+                break;
             default:
                 break;
         }
