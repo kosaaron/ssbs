@@ -123,26 +123,7 @@ class GetData
         $filterAndSort = array();
         $where = '';
         $sort = '';
-        /*
-        if (array_key_exists("FilterData", $uplodedData)) {
-            $filterData = $uplodedData['FilterData'];
-        } else {
-            $filterAndSort = $this->getFilterAndSort();
 
-            $filterData = [];
-            foreach ($filterAndSort as $key => $row) {
-                if ($row['FilterOrSort'] === '2') {
-                    break;
-                }
-
-                $splittedUploadName = explode('.', $row['UploadName']);
-                $tableName = $splittedUploadName[0];
-                $columnName = $splittedUploadName[1];
-                $filterData[$tableName][$columnName] = $row['DefaultValue'];
-
-                unset($filterAndSort[$key]);
-            }
-        }*/
         $isFilter = false;
         if (array_key_exists("FilterData", $uplodedData)) {
             $uplodedFilter = $uplodedData['FilterData'];
@@ -186,7 +167,7 @@ class GetData
             $where = 'WHERE ';
         }
         if (count($sortData) > 0) {
-            $sort = 'ORDER BY ';
+            //$sort = 'ORDER BY ';
         }
 
         $first = true;
