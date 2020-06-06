@@ -19,10 +19,9 @@ class ModuleData
     /**
      * Construct
      * @param string $userId User ID
-     * @param string $cTabId Tab ID (frame)
      * @param string $cModuleId Module ID (frame)
      */
-    function __construct($userId, $cTabId, $cModuleId)
+    function __construct($userId, $cModuleId)
     {
         /** Includes */
         //Switch plugin
@@ -34,10 +33,9 @@ class ModuleData
         $PDOConnect = new PDOConnect();
         $this->pdo = $PDOConnect->pdo;
 
-        //Switch plugin
+        //Module metadata
         require_once('ModuleMetadata.php');
         $moduleMetadata = new ModuleMetadata();
-        $moduleMetadata->setDefaultData($userId, $cTabId, $cModuleId);
 
         /** Varibles definition */
         $this->userId = $userId;
@@ -46,9 +44,10 @@ class ModuleData
         /** Create frame data object */
         $this->fUserModuleId = $this->getFUserModuleId(
             $userId,
-            $cTabId,
             $cModuleId
         );
+
+        $moduleMetadata->setDefaultData($userId, $cModuleId, $this->fUserModuleId);
     }
 
     function createData()
@@ -76,10 +75,10 @@ class ModuleData
     }
 
     /** getFUserModuleId */
-    function getFUserModuleId($userId, $cTabId, $cModuleId)
+    function getFUserModuleId($userId, $cModuleId)
     {
         $fUserModule = $this->pdo->query(
-            "SELECT * FROM f_user_modules WHERE EmployeeFK='$userId' && CTabFK='$cTabId' && CModuleFK='$cModuleId'"
+            "SELECT * FROM f_user_modules WHERE EmployeeFK='$userId' && CModuleFK='$cModuleId'"
         )->fetch(PDO::FETCH_ASSOC);
 
         return $fUserModule['FUserModuleId'];

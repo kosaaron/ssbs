@@ -37,18 +37,13 @@ export default class StepBox {
         //stepNameWrite
         let nIputFrameId = frameId + '_new_cnt';
         FormInputs.WritePlus(
-            stepNameWrite.FormStructureId,
-            stepNameWrite.Name,
-            nIputFrameId,
-            stepNameWrite.UploadName,
-            stepNameWrite.DefaultValue,
-            stepNameWrite.TableName,
-            stepNameWrite.ColumnName
+            stepNameWrite,
+            nIputFrameId
         );
 
-        document.getElementById(`${nIputFrameId}_i_${stepNameWrite.FormStructureId}_upl`).addEventListener(
+        document.getElementById(`${nIputFrameId}_i_${stepNameWrite.FFormInputId}_upl`).addEventListener(
             'click', function (e) {
-                let inputId = `${nIputFrameId}_${stepNameWrite.FormStructureId}`;
+                let inputId = `${nIputFrameId}_${stepNameWrite.FFormInputId}`;
                 StepBox.uploadNewStep(frameId, inputId);
             }
         );
@@ -57,18 +52,13 @@ export default class StepBox {
         let sIputFrameId = frameId + '_saved_cnt';
 
         FormInputs.SelectPlus(
-            stepNameList.FormStructureId,
-            stepNameList.Name,
-            sIputFrameId,
-            stepNameList.Opportunities,
-            stepNameList.UploadName,
-            stepNameList.Required,
-            stepNameList.DefaultValue
+            stepNameList,
+            sIputFrameId
         );
 
-        document.getElementById(`${sIputFrameId}_i_${stepNameList.FormStructureId}_upl`).addEventListener(
+        document.getElementById(`${sIputFrameId}_i_${stepNameList.FFormInputId}_upl`).addEventListener(
             'click', function (e) {
-                let inputId = `${sIputFrameId}_${stepNameList.FormStructureId}`;
+                let inputId = `${sIputFrameId}_${stepNameList.FFormInputId}`;
                 StepBox.addSavedStepClick(frameId, inputId, subitemList);
             }
         );
@@ -119,7 +109,7 @@ export default class StepBox {
             let lastIdColumn = parentFrameElement.getAttribute('last-id-colomn');
             let columnLength = lastIdColumn.length;
             let fkColumn = lastIdColumn.substr(0, columnLength - 2);
-            fkColumn +='FK';
+            fkColumn += 'FK';
             StepBox.uploadSteps(fkColumn, lastId, parentFrameId);
         });
     }
@@ -294,18 +284,16 @@ export default class StepBox {
         const stepShellId = `${frameId}_cont`;
         StepBox.getTaskStepsCard(stepShellId, stepFkColumn, stepFK, currentStepNumber, stepName);
 
-        let emplOpp = subitemList.Opportunities;
+        subitemList.Opportunities;
 
-        let employeeSelectId = currentStepNumber;
+        subitemList.FFormInputId = currentStepNumber;
+        subitemList.Name = null;
+
         let employeeSelectShellId = `${stepShellId}_subitem_select_${currentStepNumber}`;
+
         FormInputs.Select(
-            employeeSelectId,
-            null,
-            employeeSelectShellId,
-            emplOpp,
-            subitemList.UploadName,
-            subitemList.Required,
-            subitemList.DefaultValue
+            subitemList,
+            employeeSelectShellId
         );
 
         document.getElementById(`${frameId}_collapse_btn`).click();
@@ -434,7 +422,7 @@ export default class StepBox {
                             tableResultData = result[0][table];
                         }
                     }
-            
+
                     if (tableResultData['Result'] === 'S') {
                         $(`#${parentFrameId}`).trigger(`${parentFrameId}_save_end`);
                     } else {

@@ -21,24 +21,35 @@ class SwitchPlugin
      */
     function switch($fPlugin, $type)
     {
+        //Module metadata
+        require_once('ModuleMetadata.php');
+
+        $plugin = array();
+
         $place = $fPlugin['Place'];
         $cPluginFK = $fPlugin['CPluginFK'];
         $number = $fPlugin['Number'];
+
+        $plugin['Place'] = $place;
+        $plugin['Number'] = $number;
+        $plugin['CPluginId'] = $cPluginFK;
+        $plugin['CModuleId'] = ModuleMetadata::$cModuleId;
+        $plugin['RequestType'] = $type;
+
         switch ($type) {
             case 'MP':
                 $fModulePluginId = $fPlugin['FModulePluginId'];
                 $fPluginPluginFK = null;
+
+                $plugin['FModulePluginId'] = $fModulePluginId;
                 break;
             case 'PP':
                 $fModulePluginId = null;
                 $fPluginPluginFK = $fPlugin['FPluginPluginId'];
+
+                $plugin['fPluginPluginId'] = $fPluginPluginFK;
                 break;
         }
-
-        $plugin = array();
-        $plugin['Place'] = $place;
-        $plugin['Number'] = $number;
-        $plugin['CPluginId'] = $cPluginFK;
 
         $cPlugin = $this->pdo->query(
             "SELECT * FROM c_plugins WHERE CPluginId='$cPluginFK'"
@@ -62,9 +73,9 @@ class SwitchPlugin
                 break;
             case '4':
                 # Card box
-                require_once('GetData.php');
-                $getData = new GetData();
-                $pluginData = $getData->Create($fModulePluginId, $fPluginPluginFK);
+                require_once('Display/CardBox.php');
+                $cardBox = new CardBox();
+                $pluginData = $cardBox->createData($fModulePluginId, $fPluginPluginFK);
                 break;
             default:
                 //error

@@ -64,7 +64,7 @@ $headers = "From: webmaster@example.com" . "\r\n" .
 "CC: somebodyelse@example.com";
 
 mail($to,$subject,$txt,$headers);*/
-
+/*
 require_once('Modules/Connect.php');
 $PDOConnect = new PDOConnect();
 $pdo = $PDOConnect->pdo;
@@ -77,4 +77,11 @@ $user = $stmt->fetch();
 
 echo $pdo->lastInsertId();
 
-print_r($user);
+print_r($user);*/
+
+$a = array(4, 5, 6);
+$b = array(6, 7, 8);
+
+$c = array_unique(array_merge($a, $b));
+
+print_r($c);

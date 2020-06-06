@@ -3,13 +3,19 @@
 class ModuleMetadata
 {
     static $userId;
-    static $cTabId;
     static $cModuleId;
+    static $fUserModuleId;
+    static $uplodedData;
 
-    public function setDefaultData($userId, $cTabId, $cModuleId)
+    public function setDefaultData($userId, $cModuleId, $fUserModuleId)
     {
         ModuleMetadata::$userId = $userId;
-        ModuleMetadata::$cTabId = $cTabId;
         ModuleMetadata::$cModuleId = $cModuleId;
+        ModuleMetadata::$fUserModuleId = $fUserModuleId;
+    }
+
+    public function setUplodedData($uplodedData)
+    {
+        ModuleMetadata::$uplodedData = $uplodedData;
     }
 }

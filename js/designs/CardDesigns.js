@@ -3,13 +3,31 @@
  */
 export default class CardDesigns {
     /**
+     * getCardById
+     * @param {String} cardId 
+     * @param {String} shellId 
+     */
+    getCardById(cardId, shellId) {
+        switch (cardId) {
+            case '1':
+                return this.getSimpleCard(shellId);
+            case '2':
+                return this.getToolCard(shellId);
+            case '3':
+                return this.getEmployeeCard(shellId);
+            default:
+                break;
+        }
+    }
+    /**
      * getSimpleCard
      * @param {String} shellId 
      */
     getSimpleCard(shellId) {
         return `
         <div class="col-lg-6">
-            <div id="${shellId}_card_*1*" class="card taskcard ${shellId}-show-details">
+            <div id="${shellId}_card_*1*" class="card taskcard ${shellId}-show-details"
+                    data-place="${shellId}" object-id="*1*">
                 <div class="card-body">
                     !<h5 class="text-o-ellipsis card-title">*2*</h5>
                     !<p class="card-text">*3*</p>!

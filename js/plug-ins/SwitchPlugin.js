@@ -3,7 +3,6 @@
  */
 /** Imports */
 import Filter from './Filter.js';
-import FormInputs from '../designs/FormInputs.js';
 
 export default class SwitchPlugin {
     /**
@@ -28,30 +27,17 @@ export default class SwitchPlugin {
             //     break;
             /** Filter */
             case '3':
-                let filter = new Filter;
-                filter.Create(
-                    frameId,
-                    parentFrameId,
-                    plugin
-                    //plugin.Data[1].Inputs
-                );
+                let filter = new Filter();
+                filter.Create(plugin, frameId, parentFrameId);
                 break;
             /** Card Container */
             case '4':
-                pluginHTML = '<div>Card Container</div>'
-                document.getElementById(frameId).innerHTML = pluginHTML;
-
-
                 Promise.all([
                     import('./Display/CardBox.js'),
                 ]).then(([Module]) => {
                     let CardBox = Module.default;
-                    //let cardBox = new Module(parentFrameId, placeId, plugin);
-                    new CardBox(parentFrameId, frameId, plugin);
+                    new CardBox(plugin, frameId, parentFrameId);
                 });
-/*
-                let obj = await import('./Display/CardBox.js');
-                let CardBox = obj.default;*/
                 break;
             /** Details */
             case '5':

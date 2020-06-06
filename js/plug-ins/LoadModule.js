@@ -76,23 +76,29 @@ let Framework = {
             //switch plugin
             switch (plugin.Place) {
                 case '1':
-                    screenModules += `<div id="${childFrameId}" class="display-flex flex-row full-screen" 
-                                        style="background-color:#888;">${testText}</div>`;
+                    screenModules += `
+                        <div id="${childFrameId}" class="display-flex flex-row full-screen" 
+                            style="background-color:#888;">${testText}</div>`;
                     break;
                 case '2':
-                    screenModules += `<div id="${childFrameId}" class="flex-fill col-2 filter-box">${testText}</div>`;
+                    screenModules += `
+                        <div id="${childFrameId}" class="flex-fill col-2 filter-box">${testText}</div>`;
                     break;
                 case '3':
-                    screenModules += `<div id="${childFrameId}" class="flex-fill table-container-xscroll" 
-                                        style="background-color:#888;">${testText}</div>`;
+                    screenModules += `
+                        <div id="${childFrameId}" class="flex-fill table-container-xscroll" 
+                            style="background-color:#888;">${testText}</div>`;
                     break;
                 case '4':
-                    screenModules += `<div id="${childFrameId}" class="card-container col-7" 
-                                        style="background-color:#888;">${testText}</div>`;
+                    screenModules += `
+                    <div class="card-container col-7">
+                        <div id="${childFrameId}" class="row"></div>
+                    </div>`;
                     break;
                 case '5':
-                    screenModules += `<div id="${childFrameId}" class="col-3 cc-details" 
-                                        style="background-color:#888;">${testText}</div>`;
+                    screenModules += `
+                        <div id="${childFrameId}" class="col-3 cc-details" 
+                            style="background-color:#888;">${testText}</div>`;
                     break;
             }
             document.getElementById(frameId).insertAdjacentHTML('beforeend', screenModules);

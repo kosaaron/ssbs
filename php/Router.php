@@ -5,6 +5,10 @@ $userId = 1;
 $module = $_POST['Module'];
 $data = $_POST['Data'];
 
+require_once('Modules/ModuleMetadata.php');
+$moduleMetadata = new ModuleMetadata();
+$moduleMetadata->setUplodedData($data);
+
 switch ($module) {
     case 'AutoDataRequest':
         require_once('Modules/AutoDataRequest.php');
@@ -12,12 +16,11 @@ switch ($module) {
         break;
     case 'ModuleData':
         require_once('Modules/ModuleData.php');
-        $cTabId = $data['CTabId'];
         $cModuleId = $data['CModuleId'];
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
         $requestType = $data['RequestType'];
         // $moduleData = new ModuleData(1, 102, 1004);
-        $moduleData = new ModuleData($userId, $cTabId, $cModuleId);
+        $moduleData = new ModuleData($userId, $cModuleId);
 
         switch ($requestType) {
             case 'D':
@@ -58,4 +61,25 @@ switch ($module) {
  *         'Y' => 'Z'
  *     )
  * );
- * </example> */
+ * </example> 
+ * 
+ * <example>
+ * $module = 'ModuleData';
+ * $data = array(
+ *    'FModulePluginId' => 'FModulePluginIdValue',
+ *    'CTabId' => 'CTabIdValue',
+ *    'CModuleId' => 'CModuleIdValue',
+ *    'RequestType' => 'RequestTypeValue',
+ *    'FilterData' => array(
+ *         "tasks" => array(
+ *              "Name":"asd",
+ *              "TaskTypeFK":"1"
+ *          ),
+ *         "partners" => array(
+ *              "Name":"asd",
+ *              "PartnerTypeFK":"1"
+ *          )
+ *     )
+ * );
+ * </example> 
+ * */

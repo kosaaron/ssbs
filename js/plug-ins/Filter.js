@@ -10,12 +10,12 @@ export default class Filter {
     /**
      * Create filter
      * @param {String} placeId 
-     * @param {String} moduleName 
+     * @param {String} parentFrameId 
      * @param {JSON} filters 
      */
-    Create(frameId, moduleName, plugin){
-        let filterShellId = `${moduleName}_filters`;
-        let sortShellId = `${moduleName}_sorts`;
+    Create(plugin, frameId, parentFrameId) {
+        let filterShellId = `${parentFrameId}_filters`;
+        let sortShellId = `${parentFrameId}_sorts`;
         let filterHTML = "";
         filterHTML = `<h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>`;
         filterHTML += `<div id="${filterShellId}" class="task-filters"> </div>`;
@@ -26,68 +26,62 @@ export default class Filter {
         CardContainerPlus.Create(plugin.Data[1].Inputs, filterShellId, this.getFilterHTML);
         CardContainerPlus.Create(plugin.Data[2].Inputs, sortShellId, this.getFilterHTML);
 
-        addListenerByAttr(filterShellId, 'change', function(){
-            Filter.Change(moduleName);
-            }
-        );
+        $('.selectpicker').selectpicker('refresh');
 
-        addListenerByAttr(sortShellId, 'change', function(){
-            Filter.Change(moduleName);
-            }
-        );
+        addListenerByAttr(filterShellId, 'change', function () {
+            Filter.change(parentFrameId, filterShellId, sortShellId);
+        });
+
+        addListenerByAttr(sortShellId, 'change', function () {
+            Filter.change(parentFrameId, filterShellId, sortShellId);
+        });
+
+        Filter.change(parentFrameId, filterShellId, sortShellId);
     }
     /**
      * Change filter data refresh
-     * @param {String} shellId 
+     * @param {String} parentFrameId 
+     * @param {String} filterShellId 
+     * @param {String} sortShellId 
      */
-    static Change(shellId){
-        let filterdata = FormInputs.CreateJSON(shellId + '_filters');
-        let sortdata = FormInputs.CreateJSON(shellId + '_sorts');
-        alert(JSON.stringify(filterdata));
-        alert(JSON.stringify(sortdata));
+    static change(parentFrameId, filterShellId, sortShellId) {
+        let filterdata = FormInputs.CreateJSON(filterShellId);
+        let sortdata = FormInputs.CreateJSON(sortShellId);
+
+        // Put the filter and sort data into storage
+        localStorage.setItem(`${parentFrameId}_filter`, JSON.stringify(filterdata));
+        localStorage.setItem(`${parentFrameId}_sort`, JSON.stringify(sortdata));
+
+        $(`#${parentFrameId}`).trigger(`${parentFrameId}_change_filter`);
     }
     /**
      * 
      * @param {Object} objectItem 
      * @param {String} shellId 
      */
-    getFilterHTML(objectItem, shellId){
+    getFilterHTML(objectItem, shellId) {
         switch (objectItem.Type) {
             case "WF":
                 FormInputs.WriteFilter(
-                    objectItem.FormStructureId,
-                    objectItem.Name,
-                    shellId,
-                    objectItem.UploadName,
-                    objectItem.DefaultValue,
-                    objectItem.TableName,
-                    objectItem.ColumnName
+                    objectItem,
+                    shellId
                 );
                 break;
             case "S":
                 FormInputs.SelectFilter(
-                    objectItem.FormStructureId,
-                    objectItem.Name,
-                    shellId,
-                    objectItem.Opportunities,
-                    objectItem.UploadName,
-                    objectItem.Required,
-                    objectItem.DefaultValue
+                    objectItem,
+                    shellId
                 );
                 break;
             case "SO":
                 FormInputs.SelectSort(
-                    objectItem.FormStructureId,
-                    objectItem.Name,
-                    shellId,
-                    objectItem.UploadName,
-                    objectItem.Required,
-                    objectItem.DefaultValue
+                    objectItem,
+                    shellId
                 )
                 break;
             default:
                 break;
         }
-        
+
     }
 }

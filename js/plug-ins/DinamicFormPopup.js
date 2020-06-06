@@ -205,69 +205,32 @@ export default class DinamicFormPopup {
         switch (objectItem.Type) {
             case "W":
                 FormInputs.Write(
-                    objectItem.FormStructureId,
-                    objectItem.Name,
-                    shellId,
-                    objectItem.UploadName,
-                    objectItem.DefaultValue,
-                    objectItem.TableName,
-                    objectItem.ColumnName
+                    objectItem,
+                    shellId
                 );
                 break;
             case "WP":
                 FormInputs.WritePlus(
-                    objectItem.FormStructureId,
-                    objectItem.Name,
-                    shellId,
-                    objectItem.UploadName,
-                    objectItem.DefaultValue,
-                    objectItem.TableName,
-                    objectItem.ColumnName
+                    objectItem,
+                    shellId
                 );
                 break;
             case "S":
                 FormInputs.Select(
-                    objectItem.FormStructureId,
-                    objectItem.Name,
-                    shellId,
-                    objectItem.Opportunities,
-                    objectItem.UploadName,
-                    objectItem.Required,
-                    objectItem.DefaultValue
+                    objectItem,
+                    shellId
                 );
                 break;
             case "SN":
                 FormInputs.SelectOrNew(
-                    objectItem.FormStructureId,
-                    objectItem.Name,
-                    shellId,
-                    objectItem.Opportunities,
-                    objectItem.UploadName,
-                    objectItem.TruncatedIdName,
-                    objectItem.Required,
-                    objectItem.DefaultValue,
-                    objectItem.TableName,
-                    objectItem.ColumnName
+                    objectItem,
+                    shellId
                 );
-                break;
-            case "ST":
-                /*
-                FormInputs.StepBox(
-                    objectItem.FormStructureId,
-                    objectItem.Name,
-                    shellId,
-                    objectItem.Opportunities,
-                    objectItem.UploadName,
-                    objectItem.TruncatedIdName
-                );*/
                 break;
             case "DT":
                 FormInputs.DateTime(
-                    objectItem.FormStructureId,
-                    objectItem.Name,
-                    shellId,
-                    objectItem.UploadName,
-                    objectItem.DefaultValue
+                    objectItem,
+                    shellId
                 );
                 break;
             default:
