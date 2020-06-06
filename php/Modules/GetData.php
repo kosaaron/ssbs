@@ -167,7 +167,7 @@ class GetData
             $where = 'WHERE ';
         }
         if (count($sortData) > 0) {
-            //$sort = 'ORDER BY ';
+            $sort = 'ORDER BY ';
         }
 
         $first = true;
@@ -195,12 +195,30 @@ class GetData
                 }
             }
         }
-
+        $first = true;
         foreach ($sortData as $tableName => $columns) {
             if ($tableName !== $mainTable) {
                 $newPathIds = $findRelationship->findPath($mainTable, $tableName);
                 $pathIds = array_unique(array_merge($pathIds, $newPathIds));
             }
+
+            foreach ($columns as $column => $value) {
+                if ($first) {
+                    $first = false;
+                } else {
+                    $sort .= " , ";
+                }
+
+                if ($value === '0') {
+                    $sort .= "$tableName.$column DESC";
+                } elseif ($value === '1') {
+                    $sort .= "$tableName.$column ASC";
+                }
+            }
+        }
+
+        if ($sort === 'ORDER BY ') {
+            $sort = '';
         }
 
         $selectValues = '';
