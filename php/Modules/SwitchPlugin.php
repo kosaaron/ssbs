@@ -77,6 +77,12 @@ class SwitchPlugin
                 $cardBox = new CardBox();
                 $pluginData = $cardBox->createData($fModulePluginId, $fPluginPluginFK);
                 break;
+            case '5':
+                # Details
+                require_once('Display/Details.php');
+                $details = new Details();
+                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
+                break;
             default:
                 //error
                 break;

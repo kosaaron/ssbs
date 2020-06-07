@@ -6,7 +6,7 @@ export default class CardBox {
      * Constructor
      * ------------------------------
      * **Events**
-     *   <frameId>_save
+     *   <frameId>_change_details
      * ------------------------------
      * @param {JSON} plugin 
      * @param {String} frameId 
@@ -14,21 +14,6 @@ export default class CardBox {
      */
     constructor(plugin, frameId, parentFrameId) {
         CardBox.createBox(plugin, frameId, parentFrameId);
-        /*
-        let card = this.getCard(plugin, frameId);
-        //First data package
-        let displayObject = plugin.Data['1'].Display;
-        let createBox = new CreateBox();
-        createBox.create(displayObject, card, frameId)
-
-        let cards = document.querySelectorAll(`[data-place=${frameId}]`);
-        for (const card of cards) {
-            card.addEventListener('click', function (e) {
-                alert(this.getAttribute('object-id'));
-                $(`#${parentFrameId}`).trigger(`${parentFrameId}_change_details`);
-            })
-        }*/
-
         this.events(plugin, frameId, parentFrameId);
     }
 
@@ -43,7 +28,6 @@ export default class CardBox {
             let sortData = JSON.parse(localStorage.getItem(`${parentFrameId}_sort`));
 
             CardBox.filtering(plugin, frameId, parentFrameId, filterData, sortData);
-            //StepBox.uploadSteps(fkColumn, lastId, parentFrameId);
         });
     }
 
@@ -58,11 +42,22 @@ export default class CardBox {
         for (const card of cards) {
             card.addEventListener('click', function (e) {
                 alert(this.getAttribute('object-id'));
+                let changeData = {};
+                changeData['ObjectId'] = this.getAttribute('object-id');
+                localStorage.setItem(`${parentFrameId}_change_details`, JSON.stringify(changeData));
                 $(`#${parentFrameId}`).trigger(`${parentFrameId}_change_details`);
             })
         }
     }
 
+    /**
+     * Filtering
+     * @param {JSON} plugin 
+     * @param {String} frameId 
+     * @param {String} parentFrameId 
+     * @param {JSON} filterData 
+     * @param {JSON} sortData 
+     */
     static filtering(plugin, frameId, parentFrameId, filterData, sortData) {
         let className = 'ModuleData';
 

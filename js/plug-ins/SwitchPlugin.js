@@ -41,8 +41,14 @@ export default class SwitchPlugin {
                 break;
             /** Details */
             case '5':
-                pluginHTML = '<div>Details</div>'
-                document.getElementById(frameId).innerHTML = pluginHTML;
+                Promise.all([
+                    import('./Display/Details.js'),
+                ]).then(([Module]) => {
+                    let Details = Module.default;
+                    new Details(plugin, frameId, parentFrameId);
+                });
+                /*pluginHTML = '<div>Details</div>'
+                document.getElementById(frameId).innerHTML = pluginHTML;*/
                 break;
             default:
                 break;

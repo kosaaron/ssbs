@@ -8,7 +8,7 @@ class GetData
     /**
      * Get data
      */
-    function __construct()
+    function __construct($filteringType)
     {
         //PDO connection
         require_once('Connect.php');
@@ -17,6 +17,11 @@ class GetData
         //Switch plugin
         require_once('SwitchPlugin.php');
         $this->switchPlugin = new SwitchPlugin();
+        //FindRelationship
+        require_once('FindRelationship.php');
+        $this->findRelationship = new FindRelationship();
+
+        $this->filteringType = $filteringType;
     }
 
     /**
@@ -105,22 +110,83 @@ class GetData
             $structure[] = $column;
         }
 
-        $result['Data'] = $this->getDataByStructure($structure, $mainTable, $uplodedData);
+        $result['Data'] = $this->getDataByStructure($structure, $mainTable, $tableIdColumn, $uplodedData);
         $result['Structure'] = $structure;
 
         return $result;
     }
 
-    function getDataByStructure($structure, $mainTable, $uplodedData)
+    function getDataByStructure($structure, $mainTable, $tableIdColumn, $uplodedData)
     {
-        /** Includes */
-        //FindRelationship
-        require_once('FindRelationship.php');
-        $findRelationship = new FindRelationship();
-
         $result = array();
         $pathIds = array();
-        $filterAndSort = array();
+        $where = "";
+        $sort = "";
+        $limit = "LIMIT 20";
+
+        if ($this->filteringType === 'AutoFiltering') {
+            $filterAndSort = $this->getFilterAndSort($uplodedData, $mainTable);
+            $pathIds = $filterAndSort['PathIds'];
+            $where = $filterAndSort['Where'];
+            $sort = $filterAndSort['Sort'];
+        } else if ($this->filteringType === 'ManualFiltering') {
+            if (array_key_exists("IdOfData", $uplodedData)) {
+                $idOfData = $uplodedData['IdOfData'];
+                $where = "WHERE $tableIdColumn='$idOfData'";
+            } else {
+                //$where = "WHERE 0";
+                $filterAndSort = $this->getFilterAndSort($uplodedData, $mainTable);
+                $pathIds = $filterAndSort['PathIds'];
+                $where = $filterAndSort['Where'];
+                $sort = $filterAndSort['Sort'];
+                $limit = "LIMIT 1";
+            }
+        }
+
+        $selectValues = '';
+        $innnerJoin = '';
+        $first = true;
+        foreach ($structure as $object) {
+            $tableName = $object['TableName'];
+            $columnName = $object['ColumnName'];
+            $number = $object['Number'];
+
+            if ($first) {
+                $first = false;
+            } else {
+                $selectValues .= ", ";
+            }
+            $selectValues .= "$tableName.$columnName AS '$number'";
+
+            if ($tableName !== $mainTable) {
+                $newPathIds = $this->findRelationship->findPath($mainTable, $tableName);
+                $pathIds = array_unique(array_merge($pathIds, $newPathIds));
+            }
+        }
+
+        $relationships = $this->findRelationship->getFullRelationship($pathIds);
+        foreach ($relationships as $relationship) {
+            $innnerJoin .= ' INNER JOIN ';
+            if ($relationship['TABLE_NAME'] === $mainTable) {
+                $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
+            } else {
+                $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
+            }
+            $innnerJoin .= $relationship['COLUMN_NAME'] . '=' . $relationship['REFERENCED_COLUMN_NAME'];
+        }
+
+        $queryString = "SELECT $selectValues FROM $mainTable $innnerJoin $where $sort $limit";
+        $result = $this->pdo->query($queryString)->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+    function getFilterAndSort($uplodedData, $mainTable)
+    {
+        $pathIds = array();
+        $filterAndSortObject = array();
+        $filterData = array();
+        $sortData = array();
         $where = '';
         $sort = '';
 
@@ -130,8 +196,8 @@ class GetData
             $isFilter = true;
         }
 
-        $filterAndSort = $this->getFilterAndSort();
-        foreach ($filterAndSort as $key => $row) {
+        $filterAndSortObject = $this->getFilterAndSortObject();
+        foreach ($filterAndSortObject as $key => $row) {
             if ($row['FilterOrSort'] === '2') {
                 break;
             }
@@ -147,7 +213,7 @@ class GetData
             }
             $filterData[$tableName][$columnName]['Type'] = $row['Type'];
 
-            unset($filterAndSort[$key]);
+            unset($filterAndSortObject[$key]);
         }
 
 
@@ -155,7 +221,7 @@ class GetData
             $sortData = $uplodedData['SortData'];
         } else {
             $sortData = [];
-            foreach ($filterAndSort as $key => $row) {
+            foreach ($filterAndSortObject as $key => $row) {
                 $splittedUploadName = explode('.', $row['UploadName']);
                 $tableName = $splittedUploadName[0];
                 $columnName = $splittedUploadName[1];
@@ -173,7 +239,7 @@ class GetData
         $first = true;
         foreach ($filterData as $tableName => $columns) {
             if ($tableName !== $mainTable) {
-                $newPathIds = $findRelationship->findPath($mainTable, $tableName);
+                $newPathIds = $this->findRelationship->findPath($mainTable, $tableName);
                 $pathIds = array_unique(array_merge($pathIds, $newPathIds));
             }
 
@@ -195,10 +261,11 @@ class GetData
                 }
             }
         }
+
         $first = true;
         foreach ($sortData as $tableName => $columns) {
             if ($tableName !== $mainTable) {
-                $newPathIds = $findRelationship->findPath($mainTable, $tableName);
+                $newPathIds = $this->findRelationship->findPath($mainTable, $tableName);
                 $pathIds = array_unique(array_merge($pathIds, $newPathIds));
             }
 
@@ -221,45 +288,13 @@ class GetData
             $sort = '';
         }
 
-        $selectValues = '';
-        $innnerJoin = '';
-        $first = true;
-        foreach ($structure as $object) {
-            $tableName = $object['TableName'];
-            $columnName = $object['ColumnName'];
-            $number = $object['Number'];
-
-            if ($first) {
-                $first = false;
-            } else {
-                $selectValues .= ", ";
-            }
-            $selectValues .= "$tableName.$columnName AS '$number'";
-
-            if ($tableName !== $mainTable) {
-                $newPathIds = $findRelationship->findPath($mainTable, $tableName);
-                $pathIds = array_unique(array_merge($pathIds, $newPathIds));
-            }
-        }
-
-        $relationships = $findRelationship->getFullRelationship($pathIds);
-        foreach ($relationships as $relationship) {
-            $innnerJoin .= ' INNER JOIN ';
-            if ($relationship['TABLE_NAME'] === $mainTable) {
-                $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
-            } else {
-                $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
-            }
-            $innnerJoin .= $relationship['COLUMN_NAME'] . '=' . $relationship['REFERENCED_COLUMN_NAME'];
-        }
-
-        $queryString = "SELECT $selectValues FROM $mainTable $innnerJoin $where $sort LIMIT 20";
-        $result = $this->pdo->query($queryString)->fetchAll(PDO::FETCH_ASSOC);
-
+        $result['Sort'] = $sort;
+        $result['Where'] = $where;
+        $result['PathIds'] = $pathIds;
         return $result;
     }
 
-    function getFilterAndSort()
+    function getFilterAndSortObject()
     {
         /** Includes */
         //ModuleMetadata

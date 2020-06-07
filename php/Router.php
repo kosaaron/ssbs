@@ -67,7 +67,6 @@ switch ($module) {
  * $module = 'ModuleData';
  * $data = array(
  *    'FModulePluginId' => 'FModulePluginIdValue',
- *    'CTabId' => 'CTabIdValue',
  *    'CModuleId' => 'CModuleIdValue',
  *    'RequestType' => 'RequestTypeValue',
  *    'FilterData' => array(
