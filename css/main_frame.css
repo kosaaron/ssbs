@@ -488,6 +488,7 @@ iframe[seamless] {
 }
 
 .cc-details {
+    overflow: hidden;
     padding-top: 5px;
     border-left: 1px solid #ddd;
 }

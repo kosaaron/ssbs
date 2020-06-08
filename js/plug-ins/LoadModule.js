@@ -96,9 +96,7 @@ let Framework = {
                     </div>`;
                     break;
                 case '5':
-                    screenModules += `
-                        <div id="${childFrameId}" class="col-3 cc-details" 
-                            style="background-color:#888;">${testText}</div>`;
+                    screenModules += `<div id="${childFrameId}" class="col-3 cc-details"></div>`;
                     break;
             }
             document.getElementById(frameId).insertAdjacentHTML('beforeend', screenModules);

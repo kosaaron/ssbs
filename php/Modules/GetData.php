@@ -96,7 +96,7 @@ class GetData
         $column['Name'] = 'TableId';
         $column['TableName'] = $mainTable;
         $column['ColumnName'] = $tableIdColumn;
-        $column['cModuleId'] = $cModuleId;
+        $column['CModuleId'] = $cModuleId;
         $structure[] = $column;
 
         //Get more columns
@@ -106,7 +106,7 @@ class GetData
             $column['Name'] = $fDisplay['Name'];
             $column['TableName'] = $fDisplay['TableName'];
             $column['ColumnName'] = $fDisplay['ColumnName'];
-            $column['cModuleId'] = $cModuleId;
+            $column['CModuleId'] = $cModuleId;
             $structure[] = $column;
         }
 
