@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Card box
+ * Connected object
  */
-class Details
+class ConnectedObject
 {
     function __construct()
     {
@@ -17,7 +17,7 @@ class Details
         /** Includes */
         //GetData
         require_once('Modules/GetData.php');
-        $getData = new GetData('ManualFiltering', true);
+        $getData = new GetData('ManualFiltering', false);
         //SwitchPlugin
         require_once('Modules/SwitchPlugin.php');
         $this->switchPlugin = new SwitchPlugin();

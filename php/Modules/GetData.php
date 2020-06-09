@@ -8,7 +8,7 @@ class GetData
     /**
      * Get data
      */
-    function __construct($filteringType)
+    function __construct($filteringType, $oneItem)
     {
         //PDO connection
         require_once('Connect.php');
@@ -22,6 +22,7 @@ class GetData
         $this->findRelationship = new FindRelationship();
 
         $this->filteringType = $filteringType;
+        $this->oneItem = $oneItem;
     }
 
     /**
@@ -139,7 +140,10 @@ class GetData
                 $pathIds = $filterAndSort['PathIds'];
                 $where = $filterAndSort['Where'];
                 $sort = $filterAndSort['Sort'];
-                $limit = "LIMIT 1";
+
+                if ($this->oneItem) {
+                    $limit = "LIMIT 1";
+                }
             }
         }
 
@@ -175,7 +179,7 @@ class GetData
             $innnerJoin .= $relationship['COLUMN_NAME'] . '=' . $relationship['REFERENCED_COLUMN_NAME'];
         }
 
-        $queryString = "SELECT $selectValues FROM $mainTable $innnerJoin $where $sort $limit";
+        $queryString = "SELECT $selectValues FROM $mainTable $innnerJoin $where $sort $limit;";
         $result = $this->pdo->query($queryString)->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;

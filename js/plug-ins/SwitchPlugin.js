@@ -47,8 +47,15 @@ export default class SwitchPlugin {
                     let Details = Module.default;
                     new Details(plugin, frameId, parentFrameId);
                 });
-                /*pluginHTML = '<div>Details</div>'
-                document.getElementById(frameId).innerHTML = pluginHTML;*/
+                break;
+            /** Connected Object */
+            case '6':
+                Promise.all([
+                    import('./Display/ConnectedObject.js'),
+                ]).then(([Module]) => {
+                    let ConnectedObject = Module.default;
+                    new ConnectedObject(plugin, frameId, parentFrameId);
+                });
                 break;
             default:
                 break;

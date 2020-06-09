@@ -17,7 +17,7 @@ class CardBox
         /** Includes */
         //GetData
         require_once('Modules/GetData.php');
-        $getData = new GetData('AutoFiltering');
+        $getData = new GetData('AutoFiltering', false);
         require_once('Modules/SwitchPlugin.php');
         $this->switchPlugin = new SwitchPlugin();
 

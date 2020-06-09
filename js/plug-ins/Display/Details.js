@@ -2,23 +2,31 @@ import DetailsDesigns from "../../designs/DetailsDesigns.js";
 import CreateBox from "../CreateBox.js";
 import CreateDBox from "../CreateDBox.js";
 import AutoScroll from "../AutoScroll.js";
+import SwitchPlugin from "../SwitchPlugin.js";
 
 export default class Details {
     /**
      * Constructor
      * ------------------------------
      * **Events**
-     *   <frameId>_smtg
+     *   <frameId>_change_details_co
      * ------------------------------
      * @param {JSON} plugin 
      * @param {String} frameId 
      * @param {String} parentFrameId 
      */
     constructor(plugin, frameId, parentFrameId) {
+        Details.callChilds(plugin, frameId);
         Details.create(plugin, frameId, parentFrameId);
         this.events(plugin, frameId, parentFrameId);
     }
 
+    /**
+     * Create
+     * @param {JSON} plugin 
+     * @param {String} frameId 
+     * @param {String} parentFrameId 
+     */
     static create(plugin, frameId, parentFrameId) {
         let headerData = plugin.Data['1'].Display;
         let detailsDesigns = new DetailsDesigns;
@@ -32,8 +40,19 @@ export default class Details {
         let detailsObjectFrame = detailsDesigns.getDefaultObjectFrame(dataFrameId);
         let detailsObject = detailsDesigns.getDefaultObject(dataFrameId);
         createDBox.create(contentData, detailsObjectFrame, detailsObject, dataFrameId);
-
-        AutoScroll.Integration(`${frameId}_content`);
+    }
+    /**
+     * CallChilds
+     * @param {JSON} plugin 
+     * @param {String} frameId 
+     */
+    static callChilds(plugin, frameId) {
+        let childs = plugin.Data.Childs;
+        for (const childPlugin of childs) {
+            let switchPlugin = new SwitchPlugin();
+            let childPluginId = `${frameId}_content_${childPlugin.Number}`;
+            switchPlugin.Create(childPlugin, childPluginId, frameId);
+        }
     }
     /**
      * 
@@ -47,6 +66,20 @@ export default class Details {
             let objectId = JSON.parse(localStorage.getItem(`${parentFrameId}_change_details`))['ObjectId'];
 
             Details.refresh(plugin, frameId, parentFrameId, objectId);
+        });
+
+        $(`#${frameId}`).bind(`${frameId}_child_loaded`, function (e) {
+            // Retrieve the data from storage
+            let eventResult = JSON.parse(localStorage.getItem(`${frameId}_child_loaded`));
+            let pluginNumber = eventResult.PluginNumber;
+
+            let changeData = {};
+            changeData.Plugins = plugin.Data.Childs;
+            changeData.TargetId = `${frameId}_content`;
+            localStorage.setItem(`${frameId}_change_details_co_${pluginNumber}`, JSON.stringify(changeData));
+            $(`#${frameId}`).trigger(`${frameId}_change_details_co_${pluginNumber}`);
+
+            AutoScroll.Integration(`${frameId}_content`);
         });
     }
 
@@ -81,7 +114,6 @@ export default class Details {
                 console.log(JSON.stringify(result));
                 document.getElementById(frameId).innerHTML = '';
                 Details.create(newPlugin, frameId, parentFrameId);
-                //CardBox.createBox(newPlugin, frameId, parentFrameId)
             },
             dataType: 'json'
         });
