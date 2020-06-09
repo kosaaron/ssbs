@@ -84,6 +84,9 @@ class SwitchPlugin
                 $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
                 break;
             case '6':
+                
+                break;
+            case '7':
                 # Table
                 require_once('Display/Table.php');
                 $details = new Table();
