@@ -89,6 +89,12 @@ class SwitchPlugin
                 $connectedObject = new ConnectedObject();
                 $pluginData = $connectedObject->createData($fModulePluginId, $fPluginPluginFK);
                 break;
+            case '7':
+                # Table
+                require_once('Display/Table.php');
+                $details = new Table();
+                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
+                break;
             default:
                 //error
                 break;

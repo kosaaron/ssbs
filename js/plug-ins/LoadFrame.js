@@ -189,7 +189,7 @@ export default class LoadFrame {
             case '1009':
                 return '../products_overview.js';
             case '1010':
-                return '../projects.js';
+                return './LoadModule.js';
             case '1011':
                 return '../employees.js';
             case '1012':

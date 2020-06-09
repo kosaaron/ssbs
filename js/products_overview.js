@@ -30,7 +30,7 @@ let Database = {
             data: "",
             success: function (data) {
                 Varibles.PageData = data;
-
+                console.log(JSON.stringify(data))
                 /*  Convert string data to date simple
                 Local.processesDataArray = DateFunctions.dataColumnToDate(Local.processesDataArray, 'StartDate');
                 */
