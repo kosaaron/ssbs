@@ -1,5 +1,54 @@
 export default class DetailsDesigns {
+    /**
+     * getDefaultDetails
+     * @param {String} frameId 
+     */
+    getDefaultDetails(frameId) {
+        let result = '';
+        //result = `<div id="${frameId}" class="col-4 cc-details" object-id="*1*">`;
+        result += `<h2 id="${frameId}_title" class="name-grey">*2*</h2>`;
+        //-------------------------
+        result += `<div id="${frameId}_tab" class="display-flex justify-content-center">`;
+        result += `<div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">`;
+        result += `<label id="${frameId}_data_btn" tab-cont-id="${frameId}_cc_g" `;
+        result += `class="btn btn-detail-menu btn-detail-menu-active">Adatok </label>`;
+        /*
+        result += `<label id="${frameId}_vo_oTl_btn" tab-cont-id="${frameId}_vo_oTl" `;
+        result += `class="btn btn-detail-menu">Idővonal</label>`;*/
+        result += `</div></div>`;
+        result += `<div id="${frameId}_content">`;
+        result += `<div id="${frameId}_cdb_g" class="${frameId}_vo"> `;
+        result += `</div>`;
+        //-------------------------
+        /*result += `<div id="${frameId}_vo_oTl" style="display: none;" `;
+        result += `class="${frameId}_vo task-timeline">`;
+        result += `</div></div>`;//</div>`;*/
+        result += `</div>`;
+        return result;
+    }
 
+    /**
+     * getDefaultObjectFrame
+     * @param {String} frameId 
+     */
+    getDefaultObjectFrame(frameId) {
+        let result = '';
+        result += `<div id="${frameId}_*1*"></div>`;
+        return result;
+    }
+
+    /**
+     * getDefaultObject
+     * @param {String} frameId 
+     */
+    getDefaultObject(frameId) {
+        let result = '';
+        result += `<p id="${frameId}_*c*_*n*">`;
+        result += `<label class="title-text">*l*</label><br>`;
+        result += `<label>*v*</label>`;
+        result += `</p>`;
+        return result;
+    }
 
     getSimpleDetails(shellId) {
         return `

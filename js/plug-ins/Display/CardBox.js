@@ -31,6 +31,12 @@ export default class CardBox {
         });
     }
 
+    /**
+     * CreateBox
+     * @param {JSON} plugin 
+     * @param {String} frameId 
+     * @param {String} parentFrameId 
+     */
     static createBox(plugin, frameId, parentFrameId) {
         let card = CardBox.getCard(plugin, frameId);
         //First data package
@@ -41,7 +47,6 @@ export default class CardBox {
         let cards = document.querySelectorAll(`[data-place=${frameId}]`);
         for (const card of cards) {
             card.addEventListener('click', function (e) {
-                alert(this.getAttribute('object-id'));
                 let changeData = {};
                 changeData['ObjectId'] = this.getAttribute('object-id');
                 localStorage.setItem(`${parentFrameId}_change_details`, JSON.stringify(changeData));
