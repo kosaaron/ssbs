@@ -83,6 +83,12 @@ class SwitchPlugin
                 $details = new Details();
                 $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
                 break;
+            case '6':
+                # Table
+                require_once('Display/Table.php');
+                $details = new Table();
+                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
+                break;
             default:
                 //error
                 break;

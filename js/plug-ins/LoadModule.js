@@ -34,8 +34,10 @@ let Database = {
     getFullPageData: function (parentFrameId) {
         let module = 'ModuleData';
         let data = {};
-        data['CTabId'] = '102';
-        data['CModuleId'] = '1004';
+        // data['CTabId'] = '102';
+        // data['CModuleId'] = '1004';
+        data['CTabId'] = '103';
+        data['CModuleId'] = '1009';
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
         data['RequestType'] = 'D';
 
@@ -45,11 +47,11 @@ let Database = {
             data: { 'Module': module, 'Data': data },
             success: function (data) {
                 Varibles.ScreenStructure = data;
-                //console.log(data);
-                console.log(JSON.stringify(data));
+                console.log(data);
+                //console.log(JSON.stringify(data));
                 Framework.LoadGrid(parentFrameId);
             },
-            dataType: 'json'
+            dataType: 'html'
         });
     }
 }
