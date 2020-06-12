@@ -16,8 +16,8 @@ export default class Details {
      * @param {String} parentFrameId 
      */
     constructor(plugin, frameId, parentFrameId) {
-        Details.callChilds(plugin, frameId);
         Details.create(plugin, frameId, parentFrameId);
+        Details.callChilds(plugin, frameId);
         this.events(plugin, frameId, parentFrameId);
     }
 
@@ -40,6 +40,17 @@ export default class Details {
         let detailsObjectFrame = detailsDesigns.getDefaultObjectFrame(dataFrameId);
         let detailsObject = detailsDesigns.getDefaultObject(dataFrameId);
         createDBox.create(contentData, detailsObjectFrame, detailsObject, dataFrameId);
+
+        let dataBtn = document.getElementById(`${frameId}_data_btn`);
+        dataBtn.addEventListener(
+            'click',
+            function (e) {
+                $(`.${frameId}_tab`).removeClass('btn-detail-menu-active');
+                $(`.${frameId}_content`).hide();
+                $(`#${frameId}_cdb_g`).show();
+                $(`#${frameId}_data_btn`).addClass('btn-detail-menu-active');
+            }
+        )
     }
     /**
      * CallChilds
@@ -55,7 +66,7 @@ export default class Details {
         }
     }
     /**
-     * 
+     * Events
      * @param {JSON} plugin 
      * @param {String} frameId 
      * @param {String} parentFrameId 
@@ -72,17 +83,32 @@ export default class Details {
             // Retrieve the data from storage
             let eventResult = JSON.parse(localStorage.getItem(`${frameId}_child_loaded`));
             let pluginNumber = eventResult.PluginNumber;
+            let plugins = plugin.Data.Childs;
+            let targetId = `${frameId}_content`;
+            let childPluginId = `${frameId}_content_${pluginNumber}`;
+
+            Details.createChildFrame(targetId, frameId, childPluginId);
 
             let changeData = {};
-            changeData.Plugins = plugin.Data.Childs;
-            changeData.TargetId = `${frameId}_content`;
+            changeData.Plugins = plugins;
+            changeData.TitleFrameId = `${frameId}_tab`;
             localStorage.setItem(`${frameId}_change_details_co_${pluginNumber}`, JSON.stringify(changeData));
             $(`#${frameId}`).trigger(`${frameId}_change_details_co_${pluginNumber}`);
 
             AutoScroll.Integration(`${frameId}_content`);
         });
     }
-
+    /**
+     * 
+     * @param {String} targetId 
+     * @param {String} frameId 
+     * @param {String} childFrameId 
+     */
+    static createChildFrame(targetId, frameId, childFrameId) {
+        let readyHTML = '';
+        readyHTML += `<div id="${childFrameId}" style="display: none;" class="${frameId}_content"></div>`;
+        document.getElementById(targetId).insertAdjacentHTML('beforeend', readyHTML);
+    }
     /**
      * Filtering
      * @param {JSON} plugin 

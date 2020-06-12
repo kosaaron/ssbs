@@ -8,22 +8,14 @@ export default class DetailsDesigns {
         //result = `<div id="${frameId}" class="col-4 cc-details" object-id="*1*">`;
         result += `<h2 id="${frameId}_title" class="name-grey">*2*</h2>`;
         //-------------------------
-        result += `<div id="${frameId}_tab" class="display-flex justify-content-center">`;
-        result += `<div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">`;
-        result += `<label id="${frameId}_data_btn" tab-cont-id="${frameId}_cc_g" `;
-        result += `class="btn btn-detail-menu btn-detail-menu-active">Adatok </label>`;
-        /*
-        result += `<label id="${frameId}_vo_oTl_btn" tab-cont-id="${frameId}_vo_oTl" `;
-        result += `class="btn btn-detail-menu">Idővonal</label>`;*/
+        result += `<div class="display-flex justify-content-center">`;
+        result += `<div id="${frameId}_tab" class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">`;
+        result += `<label id="${frameId}_data_btn" `;
+        result += `class="${frameId}_tab btn btn-detail-menu btn-detail-menu-active">Adatok</label>`;
         result += `</div></div>`;
-        result += `<div id="${frameId}_content">`;
-        result += `<div id="${frameId}_cdb_g" class="${frameId}_vo"> `;
-        result += `</div>`;
-        //-------------------------
-        /*result += `<div id="${frameId}_vo_oTl" style="display: none;" `;
-        result += `class="${frameId}_vo task-timeline">`;
-        result += `</div></div>`;//</div>`;*/
-        result += `</div>`;
+        result += `<div id="${frameId}_content" class="co-shell">`;
+        result += `<div id="${frameId}_cdb_g" class="${frameId}_content"> `;
+        result += `</div></div>`;
         return result;
     }
 
@@ -37,6 +29,33 @@ export default class DetailsDesigns {
         return result;
     }
 
+    /**
+     * getSimpleObjectFrame
+     * @param {String} frameId 
+     */
+    getSimpleObjectFrame(frameId) {
+        let result = '';
+        result += `<div class="row">`;
+        result += `<div class="card contactcard">`;
+        result += `<div id="${frameId}_*1*" class="card-body"></div>`;
+        result += `</div></div>`;
+        return result;
+    }
+
+    /**
+     * getSimpleObjectFrame
+     * @param {String} frameId 
+     * @param {String} parentFrameId 
+     * @param {String} title 
+     */
+    getSimpleTitleFrame(frameId, parentFrameId, title) {
+        let result = '';
+        result += `<label id="${frameId}_tab"`;
+        result += ` class="${parentFrameId}_tab btn btn-detail-menu">`;
+        result += `${title}`;
+        result += `</label>`;
+        return result;
+    }
     /**
      * getDefaultObject
      * @param {String} frameId 

@@ -291,3 +291,7 @@
 #tasks_m_details {
     border-left: 1px solid #ddd;
 }
+
+.co-shell{
+    padding-top: 6px;
+}

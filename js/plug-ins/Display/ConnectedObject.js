@@ -23,21 +23,31 @@ export default class ConnectedObject {
         $(`#${parentFrameId}`).trigger(`${parentFrameId}_child_loaded`);
     }
 
-    static create(plugin, frameId, parentFrameId) {
-        let headerData = plugin.Data['1'].Display;
+    static create(plugin, frameId, parentFrameId, titleFrameId) {
         let detailsDesigns = new DetailsDesigns;
-        let detailsHTML = detailsDesigns.getDefaultDetails(frameId);
-        let createBox = new CreateBox();
-        createBox.create(headerData, detailsHTML, frameId);
 
-        let contentData = plugin.Data['2'].Display;
-        let dataFrameId = `${frameId}_cdb_g`;
+        //Tab title
+        document.getElementById(titleFrameId).insertAdjacentHTML(
+            'beforeend',
+            detailsDesigns.getSimpleTitleFrame(frameId, parentFrameId, plugin.Data['1'].Title)
+        )
+        document.getElementById(`${frameId}_tab`).addEventListener(
+            'click',
+            function (e) {
+                $(`.${parentFrameId}_tab`).removeClass('btn-detail-menu-active');
+                $(`.${parentFrameId}_content`).hide();
+                $(`#${frameId}`).show();
+                $(`#${frameId}_tab`).addClass('btn-detail-menu-active');
+            }
+        )
+
+        //Tab content
+        let contentData = plugin.Data['1'].Display;
+        let detailsObjectFrame = detailsDesigns.getSimpleObjectFrame(frameId);
+        let detailsObject = detailsDesigns.getDefaultObject(frameId);
+
         let createDBox = new CreateDBox();
-        let detailsObjectFrame = detailsDesigns.getDefaultObjectFrame(dataFrameId);
-        let detailsObject = detailsDesigns.getDefaultObject(dataFrameId);
-        createDBox.create(contentData, detailsObjectFrame, detailsObject, dataFrameId);
-
-        AutoScroll.Integration(`${frameId}_content`);
+        createDBox.create(contentData, detailsObjectFrame, detailsObject, frameId);
     }
     /**
      * Events
@@ -49,15 +59,18 @@ export default class ConnectedObject {
         $(`#${parentFrameId}`).bind(`${parentFrameId}_change_details_co_${plugin.Number}`, function (e) {
             // Retrieve the data from storage
             let changeData = JSON.parse(localStorage.getItem(`${parentFrameId}_change_details_co_${plugin.Number}`));
-            let targetId = changeData.TargetId;
-            let objectId = changeData.ObjectId;
+            let titleFrameId = changeData.TitleFrameId;
             let newPlugin = ConnectedObject.getCurrentPlugin(changeData.Plugins, plugin.Number);
 
-            alert(JSON.stringify(newPlugin))
-            ConnectedObject.refresh(plugin, frameId, parentFrameId, objectId);
+            ConnectedObject.create(newPlugin, frameId, parentFrameId, titleFrameId);
         });
     }
 
+    /**
+     * GetCurrentPlugin
+     * @param {JSON} plugins 
+     * @param {String} number 
+     */
     static getCurrentPlugin(plugins, number) {
         for (const plugin of plugins) {
             if (plugin.Number === number) {
@@ -75,7 +88,7 @@ export default class ConnectedObject {
      * @param {JSON} filterData 
      * @param {JSON} sortData 
      */
-    static refresh(plugin, frameId, parentFrameId, objectId) {
+    static refresh(plugin, frameId, parentFrameId) {
         let className = 'ModuleData';
 
         let uploadData = {};
@@ -87,7 +100,6 @@ export default class ConnectedObject {
         } else {
             uploadData['FPluginPluginId'] = plugin['FPluginPluginId'];
         }
-        alert('s');
         /*
                 $.ajax({
                     type: "POST",

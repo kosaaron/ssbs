@@ -94,8 +94,8 @@ let CardDetails = {
         } else {
             //Frame
             let readyHTML = '';
-            readyHTML += '<div id="' + shellId + '_tab" class="display-flex justify-content-center">';
-            readyHTML += '<div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">';
+            readyHTML += '<div class="display-flex justify-content-center">';
+            readyHTML += '<div id="' + shellId + '_tab" class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">';
 
             //Labels
             readyHTML += '<label id="' + shellId + '_data_btn" tab-cont-id="' + shellId + '_cc_g" class="btn btn-detail-menu btn-detail-menu-active">';

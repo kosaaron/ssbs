@@ -47,7 +47,7 @@ class SwitchPlugin
                 $fModulePluginId = null;
                 $fPluginPluginFK = $fPlugin['FPluginPluginId'];
 
-                $plugin['fPluginPluginId'] = $fPluginPluginFK;
+                $plugin['FPluginPluginId'] = $fPluginPluginFK;
                 break;
         }
 
