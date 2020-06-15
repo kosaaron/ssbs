@@ -1,5 +1,6 @@
 import CardDesigns from "../../designs/CardDesigns.js";
 import CreateBox from "../CreateBox.js";
+import Limiter from "../Limiter.js";
 
 export default class CardBox {
     /**
@@ -26,8 +27,10 @@ export default class CardBox {
             // Retrieve the data from storage
             let filterData = JSON.parse(localStorage.getItem(`${parentFrameId}_filter`));
             let sortData = JSON.parse(localStorage.getItem(`${parentFrameId}_sort`));
+            let limiterData = JSON.parse(localStorage.getItem(`${parentFrameId}_limiter`));
+            alert(JSON.stringify(limiterData));
 
-            CardBox.filtering(plugin, frameId, parentFrameId, filterData, sortData);
+            CardBox.filtering(plugin, frameId, parentFrameId, filterData, sortData, limiterData);
         });
     }
 
@@ -53,6 +56,12 @@ export default class CardBox {
                 $(`#${parentFrameId}`).trigger(`${parentFrameId}_change_details`);
             })
         }
+
+        //Limiter.integration(frameId);
+        let limiterData = {};
+        limiterData.TargetId = frameId;
+        localStorage.setItem(`${parentFrameId}_limiter_create`, JSON.stringify(limiterData));
+        $(`#${parentFrameId}`).trigger(`${parentFrameId}_limiter_create`);
     }
 
     /**
@@ -62,8 +71,9 @@ export default class CardBox {
      * @param {String} parentFrameId 
      * @param {JSON} filterData 
      * @param {JSON} sortData 
+     * @param {JSON} limiterData 
      */
-    static filtering(plugin, frameId, parentFrameId, filterData, sortData) {
+    static filtering(plugin, frameId, parentFrameId, filterData, sortData, limiterData) {
         let className = 'ModuleData';
 
         let uploadData = {};
@@ -71,6 +81,7 @@ export default class CardBox {
         uploadData['RequestType'] = plugin['RequestType'];
         uploadData['FilterData'] = filterData;
         uploadData['SortData'] = sortData;
+        uploadData['LimiterData'] = limiterData;
         if (plugin['RequestType'] === 'MP') {
             uploadData['FModulePluginId'] = plugin['FModulePluginId'];
         } else {

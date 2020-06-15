@@ -5,6 +5,7 @@
 import CardContainerPlus from './CardContainerPlus.js';
 import FormInputs from '../designs/FormInputs.js';
 import { addListenerByAttr } from '../common.js';
+import GlobalVaribles from './GlobalVaribles.js';
 
 export default class Filter {
     /**
@@ -29,14 +30,71 @@ export default class Filter {
         $('.selectpicker').selectpicker('refresh');
 
         addListenerByAttr(filterShellId, 'change', function () {
+            Filter.resetLimiter(parentFrameId);
             Filter.change(parentFrameId, filterShellId, sortShellId);
         });
 
         addListenerByAttr(sortShellId, 'change', function () {
+            Filter.resetLimiter(parentFrameId);
             Filter.change(parentFrameId, filterShellId, sortShellId);
         });
 
         Filter.change(parentFrameId, filterShellId, sortShellId);
+
+        Filter.resetLimiter(parentFrameId);
+
+        $(`#${parentFrameId}`).bind(`${parentFrameId}_limiter_create`, function (e) {
+            let changeData = JSON.parse(localStorage.getItem(`${parentFrameId}_limiter_create`));
+            let targetId = changeData.TargetId;
+
+            Filter.createLimiter(targetId, parentFrameId, filterShellId, sortShellId);
+        })
+    }
+    /**
+     * ResetLimiter
+     * @param {String} parentFrameId 
+     */
+    static resetLimiter(parentFrameId) {
+        let limiterData = {};
+        limiterData.Offset = 0;
+        limiterData.Limit = GlobalVaribles.CCLimitSize;
+        localStorage.setItem(`${parentFrameId}_limiter`, JSON.stringify(limiterData));
+    }
+    /**
+     * CreateLimiter
+     * @param {String} targetId 
+     * @param {String} parentFrameId 
+     * @param {String} filterShellId 
+     * @param {String} sortShellId 
+     */
+    static createLimiter(targetId, parentFrameId, filterShellId, sortShellId) {
+        let limiterId = `${targetId}_limiter`;
+
+        document.getElementById(targetId).insertAdjacentHTML(
+            'beforeend',
+            Filter.getLimitCard(limiterId)
+        );
+
+        let limiterData = JSON.parse(localStorage.getItem(`${parentFrameId}_limiter`));
+        limiterData.Offset = parseInt(limiterData.Offset) + GlobalVaribles.CCLimitSize;
+        limiterData.Limit = parseInt(limiterData.Limit) + GlobalVaribles.CCLimitSize;
+        localStorage.setItem(`${parentFrameId}_limiter`, JSON.stringify(limiterData));
+
+        document.getElementById(`${limiterId}_btn`).addEventListener('click', function (e) {
+            Filter.change(parentFrameId, filterShellId, sortShellId);
+        });
+    }
+    /**
+     * GetLimitCard
+     * @param {String} limiterId 
+     */
+    static getLimitCard(limiterId) {
+        return `
+            <div id="${limiterId}_btn" class="cc-limit-card">
+                <h7>Tovább</h7>
+                <i class="fas fa-caret-down"></i>
+            </div>
+        `;
     }
     /**
      * Change filter data refresh

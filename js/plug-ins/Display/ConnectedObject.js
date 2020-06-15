@@ -1,5 +1,6 @@
 import DetailsDesigns from "../../designs/DetailsDesigns.js";
 import CreateDBox from "../CreateDBox.js";
+import Limiter from "../Limiter.js";
 
 export default class ConnectedObject {
     /**
@@ -68,5 +69,7 @@ export default class ConnectedObject {
             localStorage.setItem(`${parentFrameId}_child_loaded`, JSON.stringify(changeData));
             $(`#${parentFrameId}`).trigger(`${parentFrameId}_child_loaded`);
         });
+
+        let limiter = new Limiter();
     }
 }
