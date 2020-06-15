@@ -17,8 +17,10 @@ export default class Details {
      */
     constructor(plugin, frameId, parentFrameId) {
         Details.create(plugin, frameId, parentFrameId);
-        Details.callChilds(plugin, frameId);
         this.events(plugin, frameId, parentFrameId);
+        Details.callChilds(plugin, frameId);
+
+        AutoScroll.Integration(`${frameId}_content`);
     }
 
     /**
@@ -28,6 +30,10 @@ export default class Details {
      * @param {String} parentFrameId 
      */
     static create(plugin, frameId, parentFrameId) {
+        let changeData = {};
+        changeData = plugin;
+        localStorage.setItem(frameId, JSON.stringify(changeData));
+
         let headerData = plugin.Data['1'].Display;
         let detailsDesigns = new DetailsDesigns;
         let detailsHTML = detailsDesigns.getDefaultDetails(frameId);
@@ -75,28 +81,41 @@ export default class Details {
         $(`#${parentFrameId}`).bind(`${parentFrameId}_change_details`, function (e) {
             // Retrieve the data from storage
             let objectId = JSON.parse(localStorage.getItem(`${parentFrameId}_change_details`))['ObjectId'];
-
             Details.refresh(plugin, frameId, parentFrameId, objectId);
         });
 
         $(`#${frameId}`).bind(`${frameId}_child_loaded`, function (e) {
             // Retrieve the data from storage
             let eventResult = JSON.parse(localStorage.getItem(`${frameId}_child_loaded`));
+            let currentPlugin = JSON.parse(localStorage.getItem(frameId));
+
             let pluginNumber = eventResult.PluginNumber;
-            let plugins = plugin.Data.Childs;
+            let plugins = currentPlugin.Data.Childs;
             let targetId = `${frameId}_content`;
+            
             let childPluginId = `${frameId}_content_${pluginNumber}`;
 
             Details.createChildFrame(targetId, frameId, childPluginId);
 
             let changeData = {};
-            changeData.Plugins = plugins;
+            changeData.Plugin = Details.getCurrentPlugin(plugins, pluginNumber);
             changeData.TitleFrameId = `${frameId}_tab`;
             localStorage.setItem(`${frameId}_change_details_co_${pluginNumber}`, JSON.stringify(changeData));
             $(`#${frameId}`).trigger(`${frameId}_change_details_co_${pluginNumber}`);
-
-            AutoScroll.Integration(`${frameId}_content`);
         });
+    }
+    /**
+     * GetCurrentPlugin
+     * @param {JSON} plugins 
+     * @param {String} number 
+     */
+    static getCurrentPlugin(plugins, number) {
+        for (const plugin of plugins) {
+            if (plugin.Number === number) {
+                return plugin;
+            }
+        }
+        return {};
     }
     /**
      * 
@@ -140,6 +159,9 @@ export default class Details {
                 console.log(JSON.stringify(result));
                 document.getElementById(frameId).innerHTML = '';
                 Details.create(newPlugin, frameId, parentFrameId);
+
+                //Send to childs
+                $(`#${frameId}`).trigger(`${frameId}_change_details_co`);
             },
             dataType: 'json'
         });

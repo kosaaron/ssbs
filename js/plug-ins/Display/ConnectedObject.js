@@ -1,7 +1,5 @@
 import DetailsDesigns from "../../designs/DetailsDesigns.js";
-import CreateBox from "../CreateBox.js";
 import CreateDBox from "../CreateDBox.js";
-import AutoScroll from "../AutoScroll.js";
 
 export default class ConnectedObject {
     /**
@@ -60,60 +58,15 @@ export default class ConnectedObject {
             // Retrieve the data from storage
             let changeData = JSON.parse(localStorage.getItem(`${parentFrameId}_change_details_co_${plugin.Number}`));
             let titleFrameId = changeData.TitleFrameId;
-            let newPlugin = ConnectedObject.getCurrentPlugin(changeData.Plugins, plugin.Number);
 
-            ConnectedObject.create(newPlugin, frameId, parentFrameId, titleFrameId);
+            ConnectedObject.create(changeData.Plugin, frameId, parentFrameId, titleFrameId);
         });
-    }
 
-    /**
-     * GetCurrentPlugin
-     * @param {JSON} plugins 
-     * @param {String} number 
-     */
-    static getCurrentPlugin(plugins, number) {
-        for (const plugin of plugins) {
-            if (plugin.Number === number) {
-                return plugin;
-            }
-        }
-        return {};
-    }
-
-    /**
-     * Filtering
-     * @param {JSON} plugin 
-     * @param {String} frameId 
-     * @param {String} parentFrameId 
-     * @param {JSON} filterData 
-     * @param {JSON} sortData 
-     */
-    static refresh(plugin, frameId, parentFrameId) {
-        let className = 'ModuleData';
-
-        let uploadData = {};
-        uploadData['CModuleId'] = plugin['CModuleId'];
-        uploadData['RequestType'] = plugin['RequestType'];
-        uploadData['IdOfData'] = objectId;
-        if (plugin['RequestType'] === 'MP') {
-            uploadData['FModulePluginId'] = plugin['FModulePluginId'];
-        } else {
-            uploadData['FPluginPluginId'] = plugin['FPluginPluginId'];
-        }
-        /*
-                $.ajax({
-                    type: "POST",
-                    url: "./php/Router.php",
-                    data: { 'Module': className, 'Data': uploadData },
-                    success: function (result) {
-                        let newPlugin = result[0];
-                        //console.log(result);
-                        console.log(JSON.stringify(result));
-                        document.getElementById(frameId).innerHTML = '';
-                        Details.create(newPlugin, frameId, parentFrameId);
-                        //CardBox.createBox(newPlugin, frameId, parentFrameId)
-                    },
-                    dataType: 'json'
-                });*/
+        $(`#${parentFrameId}`).bind(`${parentFrameId}_change_details_co`, function (e) {
+            let changeData = {};
+            changeData.PluginNumber = plugin.Number;
+            localStorage.setItem(`${parentFrameId}_child_loaded`, JSON.stringify(changeData));
+            $(`#${parentFrameId}`).trigger(`${parentFrameId}_child_loaded`);
+        });
     }
 }
