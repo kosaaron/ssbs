@@ -13,7 +13,7 @@ class PDOConnect
         $servername = "localhost";
         $username = "root";
         $password = "";
-        $database = "ssbs";
+        $database = "ssbsyste_ssbs";
 
         try {
             $pdo = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);

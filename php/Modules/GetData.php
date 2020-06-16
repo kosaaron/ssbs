@@ -174,7 +174,6 @@ class GetData
                 $pathIds = array_unique(array_merge($pathIds, $newPathIds));
             }
         }
-
         $relationships = $this->findRelationship->getFullRelationship($pathIds);
         foreach ($relationships as $relationship) {
             $innnerJoin .= ' INNER JOIN ';

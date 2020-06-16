@@ -108,15 +108,16 @@ export default class CardBox {
                     isMore = true;
                     newData.pop();
                 }
-                
+
                 if (limiterData.Offset === '0' || limiterData.Offset === 0) {
-                    plugin = newPlugin;
+                    plugin.Data['1'].Display.Data = newPlugin.Data['1'].Display.Data;
                 } else {
                     plugin.Data['1'].Display.Data = plugin.Data['1'].Display.Data.concat(newData);
                 }
 
-                console.log(result);
-                //console.log(JSON.stringify(result));
+                //console.log(result);
+                console.log(JSON.stringify(plugin));
+                console.log(JSON.stringify(result));
                 document.getElementById(frameId).innerHTML = '';
                 CardBox.createBox(plugin, frameId, parentFrameId, isMore);
             },

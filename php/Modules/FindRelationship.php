@@ -19,8 +19,8 @@ class FindRelationship
         $finalSQL = 'SELECT (@row_number:=@row_number + 1) AS RelationshipId,  TABLE_NAME, COLUMN_NAME, 
                             REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
                         FROM information_schema.KEY_COLUMN_USAGE, (SELECT @row_number:=-1) AS t
-                        WHERE CONSTRAINT_SCHEMA="ssbs" AND TABLE_SCHEMA="ssbs" 
-                            AND REFERENCED_TABLE_SCHEMA="ssbs"';
+                        WHERE CONSTRAINT_SCHEMA="ssbsyste_ssbs" AND TABLE_SCHEMA="ssbsyste_ssbs" 
+                            AND REFERENCED_TABLE_SCHEMA="ssbsyste_ssbs"';
         return $this->pdo->query($finalSQL)->fetchAll(PDO::FETCH_ASSOC);;
     }
 
@@ -99,4 +99,3 @@ $finalPath = $findRelatioinship->findPath('f_form_inputs', 'f_user_modules');
 $mainData = $findRelatioinship->getFullRelationship($finalPath);
 print_r(json_encode($mainData));
 */
-
