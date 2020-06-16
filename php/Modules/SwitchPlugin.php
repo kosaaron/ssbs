@@ -95,6 +95,12 @@ class SwitchPlugin
                 $details = new Table();
                 $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
                 break;
+            case '8':
+                # Step Box (display)
+                require_once('Display/Table.php');
+                $details = new Table();
+                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
+                break;
             default:
                 //error
                 break;

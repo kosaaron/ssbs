@@ -57,6 +57,18 @@ export default class SwitchPlugin {
                     new ConnectedObject(plugin, frameId, parentFrameId);
                 });
                 break;
+            /** Table */
+            case '7':
+                break;
+            /** Step Box (display) */
+            case '8':
+                Promise.all([
+                    import('./Display/StepBox.js'),
+                ]).then(([Module]) => {
+                    let StepBox = Module.default;
+                    new StepBox(plugin, frameId, parentFrameId);
+                });
+                break;
             default:
                 break;
         }

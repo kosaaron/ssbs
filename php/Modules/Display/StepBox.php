@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Connected object
+ * Step box
  */
-class ConnectedObject
+class StepBox
 {
     function __construct()
     {
