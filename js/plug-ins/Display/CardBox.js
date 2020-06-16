@@ -1,6 +1,5 @@
 import CardDesigns from "../../designs/CardDesigns.js";
 import CreateBox from "../CreateBox.js";
-import Limiter from "../Limiter.js";
 
 export default class CardBox {
     /**
@@ -14,7 +13,14 @@ export default class CardBox {
      * @param {String} parentFrameId 
      */
     constructor(plugin, frameId, parentFrameId) {
-        CardBox.createBox(plugin, frameId, parentFrameId);
+        let isMore = false;
+        let newData = plugin.Data['1'].Display.Data;
+        if (newData.length === 21) {
+            isMore = true;
+            newData.pop();
+        }
+
+        CardBox.createBox(plugin, frameId, parentFrameId, isMore);
         this.events(plugin, frameId, parentFrameId);
     }
 
@@ -28,7 +34,6 @@ export default class CardBox {
             let filterData = JSON.parse(localStorage.getItem(`${parentFrameId}_filter`));
             let sortData = JSON.parse(localStorage.getItem(`${parentFrameId}_sort`));
             let limiterData = JSON.parse(localStorage.getItem(`${parentFrameId}_limiter`));
-            alert(JSON.stringify(limiterData));
 
             CardBox.filtering(plugin, frameId, parentFrameId, filterData, sortData, limiterData);
         });
@@ -39,8 +44,9 @@ export default class CardBox {
      * @param {JSON} plugin 
      * @param {String} frameId 
      * @param {String} parentFrameId 
+     * @param {Boolean} isMore 
      */
-    static createBox(plugin, frameId, parentFrameId) {
+    static createBox(plugin, frameId, parentFrameId, isMore) {
         let card = CardBox.getCard(plugin, frameId);
         //First data package
         let displayObject = plugin.Data['1'].Display;
@@ -57,11 +63,12 @@ export default class CardBox {
             })
         }
 
-        //Limiter.integration(frameId);
-        let limiterData = {};
-        limiterData.TargetId = frameId;
-        localStorage.setItem(`${parentFrameId}_limiter_create`, JSON.stringify(limiterData));
-        $(`#${parentFrameId}`).trigger(`${parentFrameId}_limiter_create`);
+        if (isMore) {
+            let limiterData = {};
+            limiterData.TargetId = frameId;
+            localStorage.setItem(`${parentFrameId}_limiter_create`, JSON.stringify(limiterData));
+            $(`#${parentFrameId}`).trigger(`${parentFrameId}_limiter_create`);
+        }
     }
 
     /**
@@ -94,13 +101,34 @@ export default class CardBox {
             data: { 'Module': className, 'Data': uploadData },
             success: function (result) {
                 let newPlugin = result[0];
+                let newData = newPlugin.Data['1'].Display.Data;
+                let isMore = false;
+
+                if (newData.length === 21) {
+                    isMore = true;
+                    newData.pop();
+                }
+                
+                if (limiterData.Offset === '0' || limiterData.Offset === 0) {
+                    plugin = newPlugin;
+                } else {
+                    plugin.Data['1'].Display.Data = plugin.Data['1'].Display.Data.concat(newData);
+                }
+
                 console.log(result);
                 //console.log(JSON.stringify(result));
                 document.getElementById(frameId).innerHTML = '';
-                CardBox.createBox(newPlugin, frameId, parentFrameId)
+                CardBox.createBox(plugin, frameId, parentFrameId, isMore);
             },
             dataType: 'json'
         });
+    }
+    static isMoreButton(pluginData) {
+        if (pluginData.length === 21) {
+            isMore = true;
+        }
+
+        newData.pop();
     }
 
     /**

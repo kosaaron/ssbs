@@ -57,7 +57,7 @@ export default class Filter {
     static resetLimiter(parentFrameId) {
         let limiterData = {};
         limiterData.Offset = 0;
-        limiterData.Limit = GlobalVaribles.CCLimitSize;
+        limiterData.Limit = GlobalVaribles.CCLimitSize + 1;
         localStorage.setItem(`${parentFrameId}_limiter`, JSON.stringify(limiterData));
     }
     /**
@@ -77,7 +77,6 @@ export default class Filter {
 
         let limiterData = JSON.parse(localStorage.getItem(`${parentFrameId}_limiter`));
         limiterData.Offset = parseInt(limiterData.Offset) + GlobalVaribles.CCLimitSize;
-        limiterData.Limit = parseInt(limiterData.Limit) + GlobalVaribles.CCLimitSize;
         localStorage.setItem(`${parentFrameId}_limiter`, JSON.stringify(limiterData));
 
         document.getElementById(`${limiterId}_btn`).addEventListener('click', function (e) {

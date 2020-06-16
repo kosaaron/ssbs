@@ -123,7 +123,7 @@ class GetData
         $pathIds = array();
         $where = "";
         $sort = "";
-        $limit = "LIMIT 20";
+        $limit = "LIMIT 21";
 
         if ($this->filteringType === 'AutoFiltering') {
             $filterAndSort = $this->getFilterAndSort($uplodedData, $mainTable);
@@ -145,6 +145,13 @@ class GetData
                     $limit = "LIMIT 1";
                 }
             }
+        }
+
+        if (array_key_exists('LimiterData', $uplodedData)) {
+            $limiterData = $uplodedData['LimiterData'];
+            $offset = $limiterData['Offset'];
+            $limitValue = $limiterData['Limit'];
+            $limit = "LIMIT $offset, $limitValue";
         }
 
         $selectValues = '';
