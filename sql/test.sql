@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Gép: 127.0.0.1
--- Létrehozás ideje: 2020. Jún 16. 02:58
--- Kiszolgáló verziója: 10.4.10-MariaDB
--- PHP verzió: 7.1.33
+-- Gép: localhost:3306
+-- Létrehozás ideje: 2020. Jún 16. 03:00
+-- Kiszolgáló verziója: 5.7.30-cll-lve
+-- PHP verzió: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `ssbs`
+-- Adatbázis: `ssbsyste_ssbs`
 --
 
 -- --------------------------------------------------------
@@ -34,7 +34,7 @@ CREATE TABLE `cardc_structures` (
   `ColumnName` varchar(50) NOT NULL,
   `IsMainId` tinyint(1) NOT NULL,
   `Tables` varchar(50) DEFAULT NULL,
-  `BackendF` text DEFAULT NULL,
+  `BackendF` text,
   `Place` varchar(10) NOT NULL,
   `EmployeeFK` int(11) NOT NULL,
   `IsVO` tinyint(1) NOT NULL
@@ -119,7 +119,7 @@ CREATE TABLE `customers` (
   `Address` varchar(50) DEFAULT NULL,
   `Phone` varchar(20) DEFAULT NULL,
   `LastOrderDate` datetime DEFAULT NULL,
-  `IsRegistered` tinyint(1) NOT NULL DEFAULT 0,
+  `IsRegistered` tinyint(1) NOT NULL DEFAULT '0',
   `UserId` varchar(30) DEFAULT NULL,
   `Password` varchar(64) DEFAULT NULL,
   `RegisterDate` datetime DEFAULT NULL
@@ -184,7 +184,7 @@ INSERT INTO `c_input_types` (`Id`) VALUES
 --
 
 CREATE TABLE `c_modules` (
-  `CModuleId` int(11) NOT NULL,
+  `CModuleID` int(11) NOT NULL,
   `ModuleName` varchar(30) NOT NULL,
   `ModuleDescription` varchar(100) NOT NULL,
   `MainTable` varchar(30) NOT NULL DEFAULT ''
@@ -194,7 +194,7 @@ CREATE TABLE `c_modules` (
 -- A tábla adatainak kiíratása `c_modules`
 --
 
-INSERT INTO `c_modules` (`CModuleId`, `ModuleName`, `ModuleDescription`, `MainTable`) VALUES
+INSERT INTO `c_modules` (`CModuleID`, `ModuleName`, `ModuleDescription`, `MainTable`) VALUES
 (1001, 'Finance charts', 'Diagrams', ''),
 (1002, 'Reports', 'Reports', ''),
 (1003, 'Projects', 'Projektek átlátása és létrehozása havi nézetben.', ''),
@@ -226,12 +226,13 @@ CREATE TABLE `c_plugins` (
 --
 
 INSERT INTO `c_plugins` (`CPluginId`, `Name`) VALUES
-(1, 'Step Box'),
+(1, 'StepBox'),
 (2, 'Dinamic Popup Form'),
 (3, 'Filter And Sort'),
 (4, 'Card Box'),
 (5, 'Details'),
-(6, 'ConnectedObject');
+(6, 'ConnectedObject'),
+(7, 'Table');
 
 -- --------------------------------------------------------
 
@@ -255,6 +256,29 @@ INSERT INTO `c_tabs` (`CTabId`, `TabName`, `TabIcon`) VALUES
 (103, 'Products', 103),
 (104, 'Resources', 104),
 (105, 'Application', 105);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `device_verification`
+--
+
+CREATE TABLE `device_verification` (
+  `Id` int(11) NOT NULL,
+  `DeviceId` int(11) DEFAULT NULL,
+  `UserEmail` varchar(250) NOT NULL,
+  `UserName` varchar(250) NOT NULL,
+  `Password` varchar(256) NOT NULL,
+  `ActivationCode` varchar(256) NOT NULL,
+  `VerificationStatus` tinyint(1) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- A tábla adatainak kiíratása `device_verification`
+--
+
+INSERT INTO `device_verification` (`Id`, `DeviceId`, `UserEmail`, `UserName`, `Password`, `ActivationCode`, `VerificationStatus`) VALUES
+(12, NULL, 'kosa.aron98@gmail.com', 'John', '$2y$10$p1.Xp3Ulh.4mZh6v08OuBue.bejw1W3fbDFPxnmqyFbEp/HQA83GG', '930ab939dd505cd2eba62a116d38aaddebfc7a0be11678e87b077578a627dba6', 0);
 
 -- --------------------------------------------------------
 
@@ -528,7 +552,7 @@ INSERT INTO `f_form_inputs` (`FFormInputId`, `FPluginFormInputFK`, `Place`, `Num
 (16, 2, 'stepbx', 2, 7, NULL, 'SP', NULL, 'task_ways.TaskStepFK', 1),
 (17, 2, 'stepbx', 3, 8, NULL, 'S', NULL, 'task_ways.EmployeeFK', 1),
 (18, 3, 'tskfltr', 1, 5, NULL, 'WF', NULL, 'tasks.Name', 0),
-(19, 3, 'tskfltr', 2, 3, NULL, 'S', NULL, 'tasks.TaskTypeFK', 1),
+(19, 3, 'tskfltr', 2, 3, NULL, 'S', NULL, 'tasks.TaskTypeFK', 0),
 (20, 4, 'tskfltr', 3, 5, NULL, 'SO', NULL, 'tasks.Name', 0);
 
 -- --------------------------------------------------------
@@ -541,8 +565,8 @@ CREATE TABLE `f_module_plugins` (
   `FModulePluginId` int(11) NOT NULL,
   `FUserModuleFK` int(11) NOT NULL,
   `CPluginFK` int(11) NOT NULL,
-  `Place` int(3) NOT NULL DEFAULT 1,
-  `Number` int(3) NOT NULL DEFAULT 1,
+  `Place` int(3) NOT NULL DEFAULT '1',
+  `Number` int(3) NOT NULL DEFAULT '1',
   `DefaultScreen` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -587,7 +611,7 @@ CREATE TABLE `f_plugin_display` (
   `Title` varchar(40) DEFAULT NULL,
   `FModulePluginFK` int(11) DEFAULT NULL,
   `FPluginPluginFK` int(11) DEFAULT NULL,
-  `Number` int(3) NOT NULL DEFAULT 1
+  `Number` int(3) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -611,7 +635,7 @@ CREATE TABLE `f_plugin_form_inputs` (
   `Title` varchar(40) NOT NULL,
   `FModulePluginFK` int(11) DEFAULT NULL,
   `FPluginPluginFK` int(11) DEFAULT NULL,
-  `Number` int(3) NOT NULL DEFAULT 1
+  `Number` int(3) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -635,8 +659,8 @@ CREATE TABLE `f_plugin_plugins` (
   `FModulePluginFK` int(11) DEFAULT NULL,
   `FPluginPluginFK` int(11) DEFAULT NULL,
   `CPluginFK` int(11) NOT NULL,
-  `Place` int(3) NOT NULL DEFAULT 1,
-  `Number` int(3) NOT NULL DEFAULT 1,
+  `Place` int(3) NOT NULL DEFAULT '1',
+  `Number` int(3) NOT NULL DEFAULT '1',
   `DefaultScreen` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -767,7 +791,7 @@ CREATE TABLE `monthly_tasks` (
   `EndDay` int(2) NOT NULL,
   `Length` int(4) NOT NULL,
   `Title` varchar(30) NOT NULL,
-  `Description` text DEFAULT NULL,
+  `Description` text,
   `State` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -792,7 +816,7 @@ CREATE TABLE `orders` (
   `Name` varchar(30) NOT NULL,
   `CustomerFK` int(11) DEFAULT NULL,
   `PartnerFK` int(11) DEFAULT NULL,
-  `OrderDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `OrderDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `TaskFK` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -801,8 +825,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`OrderId`, `AliasId`, `Name`, `CustomerFK`, `PartnerFK`, `OrderDate`, `TaskFK`) VALUES
-(1, 'o1234', 'Okoskonyha', 1, NULL, '2019-11-02 00:00:00', 1),
-(2, 'o1001', 'Vízvezeték szerelés', NULL, 1, '2019-11-02 00:00:00', 1);
+(1, 'o1234', 'Okoskonyha', 1, NULL, '2019-11-02 00:00:00', NULL),
+(2, 'o1001', 'Vízvezeték szerelés', NULL, 1, '2019-11-02 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -948,8 +972,8 @@ CREATE TABLE `products` (
   `ProductId` int(11) NOT NULL,
   `AliasId` varchar(50) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `InStockQuantity` int(11) NOT NULL DEFAULT 0,
-  `PurchasePrice` int(11) NOT NULL DEFAULT 0,
+  `InStockQuantity` int(11) NOT NULL DEFAULT '0',
+  `PurchasePrice` int(11) NOT NULL DEFAULT '0',
   `SalePrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1124,10 +1148,10 @@ CREATE TABLE `tasks` (
   `Name` varchar(30) NOT NULL,
   `TaskTypeFK` int(11) NOT NULL,
   `TaskCategoryFK` int(11) DEFAULT NULL,
-  `CreatedDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `CreatedDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deadline` datetime DEFAULT NULL,
   `FinishDate` datetime DEFAULT NULL,
-  `Description` text DEFAULT NULL,
+  `Description` text,
   `OrderFK` int(11) DEFAULT NULL,
   `ProjectFK` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1180,60 +1204,7 @@ INSERT INTO `tasks` (`TaskId`, `Name`, `TaskTypeFK`, `TaskCategoryFK`, `CreatedD
 (49, 'Teszt4 Új', 1, NULL, '2019-11-17 14:45:09', NULL, NULL, NULL, NULL, 2),
 (50, 'Mindenműködik test', 6, NULL, '2019-11-17 14:47:06', NULL, NULL, NULL, NULL, 4),
 (51, 'Sorrend Teszt', 1, NULL, '2019-11-17 23:10:06', NULL, NULL, NULL, NULL, 2),
-(52, 'Test popup', 1, NULL, '2019-11-19 15:03:16', NULL, NULL, NULL, NULL, 1),
-(55, 'asdf', 1, NULL, '2020-05-25 00:22:15', '2020-05-25 00:00:00', NULL, NULL, NULL, 3),
-(56, 'asffs', 1, NULL, '2020-05-27 20:49:43', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(57, 'asffs', 1, NULL, '2020-05-27 20:49:43', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(58, 'saggaf', 1, NULL, '2020-05-27 21:03:40', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(59, 'asf', 1, NULL, '2020-05-27 21:05:57', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(60, 'asfsfags', 1, NULL, '2020-05-27 21:06:38', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(61, 'asf', 1, NULL, '2020-05-27 21:11:35', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(62, 'sfhh', 1, NULL, '2020-05-27 21:12:41', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(63, 'sagfgsa', 1, NULL, '2020-05-27 21:16:32', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(64, 'asfags', 1, NULL, '2020-05-27 21:21:10', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(65, 'asgs', 1, NULL, '2020-05-27 21:25:05', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(66, 'asbvcxvcx', 1, NULL, '2020-05-27 21:27:38', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(67, 'jhhkjh', 1, NULL, '2020-05-27 21:36:34', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(68, 'hglkg', 1, NULL, '2020-05-27 21:37:19', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(69, 'hfgvb', 1, NULL, '2020-05-27 21:43:44', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(70, 'cbvny', 1, NULL, '2020-05-27 21:45:03', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(71, 'yxbjk', 1, NULL, '2020-05-27 21:48:30', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(72, 'cvyxcv', 1, NULL, '2020-05-27 21:58:52', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(73, 'yxcv', 1, NULL, '2020-05-27 22:40:07', '2020-05-27 00:00:00', NULL, NULL, NULL, NULL),
-(74, 'xvncv', 1, NULL, '2020-05-27 23:26:03', '2020-05-27 00:00:00', NULL, NULL, NULL, 1),
-(75, 'mlkyxb', 1, NULL, '2020-05-27 23:27:52', '2020-05-27 00:00:00', NULL, NULL, NULL, 2),
-(76, 'asfcyx', 1, NULL, '2020-05-28 00:21:31', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(77, 'ascs', 1, NULL, '2020-05-28 00:25:51', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(78, 'vcbxb', 1, NULL, '2020-05-28 00:43:48', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(79, 'fsgcxvb', 1, NULL, '2020-05-28 01:31:01', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(80, 'sfg', 1, NULL, '2020-05-28 01:43:57', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(81, 'sfg', 1, NULL, '2020-05-28 01:44:16', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(82, 'fcxv', 1, NULL, '2020-05-28 02:25:43', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(83, 'fsgcxvb', 1, NULL, '2020-05-28 11:36:58', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(84, 'fsgcxvb', 1, NULL, '2020-05-28 11:49:26', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(85, 'fsgcxvb', 1, NULL, '2020-05-28 11:49:45', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(86, 'fsgcxvb', 1, NULL, '2020-05-28 11:50:48', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(87, 'fsgcxvb', 1, NULL, '2020-05-28 11:52:24', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(88, 'fsgcxvb', 1, NULL, '2020-05-28 11:55:02', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(89, 'fsgcxvb', 1, NULL, '2020-05-28 11:58:22', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(90, 'fsgcxvb', 1, NULL, '2020-05-28 11:58:58', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(91, 'fsgcxvb', 1, NULL, '2020-05-28 12:04:05', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(92, 'fsgcxvb', 1, NULL, '2020-05-28 12:08:26', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(93, 'fsgcxvb', 1, NULL, '2020-05-28 12:12:07', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(94, 'fsgcxvb', 1, NULL, '2020-05-28 12:46:47', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(95, 'fsgcxvb', 1, NULL, '2020-05-28 12:47:19', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(96, 'fsgcxvb', 1, NULL, '2020-05-28 13:12:26', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(97, 'fsgcxvb', 1, NULL, '2020-05-28 13:17:38', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(98, 'fsgcxvb', 1, NULL, '2020-05-28 13:18:36', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(99, 'fsgcxvb', 1, NULL, '2020-05-28 13:22:26', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(100, 'fsgcxvb', 1, NULL, '2020-05-28 13:54:53', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(101, 'fsgcxvb', 1, NULL, '2020-05-28 13:55:59', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(102, 'fsgcxvb', 1, NULL, '2020-05-28 13:56:21', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(103, '', 1, NULL, '2020-05-28 13:56:42', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(104, 'fsgcxvb', 1, NULL, '2020-05-28 13:57:08', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(105, 'fsgcxvb', 1, NULL, '2020-05-28 13:57:33', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(106, 'fsgcxvb', 1, NULL, '2020-05-28 13:58:22', '2020-05-28 00:00:00', NULL, NULL, NULL, NULL),
-(162, 'Boris teszt', 23, NULL, '2020-05-30 22:18:42', '2020-05-30 00:00:00', NULL, NULL, NULL, 5);
+(52, 'Test popup', 1, NULL, '2019-11-19 15:03:16', NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1286,10 +1257,7 @@ INSERT INTO `task_steps` (`TaskStepId`, `Name`) VALUES
 (13, 'Teszt4'),
 (14, 'Teszt4'),
 (15, 'Valami'),
-(16, 'Felmérés'),
-(17, 'alma101'),
-(19, 'as'),
-(20, 'as');
+(16, 'Felmérés');
 
 -- --------------------------------------------------------
 
@@ -1323,11 +1291,7 @@ INSERT INTO `task_types` (`TaskTypeId`, `Name`) VALUES
 (16, 'ez az új'),
 (17, 'asdfdsbbttt'),
 (18, 'Progi2222'),
-(19, 'Szia Áron'),
-(20, 'asdf10'),
-(21, 'Test1000'),
-(22, 'Test1001'),
-(23, 'Boris');
+(19, 'Szia Áron');
 
 -- --------------------------------------------------------
 
@@ -1341,7 +1305,7 @@ CREATE TABLE `task_ways` (
   `TaskFK` int(11) NOT NULL,
   `TaskStepFK` int(11) NOT NULL,
   `EmployeeFK` int(11) DEFAULT NULL,
-  `Active` tinyint(1) NOT NULL DEFAULT 0,
+  `Active` tinyint(1) NOT NULL DEFAULT '0',
   `Ready` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1521,39 +1485,7 @@ INSERT INTO `task_ways` (`TaskWayId`, `Number`, `TaskFK`, `TaskStepFK`, `Employe
 (174, 3, 52, 3, 1, 0, 0),
 (175, 4, 52, 16, 2, 0, 0),
 (176, 5, 52, 4, 2, 0, 0),
-(177, 5, 52, 4, 1, 0, 0),
-(184, 1, 124, 1, 1, 1, 0),
-(185, 1, 125, 1, 1, 1, 0),
-(186, 1, 126, 1, 1, 1, 0),
-(187, 1, 127, 1, 1, 1, 0),
-(188, 1, 128, 1, 1, 1, 0),
-(189, 1, 129, 1, 1, 1, 0),
-(190, 1, 130, 1, 1, 1, 0),
-(191, 1, 131, 1, 1, 1, 0),
-(192, 1, 132, 1, 1, 1, 0),
-(193, 1, 133, 1, 1, 1, 0),
-(194, 1, 134, 1, 1, 1, 0),
-(195, 1, 141, 1, 1, 1, 0),
-(196, 1, 142, 1, 1, 1, 0),
-(197, 1, 143, 1, 1, 1, 0),
-(198, 1, 144, 1, 1, 1, 0),
-(199, 1, 145, 1, 1, 1, 0),
-(200, 1, 146, 1, 1, 1, 0),
-(201, 1, 147, 16, 1, 1, 0),
-(202, 1, 148, 1, 1, 1, 0),
-(203, 1, 149, 1, 1, 1, 0),
-(204, 1, 150, 1, 1, 1, 0),
-(205, 1, 151, 1, 1, 1, 0),
-(206, 1, 152, 1, 1, 1, 0),
-(207, 1, 153, 1, 1, 1, 0),
-(208, 1, 154, 1, 1, 1, 0),
-(209, 1, 155, 1, 1, 1, 0),
-(210, 1, 156, 1, 1, 1, 0),
-(211, 1, 157, 1, 1, 1, 0),
-(212, 1, 162, 1, 1, 0, 1),
-(213, 2, 162, 2, 2, 0, 1),
-(214, 3, 162, 3, 3, 0, 1),
-(215, 4, 162, 7, 0, 1, 0);
+(177, 5, 52, 4, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1594,7 +1526,7 @@ CREATE TABLE `tools` (
   `ToolAvailabilityFK` int(11) NOT NULL,
   `AvailableTools` int(11) NOT NULL,
   `Place` text NOT NULL,
-  `Description` text DEFAULT NULL,
+  `Description` text,
   `LastMaintenance` datetime DEFAULT NULL,
   `MaintenancePeriod` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1636,7 +1568,7 @@ CREATE TABLE `tool_remarks` (
   `EmployeeFK` int(11) NOT NULL,
   `RemarkText` text NOT NULL,
   `ToolFK` int(11) NOT NULL,
-  `CreatedDate` datetime NOT NULL DEFAULT current_timestamp()
+  `CreatedDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1698,7 +1630,7 @@ CREATE TABLE `virtual_objects` (
   `VirtualObjectId` int(11) NOT NULL,
   `ObjNameAlias` varchar(30) DEFAULT NULL,
   `Card` varchar(15) DEFAULT NULL,
-  `QueryString` text DEFAULT NULL
+  `QueryString` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1775,7 +1707,7 @@ ALTER TABLE `c_input_types`
 -- A tábla indexei `c_modules`
 --
 ALTER TABLE `c_modules`
-  ADD PRIMARY KEY (`CModuleId`);
+  ADD PRIMARY KEY (`CModuleID`);
 
 --
 -- A tábla indexei `c_plugins`
@@ -1788,6 +1720,12 @@ ALTER TABLE `c_plugins`
 --
 ALTER TABLE `c_tabs`
   ADD PRIMARY KEY (`CTabId`);
+
+--
+-- A tábla indexei `device_verification`
+--
+ALTER TABLE `device_verification`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- A tábla indexei `dtls_structures`
@@ -1926,9 +1864,9 @@ ALTER TABLE `monthly_tasks`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`OrderId`),
-  ADD KEY `CustomerFK` (`CustomerFK`),
-  ADD KEY `PartnerFK` (`PartnerFK`),
-  ADD KEY `TasksFK` (`TaskFK`);
+  ADD KEY `orders_ibfk_1` (`CustomerFK`),
+  ADD KEY `orders_ibfk_2` (`PartnerFK`),
+  ADD KEY `orders_ibfk_3` (`TaskFK`);
 
 --
 -- A tábla indexei `order_products`
@@ -2117,13 +2055,19 @@ ALTER TABLE `c_cards`
 -- AUTO_INCREMENT a táblához `c_modules`
 --
 ALTER TABLE `c_modules`
-  MODIFY `CModuleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1015;
+  MODIFY `CModuleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1015;
 
 --
 -- AUTO_INCREMENT a táblához `c_plugins`
 --
 ALTER TABLE `c_plugins`
-  MODIFY `CPluginId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `CPluginId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT a táblához `device_verification`
+--
+ALTER TABLE `device_verification`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT a táblához `dtls_structures`
@@ -2315,7 +2259,7 @@ ALTER TABLE `tags_for_partner`
 -- AUTO_INCREMENT a táblához `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `TaskId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+  MODIFY `TaskId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT a táblához `task_categories`
@@ -2327,19 +2271,19 @@ ALTER TABLE `task_categories`
 -- AUTO_INCREMENT a táblához `task_steps`
 --
 ALTER TABLE `task_steps`
-  MODIFY `TaskStepId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `TaskStepId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT a táblához `task_types`
 --
 ALTER TABLE `task_types`
-  MODIFY `TaskTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `TaskTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT a táblához `task_ways`
 --
 ALTER TABLE `task_ways`
-  MODIFY `TaskWayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `TaskWayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
 
 --
 -- AUTO_INCREMENT a táblához `task_way_templates`
