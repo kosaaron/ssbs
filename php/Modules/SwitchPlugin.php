@@ -29,6 +29,7 @@ class SwitchPlugin
         $place = $fPlugin['Place'];
         $cPluginFK = $fPlugin['CPluginFK'];
         $number = $fPlugin['Number'];
+        $pluginTable = $fPlugin['TableName'];
 
         $plugin['Place'] = $place;
         $plugin['Number'] = $number;
@@ -61,45 +62,45 @@ class SwitchPlugin
         switch ($cPluginFK) {
             case '1':
                 # Step Box
-                $pluginData = $this->creatStepBox($fModulePluginId, $fPluginPluginFK);
+                $pluginData = $this->creatStepBox($fModulePluginId, $fPluginPluginFK, $pluginTable);
                 break;
             case '2':
                 # Dinamic Popup Form
-                $pluginData = $this->creatDinamicForm($fModulePluginId, $fPluginPluginFK);
+                $pluginData = $this->creatDinamicForm($fModulePluginId, $fPluginPluginFK, $pluginTable);
                 break;
             case '3':
                 # Filter And Sort
-                $pluginData = $this->creatFilter($fModulePluginId, $fPluginPluginFK);
+                $pluginData = $this->creatFilter($fModulePluginId, $fPluginPluginFK, $pluginTable);
                 break;
             case '4':
                 # Card box
                 require_once('Display/CardBox.php');
                 $cardBox = new CardBox();
-                $pluginData = $cardBox->createData($fModulePluginId, $fPluginPluginFK);
+                $pluginData = $cardBox->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
                 break;
             case '5':
                 # Details
                 require_once('Display/Details.php');
                 $details = new Details();
-                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
+                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
                 break;
             case '6':
                 # Connected object
                 require_once('Display/ConnectedObject.php');
                 $connectedObject = new ConnectedObject();
-                $pluginData = $connectedObject->createData($fModulePluginId, $fPluginPluginFK);
+                $pluginData = $connectedObject->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
                 break;
             case '7':
                 # Table
                 require_once('Display/Table.php');
-                $details = new Table();
-                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
+                $table = new Table();
+                $pluginData = $table->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
                 break;
             case '8':
                 # Step Box (display)
-                require_once('Display/Table.php');
-                $details = new Table();
-                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK);
+                require_once('Display/StepBox.php');
+                $stepBox = new StepBox();
+                $pluginData = $stepBox->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
                 break;
             default:
                 //error
@@ -145,7 +146,7 @@ class SwitchPlugin
 
     /** Plugins **/
     # Dinamic Popup Form
-    function creatDinamicForm($fModulePluginFK, $fPluginPluginFK)
+    function creatDinamicForm($fModulePluginFK, $fPluginPluginFK, $pluginTable)
     {
         //includes
         require_once('CreateFormInputs.php');
@@ -177,7 +178,7 @@ class SwitchPlugin
     }
 
     # Step Box
-    function creatStepBox($fModulePluginFK, $fPluginPluginFK)
+    function creatStepBox($fModulePluginFK, $fPluginPluginFK, $pluginTable)
     {
         //includes
         require_once('CreateFormInputs.php');
@@ -209,7 +210,7 @@ class SwitchPlugin
     }
 
     # Filter And Sort
-    function creatFilter($fModulePluginFK, $fPluginPluginFK)
+    function creatFilter($fModulePluginFK, $fPluginPluginFK, $pluginTable)
     {
         //includes
         require_once('CreateFormInputs.php');

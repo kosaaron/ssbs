@@ -12,7 +12,7 @@ class ConnectedObject
         $this->pdo = $PDOConnect->pdo;
     }
 
-    public function createData($fModulePluginFK, $fPluginPluginFK)
+    public function createData($fModulePluginFK, $fPluginPluginFK, $pluginTable)
     {
         /** Includes */
         //GetData
@@ -20,7 +20,7 @@ class ConnectedObject
         $getData = new GetData('ManualFiltering', false);
 
         $main_data = array();
-        $main_data = $getData->Create($fModulePluginFK, $fPluginPluginFK);
+        $main_data = $getData->Create($fModulePluginFK, $fPluginPluginFK, $pluginTable);
 
         return $main_data;
     }

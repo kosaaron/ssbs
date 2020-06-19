@@ -8,7 +8,7 @@ class GetData
     /**
      * Get data
      */
-    function __construct($filteringType, $oneItem)
+    function __construct($filteringType, $oneItem = false)
     {
         //PDO connection
         require_once('Connect.php');
@@ -29,8 +29,9 @@ class GetData
      * Create data
      * {string} fModulePluginFK
      * {string} fPluginPluginFK
+     * {string} pluginTable
      */
-    function Create($fModulePluginFK, $fPluginPluginFK)
+    function Create($fModulePluginFK, $fPluginPluginFK, $pluginTable)
     {
         $fPluginDisplays = $this->pdo->query(
             "SELECT * FROM f_plugin_display WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
@@ -38,6 +39,7 @@ class GetData
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $main_data = array();
+        $this->pluginTable = $pluginTable;
 
         foreach ($fPluginDisplays as $fPluginDisplay) {
             $fPluginDisplayId = $fPluginDisplay['FPluginDisplayId'];
@@ -125,6 +127,13 @@ class GetData
         $sort = "";
         $limit = "LIMIT 21";
 
+        if (array_key_exists('LimiterData', $uplodedData)) {
+            $limiterData = $uplodedData['LimiterData'];
+            $offset = $limiterData['Offset'];
+            $limitValue = $limiterData['Limit'];
+            $limit = "LIMIT $offset, $limitValue";
+        }
+
         if ($this->filteringType === 'AutoFiltering') {
             $filterAndSort = $this->getFilterAndSort($uplodedData, $mainTable);
             $pathIds = $filterAndSort['PathIds'];
@@ -135,23 +144,44 @@ class GetData
                 $idOfData = $uplodedData['IdOfData'];
                 $where = "WHERE $tableIdColumn='$idOfData'";
             } else {
-                //$where = "WHERE 0";
                 $filterAndSort = $this->getFilterAndSort($uplodedData, $mainTable);
                 $pathIds = $filterAndSort['PathIds'];
                 $where = $filterAndSort['Where'];
                 $sort = $filterAndSort['Sort'];
-
-                if ($this->oneItem) {
-                    $limit = "LIMIT 1";
-                }
             }
         }
 
-        if (array_key_exists('LimiterData', $uplodedData)) {
-            $limiterData = $uplodedData['LimiterData'];
-            $offset = $limiterData['Offset'];
-            $limitValue = $limiterData['Limit'];
-            $limit = "LIMIT $offset, $limitValue";
+        if ($this->oneItem) {
+            $limit = "LIMIT 1";
+        }
+
+        //Plugin table is the relative table in query
+        $realtiveTable = $this->pluginTable;
+        //Get main table primary key
+        $pTableIdQueary = $this->pdo->prepare("SHOW KEYS FROM $realtiveTable WHERE Key_name = 'PRIMARY'");
+        $pTableIdQueary->execute();
+        $pTableIdArr = $pTableIdQueary->fetchAll();
+        $pTableIdColumn = $pTableIdArr[0]['Column_name'];
+
+        if ($realtiveTable !== $mainTable) {
+            $subqueryQuery = $this->getQueryString(
+                $pathIds,
+                $mainTable,
+                $tableIdColumn,
+                $where,
+                $sort,
+                $limit
+            );
+
+            $subqueryQueryResult = $this->pdo->query($subqueryQuery)->fetch(PDO::FETCH_ASSOC);
+            $mainId = $subqueryQueryResult[$tableIdColumn];
+
+            $pathIds = $this->findRelationship->findPath($mainTable, $realtiveTable);
+
+            $result = array();
+            $pathIds = array();
+            $where = "WHERE $tableIdColumn = $mainId";
+            $sort = "";
         }
 
         $selectValues = '';
@@ -169,15 +199,16 @@ class GetData
             }
             $selectValues .= "$tableName.$columnName AS '$number'";
 
-            if ($tableName !== $mainTable) {
-                $newPathIds = $this->findRelationship->findPath($mainTable, $tableName);
+            if ($tableName !== $realtiveTable) {
+                $newPathIds = $this->findRelationship->findPath($realtiveTable, $tableName);
                 $pathIds = array_unique(array_merge($pathIds, $newPathIds));
             }
         }
+
         $relationships = $this->findRelationship->getFullRelationship($pathIds);
         foreach ($relationships as $relationship) {
             $innnerJoin .= ' INNER JOIN ';
-            if ($relationship['TABLE_NAME'] === $mainTable) {
+            if ($relationship['TABLE_NAME'] === $realtiveTable) {
                 $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
             } else {
                 $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
@@ -185,10 +216,27 @@ class GetData
             $innnerJoin .= $relationship['COLUMN_NAME'] . '=' . $relationship['REFERENCED_COLUMN_NAME'];
         }
 
-        $queryString = "SELECT $selectValues FROM $mainTable $innnerJoin $where $sort $limit;";
+        $queryString = "SELECT $selectValues FROM $realtiveTable $innnerJoin $where $sort $limit;";
         $result = $this->pdo->query($queryString)->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
+    }
+
+    function getQueryString($pathIds, $realtiveTable, $selectValues, $where = '', $sort = '', $limit = '')
+    {
+        $innnerJoin = '';
+        $relationships = $this->findRelationship->getFullRelationship($pathIds);
+        foreach ($relationships as $relationship) {
+            $innnerJoin .= ' INNER JOIN ';
+            if ($relationship['TABLE_NAME'] === $realtiveTable) {
+                $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
+            } else {
+                $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
+            }
+            $innnerJoin .= $relationship['COLUMN_NAME'] . '=' . $relationship['REFERENCED_COLUMN_NAME'];
+        }
+
+        return "SELECT $selectValues FROM $realtiveTable $innnerJoin $where $sort $limit";
     }
 
     function getFilterAndSort($uplodedData, $mainTable)
