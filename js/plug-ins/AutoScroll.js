@@ -22,6 +22,8 @@ class AutoScroll {
                 sHeight -= $(this).outerHeight(true);
         });
 
+        sHeight -= element.outerHeight() - element.height();
+
         element.height(sHeight);
         if (!ArrayFunctions.HasClass(elementId, "auto-scroll-default")) {
             element.addClass("auto-scroll-default");

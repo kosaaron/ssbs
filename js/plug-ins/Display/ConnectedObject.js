@@ -61,6 +61,7 @@ export default class ConnectedObject {
             let titleFrameId = changeData.TitleFrameId;
 
             ConnectedObject.create(changeData.Plugin, frameId, parentFrameId, titleFrameId);
+            AutoScroll.Integration(`${parentFrameId}_content`);
         });
 
         $(`#${parentFrameId}`).bind(`${parentFrameId}_change_details_co`, function (e) {
