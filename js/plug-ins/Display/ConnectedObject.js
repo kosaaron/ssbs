@@ -1,6 +1,7 @@
 import DetailsDesigns from "../../designs/DetailsDesigns.js";
 import CreateDBox from "../CreateDBox.js";
 import Limiter from "../Limiter.js";
+import AutoScroll from "../AutoScroll.js";
 
 export default class ConnectedObject {
     /**

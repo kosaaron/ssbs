@@ -24,7 +24,7 @@ export default class StepBox {
     }
 
     static create(plugin, frameId, parentFrameId, titleFrameId) {
-        let detailsDesigns = new DetailsDesigns;
+        let detailsDesigns = new DetailsDesigns();
 
         //Tab title
         document.getElementById(titleFrameId).insertAdjacentHTML(
@@ -46,8 +46,110 @@ export default class StepBox {
         let detailsObjectFrame = detailsDesigns.getSimpleObjectFrame(frameId);
         let detailsObject = detailsDesigns.getDefaultObject(frameId);
 
+        /*
         let createDBox = new CreateDBox();
-        createDBox.create(contentData, detailsObjectFrame, detailsObject, frameId);
+        createDBox.create(contentData, detailsObjectFrame, detailsObject, frameId);*/
+        StepBox.cerateContent(contentData, frameId);
+    }
+    /**
+     * CerateContent
+     * @param {JSON} contentData 
+     * @param {String} frameId 
+     */
+    static cerateContent(contentData, frameId) {
+        let frameElement = document.getElementById(frameId);
+        frameElement.classList.add('task-timeline');
+
+        let data = contentData.Data;
+        data.sort(function (a, b) {
+            return a['2'] - b['2'];
+        });
+
+        let numbers = [];
+        for (const object of data) {
+            let currentNumber = object['2'];
+            let isNew = true;
+            for (const number of numbers) {
+                if (currentNumber === number) {
+                    isNew = false;
+                }
+            }
+
+            if (isNew) {
+                //step number & name
+                frameElement.insertAdjacentHTML(
+                    'beforeend',
+                    StepBox.getStepCard(frameId, object)
+                )
+
+                numbers.push(currentNumber);
+            }
+
+            //step empls
+            document.getElementById(`${frameId}_${currentNumber}`).insertAdjacentHTML(
+                'beforeend',
+                StepBox.getSubstepCard(frameId, object)
+            )
+        }
+    }
+    /**
+     * GetStepCard
+     * @param {String} frameId 
+     * @param {JSON} object 
+     */
+    static getStepCard(frameId, object) {
+        let number = object['2'];
+        let name = object['3'];
+        let active = object['5'];
+
+        let show = '';
+        let activevStep = '';
+        if (active === '1') {
+            show = 'show';
+            activevStep = 'actual-step';
+        }
+
+        return `
+            <li>
+                <div class="task-timeline-item">
+                <span class="${activevStep}">${number}</span>
+                <div class="task-timeline-item-content">
+                    <a data-toggle="collapse" href="#${frameId}_${number}" role="button" aria-expanded="true" aria-controls="task_timel" class="">
+                        <h3>${name}</h3>
+                    </a>
+                    <div id="${frameId}_${number}" class="collapse ${show}"></div>
+                </div>
+                </div>
+            </li>`;
+    }
+    /**
+     * GetSubstepCard
+     * @param {String} frameId 
+     * @param {JSON} object 
+     */
+    static getSubstepCard(frameId, object) {
+        let number = object['2'];
+        let employee = object['4'];
+        let active = object['5'];
+        let ready = object['6'];
+
+        let icon = '';
+        let checkIcon = '';
+        if (ready === '1') {
+            icon = 'fa-check empl-status-ready';
+        } else {
+            icon = 'fa-user empl-status-work';
+            if (active === '1') {
+                checkIcon = `<i id="${frameId}_${number}_${employee}_check" class="tsk-way-empl-icon-check fas fa-check"></i>`;
+            }
+        }
+
+        return `
+            <div class="row add-employee-card">
+                <div employee="${frameId}_${number}_${employee}" 
+                    class="btn btn-sm employee-box employee-button">
+                    <i class="addemployee-icon fas ${icon}"></i>${employee}${checkIcon}</div>
+            </div>`;
     }
     /**
      * Events

@@ -95,6 +95,7 @@ let Database = {
             url: "./php/GetTaskManager.php",
             data: "",
             success: function (data) {
+                console.log(data);
                 Varibles.PageData = data;
                 Loadings.reloadFullPage(Varibles.PageData);
             },
