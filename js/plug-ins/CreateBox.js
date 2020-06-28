@@ -15,10 +15,13 @@ export default class CreateBox {
 
         //Get the indexes on the card
         let cardIndexes = this.getCardIndexes(card);
-        //Get the indexes from data
-        let dataIndexes = Object.keys(data[0]);
+        //Get the indexes from frist object of data
+        let firstObj = data[0];
+        let dataIndexes = Object.keys(firstObj);
         //Calculate indexes of usless units
-        let removeIndexes = cardIndexes.filter(n => !dataIndexes.includes(n));
+        //let removeIndexes = cardIndexes.filter(n => !dataIndexes.includes(n));
+        let removeIndexes = CreateBox.getRemoveIndexes(cardIndexes, dataIndexes, firstObj);
+        
         //Get ready card 
         let readyCard = this.getReadyCard(card, removeIndexes);
 
@@ -35,9 +38,68 @@ export default class CreateBox {
         for (const object of data) {
             document.getElementById(targetId).insertAdjacentHTML(
                 'beforeend',
-                this.replaceValues(object, readyCard)
+                CreateBox.replaceValues(object, readyCard)
             );
         }
+    }
+
+    static getRemoveIndexes(cardIndexes, dataIndexes, firstObj) {
+        let result = [];
+        for (const cardIndex of cardIndexes) {
+            if (getIsRemoveIndex(cardIndex, dataIndexes, firstObj)) {
+                result.push(cardIndex);
+            }
+        }
+
+        return result;
+
+        //GetIsRemoveIndex
+        function getIsRemoveIndex(cardIndex, dataIndexes, firstObj) {
+            let isRemoveIndex = true;
+            for (const dataIndex of dataIndexes) {
+                let value = firstObj[dataIndex];
+                if (value && typeof value === 'object' && value.constructor === Object) {
+                    return getIsRemoveIndex(cardIndex, Object.keys(value), value);
+                }
+
+                if (dataIndex === cardIndex) {
+                    isRemoveIndex = false;
+                    break;
+                }
+            }
+
+            return isRemoveIndex;
+        }
+    }
+
+    /**
+     * GetValue
+     * @param {JSON} object 
+     * @param {String} number 
+     */
+    static getValue(object, number) {
+        if (object.hasOwnProperty(number)) {
+            let final = {};
+            final['id'] = object['1'];
+            final['value'] = object[number];
+            return final;
+        }
+
+        for (const oNumber in object) {
+            if (object.hasOwnProperty(oNumber)) {
+                const value = object[oNumber];
+
+                if (value && typeof value === 'object' && value.constructor === Object) {
+                    let result = StepBox.getValue(value, number);
+
+                    if (result !== null) {
+                        return result;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -45,10 +107,14 @@ export default class CreateBox {
      * @param {JSON} object 
      * @param {String} card 
      */
-    replaceValues(object, card) {
+    static replaceValues(object, card) {
         for (const number in object) {
             if (object.hasOwnProperty(number)) {
-                const value = object[number];
+                let value = object[number];
+                if (value && typeof value === 'object' && value.constructor === Object) {
+                    card = CreateBox.replaceValues(value, card);
+                    continue;
+                }
 
                 let searchValue = `*${number}*`
                 searchValue = new RegExp(`\\*${number}\\*`, 'g')

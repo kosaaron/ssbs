@@ -33,13 +33,13 @@ class GetData
      */
     function Create($fModulePluginFK, $fPluginPluginFK, $pluginTable)
     {
+        $main_data = array();
+        $this->pluginTable = $pluginTable;
+
         $fPluginDisplays = $this->pdo->query(
             "SELECT * FROM f_plugin_display WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->switchPlugin->ifNull($fPluginPluginFK)
         )->fetchAll(PDO::FETCH_ASSOC);
-
-        $main_data = array();
-        $this->pluginTable = $pluginTable;
 
         foreach ($fPluginDisplays as $fPluginDisplay) {
             $fPluginDisplayId = $fPluginDisplay['FPluginDisplayId'];
@@ -66,6 +66,9 @@ class GetData
         require_once('ModuleMetadata.php');
         $cModuleId = ModuleMetadata::$cModuleId;
         $uplodedData = ModuleMetadata::$uplodedData;
+
+        /** Global varibles */
+        $pluginTable = $this->pluginTable;
 
         /** Create displayed column structure */
         $result = array();
@@ -95,10 +98,16 @@ class GetData
         //First is primary key column
         $column = array();
 
+        //Get plugin table primary key
+        $pTableIdQueary = $this->pdo->prepare("SHOW KEYS FROM $pluginTable WHERE Key_name = 'PRIMARY'");
+        $pTableIdQueary->execute();
+        $pTableIdArr = $pTableIdQueary->fetchAll();
+        $pTableIdColumn = $pTableIdArr[0]['Column_name'];
+
         $column['Number'] = '1';
         $column['Name'] = 'TableId';
-        $column['TableName'] = $mainTable;
-        $column['ColumnName'] = $tableIdColumn;
+        $column['TableName'] = $pluginTable;
+        $column['ColumnName'] = $pTableIdColumn;
         $column['CModuleId'] = $cModuleId;
         $structure[] = $column;
 
@@ -157,11 +166,6 @@ class GetData
 
         //Plugin table is the relative table in query
         $realtiveTable = $this->pluginTable;
-        //Get main table primary key
-        $pTableIdQueary = $this->pdo->prepare("SHOW KEYS FROM $realtiveTable WHERE Key_name = 'PRIMARY'");
-        $pTableIdQueary->execute();
-        $pTableIdArr = $pTableIdQueary->fetchAll();
-        $pTableIdColumn = $pTableIdArr[0]['Column_name'];
 
         if ($realtiveTable !== $mainTable) {
             $subqueryQuery = $this->getQueryString(
@@ -179,12 +183,12 @@ class GetData
             $pathIds = $this->findRelationship->findPath($mainTable, $realtiveTable);
 
             $result = array();
-            $pathIds = array();
             $where = "WHERE $tableIdColumn = $mainId";
             $sort = "";
         }
 
         $selectValues = '';
+        $connectedTables = array();
         $innnerJoin = '';
         $first = true;
         foreach ($structure as $object) {
@@ -197,6 +201,30 @@ class GetData
             } else {
                 $selectValues .= ", ";
             }
+
+            if ($realtiveTable !== $tableName) {
+                //Is the table alraedy declared
+                $isNew = true;
+                foreach ($connectedTables as $connectedTable => $connectedTableData) {
+                    if ($connectedTable === $tableName) {
+                        $isNew = false;
+                        break;
+                    }
+                }
+
+                if ($isNew) {
+                    //Get id column of the foreign table
+                    $ctTableIdQueary = $this->pdo->prepare("SHOW KEYS FROM $tableName WHERE Key_name = 'PRIMARY'");
+                    $ctTableIdQueary->execute();
+                    $ctTableIdArr = $ctTableIdQueary->fetch();
+                    $ctTableIdColumn = $ctTableIdArr['Column_name'];
+
+                    $selectValues .= "$tableName.$ctTableIdColumn AS '$tableName', ";
+                }
+
+                $connectedTables[$tableName][$number] = 'null';
+            }
+
             $selectValues .= "$tableName.$columnName AS '$number'";
 
             if ($tableName !== $realtiveTable) {
@@ -206,6 +234,8 @@ class GetData
         }
 
         $relationships = $this->findRelationship->getFullRelationship($pathIds);
+
+        //Processes the database connections
         foreach ($relationships as $relationship) {
             $innnerJoin .= ' INNER JOIN ';
             if ($relationship['TABLE_NAME'] === $realtiveTable) {
@@ -216,8 +246,26 @@ class GetData
             $innnerJoin .= $relationship['COLUMN_NAME'] . '=' . $relationship['REFERENCED_COLUMN_NAME'];
         }
 
+        //Select data
         $queryString = "SELECT $selectValues FROM $realtiveTable $innnerJoin $where $sort $limit;";
         $result = $this->pdo->query($queryString)->fetchAll(PDO::FETCH_ASSOC);
+
+        //Restructure the data
+        foreach ($result as $key => $row) {
+            $nRow = $row;
+            foreach ($connectedTables as $table => $ctObject) {
+                $nRow[$table] = array();
+                $nRow[$table]['1'] = $row[$table];
+
+                foreach ($ctObject as $number => $value) {
+                    $nRow[$table][$number] = $row[$number];
+
+                    unset($nRow[$number]);
+                }
+            }
+
+            $result[$key] = $nRow;
+        }
 
         return $result;
     }

@@ -98,9 +98,9 @@ export default class StepBox {
      * @param {JSON} object 
      */
     static getStepCard(frameId, object) {
-        let number = object['2'];
-        let name = object['3'];
-        let active = object['5'];
+        let number = StepBox.getValue(object, '2').value;
+        let name = StepBox.getValue(object, '3').value;
+        let active = StepBox.getValue(object, '5').value;
 
         let show = '';
         let activevStep = '';
@@ -128,10 +128,10 @@ export default class StepBox {
      * @param {JSON} object 
      */
     static getSubstepCard(frameId, object) {
-        let number = object['2'];
-        let employee = object['4'];
-        let active = object['5'];
-        let ready = object['6'];
+        let number = StepBox.getValue(object, '2').value;
+        let employee = StepBox.getValue(object, '4');
+        let active = StepBox.getValue(object, '5').value;
+        let ready = StepBox.getValue(object, '6').value;
 
         let icon = '';
         let checkIcon = '';
@@ -140,16 +140,45 @@ export default class StepBox {
         } else {
             icon = 'fa-user empl-status-work';
             if (active === '1') {
-                checkIcon = `<i id="${frameId}_${number}_${employee}_check" class="tsk-way-empl-icon-check fas fa-check"></i>`;
+                checkIcon = `<i id="${frameId}_${number}_${employee.id}_check" class="tsk-way-empl-icon-check fas fa-check"></i>`;
             }
         }
 
         return `
             <div class="row add-employee-card">
-                <div employee="${frameId}_${number}_${employee}" 
+                <div employee="${frameId}_${number}_${employee.id}" 
                     class="btn btn-sm employee-box employee-button">
-                    <i class="addemployee-icon fas ${icon}"></i>${employee}${checkIcon}</div>
+                    <i class="addemployee-icon fas ${icon}"></i>${employee.value}${checkIcon}</div>
             </div>`;
+    }
+    /**
+     * GetValue
+     * @param {JSON} object 
+     * @param {String} number 
+     */
+    static getValue(object, number) {
+        if (object.hasOwnProperty(number)) {
+            let final = {};
+            final['id'] = object['1'];
+            final['value'] = object[number];
+            return final;
+        }
+
+        for (const oNumber in object) {
+            if (object.hasOwnProperty(oNumber)) {
+                const value = object[oNumber];
+
+                if (value && typeof value === 'object' && value.constructor === Object) {
+                    let result = StepBox.getValue(value, number);
+
+                    if (result !== null) {
+                        return result;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
     /**
      * Events

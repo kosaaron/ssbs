@@ -17,42 +17,60 @@ export default class CreateDBox {
 
         let counter = 1;
         for (const object of data) {
-            //Get and remove id
-            //let objectId = object[1];
-            delete object[1];
-
-            //Add subobject frame
-            document.getElementById(targetId).insertAdjacentHTML(
-                'beforeend',
-                this.replaceValues({ '1': counter }, card)
-            );
-
-            //Add subobjects
-            for (const number in object) {
-                if (object.hasOwnProperty(number)) {
-                    const value = object[number];
-                    const label = subStructure[number];
-
-                    let subObject = {};
-                    subObject['n'] = number;
-                    subObject['c'] = counter;
-                    subObject['l'] = label;
-                    subObject['v'] = value;
-
-                    if (value === null || value === 'null' || value === '') {
-                        continue;
-                    }
-
-                    document.getElementById(`${targetId}_${counter}`).insertAdjacentHTML(
-                        'beforeend',
-                        this.replaceValues(subObject, subcard)
-                    );
-                }
-            }
-            ++counter;
+            counter = CreateDBox.createCard(object, subStructure, card, subcard, targetId, counter)
         }
     }
+    /**
+     * CreateCard
+     * @param {JSON} object 
+     * @param {JSON} subStructure 
+     * @param {String} card 
+     * @param {String} subcard 
+     * @param {String} targetId 
+     * @param {String} counter 
+     */
+    static createCard(object, subStructure, card, subcard, targetId, counter) {
+        //Get and remove id
+        //let objectId = object[1];
+        delete object[1];
 
+        //Add subobject frame
+        document.getElementById(targetId).insertAdjacentHTML(
+            'beforeend',
+            CreateDBox.replaceValues({ '1': counter }, card)
+        );
+
+        //Add subobjects
+        for (const number in object) {
+            if (object.hasOwnProperty(number)) {
+                const value = object[number];
+                if (value === null || value === 'null' || value === '') {
+                    continue;
+                }
+
+                if (value && typeof value === 'object' && value.constructor === Object) {
+                    counter = CreateDBox.createCard(value, subStructure, card, subcard, targetId, counter)
+                    continue;
+                }
+
+                const label = subStructure[number];
+
+                let subObject = {};
+                subObject['n'] = number;
+                subObject['c'] = counter;
+                subObject['l'] = label;
+                subObject['v'] = value;
+
+                document.getElementById(`${targetId}_${counter}`).insertAdjacentHTML(
+                    'beforeend',
+                    CreateDBox.replaceValues(subObject, subcard)
+                );
+            }
+        }
+        ++counter;
+
+        return counter;
+    }
     /**
      * getSubStructure
      * @param {JSON} structure 
@@ -70,10 +88,15 @@ export default class CreateDBox {
      * @param {JSON} object 
      * @param {String} card 
      */
-    replaceValues(object, card) {
+    static replaceValues(object, card) {
         for (const number in object) {
             if (object.hasOwnProperty(number)) {
                 const value = object[number];
+
+                if (value && typeof value === 'object' && value.constructor === Object) {
+
+                    continue;
+                }
 
                 let searchValue = `*${number}*`
                 searchValue = new RegExp(`\\*${number}\\*`, 'g')
