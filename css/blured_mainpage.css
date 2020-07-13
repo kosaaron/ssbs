@@ -53,14 +53,14 @@
 .new-employee-popup{
     z-index: 1100;
     text-align: center;
-    width: 100%;
+    width: 50%;
     height: 250px;
 }
 .new_password_form_container{
-    padding-top: 40px;
+
 }
 .newpassword-formcontrol{
-    width: 60%;
+    width: 85%;
     height: calc(1.5em + .75rem + 2px);
     padding: .175rem .55rem;
     font-size: 1rem;
@@ -73,4 +73,26 @@
     border: 1px solid #aaa;
     border-radius: 10px;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.new-password-label-container{
+    border-left: 2px solid #aaa;
+    text-align: left;
+}
+.new-password-textbox-container{
+    padding-top: 30px;
+}
+@media only screen and (max-width: 768px) {
+    .new-employee-popup{
+        width: 95%;
+        height: 350px;
+    }
+    .newpassword-formcontrol{
+        width: 100%;
+    }
+    .new-password-label-container{
+        margin-top: 20px;
+        text-align: right;
+        border: none;
+    }
 }

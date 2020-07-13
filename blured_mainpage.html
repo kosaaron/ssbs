@@ -531,23 +531,26 @@ if(isset($_GET['act_code'])){
     <div class="darkened-bg">
 
     </div>
-    <div class="row">
-        <div class=" col-4 col-sm-12">
-            <div class="dnmcppp-container  display-flex flex-column new-employee-popup">
-                <div class="dnmcppp-header">Új jelszó megadása</div>
-                <div class="dnmcppp-content flex-1">
-                    <div class="new_password_form_container">
-                        <form method="post" id="password_form">
+    <div class="dnmcppp-container  display-flex flex-column new-employee-popup">
+        <div class="dnmcppp-header">Új jelszó megadása</div>
+        <div class="dnmcppp-content flex-1">
+            <div class="new_password_form_container">
+                <form method="post" id="password_form">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 new-password-textbox-container">
                             <input value="" type="text" name="password" id="password" class="newpassword-formcontrol"></input>
-                            <div id="prco_dnmcppp_save" class="save-btn-1 btn btn-sm">
-                                rendben
-                            </div>
-                        </form>
+                        </div>
+                        <div class="col-sm-12 col-md-6 new-password-label-container">
+                            <label for="password"><p>Kérjük adjon meg egy biztonságos jelszót! A későbbiekben ezt tudja használni ezen az eszközön a bejelentkezéshez.</p></label>
+                        </div>
                     </div>
-                </div>
-                <div class="dnmcppp-footer">
-        
-                </div>
+                    
+                </form>
+            </div>
+        </div>
+        <div class="dnmcppp-footer">
+            <div id="prco_dnmcppp_save" class="save-btn-1 btn btn-sm">
+                rendben
             </div>
         </div>
     </div>
