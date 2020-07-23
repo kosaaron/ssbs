@@ -257,7 +257,8 @@ let FormInputs = {
         let id = objectItem.FFormInputId,
             name = objectItem.Name,
             tableName = objectItem.TableName,
-            columnName = objectItem.ColumnName;
+            columnName = objectItem.ColumnName,
+            defaultValue = objectItem.DefaultValue;
 
         let readyHTML = "";
         FormInputs.SelectPlus(objectItem, shellId);

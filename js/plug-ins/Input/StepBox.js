@@ -9,12 +9,12 @@ export default class StepBox {
      * **Events**
      *   <frameId>_save
      * ------------------------------
-     * @param {String} parentFrameId 
-     * @param {String} targetId 
      * @param {JSON} data 
+     * @param {String} frameId 
+     * @param {String} parentFrameId 
      */
-    constructor(parentFrameId, frameId, data) {
-        this.load(frameId);
+    constructor(data, frameId, parentFrameId) {
+        StepBox.load(frameId);
         this.events(parentFrameId, frameId);
 
         let stepNameWrite = {};
@@ -68,7 +68,7 @@ export default class StepBox {
     /**
      * load
      */
-    load(frameId) {
+    static load(frameId) {
         document.getElementById(frameId).insertAdjacentHTML(
             'beforeend',
             this.getFrameHTML(frameId)
@@ -117,7 +117,7 @@ export default class StepBox {
     /**
      * getFrameHTML
      */
-    getFrameHTML(frameId) {
+    static getFrameHTML(frameId) {
         return `
             <h2 id="ntsk_steps_title" class="new-obj-subtitle">Feladat lépései</h2>
             <div id="ntsk_steps_new_box" class="d-flex justify-content-between align-items-center">

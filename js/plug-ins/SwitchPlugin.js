@@ -3,6 +3,7 @@
  */
 /** Imports */
 import Filter from './Filter.js';
+import DinamicFormPopup from './DinamicFormPopup.js';
 
 export default class SwitchPlugin {
     /**
@@ -21,10 +22,23 @@ export default class SwitchPlugin {
         let pluginHTML = "";
 
         switch (plugin.CPluginId) {
-            // case '1':
-            //     break;
-            // case '2':
-            //     break;
+            case '1':
+                //let stepBox = new StepBox(frameId, target, plugin);
+                Promise.all([
+                    import('./Input/StepBox.js'),
+                ]).then(([Module]) => {
+                    let StepBox = Module.default;
+                    new StepBox(plugin, frameId, parentFrameId);
+                });
+                break;
+            case '2':
+                Promise.all([
+                    import('./DinamicFormPopup.js'),
+                ]).then(([Module]) => {
+                    let DinamicFormPopup = Module.default;
+                    new DinamicFormPopup(plugin, frameId, parentFrameId);
+                });
+                break;
             /** Filter */
             case '3':
                 let filter = new Filter();
