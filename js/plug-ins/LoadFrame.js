@@ -195,7 +195,7 @@ export default class LoadFrame {
             case '1012':
                 return './LoadModule.js';
             case '1013':
-                return '../projects.js';
+                return '../settings.js';
             case '1014':
                 return '../log_out.js';
             default:

@@ -56,9 +56,6 @@
     width: 50%;
     height: 250px;
 }
-.new_password_form_container{
-
-}
 .newpassword-formcontrol{
     width: 85%;
     height: calc(1.5em + .75rem + 2px);

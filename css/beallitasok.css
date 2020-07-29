@@ -1,0 +1,41 @@
+.setting-menu-item{
+    padding: 12px;
+    color: #555;
+}
+.setting-menu-item:hover{
+    color: #0056b3;
+}
+.setting-menu-item-active{
+    color: #0068d8;
+    background-color: #eee;
+}
+.settings-icon{
+    margin-right: 12px;
+    padding: 10px;
+}
+.settings-icon2{
+    margin-right: 5px;
+    padding: 10px;
+}
+#settingsMenu{
+    padding: 0;
+    background-color: #fcfcfc;
+}
+.settings-card{
+    margin-bottom: 30px;
+    padding: 20px;
+    position: relative;
+    background: #fff 50%;
+    background-size: cover;
+    border-radius: .25rem;
+    box-shadow: 0 0 0.25rem rgba(0,0,0,.08), 0 0.5rem 0.75rem rgba(0,0,0,.14);
+}
+.setting-title{
+    color: #555;
+    font-weight: 200;
+}
+.settings-button{
+    position: absolute;
+    top: 24px;
+    right: 18px;
+}
