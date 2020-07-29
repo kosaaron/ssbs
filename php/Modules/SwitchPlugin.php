@@ -149,7 +149,13 @@ class SwitchPlugin
     function creatDinamicForm($fModulePluginFK, $fPluginPluginFK, $pluginTable)
     {
         //includes
+        //GetData
+        require_once('Modules/GetData.php');
+        $getData = new GetData('ManualFiltering', true);
+        //CreateFormInputs
         require_once('CreateFormInputs.php');
+        //ItemFromTree
+        require_once('ItemFromTree.php');
 
         //get dinamic form(s) of plugin
         $fPluginDinamicForms = $this->pdo->query(
@@ -159,6 +165,17 @@ class SwitchPlugin
 
         $dinamicForm = array();
 
+        ///////////////////////new
+        $uploadedData = ModuleMetadata::$uplodedData;
+
+        //Get main table
+        $cModuleId = ModuleMetadata::$cModuleId;
+        $cModule = $this->pdo->query(
+            "SELECT * FROM c_modules WHERE CModuleId" . $this->ifNull($cModuleId)
+        )->fetch(PDO::FETCH_ASSOC);
+        $mainTable = $cModule['MainTable'];
+        ///////////////////////////////////////////////
+
         foreach ($fPluginDinamicForms as $fPluginDinamicForm) {
             $fPluginFormInputId = $fPluginDinamicForm['FPluginFormInputId'];
 
@@ -166,7 +183,23 @@ class SwitchPlugin
             $fDinamicFormInputs = $createFormInputs->Create($fPluginFormInputId);
 
             $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
+
+            $formData = $getData->getDisplayColumns(
+                $fPluginFormInputId,
+                $pluginTable,
+                true
+            );
+
+            foreach ($fDinamicFormInputs as $fDFIKey => $fDFInput) {
+                $fDFINumber = $fDFInput['Number'];
+
+                $itemFromTree = new ItemFromTree();
+                $fDFIValue = $itemFromTree->Find($formData['Data'][0], $fDFINumber);
+                $fDinamicFormInputs[$fDFIKey]['DefaultValue'] = $fDFIValue;
+            }
+
             $dinamicForm['Inputs'] = $fDinamicFormInputs;
+
             $dinamicForm['Childs'] = $this->checkChild(
                 $fModulePluginFK,
                 $fPluginPluginFK,

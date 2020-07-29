@@ -81,9 +81,55 @@ export default class DinamicFormPopup {
         document.getElementById(`${frameId}_data`).innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
 
         this.setPopupSize(frameId);
+
+        let detailsData = {};
+        detailsData = JSON.parse(localStorage.getItem(`${parentFrameId}_data_details_id`));
+
+        //this.createFormData(data, structure);
         this.loadFormData(frameId);
 
         AutoScroll.Integration(frameId);
+    }
+
+    /**
+     * CreateFormData
+     * @param {JSON} data 
+     * @param {JSON} structure 
+     */
+    static createFormData(data, structure) {
+        let result = {};
+        for (const object of structure) {
+            let number = object.Number;
+            let columnFull = `${object.TableName}.${object.ColumnName}`;
+            result[columnFull] = getValue(number, data);
+        }
+
+        alert(JSON.stringify(result));
+        return result;
+
+        /**
+         * getValue
+         * @param {String} number 
+         * @param {JSON} data 
+         */
+        function getValue(number, data) {
+            if (data.hasOwnProperty(number)) {
+                return data[number];
+            } else {
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        const item = data[key];
+                        if (typeof item === "object" && item !== null) {
+                            let resultValue = getValue(number, item);
+                            if (resultValue !== null) {
+                                return resultValue;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
     }
 
     /**

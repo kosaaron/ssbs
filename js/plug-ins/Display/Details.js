@@ -30,6 +30,18 @@ export default class Details {
      * @param {String} parentFrameId 
      */
     static create(plugin, frameId, parentFrameId) {
+        //save data to filled form
+        let dataDetails = {};
+        let dDValue = plugin.Data['1'].Display.Data[0]['1'];
+        let dDObject = null;
+        for (const object of dataDetails['Structure'] = plugin.Data['1'].Display.Structure) {
+            if (object.Number === '1') {
+                dDObject = object;
+            }
+        }
+        dataDetails[`${dDObject.TableName}.${dDObject.ColumnName}`] = dDValue;
+        localStorage.setItem(`${parentFrameId}_data_details_id`, JSON.stringify(dDObject));
+
         let changeData = {};
         changeData = plugin;
         localStorage.setItem(frameId, JSON.stringify(changeData));
@@ -92,7 +104,7 @@ export default class Details {
             let pluginNumber = eventResult.PluginNumber;
             let plugins = currentPlugin.Data.Childs;
             let targetId = `${frameId}_content`;
-            
+
             let childPluginId = `${frameId}_content_${pluginNumber}`;
 
             Details.createChildFrame(targetId, frameId, childPluginId);
