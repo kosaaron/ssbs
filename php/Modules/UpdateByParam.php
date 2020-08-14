@@ -34,14 +34,34 @@ class UpdateByParam
                 }
             }
 
-            $finalSQL .= ' WHERE ' . $entryId['Name'] . '=' . $entryId['Id'] . ';';
-        }
-        echo $finalSQL;
+            $finalSQL .= ' WHERE ' . $entryId['IdColumn'] . '=' . $entryId['Id'] . ';';
 
-        if ($pdo->query($finalSQL)) {
-            echo "S";
+            $finalQueary = $pdo->prepare($finalSQL);
+            $finalQueary->execute();
+
+            $tableIdQueary = $pdo->prepare("SHOW KEYS FROM $table WHERE Key_name = 'PRIMARY'");
+            $tableIdQueary->execute();
+            $tableIdArr = $tableIdQueary->fetchAll();
+            $tableIdColumn = $tableIdArr[0]['Column_name'];
+
+            if ($finalQueary) {
+                $main_data[$table]['Result'] = 'S';
+                $main_data[$table]['LastIdColumn'] = $tableIdColumn;
+                $main_data[$table]['UpdateId'] = $entryId['Id'];
+            } else {
+                $main_data[$table]['result'] = 'F';
+            }
+        }
+
+        return $main_data;
+    }
+
+    function ifNull($varible)
+    {
+        if ($varible === null) {
+            return   " IS NULL";
         } else {
-            echo "F";
+            return "='$varible'";
         }
     }
 }

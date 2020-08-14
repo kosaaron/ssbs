@@ -30,6 +30,21 @@ export default class Details {
      * @param {String} parentFrameId 
      */
     static create(plugin, frameId, parentFrameId) {
+        //save data to filled form
+        let dataDetails = {};
+        let dDValue = plugin.Data['1'].Display.Data[0]['1'];
+        let dDObject = null;
+        for (const object of dataDetails['Structure'] = plugin.Data['1'].Display.Structure) {
+            if (object.Number === '1') {
+                dDObject = object;
+            }
+        }
+
+        let dataDetailsResult = {};
+        dataDetailsResult['IdColumn'] = `${dDObject.TableName}.${dDObject.ColumnName}`;
+        dataDetailsResult['Id'] = dDValue;
+        localStorage.setItem(`${parentFrameId}_data_details_id`, JSON.stringify(dataDetailsResult));
+
         let changeData = {};
         changeData = plugin;
         localStorage.setItem(frameId, JSON.stringify(changeData));
@@ -84,6 +99,12 @@ export default class Details {
             Details.refresh(plugin, frameId, parentFrameId, objectId);
         });
 
+        $(`#${parentFrameId}`).bind(`${parentFrameId}_data_reload`, function (e) {
+            // Retrieve the data from storage
+            let objectId = JSON.parse(localStorage.getItem(`${parentFrameId}_data_details_id`))['Id'];
+            Details.refresh(plugin, frameId, parentFrameId, objectId);
+        });
+
         $(`#${frameId}`).bind(`${frameId}_child_loaded`, function (e) {
             // Retrieve the data from storage
             let eventResult = JSON.parse(localStorage.getItem(`${frameId}_child_loaded`));
@@ -92,7 +113,7 @@ export default class Details {
             let pluginNumber = eventResult.PluginNumber;
             let plugins = currentPlugin.Data.Childs;
             let targetId = `${frameId}_content`;
-            
+
             let childPluginId = `${frameId}_content_${pluginNumber}`;
 
             Details.createChildFrame(targetId, frameId, childPluginId);

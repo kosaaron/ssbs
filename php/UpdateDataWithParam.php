@@ -14,4 +14,5 @@ $entryId = $_POST['EntryId'];
 
 //Call upload function
 $updateByParam = new UpdateByParam();
-$updateByParam->Default($data, $entryId);
+$mainData = [$updateByParam->Default($data, $entryId)];
+print_r(json_encode($mainData));

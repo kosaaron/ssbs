@@ -34,7 +34,6 @@ class GetData
     function Create($fModulePluginFK, $fPluginPluginFK, $pluginTable)
     {
         $main_data = array();
-        $this->pluginTable = $pluginTable;
 
         $fPluginDisplays = $this->pdo->query(
             "SELECT * FROM f_plugin_display WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
@@ -46,7 +45,7 @@ class GetData
             $number = $fPluginDisplay['Number'];
 
             $main_data[$number]['Title'] = $fPluginDisplay['Title'];
-            $main_data[$number]['Display'] = $this->getDisplayColumns($fPluginDisplayId);
+            $main_data[$number]['Display'] = $this->getDisplayColumns($fPluginDisplayId, $pluginTable);
 
             //Childs
             $main_data['Childs'] = $this->switchPlugin->checkChild(
@@ -59,25 +58,42 @@ class GetData
         return $main_data;
     }
 
-    function getDisplayColumns($fPluginDisplayId)
+    function getDisplayColumns($fPluginDisplayId, $pluginTable, $isFormInputs = false)
     {
         /** Includes */
+        //IsSelectItem
+        require_once('IsSelectItem.php');
         //ModuleMetadata
         require_once('ModuleMetadata.php');
+
         $cModuleId = ModuleMetadata::$cModuleId;
         $uplodedData = ModuleMetadata::$uplodedData;
+        $isSelectItem = new IsSelectItem();
 
         /** Global varibles */
-        $pluginTable = $this->pluginTable;
+        //No gobal varibles
 
         /** Create displayed column structure */
         $result = array();
 
-        //Get display columns metadata
-        $fDisplays = $this->pdo->query(
-            "SELECT * FROM f_display INNER JOIN f_columns ON FColumnId=FColumnFK"
-                . " WHERE FPluginDisplayFK" . $this->switchPlugin->ifNull($fPluginDisplayId)
-        )->fetchAll(PDO::FETCH_ASSOC);
+        if ($isFormInputs) {
+            $fDisplays = $this->pdo->query(
+                "SELECT * FROM f_form_inputs INNER JOIN f_columns ON FColumnId=FColumnFK"
+                    . " WHERE FPluginFormInputFK" . $this->switchPlugin->ifNull($fPluginDisplayId)
+            )->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($fDisplays as $fDKey => $fDValue) {
+                if ($isSelectItem->Decide($fDValue['Type'])) {
+                    $fDisplays[$fDKey]['ColumnName'] = $fDValue['TableIdName'];
+                }
+            }
+        } else {
+            //Get display columns metadata
+            $fDisplays = $this->pdo->query(
+                "SELECT * FROM f_display INNER JOIN f_columns ON FColumnId=FColumnFK"
+                    . " WHERE FPluginDisplayFK" . $this->switchPlugin->ifNull($fPluginDisplayId)
+            )->fetchAll(PDO::FETCH_ASSOC);
+        }
 
         //Get main table
         $cModuleId = ModuleMetadata::$cModuleId;
@@ -122,13 +138,13 @@ class GetData
             $structure[] = $column;
         }
 
-        $result['Data'] = $this->getDataByStructure($structure, $mainTable, $tableIdColumn, $uplodedData);
+        $result['Data'] = $this->getDataByStructure($structure, $mainTable, $tableIdColumn, $uplodedData, $pluginTable);
         $result['Structure'] = $structure;
 
         return $result;
     }
 
-    function getDataByStructure($structure, $mainTable, $tableIdColumn, $uplodedData)
+    function getDataByStructure($structure, $mainTable, $tableIdColumn, $uplodedData, $pluginTable)
     {
         $result = array();
         $pathIds = array();
@@ -164,8 +180,12 @@ class GetData
             $limit = "LIMIT 1";
         }
 
+        if ($sort === "") {
+            $sort = "ORDER BY $tableIdColumn DESC";
+        }
+
         //Plugin table is the relative table in query
-        $realtiveTable = $this->pluginTable;
+        $realtiveTable = $pluginTable;
 
         if ($realtiveTable !== $mainTable) {
             $subqueryQuery = $this->getQueryString(
@@ -237,7 +257,7 @@ class GetData
 
         //Processes the database connections
         foreach ($relationships as $relationship) {
-            $innnerJoin .= ' INNER JOIN ';
+            $innnerJoin .= ' LEFT JOIN ';
             if ($relationship['TABLE_NAME'] === $realtiveTable) {
                 $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
             } else {
@@ -312,12 +332,16 @@ class GetData
             $tableName = $splittedUploadName[0];
             $columnName = $splittedUploadName[1];
 
+            $filterValue = $row['DefaultValue'];
+
             if ($isFilter) {
-                $filterData[$tableName][$columnName]['Value'] = $uplodedFilter[$tableName][$columnName];
-            } else {
-                $filterData[$tableName][$columnName]['Value'] = $row['DefaultValue'];
+                $filterValue = $uplodedFilter[$tableName][$columnName];
             }
-            $filterData[$tableName][$columnName]['Type'] = $row['Type'];
+
+            if ($filterValue !== 'null' && $filterValue !== null) {
+                $filterData[$tableName][$columnName]['Value'] = $filterValue;
+                $filterData[$tableName][$columnName]['Type'] = $row['Type'];
+            }
 
             unset($filterAndSortObject[$key]);
         }

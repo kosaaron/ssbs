@@ -24,7 +24,7 @@ let FormInputs = {
                     refreshFn(result);
                 }
             },
-            dataType: 'html'
+            dataType: 'json'
         });
     },
     /**
@@ -191,7 +191,7 @@ let FormInputs = {
                         class="newtask-formcontrol ${fullWidth}" 
                         upload-name="${uploadName}" data-place="${shellId}">`;
         if (required === '0') {
-            readyHTML += '<option value selected>---</option>';
+            readyHTML += '<option value="null" selected>---</option>';
         }
 
         for (let k = 0; k < opportunities.length; k++) {
@@ -228,7 +228,7 @@ let FormInputs = {
         readyHTML += '<select id="' + shellId + '_' + id + '" class="form-control newtask-formcontrol" aria-describedby="button-addon2" upload-name="' + uploadName + '" data-place="' + shellId + '">';
 
         if (required === '0') {
-            readyHTML += '<option value selected>---</option>';
+            readyHTML += '<option value="null" selected>---</option>';
         }
         for (let k = 0; k < opportunities.length; k++) {
             readyHTML += '<option value="' + opportunities[k].Id + '">' + opportunities[k].Name + '</option>';
@@ -436,7 +436,7 @@ let FormInputs = {
                         upload-name="${uploadName}" data-place="${shellId}" data-live-search="true">`;
 
         if (required === '0') {
-            readyHTML += `<option value selected>---</option>`;
+            readyHTML += `<option value="null" selected>---</option>`;
         }
 
         for (let k = 0; k < opportunities.length; k++) {

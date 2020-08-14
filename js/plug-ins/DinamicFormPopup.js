@@ -81,9 +81,54 @@ export default class DinamicFormPopup {
         document.getElementById(`${frameId}_data`).innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
 
         this.setPopupSize(frameId);
-        this.loadFormData(frameId);
+
+        let detailsIdData = {};
+        detailsIdData = JSON.parse(localStorage.getItem(`${parentFrameId}_data_details_id`));
+        //this.createFormData(data, structure);
+        this.loadFormData(frameId, detailsIdData, parentFrameId);
 
         AutoScroll.Integration(frameId);
+    }
+
+    /**
+     * CreateFormData
+     * @param {JSON} data 
+     * @param {JSON} structure 
+     */
+    static createFormData(data, structure) {
+        let result = {};
+        for (const object of structure) {
+            let number = object.Number;
+            let columnFull = `${object.TableName}.${object.ColumnName}`;
+            result[columnFull] = getValue(number, data);
+        }
+
+        alert(JSON.stringify(result));
+        return result;
+
+        /**
+         * getValue
+         * @param {String} number 
+         * @param {JSON} data 
+         */
+        function getValue(number, data) {
+            if (data.hasOwnProperty(number)) {
+                return data[number];
+            } else {
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        const item = data[key];
+                        if (typeof item === "object" && item !== null) {
+                            let resultValue = getValue(number, item);
+                            if (resultValue !== null) {
+                                return resultValue;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
     }
 
     /**
@@ -97,25 +142,23 @@ export default class DinamicFormPopup {
 
     /**
      * Load form data
-     * @param {String} addNFormId 
-     * @param {JSON} dataArray 
-     * @param {String} targetId 
+     * @param {String} frameId 
      * @param {JSON} entryIdJSON use it only for update
-     * @param {Function} setUploadsCallback 
+     * @param {String} parentFrameId 
      */
     static loadFormData(
         frameId,
-        dataArray = null,
         entryIdJSON = null,
-        setUploadsCallback = null,
+        parentFrameId
     ) {
+        /*
         let plugin = localStorage.getItem(frameId);
 
         if (plugin !== null) {
             plugin = JSON.parse(plugin);
             success(plugin);
             return;
-        }
+        }*/
 
         let module = 'ModuleData';
         let data = {};
@@ -124,6 +167,7 @@ export default class DinamicFormPopup {
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
         data['RequestType'] = 'MP';
         data['FModulePluginId'] = '1';
+        data['IdOfData'] = entryIdJSON['Id'];
 
         $.ajax({
             type: "POST",
@@ -131,70 +175,29 @@ export default class DinamicFormPopup {
             data: { 'Module': module, 'Data': data },
             success: function (data) {
                 console.log(JSON.stringify(data));
-                success(data[0]);
+                success(data[0], entryIdJSON, parentFrameId);
             },
             dataType: 'json'
         });
 
-        function success(plugin) {
+        function success(plugin, entryIdJSON, parentFrameId) {
             let number = '1';
             let place = '100';
-
             let formData = plugin.Data;
-            let formInputs = plugin.Data.Inputs;
-            let fillFormData = {}
-            if (entryIdJSON !== null) {
-                let entry = ArrayFunctions.GetItem(
-                    dataArray,
-                    entryIdJSON['Name'],
-                    entryIdJSON['Id']
-                );
 
-                for (const formItem of formInputs) {
-                    let uploadName = formItem['UploadName'];
-                    let value = entry[uploadName];
-
-                    fillFormData[uploadName] = value;
-                }
-            }
-
-            let formObject = {
-                'FormData': formInputs,
-                'FillFormData': fillFormData
-            }
-
-            if (setUploadsCallback !== null) {
-                formObject = setUploadsCallback(formObject);
-            }
-
-            DinamicFormPopup.onLoad(formData, fillFormData, frameId, entryIdJSON);
+            DinamicFormPopup.onLoad(formData, frameId, parentFrameId, entryIdJSON);
         }
     }
 
     /**
      * Loads
      * @param {JSON} formData
-     * @param {JSON} fillFormData 
      * @param {String} frameId 
      * @param {JSON} entryId 
      */
-    static onLoad(formData, fillFormData, frameId, entryId = null) {
+    static onLoad(formData, frameId, parentFrameId, entryId = null) {
         const dataFrameId = frameId + '_data';
         let formInputs = formData.Inputs;
-
-        for (const uploadName in fillFormData) {
-            if (fillFormData.hasOwnProperty(uploadName)) {
-                const defaultValue = fillFormData[uploadName];
-
-                for (let i = 0; i < formInputs.length; i++) {
-                    const entry = formInputs[i];
-                    if (entry.UploadName === uploadName) {
-                        formInputs[i].DefaultValue = defaultValue;
-                        break;
-                    }
-                }
-            }
-        }
 
         document.getElementById(dataFrameId).innerHTML =
             '<h2 id="ntsk_steps_title" class="new-obj-subtitle">Adatok</h2>';
@@ -226,7 +229,7 @@ export default class DinamicFormPopup {
             'click',
             function (e) {
                 //Save default inputs in form
-                DinamicFormPopup.save(frameId, entryId);
+                DinamicFormPopup.save(frameId, parentFrameId, entryId);
             }
         );
 
@@ -329,19 +332,21 @@ export default class DinamicFormPopup {
      * @param {String} targetId 
      * @param {JSON} entryId 
      */
-    static save(frameId, entryId) {
+    static save(frameId, parentFrameId, entryId) {
         let dataFrameId = frameId + '_data';
 
         if (entryId === null) {
             FormInputs.InsertInputs(dataFrameId, function (result) {
-                DinamicFormPopup.saveCallback(frameId, result);
+                DinamicFormPopup.saveCallback(frameId, result, parentFrameId, true);
             });
         } else {
-            FormInputs.UpdateInputs(dataFrameId, entryId, DinamicFormPopup.saveCallback);
+            FormInputs.UpdateInputs(dataFrameId, entryId, function (result) {
+                DinamicFormPopup.saveCallback(frameId, result, parentFrameId, false);
+            });
         }
     }
 
-    static saveCallback(frameId, result) {
+    static saveCallback(frameId, result, parentFrameId, isNew) {
         let tableResultData = {};
 
         for (const table in result[0]) {
@@ -359,13 +364,22 @@ export default class DinamicFormPopup {
             //Broadcast event get response
             $(`#${frameId}`).bind(`${frameId}_save_end`, function (e) {
                 if (counter === saveEventMax) {
+                    let text = '';
+                    if (isNew) {
+                        text = 'A feladat létrehozása sikeres volt!';
+                    } else {
+                        text = 'A feladat sikeresen frissült!';
+                    }
+
                     Swal.fire({
                         type: 'success',
                         title: 'Siker',
-                        text: 'A feladat létrehozása sikeres volt!',
+                        text: text,
                         heightAuto: false
                     });
                     DinamicFormPopup.cancel(frameId);
+
+                    $(`#${parentFrameId}`).trigger(`${parentFrameId}_data_reload`);
                 }
                 ++counter;
             });
