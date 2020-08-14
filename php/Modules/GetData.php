@@ -180,6 +180,10 @@ class GetData
             $limit = "LIMIT 1";
         }
 
+        if ($sort === "") {
+            $sort = "ORDER BY $tableIdColumn DESC";
+        }
+
         //Plugin table is the relative table in query
         $realtiveTable = $pluginTable;
 
@@ -253,7 +257,7 @@ class GetData
 
         //Processes the database connections
         foreach ($relationships as $relationship) {
-            $innnerJoin .= ' INNER JOIN ';
+            $innnerJoin .= ' LEFT JOIN ';
             if ($relationship['TABLE_NAME'] === $realtiveTable) {
                 $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
             } else {
@@ -328,12 +332,16 @@ class GetData
             $tableName = $splittedUploadName[0];
             $columnName = $splittedUploadName[1];
 
+            $filterValue = $row['DefaultValue'];
+
             if ($isFilter) {
-                $filterData[$tableName][$columnName]['Value'] = $uplodedFilter[$tableName][$columnName];
-            } else {
-                $filterData[$tableName][$columnName]['Value'] = $row['DefaultValue'];
+                $filterValue = $uplodedFilter[$tableName][$columnName];
             }
-            $filterData[$tableName][$columnName]['Type'] = $row['Type'];
+
+            if ($filterValue !== 'null' && $filterValue !== null) {
+                $filterData[$tableName][$columnName]['Value'] = $filterValue;
+                $filterData[$tableName][$columnName]['Type'] = $row['Type'];
+            }
 
             unset($filterAndSortObject[$key]);
         }

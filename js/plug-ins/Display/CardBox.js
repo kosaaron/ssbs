@@ -37,6 +37,17 @@ export default class CardBox {
 
             CardBox.filtering(plugin, frameId, parentFrameId, filterData, sortData, limiterData);
         });
+
+        $(`#${parentFrameId}`).bind(`${parentFrameId}_data_reload`, function (e) {
+            // Retrieve the data from storage
+            let filterData = JSON.parse(localStorage.getItem(`${parentFrameId}_filter`));
+            let sortData = JSON.parse(localStorage.getItem(`${parentFrameId}_sort`));
+            let limiterData = JSON.parse(localStorage.getItem(`${parentFrameId}_limiter`));
+            limiterData.Offset = 0;
+
+            CardBox.filtering(plugin, frameId, parentFrameId, filterData, sortData, limiterData);
+        });
+
     }
 
     /**

@@ -165,17 +165,6 @@ class SwitchPlugin
 
         $dinamicForm = array();
 
-        ///////////////////////new
-        $uploadedData = ModuleMetadata::$uplodedData;
-
-        //Get main table
-        $cModuleId = ModuleMetadata::$cModuleId;
-        $cModule = $this->pdo->query(
-            "SELECT * FROM c_modules WHERE CModuleId" . $this->ifNull($cModuleId)
-        )->fetch(PDO::FETCH_ASSOC);
-        $mainTable = $cModule['MainTable'];
-        ///////////////////////////////////////////////
-
         foreach ($fPluginDinamicForms as $fPluginDinamicForm) {
             $fPluginFormInputId = $fPluginDinamicForm['FPluginFormInputId'];
 

@@ -39,8 +39,11 @@ export default class Details {
                 dDObject = object;
             }
         }
-        dataDetails[`${dDObject.TableName}.${dDObject.ColumnName}`] = dDValue;
-        localStorage.setItem(`${parentFrameId}_data_details_id`, JSON.stringify(dDObject));
+
+        let dataDetailsResult = {};
+        dataDetailsResult['IdColumn'] = `${dDObject.TableName}.${dDObject.ColumnName}`;
+        dataDetailsResult['Id'] = dDValue;
+        localStorage.setItem(`${parentFrameId}_data_details_id`, JSON.stringify(dataDetailsResult));
 
         let changeData = {};
         changeData = plugin;
@@ -93,6 +96,12 @@ export default class Details {
         $(`#${parentFrameId}`).bind(`${parentFrameId}_change_details`, function (e) {
             // Retrieve the data from storage
             let objectId = JSON.parse(localStorage.getItem(`${parentFrameId}_change_details`))['ObjectId'];
+            Details.refresh(plugin, frameId, parentFrameId, objectId);
+        });
+
+        $(`#${parentFrameId}`).bind(`${parentFrameId}_data_reload`, function (e) {
+            // Retrieve the data from storage
+            let objectId = JSON.parse(localStorage.getItem(`${parentFrameId}_data_details_id`))['Id'];
             Details.refresh(plugin, frameId, parentFrameId, objectId);
         });
 

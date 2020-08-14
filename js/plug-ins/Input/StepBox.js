@@ -22,13 +22,13 @@ export default class StepBox {
         let subitemList = {};
         for (const input of data.Data.Inputs) {
             switch (input.Number) {
-                case '1':
+                case '2':
                     stepNameWrite = input;
                     break;
-                case '2':
+                case '3':
                     stepNameList = input;
                     break;
-                case '3':
+                case '4':
                     subitemList = input;
                     break;
             }

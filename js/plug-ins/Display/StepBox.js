@@ -2,6 +2,7 @@ import DetailsDesigns from "../../designs/DetailsDesigns.js";
 import CreateDBox from "../CreateDBox.js";
 import Limiter from "../Limiter.js";
 import AutoScroll from "../AutoScroll.js";
+import { addListener } from "../../common.js";
 
 export default class StepBox {
     /**
@@ -133,6 +134,10 @@ export default class StepBox {
         let active = StepBox.getValue(object, '5').value;
         let ready = StepBox.getValue(object, '6').value;
 
+        if (employee.id === null || object === 'null') {
+            return "";
+        }
+
         let icon = '';
         let checkIcon = '';
         if (ready === '1') {
@@ -153,6 +158,7 @@ export default class StepBox {
     }
     /**
      * GetValue
+     * Get value with id
      * @param {JSON} object 
      * @param {String} number 
      */
