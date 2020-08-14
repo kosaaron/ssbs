@@ -20,8 +20,15 @@
 .login-form input{
     margin-top: 10px;
     border-color: rgba(255, 255, 255, 0.3);
-    background-color: rgba(255, 255, 255, 0.3);
-    color: white;
+    background-color: #eee;
+    color: #333;
+}
+.login-form input:focus{
+    margin-top: 10px;
+    border-color: rgba(161, 161, 161, 0.3);
+    background-color: #fefefe;
+    color: #333;
+    box-shadow: 0 0 0 0.2rem #0066a559;
 }
 .login-form button{
     margin-top: 20px;
@@ -70,32 +77,4 @@
 .help-text{
     padding-top: 12px;
     text-align: center;
-}
-#login_message_container{
-    text-align: center;
-    width: 250px;
-    height: 50px;
-    position: absolute;
-    left: 50%;
-    top: 5%;
-    transform: translate(-50%, -50%);
-    border-radius: 5px;
-    background-color: #eee;
-    padding-top: 11px;
-    padding-bottom: 11px;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-#login_message_container p{
-    float: left;
-    font-size: 16px;
-    margin: 0;
-}
-#login_message_container i{
-    position: absolute;
-    font-size: 22px;
-    margin: 0;
-    color: rgba(197, 25, 25, 0.76);
-    right: 15px;
-    top: 14px;
 }

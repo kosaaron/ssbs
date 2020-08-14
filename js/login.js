@@ -2,6 +2,8 @@
 
 
 function loadLogin() {
+    checkDevice();
+
     document.getElementById("btn_help").addEventListener("click", openHelp, false);
     document.getElementById("btn_login").addEventListener("click", checkLogin, false);
 
@@ -11,6 +13,35 @@ function loadLogin() {
 
 }
 window.onload = loadLogin;
+
+function checkDevice(){
+    var devicecode = localStorage.getItem("devicecode");
+    if(devicecode !== null){
+        $.ajax({
+            type: "POST",
+            url: "./php/DeviceCheck.php",
+            data: { 
+                DeviceCode: devicecode
+            },
+            success: function (data) {
+                console.log(data);
+                var x = document.getElementById('login_message_container')
+                if(data['VerifiedDevice']){
+                    x.innerHTML='<p>Továbbirányítjuk az Ön SSBS rendszerébe</p>'; //<i class="fas fa-check-circle"></i>
+                    x.style.display= "block";
+                    window.location.replace("blured_mainpage.html");
+                }
+                else{
+                    x.style.display= "block";
+                    x.innerHTML='<p>' + data['Message'] + '</p><i class="fas fa-times-circle"></i>';
+                }
+                
+            },
+            dataType: 'json'
+        });  
+
+    }
+}
 
 function openHelp(){
     var x = document.getElementById("help_container");
