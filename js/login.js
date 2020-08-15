@@ -16,11 +16,13 @@ window.onload = loadLogin;
 
 function checkDevice(){
     var devicecode = localStorage.getItem("devicecode");
+    var id_dev = localStorage.getItem("id_dev");
     if(devicecode !== null){
         $.ajax({
             type: "POST",
             url: "./php/DeviceCheck.php",
-            data: { 
+            data: {
+                Id: id_dev, 
                 DeviceCode: devicecode
             },
             success: function (data) {

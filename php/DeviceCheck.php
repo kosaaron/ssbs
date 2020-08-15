@@ -12,19 +12,30 @@ $main_data = array();
 $PDOConnect = new PDOConnect();
 $pdo = $PDOConnect->pdo;
 
-$query = "SELECT DeviceId FROM device_verification WHERE DeviceId = :device_code";
 
+
+$query = "SELECT * FROM device_verification WHERE Id = :id_dev";
 $statement = $pdo->prepare($query);
 $statement->execute(
     array(
-        ':device_code'	=>	$_POST['DeviceCode']
+        ':id_dev'	=>	$_POST['Id']
     )
 );
 
 $no_of_rows = $statement->rowCount();
 
-if($no_of_rows > 0){
-    $main_data['VerifiedDevice'] = TRUE;
+
+
+if($no_of_rows == 1){
+    foreach ($statement as $result) {
+        $dbdevicecode = $result['DeviceId'];
+    }
+    if (password_verify($_POST['DeviceCode'], $dbdevicecode)) {
+        $main_data['VerifiedDevice'] = TRUE;
+    }
+    else{
+        $main_data['VerifiedDevice'] = FALSE;
+    }
 }else{
     $main_data['VerifiedDevice'] = FALSE;
 }
