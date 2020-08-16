@@ -65,7 +65,7 @@ export default class LoadFrame {
                     Promise.all([
                         import(modulePath),
                     ]).then(([Module]) => {
-                        Module.default.loadModule(targetId);
+                        Module.default.loadModule(moduleId, targetId);
                     });
 
                     //Show first tab
@@ -92,6 +92,7 @@ export default class LoadFrame {
 
                 //Modules of tab
                 let modules = entry['Modules'];
+                let cModuleId = Object.keys(modules)[0];
 
                 //Change the tab design
                 document.getElementById('tab_i_' + tabId).addEventListener('click', function (e) {
@@ -103,7 +104,7 @@ export default class LoadFrame {
                         Promise.all([
                             import(modulePath),
                         ]).then(([Module]) => {
-                            Module.default.loadModule(targetId);
+                            Module.default.loadModule(cModuleId, targetId);
                         });
                     }
 
@@ -133,7 +134,7 @@ export default class LoadFrame {
                                 Promise.all([
                                     import(modulePath),
                                 ]).then(([Module]) => {
-                                    Module.default.loadModule(targetId);
+                                    Module.default.loadModule(moduleId, targetId);
                                 });
                             }
                         );
@@ -169,6 +170,9 @@ export default class LoadFrame {
      * @param {String} moduleId 
      */
     static getModulePath(moduleId) {
+        // case '1012':
+        return './LoadModule.js';
+        /*
         switch (moduleId) {
             case '1001':
                 return '../financial_charts.js';
@@ -200,6 +204,6 @@ export default class LoadFrame {
                 return '../log_out.js';
             default:
                 return '../financial_charts.js';
-        }
+        }*/
     }
 }

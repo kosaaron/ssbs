@@ -64,7 +64,7 @@ export default class CardBox {
         let createBox = new CreateBox();
         createBox.create(displayObject, card, frameId)
 
-        let cards = document.querySelectorAll(`[data-place=${frameId}]`);
+        let cards = document.querySelectorAll(`[data-place="${frameId}"]`);
         for (const card of cards) {
             card.addEventListener('click', function (e) {
                 let changeData = {};

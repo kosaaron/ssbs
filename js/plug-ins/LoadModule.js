@@ -19,8 +19,8 @@ let Varibles = {
 }
 
 var generalModule = {
-    loadModule: function (parentFrameId) {
-        Database.getFullPageData(parentFrameId);
+    loadModule: function (frameId, parentFrameId) {
+        Database.getFullPageData(frameId, parentFrameId);
     },
     resize: function () {
 
@@ -30,14 +30,14 @@ let Database = {
     /**
      * Get card container data
      * @param {String} parentFrameId 
+     * @param {String} frameId 
      */
-    getFullPageData: function (parentFrameId) {
+    getFullPageData: function (frameId, parentFrameId) {
         let module = 'ModuleData';
         let data = {};
-        data['CTabId'] = '102';
-        data['CModuleId'] = '1004';
+        data['CModuleId'] = frameId;
         //data['CTabId'] = '103';
-        //data['CModuleId'] = '1009';
+        //data['CModuleId'] = '1004';
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
         data['RequestType'] = 'D';
 
@@ -46,10 +46,9 @@ let Database = {
             url: "./php/Router.php",
             data: { 'Module': module, 'Data': data },
             success: function (data) {
-                Varibles.ScreenStructure = data;
                 //console.log(data);
                 console.log(JSON.stringify(data));
-                Framework.LoadGrid(parentFrameId);
+                Framework.LoadGrid(data, frameId, parentFrameId);
             },
             dataType: 'json'
         });
@@ -57,10 +56,13 @@ let Database = {
 }
 /** Framework **/
 let Framework = {
-    LoadGrid: function (parentFrameId) {
-        let plugins = Varibles.ScreenStructure;
-        let frameId = Varibles.FrameId;
-
+    /**
+     * LoadGrid
+     * @param {JSON} plugins 
+     * @param {String} frameId 
+     * @param {String} parentFrameId 
+     */
+    LoadGrid: function (plugins, frameId, parentFrameId) {
         //Load module frame
         document.getElementById(parentFrameId).innerHTML =
             `<div id="${frameId}" class="display-flex flex-row full-screen"></div>`;

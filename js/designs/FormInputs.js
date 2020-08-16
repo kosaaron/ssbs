@@ -53,7 +53,7 @@ let FormInputs = {
      * @param {String} placeName 
      */
     CreateJSON: function (placeName) {
-        let inputs = document.querySelectorAll('[data-place=' + placeName + ']'),
+        let inputs = document.querySelectorAll('[data-place="' + placeName + '"]'),
             inputValues = [],
             tables = [];
 

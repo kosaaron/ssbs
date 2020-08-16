@@ -14,7 +14,7 @@ function addListener(className, eventType, eventFunction) {
 }
 
 function addListenerByAttr(shellId, eventType, eventFunction) {
-    let targets = document.querySelectorAll('[data-place=' + shellId + ']');
+    let targets = document.querySelectorAll('[data-place="' + shellId + '"]');
     for (let i = 0; i < targets.length; i++) {
         targets[i].addEventListener(eventType, function () {
             eventFunction(this.id);
