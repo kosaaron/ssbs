@@ -37,16 +37,15 @@ if (isset($_SESSION['loggedin'])) {
     <link rel="stylesheet" href="css/main.css">
     
 </head>
-
 <body>
     <div id=login_page_container>
         <div class="login-form">
             <i class="fas fa-user-circle profile-picture"></i>
             <label for="inputEmail" class="sr-only">Email cím</label>
             <input type="text" name="email" id="login_input_email" class="form-control" placeholder="Email cím" required autofocus>
-            <label for="inputPassword" class="sr-only">Jelszó</label>
-            <input type="password" name="password" id="login_input_password" class="form-control" placeholder="Jelszó" required>
-            <button id="btn_login" class="btn btn-outline-light">Bejelentkezés</button>
+            <!-- <label for="inputPassword" class="sr-only">Jelszó</label>
+            <input type="password" name="password" id="login_input_password" class="form-control" placeholder="Jelszó" required> -->
+            <button id="btn_login" class="btn btn-outline-light">Meghívó küldése</button>
         </div>
         <div class="footer">
             <p class="copyright">© 2019 SSB System</p>
@@ -63,7 +62,7 @@ if (isset($_SESSION['loggedin'])) {
             <p class="help-text">Egyéb probléma bejelentéséhez</br>
                 kattints <a href="https://m.blog.hu/az/aztadom/image/junius/problemafa.jpg">ide!</a></p>
         </div>
-        <div id="login_message_container" style="display: none;">
+        <div id="login_message_container" class="toast-message" style="display: none;">
             
         </div>
     </div>

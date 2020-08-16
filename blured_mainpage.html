@@ -531,29 +531,29 @@ if(isset($_GET['act_code'])){
     <div class="darkened-bg">
 
     </div>
-    <div class="dnmcppp-container  display-flex flex-column new-employee-popup">
-        <div class="dnmcppp-header">Új jelszó megadása</div>
-        <div class="dnmcppp-content flex-1">
-            <div class="new_password_form_container">
+    <div class="dnmcppp-container display-flex flex-column new-employee-popup">
+        <div class="dnmcppp-header">Inaktivitás</div>
+        <div class="dnmcppp-content flex-1 password-popup-content">
+            <div class="new-password-form-container">
                 <form method="post" id="password_form">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6 new-password-textbox-container">
-                            <input value="" type="text" name="password" id="password" class="newpassword-formcontrol"></input>
-                        </div>
-                        <div class="col-sm-12 col-md-6 new-password-label-container">
-                            <label for="password"><p>Kérjük adjon meg egy biztonságos jelszót! A későbbiekben ezt tudja használni ezen az eszközön a bejelentkezéshez.</p></label>
-                        </div>
+                    <div class="password-form">
+                        <i class="fas fa-user-circle profile-picture profile-picture-dark"></i>
+                        <h3 id="username"></h3>
+                        <input value="" type="password" name="password" id="password" class="form-control newpassword-formcontrol" placeholder="Jelszó" required autofocus></input>
                     </div>
-                    
                 </form>
             </div>
         </div>
         <div class="dnmcppp-footer">
-            <div id="prco_dnmcppp_save" class="save-btn-1 btn btn-sm">
-                rendben
+            <div id="btn_password_login" class="save-btn-1 btn btn-sm">
+                belépés
             </div>
         </div>
     </div>
+    <div id="password_message" class="toast-message" style="display: none;">
+            
+    </div>
+    <script src="js/blured_mainpage.js"></script>
 </body>
 
 </html>
