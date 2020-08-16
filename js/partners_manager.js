@@ -187,7 +187,7 @@ let Cards = {
      * @param {String} shellId 
      */
     getPartnersMDetail: function (shellId) {
-        let container = '<h2 id="' + shellId + '_title" class="name-grey">*1*</h2>';
+        let container = '<h3 id="' + shellId + '_title" class="details-title name-grey">*1*</h3>';
         container += '<div id="partner_details_tab" class="display-flex justify-content-center"><div class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">';
         container += '<label id="prtnr_dtl_data_btn" class="btn btn-detail-menu btn-detail-menu-active">';
         container += '<input type="radio" name="options" id="prtnr_dtls_tab_data" autocomplete="off"> Adatok </label>';

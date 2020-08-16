@@ -89,6 +89,10 @@
     font-size: 1.1rem;
 }
 
+.co-card-item {
+    margin-bottom: 0;
+}
+
 #tablemargin {
     padding-left: 30px;
 }
@@ -106,6 +110,10 @@
     margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 1px solid #ddd;
+}
+
+.details-title {
+    padding: 6% 0 6% 0;
 }
 
 .filter-box {

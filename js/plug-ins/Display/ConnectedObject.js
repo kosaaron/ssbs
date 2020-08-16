@@ -1,6 +1,5 @@
 import DetailsDesigns from "../../designs/DetailsDesigns.js";
 import CreateDBox from "../CreateDBox.js";
-import Limiter from "../Limiter.js";
 import AutoScroll from "../AutoScroll.js";
 
 export default class ConnectedObject {
@@ -63,6 +62,14 @@ export default class ConnectedObject {
 
             ConnectedObject.create(changeData.Plugin, frameId, parentFrameId, titleFrameId);
             AutoScroll.Integration(`${parentFrameId}_content`);
+
+            $(`.${frameId}_contactcard`).bind('click', function (e) {
+                //$(`.${frameId}_contactcard .contactcard-cover`).hide();
+                $(`.${frameId}_contactcard .contactcard-cover`).show();
+                $(`.${frameId}_contactcard`).css("max-height", "");
+                $(this).find('.contactcard-cover').hide();
+                $(this).css("max-height", "initial");
+            });
         });
 
         $(`#${parentFrameId}`).bind(`${parentFrameId}_change_details_co`, function (e) {
@@ -71,7 +78,5 @@ export default class ConnectedObject {
             localStorage.setItem(`${parentFrameId}_child_loaded`, JSON.stringify(changeData));
             $(`#${parentFrameId}`).trigger(`${parentFrameId}_child_loaded`);
         });
-
-        let limiter = new Limiter();
     }
 }

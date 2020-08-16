@@ -83,6 +83,15 @@ export default class SwitchPlugin {
                     new StepBox(plugin, frameId, parentFrameId);
                 });
                 break;
+            /** Gallery (input) */
+            case '9':
+                Promise.all([
+                    import('./Input/Gallery.js'),
+                ]).then(([Module]) => {
+                    let Gallery = Module.default;
+                    new Gallery(plugin, frameId, parentFrameId);
+                });
+                break;
             default:
                 break;
         }

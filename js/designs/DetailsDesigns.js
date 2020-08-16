@@ -6,7 +6,7 @@ export default class DetailsDesigns {
     getDefaultDetails(frameId) {
         let result = '';
         //result = `<div id="${frameId}" class="col-4 cc-details" object-id="*1*">`;
-        result += `<h2 id="${frameId}_title" class="name-grey">*2*</h2>`;
+        result += `<h3 id="${frameId}_title" class="details-title name-grey">*2*</h3>`;
         //-------------------------
         result += `<div class="display-flex justify-content-center">`;
         result += `<div id="${frameId}_tab" class="btn-group btn-group-toggle btn-group-detailmenu" data-toggle="buttons">`;
@@ -36,8 +36,9 @@ export default class DetailsDesigns {
     getSimpleObjectFrame(frameId) {
         let result = '';
         result += `<div class="row">`;
-        result += `<div class="card contactcard">`;
+        result += `<div class="${frameId}_contactcard card contactcard">`;
         result += `<div id="${frameId}_*1*" class="card-body"></div>`;
+        result += `<div class="contactcard-cover"><i class="fas fa-angle-down"></i></div>`;
         result += `</div></div>`;
         return result;
     }
@@ -62,7 +63,7 @@ export default class DetailsDesigns {
      */
     getDefaultObject(frameId) {
         let result = '';
-        result += `<p id="${frameId}_*c*_*n*">`;
+        result += `<p id="${frameId}_*c*_*n*" class="co-card-item">`;
         result += `<label class="title-text">*l*</label><br>`;
         result += `<label>*v*</label>`;
         result += `</p>`;
@@ -71,7 +72,7 @@ export default class DetailsDesigns {
 
     getSimpleDetails(shellId) {
         return `
-            <h2 id="${shellId}_title" class="name-grey">*1*</h2>
+            <h3 id="${shellId}_title" class="details-title name-grey">*1*</h3>
             !<p><label class="employee-position">*2*</label></p>
         `;
     }

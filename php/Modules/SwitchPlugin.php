@@ -102,6 +102,12 @@ class SwitchPlugin
                 $stepBox = new StepBox();
                 $pluginData = $stepBox->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
                 break;
+            case '9':
+                # Gallery (input)
+                require_once('Input/Gallery.php');
+                $gallery = new Gallery();
+                $pluginData = $gallery->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                break;
             default:
                 //error
                 break;
