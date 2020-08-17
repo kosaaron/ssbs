@@ -19,7 +19,10 @@
 }
 #settingsMenu{
     padding: 0;
-    background-color: #fcfcfc;
+    background-color: #FFFEFC;
+}
+.settings-card-container{
+    background-color: #FFFEFC;
 }
 .settings-card{
     margin-bottom: 30px;

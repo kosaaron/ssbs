@@ -4,6 +4,7 @@
 /** Imports */
 import Filter from './Filter.js';
 import DinamicFormPopup from './DinamicFormPopup.js';
+import Logout from './Logout.js';
 
 export default class SwitchPlugin {
     /**
@@ -91,6 +92,10 @@ export default class SwitchPlugin {
                     let Gallery = Module.default;
                     new Gallery(plugin, frameId, parentFrameId);
                 });
+                break;
+            case '11':
+                let logout = new Logout();
+                logout.Create(frameId, parentFrameId);
                 break;
             default:
                 break;

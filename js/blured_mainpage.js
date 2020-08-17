@@ -2,11 +2,11 @@ function loadLogin() {
 
     document.getElementById("username").innerText = localStorage.getItem('firstname');
     document.getElementById("btn_password_login").addEventListener("click", checkPassword, false);
-/*     document.getElementById("password").addEventListener("keyup", function (event) {
+    document.getElementById("password").addEventListener("keyup", function (event) {
         if (event.keyCode === 13) {
-            alert('Valami');
+            checkPassword();
         }
-    }); */
+    });
 
 }
 window.onload = loadLogin;
