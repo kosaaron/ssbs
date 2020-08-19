@@ -80,15 +80,19 @@ export default class CardDesigns {
      */
     getEmployeeCard(shellId) {
         return `
-        <div class="col-lg-12">
-            <div id="${shellId}_card_*1*" class="card employeecard ${shellId}-show-details">
+        <div class="col-xl-4 col-lg-6">
+            <div id="${shellId}_card_*1*" class="card employeecard ${shellId}-show-details" data-place="${shellId}" object-id="*1*">
                 <div class="card-body">
-                    <div class="display-flex justify-content-between">
-                        <div class="employee-image-container display-flex align-items-center"><i class="far fa-user"></i></div>
-                        <div class="employee-datas">
-                            !<h3 class="card-title employee-name">*4* !*5*</h3>
-                            !<p class="employee-position">*2*</p>
-                            !<p class="employee-detail">Összes költség: <span>*3*</span> forint/hó</p>
+                    <div class="row">
+                        <div class="col-12 employee-image-container">
+                            <i class="far fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 employee-datas">
+                            !<h3 class="card-title employee-name">*2*</h3>
+                            !<p class="employee-detail">*3*</p>
+                            !<p class="employee-detail"><span>*4*</span> ft/hó</p>
                         </div>
                     </div>
                 </div>
