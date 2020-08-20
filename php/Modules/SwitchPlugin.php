@@ -127,8 +127,10 @@ class SwitchPlugin
         }
 
         $fPluginPlugins = $this->pdo->query(
-            "SELECT * FROM f_plugin_plugins WHERE FModulePluginFK='$fModulePluginFK' && 
-            FPluginPluginFK" . $this->ifNull($fPluginPluginFK) . " $defScreenCond"
+            "SELECT f_plugin_plugins.*, TableName FROM f_plugin_plugins 
+             LEFT JOIN c_tables on CTableId=CTableFK 
+             WHERE FModulePluginFK='$fModulePluginFK' && 
+             FPluginPluginFK" . $this->ifNull($fPluginPluginFK) . " $defScreenCond"
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($fPluginPlugins as $fPluginPlugin) {

@@ -9,13 +9,13 @@ export default class Gallery {
      * **Events**
      * 
      * ------------------------------
-     * @param {JSON} data 
+     * @param {JSON} plugin 
      * @param {String} frameId 
      * @param {String} parentFrameId 
      */
-    constructor(data, frameId, parentFrameId) {
+    constructor(plugin, frameId, parentFrameId) {
         Gallery.load(frameId);
-        this.events(parentFrameId, frameId);
+        this.events(plugin, parentFrameId, frameId);
     }
 
     /** Frame **/
@@ -33,21 +33,25 @@ export default class Gallery {
 
     /**
      * events
+     * @param {String} plugin 
      * @param {String} parentFrameId 
      * @param {String} frameId 
      */
-    events(parentFrameId, frameId) {
+    events(plugin, parentFrameId, frameId) {
         window.addEventListener('resize', function () {
             AutoScroll.Integration(`${frameId}_cont`);
         });
 
         $(`#${parentFrameId}`).bind(`${parentFrameId}_save`, function (e) {
-            let parentFrameElement = document.getElementById(parentFrameId);
-            let lastId = parentFrameElement.getAttribute('last-id');
-            let lastIdColumn = parentFrameElement.getAttribute('last-id-colomn');
+            let lastObj = JSON.parse(localStorage.getItem(`${parentFrameId}_save`));
+            let lastId = lastObj['LastId'];
+            let lastIdColumn = lastObj['LastIdColumn'];
+
             let columnLength = lastIdColumn.length;
             let fkColumn = lastIdColumn.substr(0, columnLength - 2);
             fkColumn += 'FK';
+
+            alert(JSON.stringify(lastObj));
             Gallery.uploadSteps(fkColumn, lastId, parentFrameId);
         });
 

@@ -91,7 +91,9 @@ class ModuleData
     function getFModulePlugins($fUserModuleId)
     {
         return $this->pdo->query(
-            "SELECT * FROM f_module_plugins WHERE FUserModuleFK='$fUserModuleId' && DefaultScreen='1' 
+            "SELECT f_module_plugins.*, TableName FROM f_module_plugins 
+             LEFT JOIN c_tables on CTableId=CTableFK 
+             WHERE FUserModuleFK='$fUserModuleId' && DefaultScreen='1' 
              ORDER BY f_module_plugins.Number ASC"
         )->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -103,7 +105,9 @@ class ModuleData
     function getFModulePluginById($fModulePluginId)
     {
         return $this->pdo->query(
-            "SELECT * FROM f_module_plugins WHERE FModulePluginId='$fModulePluginId'"
+            "SELECT f_module_plugins.*, TableName FROM f_module_plugins 
+             LEFT JOIN c_tables on CTableId=CTableFK 
+             WHERE FModulePluginId='$fModulePluginId'"
         )->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -114,7 +118,9 @@ class ModuleData
     function getFPluginPluginById($fPluginPluginId)
     {
         return $this->pdo->query(
-            "SELECT * FROM f_plugin_plugins WHERE FPluginPluginId='$fPluginPluginId'"
+            "SELECT f_plugin_plugins.*, TableName FROM f_plugin_plugins 
+             LEFT JOIN c_tables on CTableId=CTableFK 
+             WHERE FPluginPluginId='$fPluginPluginId'"
         )->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -307,8 +313,10 @@ class ModuleData
         }
 
         $fPluginPlugins = $this->pdo->query(
-            "SELECT * FROM f_plugin_plugins WHERE FModulePluginFK='$fModulePluginFK' && 
-            FPluginPluginFK" . $this->ifNull($fPluginPluginFK) . " $defScreenCond"
+            "SELECT f_plugin_plugins.*, TableName FROM f_plugin_plugins 
+             LEFT JOIN c_tables on CTableId=CTableFK  
+             WHERE FModulePluginFK='$fModulePluginFK' && 
+             FPluginPluginFK" . $this->ifNull($fPluginPluginFK) . " $defScreenCond"
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($fPluginPlugins as $fPluginPlugin) {

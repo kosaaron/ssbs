@@ -394,6 +394,11 @@ export default class DinamicFormPopup {
                 }
             });
 
+            let resultIdObject = {};
+            resultIdObject['LastId'] = tableResultData['LastId'];
+            resultIdObject['LastIdColumn'] = tableResultData['LastIdColumn'];
+            localStorage.setItem(`${frameId}_save`, JSON.stringify(resultIdObject));
+
             $(`#${frameId}`).trigger(`${frameId}_save`);
         }
     }

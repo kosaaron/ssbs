@@ -47,7 +47,7 @@ class UpdateByParam
             if ($finalQueary) {
                 $main_data[$table]['Result'] = 'S';
                 $main_data[$table]['LastIdColumn'] = $tableIdColumn;
-                $main_data[$table]['UpdateId'] = $entryId['Id'];
+                $main_data[$table]['LastId'] = $entryId['Id'];
             } else {
                 $main_data[$table]['result'] = 'F';
             }
