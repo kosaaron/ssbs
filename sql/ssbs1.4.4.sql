@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Gép: 127.0.0.1
--- Létrehozás ideje: 2020. Aug 20. 13:27
--- Kiszolgáló verziója: 10.4.10-MariaDB
--- PHP verzió: 7.1.33
+-- Host: localhost:3306
+-- Generation Time: Aug 20, 2020 at 01:26 PM
+-- Server version: 5.7.31-cll-lve
+-- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `ssbsyste_ssbs`
+-- Database: `ssbsyste_ssbs`
 --
+CREATE DATABASE IF NOT EXISTS `ssbsyste_ssbs` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `ssbsyste_ssbs`;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `cardc_structures`
+-- Table structure for table `cardc_structures`
 --
 
 CREATE TABLE `cardc_structures` (
@@ -34,82 +36,81 @@ CREATE TABLE `cardc_structures` (
   `ColumnName` varchar(50) NOT NULL,
   `IsMainId` tinyint(1) NOT NULL,
   `Tables` varchar(50) DEFAULT NULL,
-  `BackendF` text DEFAULT NULL,
   `Place` varchar(10) NOT NULL,
   `EmployeeFK` int(11) NOT NULL,
   `IsVO` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `cardc_structures`
+-- Dumping data for table `cardc_structures`
 --
 
-INSERT INTO `cardc_structures` (`StuctureId`, `Number`, `ColumnName`, `IsMainId`, `Tables`, `BackendF`, `Place`, `EmployeeFK`, `IsVO`) VALUES
-(1, '1', 'TaskId', 1, NULL, NULL, 'taskmd', 1, 0),
-(2, '2', 'Name', 0, NULL, NULL, 'taskmd', 1, 0),
-(4, '3', 'TaskType.Name', 0, 'task_types', NULL, 'taskmd', 1, 0),
-(7, '1', 'LogoSrc', 0, NULL, NULL, 'prtnrmd', 1, 0),
-(8, '2', 'Name', 0, NULL, NULL, 'prtnrmd', 1, 0),
-(9, '3', 'Phone', 0, NULL, NULL, 'prtnrmd', 1, 0),
-(10, '4', 'Address', 0, NULL, NULL, 'prtnrmd', 1, 0),
-(11, '5', 'PartnerId', 1, NULL, NULL, 'prtnrmd', 1, 0),
-(13, NULL, 'PartnerType.Name', 0, 'partner_types', NULL, 'prtnrmd', 1, 0),
-(14, '1', 'PartnerContactId', 1, NULL, NULL, 'prtnrdcnt', 1, 0),
-(15, '2', 'Name', 0, NULL, NULL, 'prtnrdcnt', 1, 0),
-(16, '3', 'Email', 0, NULL, NULL, 'prtnrdcnt', 1, 0),
-(17, '4', 'Phone', 0, NULL, NULL, 'prtnrdcnt', 1, 0),
-(18, '5', 'Address', 0, NULL, NULL, 'prtnrdcnt', 1, 0),
-(19, '1', 'Icon', 0, NULL, NULL, 'tlsmd', 1, 0),
-(20, '2', 'Name', 0, NULL, NULL, 'tlsmd', 1, 0),
-(21, '3', 'Place', 0, NULL, NULL, 'tlsmd', 1, 0),
-(22, '4', 'ToolAvailability.Name', 0, 'tool_availabilities', NULL, 'tlsmd', 1, 0),
-(23, '5', 'ToolId', 0, NULL, NULL, 'tlsmd', 1, 0),
-(24, NULL, 'CreatedDate', 0, NULL, NULL, 'taskmd', 1, 0),
-(25, NULL, 'Deadline', 0, NULL, NULL, 'taskmd', 1, 0),
-(26, NULL, 'Description', 0, NULL, NULL, 'taskmd', 1, 0),
-(28, '1', 'Number', 0, NULL, NULL, 'taskwy', 1, 0),
-(29, '2', 'TaskStep.Name', 0, 'task_steps', NULL, 'taskwy', 1, 0),
-(30, '3', 'Number', 0, NULL, NULL, 'taskwy', 1, 0),
-(31, '4', 'TaskStepFK', 0, NULL, NULL, 'taskwy', 1, 0),
-(32, '5', 'Number', 0, NULL, NULL, 'taskwy', 1, 0),
-(33, '6', 'TaskStepFK', 0, NULL, NULL, 'taskwy', 1, 0),
-(35, NULL, 'Active', 0, NULL, NULL, 'taskwy', 1, 0),
-(37, '1', 'TaskStepFK', 0, NULL, NULL, 'ntaskwy', 1, 0),
-(38, '3', 'TaskStep.Name', 0, 'task_steps', NULL, 'ntaskwy', 1, 0),
-(39, '2', 'Number', 0, NULL, NULL, 'ntaskwy', 1, 0),
-(41, NULL, 'TaskFK', 0, NULL, NULL, 'taskwy', 1, 0),
-(42, NULL, 'Email', 0, NULL, NULL, 'prtnrmd', 1, 0),
-(43, '1', 'EmployeeId', 1, NULL, NULL, 'emplmd', 1, 0),
-(44, '2', 'EmployeePosition.Name', 0, 'employee_positions', NULL, 'emplmd', 1, 0),
-(45, '3', 'TotalCost', 0, NULL, NULL, 'emplmd', 1, 0),
-(46, '4', 'FirstName', 0, NULL, NULL, 'emplmd', 1, 0),
-(47, '5', 'LastName', 0, NULL, NULL, 'emplmd', 1, 0),
-(48, NULL, 'GrossSalary', 0, NULL, NULL, 'emplmd', 1, 0),
-(49, NULL, 'NetSalary', 0, NULL, NULL, 'emplmd', 1, 0),
-(50, NULL, 'OtherAllowances', 0, NULL, NULL, 'emplmd', 1, 0),
-(51, '6', 'Rate', 0, NULL, NULL, 'emplmd', 1, 0),
-(52, '1', 'OrderId', 1, NULL, NULL, 'ordrmd', 1, 0),
-(53, '3', 'AliasId', 0, NULL, NULL, 'ordrmd', 1, 0),
-(54, '2', 'Name', 0, NULL, NULL, 'ordrmd', 1, 0),
-(55, NULL, 'Customer.FirstName', 0, 'customers', NULL, 'ordrmd', 1, 0),
-(56, NULL, 'Partner.Name', 0, 'partners', NULL, 'ordrmd', 1, 0),
-(57, NULL, 'AvailableTools', 0, NULL, NULL, 'tlsmd', 1, 0),
-(58, NULL, 'Customer.LastName', 0, 'customers', NULL, 'ordrmd', 1, 0),
-(59, '4', 'OrderDate', 0, NULL, NULL, 'ordrmd', 1, 0),
-(60, NULL, 'OrderId.OrderProducts', 0, NULL, 'vo/1/OrderId', 'ordrmd', 1, 1),
-(61, NULL, 'OrderId.OrderServices', 0, NULL, 'vo/2/OrderId', 'ordrmd', 1, 1),
-(62, NULL, 'LastMaintenance', 0, NULL, NULL, 'tlsmd', 1, 0),
-(63, NULL, 'MaintenancePeriod', 0, NULL, NULL, 'tlsmd', 1, 0),
-(64, NULL, 'Description', 0, NULL, NULL, 'tlsmd', 1, 0),
-(65, NULL, 'ToolType.Name', 0, 'tool_types', NULL, 'tlsmd', 1, 0),
-(66, NULL, 'ToolId.ToolRemarks', 0, NULL, 'vo/3/ToolId', 'tlsmd', 1, 1),
-(67, NULL, 'PartnerId.PartnerContacts', 0, NULL, 'vo/4/PartnerId', 'prtnrmd', 1, 1),
-(68, NULL, 'Timeline', 0, NULL, 'vo/5/', 'taskmd', 1, 1);
+INSERT INTO `cardc_structures` (`StuctureId`, `Number`, `ColumnName`, `IsMainId`, `Tables`, `Place`, `EmployeeFK`, `IsVO`) VALUES
+(1, '1', 'TaskId', 1, NULL, 'taskmd', 1, 0),
+(2, '2', 'Name', 0, NULL, 'taskmd', 1, 0),
+(4, '3', 'TaskType.Name', 0, 'task_types', 'taskmd', 1, 0),
+(7, '1', 'LogoSrc', 0, NULL, 'prtnrmd', 1, 0),
+(8, '2', 'Name', 0, NULL, 'prtnrmd', 1, 0),
+(9, '3', 'Phone', 0, NULL, 'prtnrmd', 1, 0),
+(10, '4', 'Address', 0, NULL, 'prtnrmd', 1, 0),
+(11, '5', 'PartnerId', 1, NULL, 'prtnrmd', 1, 0),
+(13, NULL, 'PartnerType.Name', 0, 'partner_types', 'prtnrmd', 1, 0),
+(14, '1', 'PartnerContactId', 1, NULL, 'prtnrdcnt', 1, 0),
+(15, '2', 'Name', 0, NULL, 'prtnrdcnt', 1, 0),
+(16, '3', 'Email', 0, NULL, 'prtnrdcnt', 1, 0),
+(17, '4', 'Phone', 0, NULL, 'prtnrdcnt', 1, 0),
+(18, '5', 'Address', 0, NULL, 'prtnrdcnt', 1, 0),
+(19, '1', 'Icon', 0, NULL, 'tlsmd', 1, 0),
+(20, '2', 'Name', 0, NULL, 'tlsmd', 1, 0),
+(21, '3', 'Place', 0, NULL, 'tlsmd', 1, 0),
+(22, '4', 'ToolAvailability.Name', 0, 'tool_availabilities', 'tlsmd', 1, 0),
+(23, '5', 'ToolId', 0, NULL, 'tlsmd', 1, 0),
+(24, NULL, 'CreatedDate', 0, NULL, 'taskmd', 1, 0),
+(25, NULL, 'Deadline', 0, NULL, 'taskmd', 1, 0),
+(26, NULL, 'Description', 0, NULL, 'taskmd', 1, 0),
+(28, '1', 'Number', 0, NULL, 'taskwy', 1, 0),
+(29, '2', 'TaskStep.Name', 0, 'task_steps', 'taskwy', 1, 0),
+(30, '3', 'Number', 0, NULL, 'taskwy', 1, 0),
+(31, '4', 'TaskStepFK', 0, NULL, 'taskwy', 1, 0),
+(32, '5', 'Number', 0, NULL, 'taskwy', 1, 0),
+(33, '6', 'TaskStepFK', 0, NULL, 'taskwy', 1, 0),
+(35, NULL, 'Active', 0, NULL, 'taskwy', 1, 0),
+(37, '1', 'TaskStepFK', 0, NULL, 'ntaskwy', 1, 0),
+(38, '3', 'TaskStep.Name', 0, 'task_steps', 'ntaskwy', 1, 0),
+(39, '2', 'Number', 0, NULL, 'ntaskwy', 1, 0),
+(41, NULL, 'TaskFK', 0, NULL, 'taskwy', 1, 0),
+(42, NULL, 'Email', 0, NULL, 'prtnrmd', 1, 0),
+(43, '1', 'EmployeeId', 1, NULL, 'emplmd', 1, 0),
+(44, '2', 'EmployeePosition.Name', 0, 'employee_positions', 'emplmd', 1, 0),
+(45, '3', 'TotalCost', 0, NULL, 'emplmd', 1, 0),
+(46, '4', 'FirstName', 0, NULL, 'emplmd', 1, 0),
+(47, '5', 'LastName', 0, NULL, 'emplmd', 1, 0),
+(48, NULL, 'GrossSalary', 0, NULL, 'emplmd', 1, 0),
+(49, NULL, 'NetSalary', 0, NULL, 'emplmd', 1, 0),
+(50, NULL, 'OtherAllowances', 0, NULL, 'emplmd', 1, 0),
+(51, '6', 'Rate', 0, NULL, 'emplmd', 1, 0),
+(52, '1', 'OrderId', 1, NULL, 'ordrmd', 1, 0),
+(53, '3', 'AliasId', 0, NULL, 'ordrmd', 1, 0),
+(54, '2', 'Name', 0, NULL, 'ordrmd', 1, 0),
+(55, NULL, 'Customer.FirstName', 0, 'customers', 'ordrmd', 1, 0),
+(56, NULL, 'Partner.Name', 0, 'partners', 'ordrmd', 1, 0),
+(57, NULL, 'AvailableTools', 0, NULL, 'tlsmd', 1, 0),
+(58, NULL, 'Customer.LastName', 0, 'customers', 'ordrmd', 1, 0),
+(59, '4', 'OrderDate', 0, NULL, 'ordrmd', 1, 0),
+(60, NULL, 'OrderId.OrderProducts', 0, NULL, 'ordrmd', 1, 1),
+(61, NULL, 'OrderId.OrderServices', 0, NULL, 'ordrmd', 1, 1),
+(62, NULL, 'LastMaintenance', 0, NULL, 'tlsmd', 1, 0),
+(63, NULL, 'MaintenancePeriod', 0, NULL, 'tlsmd', 1, 0),
+(64, NULL, 'Description', 0, NULL, 'tlsmd', 1, 0),
+(65, NULL, 'ToolType.Name', 0, 'tool_types', 'tlsmd', 1, 0),
+(66, NULL, 'ToolId.ToolRemarks', 0, NULL, 'tlsmd', 1, 1),
+(67, NULL, 'PartnerId.PartnerContacts', 0, NULL, 'prtnrmd', 1, 1),
+(68, NULL, 'Timeline', 0, NULL, 'taskmd', 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `customers`
+-- Table structure for table `customers`
 --
 
 CREATE TABLE `customers` (
@@ -119,14 +120,14 @@ CREATE TABLE `customers` (
   `Address` varchar(50) DEFAULT NULL,
   `Phone` varchar(20) DEFAULT NULL,
   `LastOrderDate` datetime DEFAULT NULL,
-  `IsRegistered` tinyint(1) NOT NULL DEFAULT 0,
+  `IsRegistered` tinyint(1) NOT NULL DEFAULT '0',
   `UserId` varchar(30) DEFAULT NULL,
   `Password` varchar(64) DEFAULT NULL,
   `RegisterDate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `customers`
+-- Dumping data for table `customers`
 --
 
 INSERT INTO `customers` (`CustomerId`, `FirstName`, `LastName`, `Address`, `Phone`, `LastOrderDate`, `IsRegistered`, `UserId`, `Password`, `RegisterDate`) VALUES
@@ -136,7 +137,7 @@ INSERT INTO `customers` (`CustomerId`, `FirstName`, `LastName`, `Address`, `Phon
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `c_cards`
+-- Table structure for table `c_cards`
 --
 
 CREATE TABLE `c_cards` (
@@ -145,7 +146,7 @@ CREATE TABLE `c_cards` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- A tábla adatainak kiíratása `c_cards`
+-- Dumping data for table `c_cards`
 --
 
 INSERT INTO `c_cards` (`CCardId`, `Name`) VALUES
@@ -156,7 +157,7 @@ INSERT INTO `c_cards` (`CCardId`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `c_input_types`
+-- Table structure for table `c_input_types`
 --
 
 CREATE TABLE `c_input_types` (
@@ -164,7 +165,7 @@ CREATE TABLE `c_input_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `c_input_types`
+-- Dumping data for table `c_input_types`
 --
 
 INSERT INTO `c_input_types` (`Id`) VALUES
@@ -180,7 +181,7 @@ INSERT INTO `c_input_types` (`Id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `c_modules`
+-- Table structure for table `c_modules`
 --
 
 CREATE TABLE `c_modules` (
@@ -191,7 +192,7 @@ CREATE TABLE `c_modules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `c_modules`
+-- Dumping data for table `c_modules`
 --
 
 INSERT INTO `c_modules` (`CModuleId`, `ModuleName`, `ModuleDescription`, `MainTable`) VALUES
@@ -205,7 +206,7 @@ INSERT INTO `c_modules` (`CModuleId`, `ModuleName`, `ModuleDescription`, `MainTa
 (1008, 'Order', 'Rendelések létrehozása, megjelenítése, szerkesztése', ''),
 (1009, 'Proucts overview', 'Proucts overview', ''),
 (1010, 'Product tracking', 'Product tracking', ''),
-(1011, 'Employees', 'Employees', ''),
+(1011, 'Employees', 'Employees', 'employees'),
 (1012, 'Tools', 'Tools', ''),
 (1013, 'Profil', 'Profil', ''),
 (1014, 'Log out', 'Log out', '');
@@ -213,7 +214,7 @@ INSERT INTO `c_modules` (`CModuleId`, `ModuleName`, `ModuleDescription`, `MainTa
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `c_plugins`
+-- Table structure for table `c_plugins`
 --
 
 CREATE TABLE `c_plugins` (
@@ -222,7 +223,7 @@ CREATE TABLE `c_plugins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `c_plugins`
+-- Dumping data for table `c_plugins`
 --
 
 INSERT INTO `c_plugins` (`CPluginId`, `Name`) VALUES
@@ -235,12 +236,13 @@ INSERT INTO `c_plugins` (`CPluginId`, `Name`) VALUES
 (7, 'Table'),
 (8, 'Step Box (display)'),
 (9, 'Gallery (input)'),
-(10, 'Gallery (display)');
+(10, 'Gallery (display)'),
+(11, 'Logout');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `c_tabs`
+-- Table structure for table `c_tabs`
 --
 
 CREATE TABLE `c_tabs` (
@@ -250,7 +252,7 @@ CREATE TABLE `c_tabs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `c_tabs`
+-- Dumping data for table `c_tabs`
 --
 
 INSERT INTO `c_tabs` (`CTabId`, `TabName`, `TabIcon`) VALUES
@@ -263,7 +265,7 @@ INSERT INTO `c_tabs` (`CTabId`, `TabName`, `TabIcon`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `device_verification`
+-- Table structure for table `device_verification`
 --
 
 CREATE TABLE `device_verification` (
@@ -273,17 +275,17 @@ CREATE TABLE `device_verification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- A tábla adatainak kiíratása `device_verification`
+-- Dumping data for table `device_verification`
 --
 
 INSERT INTO `device_verification` (`Id`, `DeviceId`, `EmployeeFK`) VALUES
-(71, '1ccc946bff87bc121284ee085095a954d85700e2d6c90343bb4c0f161838235a', 3),
+(71, '1ccc946bff87bc121284ee085095a954d85700e2d6c90343bb4c0f161838235a', 10),
 (77, '$2y$10$4wLq5Oy0maAKvcNyAEHQcO7oBOgZKKrQpQ049ZNJTAuihCoFoEWrO', 1);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `dtls_structures`
+-- Table structure for table `dtls_structures`
 --
 
 CREATE TABLE `dtls_structures` (
@@ -297,7 +299,7 @@ CREATE TABLE `dtls_structures` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `dtls_structures`
+-- Dumping data for table `dtls_structures`
 --
 
 INSERT INTO `dtls_structures` (`StuctureId`, `Number`, `Name`, `ColumnName`, `Tables`, `Place`, `EmployeeFK`) VALUES
@@ -341,7 +343,7 @@ INSERT INTO `dtls_structures` (`StuctureId`, `Number`, `Name`, `ColumnName`, `Ta
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `employees`
+-- Table structure for table `employees`
 --
 
 CREATE TABLE `employees` (
@@ -356,22 +358,26 @@ CREATE TABLE `employees` (
   `TotalCost` int(11) NOT NULL,
   `Rate` float DEFAULT NULL,
   `UserPassword` varchar(255) NOT NULL,
-  `Email` varchar(255) NOT NULL
+  `Email` varchar(255) NOT NULL,
+  `ActivationCode` varchar(256) NOT NULL,
+  `VerificationStatus` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `employees`
+-- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`EmployeeId`, `FirstName`, `LastName`, `EmployeePositionFK`, `GrossSalary`, `NetSalary`, `OtherTaxes`, `OtherAllowances`, `TotalCost`, `Rate`, `UserPassword`, `Email`) VALUES
-(1, 'Ádám', 'Werner', 1, 100000, 80000, 30000, 0, 130000, 4.9, '$2y$10$SfhYIDtn.iOuCW7zfoFLuuZHX6lja4lF4XA4JqNmpiH/.P3zB8JCa', 'test@test.com'),
-(2, 'Dávid', 'Sági', 1, 200000, 160000, 60000, 0, 260000, 4.8, 'jelszo2', 'B2B2B2'),
-(3, 'Áron', 'Kósa', 2, 300000, 240000, 90000, 0, 390000, NULL, 'jelszo3', 'C3C3C3');
+INSERT INTO `employees` (`EmployeeId`, `FirstName`, `LastName`, `EmployeePositionFK`, `GrossSalary`, `NetSalary`, `OtherTaxes`, `OtherAllowances`, `TotalCost`, `Rate`, `UserPassword`, `Email`, `ActivationCode`, `VerificationStatus`) VALUES
+(1, 'Ádám', 'Werner', 1, 100000, 80000, 30000, 0, 130000, 4.9, '$2y$10$SfhYIDtn.iOuCW7zfoFLuuZHX6lja4lF4XA4JqNmpiH/.P3zB8JCa', 'test@test.com', '', 0),
+(2, 'Dávid', 'Sági', 1, 200000, 160000, 60000, 0, 260000, 4.8, 'jelszo2', 'B2B2B2', '', 0),
+(3, 'Áron', 'Kósa', 2, 300000, 240000, 90000, 0, 390000, NULL, 'jelszo3', 'C3C3C3', '', 0),
+(10, 'Bela', 'Nagy', 2, 0, 0, 0, 0, 0, NULL, '$2y$10$UzFgCL2lsOfmgulukxs4QOJNXFt68EnHs6/9/wYUAUMPgK.jNgD8O', 'remaron98@gmail.com', '', 1),
+(22, 'Bela', 'Nagy', 2, 0, 0, 0, 0, 0, NULL, '$2y$10$boHhEhYUqXeF38nxHUoXI.9/7UA35AnxAfX9DWqDy/Jzr7A5H6Cn.', 'kosa.aron98@gmail.com', '', 1);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `employee_positions`
+-- Table structure for table `employee_positions`
 --
 
 CREATE TABLE `employee_positions` (
@@ -380,7 +386,7 @@ CREATE TABLE `employee_positions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `employee_positions`
+-- Dumping data for table `employee_positions`
 --
 
 INSERT INTO `employee_positions` (`EmployeePositionId`, `Name`) VALUES
@@ -390,7 +396,7 @@ INSERT INTO `employee_positions` (`EmployeePositionId`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `filters`
+-- Table structure for table `filters`
 --
 
 CREATE TABLE `filters` (
@@ -407,7 +413,7 @@ CREATE TABLE `filters` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `filters`
+-- Dumping data for table `filters`
 --
 
 INSERT INTO `filters` (`FilterId`, `Place`, `Number`, `Name`, `Type`, `DefaultValue`, `ColumnName`, `TableName`, `EmployeeFK`, `Required`) VALUES
@@ -425,7 +431,7 @@ INSERT INTO `filters` (`FilterId`, `Place`, `Number`, `Name`, `Type`, `DefaultVa
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `form_structures`
+-- Table structure for table `form_structures`
 --
 
 CREATE TABLE `form_structures` (
@@ -446,7 +452,7 @@ CREATE TABLE `form_structures` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `form_structures`
+-- Dumping data for table `form_structures`
 --
 
 INSERT INTO `form_structures` (`FormStructureId`, `Place`, `Number`, `ChildFK`, `Name`, `Type`, `DefaultValue`, `ColumnName`, `TableName`, `TruncatedIdName`, `UploadName`, `EmployeeFK`, `Required`, `Functions`) VALUES
@@ -467,7 +473,7 @@ INSERT INTO `form_structures` (`FormStructureId`, `Place`, `Number`, `ChildFK`, 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_columns`
+-- Table structure for table `f_columns`
 --
 
 CREATE TABLE `f_columns` (
@@ -479,7 +485,7 @@ CREATE TABLE `f_columns` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- A tábla adatainak kiíratása `f_columns`
+-- Dumping data for table `f_columns`
 --
 
 INSERT INTO `f_columns` (`FColumnId`, `Name`, `TableName`, `TableIdName`, `ColumnName`) VALUES
@@ -498,12 +504,17 @@ INSERT INTO `f_columns` (`FColumnId`, `Name`, `TableName`, `TableIdName`, `Colum
 (15, 'Feladat lépés', 'task_ways', 'TaskWayId', 'TaskStepFK'),
 (16, 'Feladat lépéséhez tartozó munkavállaló', 'task_ways', 'TaskWayId', 'EmployeeFK'),
 (17, 'Feladat lépés aktív-e', 'task_ways', 'TaskWayId', 'Active'),
-(18, 'Feladat lépés kész-e', 'task_ways', 'TaskWayId', 'Ready');
+(18, 'Feladat lépés kész-e', 'task_ways', 'TaskWayId', 'Ready'),
+(19, 'Alkalmazott vezetékneve', 'employees', 'EmployeeId', 'LastName'),
+(20, 'Alkalmazott pozíciója', 'employees', 'EmployeeId', 'EmployeePositionFK'),
+(21, 'Bruttó fizetés', 'employees', 'EmployeeId', 'GrossSalary'),
+(22, 'Email', 'employees', 'EmployeeId', 'Email'),
+(23, 'Alkalmazott pozíciója szöveg', 'employee_positions', 'EmployeePositionId', 'Name');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_display`
+-- Table structure for table `f_display`
 --
 
 CREATE TABLE `f_display` (
@@ -514,7 +525,7 @@ CREATE TABLE `f_display` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- A tábla adatainak kiíratása `f_display`
+-- Dumping data for table `f_display`
 --
 
 INSERT INTO `f_display` (`FDisplayId`, `FPluginDisplayFK`, `FColumnFK`, `Number`) VALUES
@@ -534,12 +545,19 @@ INSERT INTO `f_display` (`FDisplayId`, `FPluginDisplayFK`, `FColumnFK`, `Number`
 (15, 6, 4, 3),
 (16, 6, 8, 4),
 (17, 6, 17, 5),
-(18, 6, 18, 6);
+(18, 6, 18, 6),
+(19, 7, 8, 2),
+(20, 9, 19, 2),
+(21, 9, 23, 3),
+(22, 9, 21, 4),
+(23, 9, 22, 5),
+(24, 8, 8, 2),
+(25, 8, 23, 3);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_form_inputs`
+-- Table structure for table `f_form_inputs`
 --
 
 CREATE TABLE `f_form_inputs` (
@@ -556,7 +574,7 @@ CREATE TABLE `f_form_inputs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `f_form_inputs`
+-- Dumping data for table `f_form_inputs`
 --
 
 INSERT INTO `f_form_inputs` (`FFormInputId`, `FPluginFormInputFK`, `Place`, `Number`, `FColumnFK`, `ParentFK`, `Type`, `DefaultValue`, `UploadName`, `Required`) VALUES
@@ -572,12 +590,19 @@ INSERT INTO `f_form_inputs` (`FFormInputId`, `FPluginFormInputFK`, `Place`, `Num
 (20, 4, 'tskfltr', 4, 5, NULL, 'SO', NULL, 'tasks.Name', 0),
 (21, 5, 'stepbx', 2, 6, NULL, 'WP', NULL, 'task_ways.TaskStepFK', 1),
 (22, 5, 'stepbx', 3, 7, NULL, 'SP', NULL, 'task_ways.TaskStepFK', 1),
-(23, 5, 'stepbx', 4, 8, NULL, 'S', NULL, 'task_ways.EmployeeFK', 1);
+(23, 5, 'stepbx', 4, 8, NULL, 'S', NULL, 'task_ways.EmployeeFK', 1),
+(24, 6, 'emp', 2, 8, NULL, 'W', NULL, 'employees.FirstName', 1),
+(25, 6, 'emp', 3, 19, NULL, 'W', NULL, 'employees.LastName', 1),
+(26, 6, 'emp', 4, 20, NULL, 'SN', NULL, 'employees.EmployeesPositionFK', 1),
+(27, 6, 'emp', 5, 21, NULL, 'W', NULL, 'employees.GrossSalary', 0),
+(28, 6, 'emp', 6, 22, NULL, 'W', NULL, 'employees.Email', 1),
+(29, 7, 'empflt', 2, 19, NULL, 'WF', NULL, 'employees.LastName', 0),
+(30, 8, 'emp', 2, 21, NULL, 'SO', '1', 'employees.GrossSalary', 0);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_module_plugins`
+-- Table structure for table `f_module_plugins`
 --
 
 CREATE TABLE `f_module_plugins` (
@@ -585,25 +610,30 @@ CREATE TABLE `f_module_plugins` (
   `FUserModuleFK` int(11) NOT NULL,
   `CPluginFK` int(11) NOT NULL,
   `TableName` varchar(30) DEFAULT NULL,
-  `Place` int(3) NOT NULL DEFAULT 1,
-  `Number` int(3) NOT NULL DEFAULT 1,
+  `Place` int(3) NOT NULL DEFAULT '1',
+  `Number` int(3) NOT NULL DEFAULT '1',
   `DefaultScreen` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `f_module_plugins`
+-- Dumping data for table `f_module_plugins`
 --
 
 INSERT INTO `f_module_plugins` (`FModulePluginId`, `FUserModuleFK`, `CPluginFK`, `TableName`, `Place`, `Number`, `DefaultScreen`) VALUES
 (1, 4, 2, 'tasks', 100, 4, 1),
 (2, 4, 3, 'tasks', 2, 1, 1),
 (3, 4, 4, 'tasks', 4, 2, 1),
-(4, 4, 5, 'tasks', 5, 3, 1);
+(4, 4, 5, 'tasks', 5, 3, 1),
+(5, 14, 11, NULL, 1, 1, 1),
+(6, 11, 2, 'employees', 100, 4, 1),
+(7, 11, 3, 'employees', 2, 1, 1),
+(8, 11, 4, 'employees', 4, 2, 1),
+(9, 11, 5, 'employees', 5, 3, 1);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_plugin_cards`
+-- Table structure for table `f_plugin_cards`
 --
 
 CREATE TABLE `f_plugin_cards` (
@@ -614,16 +644,17 @@ CREATE TABLE `f_plugin_cards` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- A tábla adatainak kiíratása `f_plugin_cards`
+-- Dumping data for table `f_plugin_cards`
 --
 
 INSERT INTO `f_plugin_cards` (`FPluginCardId`, `FModulePluginFK`, `FPluginPluginFK`, `CCardFK`) VALUES
-(1, 3, NULL, 1);
+(1, 3, NULL, 1),
+(2, 8, NULL, 3);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_plugin_display`
+-- Table structure for table `f_plugin_display`
 --
 
 CREATE TABLE `f_plugin_display` (
@@ -631,11 +662,11 @@ CREATE TABLE `f_plugin_display` (
   `Title` varchar(40) DEFAULT NULL,
   `FModulePluginFK` int(11) DEFAULT NULL,
   `FPluginPluginFK` int(11) DEFAULT NULL,
-  `Number` int(3) NOT NULL DEFAULT 1
+  `Number` int(3) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `f_plugin_display`
+-- Dumping data for table `f_plugin_display`
 --
 
 INSERT INTO `f_plugin_display` (`FPluginDisplayId`, `Title`, `FModulePluginFK`, `FPluginPluginFK`, `Number`) VALUES
@@ -644,12 +675,15 @@ INSERT INTO `f_plugin_display` (`FPluginDisplayId`, `Title`, `FModulePluginFK`, 
 (3, 'Feladat adatai', 4, NULL, 2),
 (4, 'Rendelések', NULL, 2, 1),
 (5, 'Lépések', NULL, 3, 1),
-(6, 'Lépések', NULL, 4, 1);
+(6, 'Lépések', NULL, 4, 1),
+(7, 'Alkalmazottak részletei', 9, NULL, 1),
+(8, 'Alkalmazottak box', 8, NULL, 1),
+(9, 'Alkalmazottak adatok', 9, NULL, 2);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_plugin_form_inputs`
+-- Table structure for table `f_plugin_form_inputs`
 --
 
 CREATE TABLE `f_plugin_form_inputs` (
@@ -657,24 +691,27 @@ CREATE TABLE `f_plugin_form_inputs` (
   `Title` varchar(40) NOT NULL,
   `FModulePluginFK` int(11) DEFAULT NULL,
   `FPluginPluginFK` int(11) DEFAULT NULL,
-  `Number` int(3) NOT NULL DEFAULT 1
+  `Number` int(3) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `f_plugin_form_inputs`
+-- Dumping data for table `f_plugin_form_inputs`
 --
 
 INSERT INTO `f_plugin_form_inputs` (`FPluginFormInputId`, `Title`, `FModulePluginFK`, `FPluginPluginFK`, `Number`) VALUES
 (1, 'Feladat hozzáadása', 1, NULL, 1),
 (2, 'Input step box', NULL, 1, 1),
-(3, 'Filter', 2, NULL, 1),
-(4, 'Order', 2, NULL, 2),
-(5, 'Input step box', NULL, 5, 1);
+(3, 'Task filter', 2, NULL, 1),
+(4, 'Task order', 2, NULL, 2),
+(5, 'Input step box', NULL, 5, 1),
+(6, 'Alkalmazott felvétele', 6, NULL, 1),
+(7, 'Employee filter', 7, NULL, 1),
+(8, 'Employee Order', 7, NULL, 2);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_plugin_plugins`
+-- Table structure for table `f_plugin_plugins`
 --
 
 CREATE TABLE `f_plugin_plugins` (
@@ -683,13 +720,13 @@ CREATE TABLE `f_plugin_plugins` (
   `FPluginPluginFK` int(11) DEFAULT NULL,
   `CPluginFK` int(11) NOT NULL,
   `TableName` varchar(30) NOT NULL,
-  `Place` int(3) NOT NULL DEFAULT 1,
-  `Number` int(3) NOT NULL DEFAULT 1,
+  `Place` int(3) NOT NULL DEFAULT '1',
+  `Number` int(3) NOT NULL DEFAULT '1',
   `DefaultScreen` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `f_plugin_plugins`
+-- Dumping data for table `f_plugin_plugins`
 --
 
 INSERT INTO `f_plugin_plugins` (`FPluginPluginId`, `FModulePluginFK`, `FPluginPluginFK`, `CPluginFK`, `TableName`, `Place`, `Number`, `DefaultScreen`) VALUES
@@ -702,7 +739,7 @@ INSERT INTO `f_plugin_plugins` (`FPluginPluginId`, `FModulePluginFK`, `FPluginPl
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_plugin_vo`
+-- Table structure for table `f_plugin_vo`
 --
 
 CREATE TABLE `f_plugin_vo` (
@@ -713,7 +750,7 @@ CREATE TABLE `f_plugin_vo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `f_plugin_vo`
+-- Dumping data for table `f_plugin_vo`
 --
 
 INSERT INTO `f_plugin_vo` (`FPluginVoId`, `FModulePluginFK`, `FPluginPluginFK`, `VirtualObjectFK`) VALUES
@@ -722,7 +759,7 @@ INSERT INTO `f_plugin_vo` (`FPluginVoId`, `FModulePluginFK`, `FPluginPluginFK`, 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `f_user_modules`
+-- Table structure for table `f_user_modules`
 --
 
 CREATE TABLE `f_user_modules` (
@@ -733,7 +770,7 @@ CREATE TABLE `f_user_modules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `f_user_modules`
+-- Dumping data for table `f_user_modules`
 --
 
 INSERT INTO `f_user_modules` (`FUserModuleId`, `EmployeeFK`, `CTabFK`, `CModuleFK`) VALUES
@@ -755,7 +792,7 @@ INSERT INTO `f_user_modules` (`FUserModuleId`, `EmployeeFK`, `CTabFK`, `CModuleF
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `insert_structures`
+-- Table structure for table `insert_structures`
 --
 
 CREATE TABLE `insert_structures` (
@@ -767,7 +804,7 @@ CREATE TABLE `insert_structures` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `insert_structures`
+-- Dumping data for table `insert_structures`
 --
 
 INSERT INTO `insert_structures` (`InsertStructureId`, `Place`, `ColumnName`, `InsertName`, `InsertTable`) VALUES
@@ -785,7 +822,7 @@ INSERT INTO `insert_structures` (`InsertStructureId`, `Place`, `ColumnName`, `In
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `l_input_types`
+-- Table structure for table `l_input_types`
 --
 
 CREATE TABLE `l_input_types` (
@@ -793,7 +830,7 @@ CREATE TABLE `l_input_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `l_input_types`
+-- Dumping data for table `l_input_types`
 --
 
 INSERT INTO `l_input_types` (`Id`) VALUES
@@ -805,7 +842,7 @@ INSERT INTO `l_input_types` (`Id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `monthly_tasks`
+-- Table structure for table `monthly_tasks`
 --
 
 CREATE TABLE `monthly_tasks` (
@@ -818,12 +855,12 @@ CREATE TABLE `monthly_tasks` (
   `EndDay` int(2) NOT NULL,
   `Length` int(4) NOT NULL,
   `Title` varchar(30) NOT NULL,
-  `Description` text DEFAULT NULL,
+  `Description` text,
   `State` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `monthly_tasks`
+-- Dumping data for table `monthly_tasks`
 --
 
 INSERT INTO `monthly_tasks` (`MonthlyTaskId`, `StartYear`, `StartMonth`, `StartDay`, `EndYear`, `EndMonth`, `EndDay`, `Length`, `Title`, `Description`, `State`) VALUES
@@ -834,7 +871,7 @@ INSERT INTO `monthly_tasks` (`MonthlyTaskId`, `StartYear`, `StartMonth`, `StartD
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
@@ -843,12 +880,12 @@ CREATE TABLE `orders` (
   `Name` varchar(30) NOT NULL,
   `CustomerFK` int(11) DEFAULT NULL,
   `PartnerFK` int(11) DEFAULT NULL,
-  `OrderDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `OrderDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `TaskFK` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `orders`
+-- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`OrderId`, `AliasId`, `Name`, `CustomerFK`, `PartnerFK`, `OrderDate`, `TaskFK`) VALUES
@@ -858,7 +895,7 @@ INSERT INTO `orders` (`OrderId`, `AliasId`, `Name`, `CustomerFK`, `PartnerFK`, `
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `order_products`
+-- Table structure for table `order_products`
 --
 
 CREATE TABLE `order_products` (
@@ -869,7 +906,7 @@ CREATE TABLE `order_products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `order_products`
+-- Dumping data for table `order_products`
 --
 
 INSERT INTO `order_products` (`OrderProductId`, `OrderFK`, `ProductFK`, `Quantity`) VALUES
@@ -881,7 +918,7 @@ INSERT INTO `order_products` (`OrderProductId`, `OrderFK`, `ProductFK`, `Quantit
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `order_services`
+-- Table structure for table `order_services`
 --
 
 CREATE TABLE `order_services` (
@@ -891,7 +928,7 @@ CREATE TABLE `order_services` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `order_services`
+-- Dumping data for table `order_services`
 --
 
 INSERT INTO `order_services` (`OrderServiceId`, `OrderFK`, `ServiceFK`) VALUES
@@ -901,7 +938,7 @@ INSERT INTO `order_services` (`OrderServiceId`, `OrderFK`, `ServiceFK`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `partners`
+-- Table structure for table `partners`
 --
 
 CREATE TABLE `partners` (
@@ -915,7 +952,7 @@ CREATE TABLE `partners` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `partners`
+-- Dumping data for table `partners`
 --
 
 INSERT INTO `partners` (`PartnerId`, `Name`, `PartnerTypeFK`, `Phone`, `Email`, `Address`, `LogoSrc`) VALUES
@@ -928,7 +965,7 @@ INSERT INTO `partners` (`PartnerId`, `Name`, `PartnerTypeFK`, `Phone`, `Email`, 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `partner_contacts`
+-- Table structure for table `partner_contacts`
 --
 
 CREATE TABLE `partner_contacts` (
@@ -941,7 +978,7 @@ CREATE TABLE `partner_contacts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `partner_contacts`
+-- Dumping data for table `partner_contacts`
 --
 
 INSERT INTO `partner_contacts` (`PartnerContactId`, `Name`, `Email`, `Phone`, `Address`, `PartnerFK`) VALUES
@@ -951,7 +988,7 @@ INSERT INTO `partner_contacts` (`PartnerContactId`, `Name`, `Email`, `Phone`, `A
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `partner_tags`
+-- Table structure for table `partner_tags`
 --
 
 CREATE TABLE `partner_tags` (
@@ -960,7 +997,7 @@ CREATE TABLE `partner_tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `partner_tags`
+-- Dumping data for table `partner_tags`
 --
 
 INSERT INTO `partner_tags` (`PartnerTagId`, `Name`) VALUES
@@ -970,7 +1007,7 @@ INSERT INTO `partner_tags` (`PartnerTagId`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `partner_types`
+-- Table structure for table `partner_types`
 --
 
 CREATE TABLE `partner_types` (
@@ -979,7 +1016,7 @@ CREATE TABLE `partner_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `partner_types`
+-- Dumping data for table `partner_types`
 --
 
 INSERT INTO `partner_types` (`PartnerTypeId`, `Name`) VALUES
@@ -992,20 +1029,20 @@ INSERT INTO `partner_types` (`PartnerTypeId`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `products`
+-- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
   `ProductId` int(11) NOT NULL,
   `AliasId` varchar(50) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `InStockQuantity` int(11) NOT NULL DEFAULT 0,
-  `PurchasePrice` int(11) NOT NULL DEFAULT 0,
+  `InStockQuantity` int(11) NOT NULL DEFAULT '0',
+  `PurchasePrice` int(11) NOT NULL DEFAULT '0',
   `SalePrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `products`
+-- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`ProductId`, `AliasId`, `Name`, `InStockQuantity`, `PurchasePrice`, `SalePrice`) VALUES
@@ -1017,7 +1054,7 @@ INSERT INTO `products` (`ProductId`, `AliasId`, `Name`, `InStockQuantity`, `Purc
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `projects`
+-- Table structure for table `projects`
 --
 
 CREATE TABLE `projects` (
@@ -1030,7 +1067,7 @@ CREATE TABLE `projects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `projects`
+-- Dumping data for table `projects`
 --
 
 INSERT INTO `projects` (`ProjectId`, `Name`, `StartDate`, `FinishDate`, `Deadline`, `ParentFK`) VALUES
@@ -1044,7 +1081,7 @@ INSERT INTO `projects` (`ProjectId`, `Name`, `StartDate`, `FinishDate`, `Deadlin
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `saved_task_ways`
+-- Table structure for table `saved_task_ways`
 --
 
 CREATE TABLE `saved_task_ways` (
@@ -1053,7 +1090,7 @@ CREATE TABLE `saved_task_ways` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `saved_task_ways`
+-- Dumping data for table `saved_task_ways`
 --
 
 INSERT INTO `saved_task_ways` (`SavedTaskWayId`, `Name`) VALUES
@@ -1063,7 +1100,7 @@ INSERT INTO `saved_task_ways` (`SavedTaskWayId`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `services`
+-- Table structure for table `services`
 --
 
 CREATE TABLE `services` (
@@ -1073,7 +1110,7 @@ CREATE TABLE `services` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `services`
+-- Dumping data for table `services`
 --
 
 INSERT INTO `services` (`ServiceId`, `Name`, `Price`) VALUES
@@ -1083,7 +1120,7 @@ INSERT INTO `services` (`ServiceId`, `Name`, `Price`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `sorts`
+-- Table structure for table `sorts`
 --
 
 CREATE TABLE `sorts` (
@@ -1099,7 +1136,7 @@ CREATE TABLE `sorts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `sorts`
+-- Dumping data for table `sorts`
 --
 
 INSERT INTO `sorts` (`SortId`, `Place`, `Number`, `Name`, `DefaultValue`, `Required`, `ColumnName`, `TableName`, `EmployeeFK`) VALUES
@@ -1117,7 +1154,7 @@ INSERT INTO `sorts` (`SortId`, `Place`, `Number`, `Name`, `DefaultValue`, `Requi
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `table_structures`
+-- Table structure for table `table_structures`
 --
 
 CREATE TABLE `table_structures` (
@@ -1132,7 +1169,7 @@ CREATE TABLE `table_structures` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `table_structures`
+-- Dumping data for table `table_structures`
 --
 
 INSERT INTO `table_structures` (`TableStructureId`, `Place`, `Number`, `ColumnName`, `ColumnTitle`, `Tables`, `ColumnWidth`, `EmployeeFK`) VALUES
@@ -1146,7 +1183,7 @@ INSERT INTO `table_structures` (`TableStructureId`, `Place`, `Number`, `ColumnNa
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tags_for_partner`
+-- Table structure for table `tags_for_partner`
 --
 
 CREATE TABLE `tags_for_partner` (
@@ -1156,7 +1193,7 @@ CREATE TABLE `tags_for_partner` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `tags_for_partner`
+-- Dumping data for table `tags_for_partner`
 --
 
 INSERT INTO `tags_for_partner` (`TagForPartnerId`, `PartnerFK`, `PartnerTagFK`) VALUES
@@ -1167,7 +1204,7 @@ INSERT INTO `tags_for_partner` (`TagForPartnerId`, `PartnerFK`, `PartnerTagFK`) 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tasks`
+-- Table structure for table `tasks`
 --
 
 CREATE TABLE `tasks` (
@@ -1175,23 +1212,23 @@ CREATE TABLE `tasks` (
   `Name` varchar(30) NOT NULL,
   `TaskTypeFK` int(11) NOT NULL,
   `TaskCategoryFK` int(11) DEFAULT NULL,
-  `CreatedDate` datetime NOT NULL DEFAULT current_timestamp(),
+  `CreatedDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deadline` datetime DEFAULT NULL,
   `FinishDate` datetime DEFAULT NULL,
-  `Description` text DEFAULT NULL,
+  `Description` text,
   `OrderFK` int(11) DEFAULT NULL,
   `ProjectFK` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `tasks`
+-- Dumping data for table `tasks`
 --
 
 INSERT INTO `tasks` (`TaskId`, `Name`, `TaskTypeFK`, `TaskCategoryFK`, `CreatedDate`, `Deadline`, `FinishDate`, `Description`, `OrderFK`, `ProjectFK`) VALUES
-(1, 'Feladatkezelés megtervezése16', 2, 1, '2019-08-29 01:36:25', '2020-04-03 00:00:00', NULL, 'Ez al első', NULL, 1),
-(2, 'PHP megtervezése 15', 5, NULL, '2019-08-29 01:40:22', '2020-07-30 00:00:00', NULL, NULL, NULL, NULL),
+(1, 'Feladatkezelés megtervezése2', 1, 1, '2019-08-29 01:36:25', '2020-04-03 00:00:00', NULL, 'Ez al első', NULL, 1),
+(2, 'PHP megtervezése 3', 1, NULL, '2019-08-29 01:40:22', '2020-07-30 00:00:00', NULL, NULL, NULL, NULL),
 (9, '100. feladat', 1, NULL, '2019-09-08 22:19:20', NULL, NULL, NULL, NULL, NULL),
-(10, '100. feladat4', 2, NULL, '2019-09-08 22:27:33', '2020-07-30 00:00:00', NULL, NULL, NULL, NULL),
+(10, '100. feladat4', 2, NULL, '2019-09-08 22:27:33', NULL, NULL, NULL, NULL, NULL),
 (11, '100. feladat3', 2, NULL, '2019-09-08 22:35:06', NULL, NULL, NULL, NULL, NULL),
 (13, 'Task', 1, NULL, '2019-09-26 15:48:05', '2019-01-01 00:00:00', NULL, NULL, NULL, 4),
 (14, 'Task2', 1, NULL, '2019-09-26 15:48:27', '0000-00-00 00:00:00', NULL, NULL, NULL, 4),
@@ -1236,7 +1273,7 @@ INSERT INTO `tasks` (`TaskId`, `Name`, `TaskTypeFK`, `TaskCategoryFK`, `CreatedD
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `task_categories`
+-- Table structure for table `task_categories`
 --
 
 CREATE TABLE `task_categories` (
@@ -1247,7 +1284,7 @@ CREATE TABLE `task_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `task_categories`
+-- Dumping data for table `task_categories`
 --
 
 INSERT INTO `task_categories` (`TaskCategoryId`, `Level`, `Name`, `ParentFK`) VALUES
@@ -1256,7 +1293,7 @@ INSERT INTO `task_categories` (`TaskCategoryId`, `Level`, `Name`, `ParentFK`) VA
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `task_images`
+-- Table structure for table `task_images`
 --
 
 CREATE TABLE `task_images` (
@@ -1269,7 +1306,7 @@ CREATE TABLE `task_images` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `task_steps`
+-- Table structure for table `task_steps`
 --
 
 CREATE TABLE `task_steps` (
@@ -1278,7 +1315,7 @@ CREATE TABLE `task_steps` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `task_steps`
+-- Dumping data for table `task_steps`
 --
 
 INSERT INTO `task_steps` (`TaskStepId`, `Name`) VALUES
@@ -1302,7 +1339,7 @@ INSERT INTO `task_steps` (`TaskStepId`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `task_types`
+-- Table structure for table `task_types`
 --
 
 CREATE TABLE `task_types` (
@@ -1311,7 +1348,7 @@ CREATE TABLE `task_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `task_types`
+-- Dumping data for table `task_types`
 --
 
 INSERT INTO `task_types` (`TaskTypeId`, `Name`) VALUES
@@ -1336,7 +1373,7 @@ INSERT INTO `task_types` (`TaskTypeId`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `task_ways`
+-- Table structure for table `task_ways`
 --
 
 CREATE TABLE `task_ways` (
@@ -1345,12 +1382,12 @@ CREATE TABLE `task_ways` (
   `TaskFK` int(11) NOT NULL,
   `TaskStepFK` int(11) NOT NULL,
   `EmployeeFK` int(11) DEFAULT NULL,
-  `Active` tinyint(1) NOT NULL DEFAULT 0,
+  `Active` tinyint(1) NOT NULL DEFAULT '0',
   `Ready` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `task_ways`
+-- Dumping data for table `task_ways`
 --
 
 INSERT INTO `task_ways` (`TaskWayId`, `Number`, `TaskFK`, `TaskStepFK`, `EmployeeFK`, `Active`, `Ready`) VALUES
@@ -1530,7 +1567,7 @@ INSERT INTO `task_ways` (`TaskWayId`, `Number`, `TaskFK`, `TaskStepFK`, `Employe
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `task_way_templates`
+-- Table structure for table `task_way_templates`
 --
 
 CREATE TABLE `task_way_templates` (
@@ -1542,7 +1579,7 @@ CREATE TABLE `task_way_templates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `task_way_templates`
+-- Dumping data for table `task_way_templates`
 --
 
 INSERT INTO `task_way_templates` (`TaskWayId`, `TaskTypeFK`, `Number`, `TaskStepFK`, `EmployeeFK`) VALUES
@@ -1555,7 +1592,7 @@ INSERT INTO `task_way_templates` (`TaskWayId`, `TaskTypeFK`, `Number`, `TaskStep
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tools`
+-- Table structure for table `tools`
 --
 
 CREATE TABLE `tools` (
@@ -1566,13 +1603,13 @@ CREATE TABLE `tools` (
   `ToolAvailabilityFK` int(11) NOT NULL,
   `AvailableTools` int(11) NOT NULL,
   `Place` text NOT NULL,
-  `Description` text DEFAULT NULL,
+  `Description` text,
   `LastMaintenance` datetime DEFAULT NULL,
   `MaintenancePeriod` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `tools`
+-- Dumping data for table `tools`
 --
 
 INSERT INTO `tools` (`ToolId`, `Name`, `ToolTypeFK`, `Icon`, `ToolAvailabilityFK`, `AvailableTools`, `Place`, `Description`, `LastMaintenance`, `MaintenancePeriod`) VALUES
@@ -1581,7 +1618,7 @@ INSERT INTO `tools` (`ToolId`, `Name`, `ToolTypeFK`, `Icon`, `ToolAvailabilityFK
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tool_availabilities`
+-- Table structure for table `tool_availabilities`
 --
 
 CREATE TABLE `tool_availabilities` (
@@ -1590,7 +1627,7 @@ CREATE TABLE `tool_availabilities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `tool_availabilities`
+-- Dumping data for table `tool_availabilities`
 --
 
 INSERT INTO `tool_availabilities` (`ToolAvailabilityId`, `Name`) VALUES
@@ -1600,7 +1637,7 @@ INSERT INTO `tool_availabilities` (`ToolAvailabilityId`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tool_remarks`
+-- Table structure for table `tool_remarks`
 --
 
 CREATE TABLE `tool_remarks` (
@@ -1608,11 +1645,11 @@ CREATE TABLE `tool_remarks` (
   `EmployeeFK` int(11) NOT NULL,
   `RemarkText` text NOT NULL,
   `ToolFK` int(11) NOT NULL,
-  `CreatedDate` datetime NOT NULL DEFAULT current_timestamp()
+  `CreatedDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `tool_remarks`
+-- Dumping data for table `tool_remarks`
 --
 
 INSERT INTO `tool_remarks` (`ToolRemarkId`, `EmployeeFK`, `RemarkText`, `ToolFK`, `CreatedDate`) VALUES
@@ -1622,7 +1659,7 @@ INSERT INTO `tool_remarks` (`ToolRemarkId`, `EmployeeFK`, `RemarkText`, `ToolFK`
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tool_types`
+-- Table structure for table `tool_types`
 --
 
 CREATE TABLE `tool_types` (
@@ -1631,7 +1668,7 @@ CREATE TABLE `tool_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `tool_types`
+-- Dumping data for table `tool_types`
 --
 
 INSERT INTO `tool_types` (`ToolTypeId`, `Name`) VALUES
@@ -1640,7 +1677,7 @@ INSERT INTO `tool_types` (`ToolTypeId`, `Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `update_structures`
+-- Table structure for table `update_structures`
 --
 
 CREATE TABLE `update_structures` (
@@ -1652,7 +1689,7 @@ CREATE TABLE `update_structures` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `update_structures`
+-- Dumping data for table `update_structures`
 --
 
 INSERT INTO `update_structures` (`UpdateStructureId`, `Place`, `ColumnName`, `UpdateName`, `UpdateTable`) VALUES
@@ -1663,18 +1700,18 @@ INSERT INTO `update_structures` (`UpdateStructureId`, `Place`, `ColumnName`, `Up
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `virtual_objects`
+-- Table structure for table `virtual_objects`
 --
 
 CREATE TABLE `virtual_objects` (
   `VirtualObjectId` int(11) NOT NULL,
   `ObjNameAlias` varchar(30) DEFAULT NULL,
   `Card` varchar(15) DEFAULT NULL,
-  `QueryString` text DEFAULT NULL
+  `QueryString` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `virtual_objects`
+-- Dumping data for table `virtual_objects`
 --
 
 INSERT INTO `virtual_objects` (`VirtualObjectId`, `ObjNameAlias`, `Card`, `QueryString`) VALUES
@@ -1689,7 +1726,7 @@ INSERT INTO `virtual_objects` (`VirtualObjectId`, `ObjNameAlias`, `Card`, `Query
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `weekly_tasks`
+-- Table structure for table `weekly_tasks`
 --
 
 CREATE TABLE `weekly_tasks` (
@@ -1708,7 +1745,7 @@ CREATE TABLE `weekly_tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- A tábla adatainak kiíratása `weekly_tasks`
+-- Dumping data for table `weekly_tasks`
 --
 
 INSERT INTO `weekly_tasks` (`WeeklyTaskId`, `StartTime`, `EndTime`, `StartYear`, `StartMonth`, `StartDay`, `EndYear`, `EndMonth`, `EndDay`, `Title`, `Description`, `State`) VALUES
@@ -1716,91 +1753,98 @@ INSERT INTO `weekly_tasks` (`WeeklyTaskId`, `StartTime`, `EndTime`, `StartYear`,
 (2, '11:45', '09:30', 2020, 3, 20, 2020, 3, 21, 'Előkészítés', 'Kick off meetingre a tárgyaló kitakarítása', 0);
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `customers`
+-- Indexes for table `cardc_structures`
+--
+ALTER TABLE `cardc_structures`
+  ADD PRIMARY KEY (`StuctureId`);
+
+--
+-- Indexes for table `customers`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`CustomerId`);
 
 --
--- A tábla indexei `c_cards`
+-- Indexes for table `c_cards`
 --
 ALTER TABLE `c_cards`
   ADD PRIMARY KEY (`CCardId`);
 
 --
--- A tábla indexei `c_input_types`
+-- Indexes for table `c_input_types`
 --
 ALTER TABLE `c_input_types`
   ADD PRIMARY KEY (`Id`);
 
 --
--- A tábla indexei `c_modules`
+-- Indexes for table `c_modules`
 --
 ALTER TABLE `c_modules`
   ADD PRIMARY KEY (`CModuleId`);
 
 --
--- A tábla indexei `c_plugins`
+-- Indexes for table `c_plugins`
 --
 ALTER TABLE `c_plugins`
   ADD PRIMARY KEY (`CPluginId`);
 
 --
--- A tábla indexei `c_tabs`
+-- Indexes for table `c_tabs`
 --
 ALTER TABLE `c_tabs`
   ADD PRIMARY KEY (`CTabId`);
 
 --
--- A tábla indexei `device_verification`
+-- Indexes for table `device_verification`
 --
 ALTER TABLE `device_verification`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `EmployeeFK` (`EmployeeFK`);
 
 --
--- A tábla indexei `dtls_structures`
+-- Indexes for table `dtls_structures`
 --
 ALTER TABLE `dtls_structures`
   ADD PRIMARY KEY (`StuctureId`);
 
 --
--- A tábla indexei `employees`
+-- Indexes for table `employees`
 --
 ALTER TABLE `employees`
-  ADD PRIMARY KEY (`EmployeeId`);
+  ADD PRIMARY KEY (`EmployeeId`),
+  ADD KEY `EmployeePositionFK` (`EmployeePositionFK`);
 
 --
--- A tábla indexei `employee_positions`
+-- Indexes for table `employee_positions`
 --
 ALTER TABLE `employee_positions`
   ADD PRIMARY KEY (`EmployeePositionId`);
 
 --
--- A tábla indexei `filters`
+-- Indexes for table `filters`
 --
 ALTER TABLE `filters`
   ADD PRIMARY KEY (`FilterId`);
 
 --
--- A tábla indexei `form_structures`
+-- Indexes for table `form_structures`
 --
 ALTER TABLE `form_structures`
   ADD PRIMARY KEY (`FormStructureId`),
   ADD KEY `Type` (`Type`);
 
 --
--- A tábla indexei `f_columns`
+-- Indexes for table `f_columns`
 --
 ALTER TABLE `f_columns`
   ADD PRIMARY KEY (`FColumnId`);
 
 --
--- A tábla indexei `f_display`
+-- Indexes for table `f_display`
 --
 ALTER TABLE `f_display`
   ADD PRIMARY KEY (`FDisplayId`),
@@ -1808,7 +1852,7 @@ ALTER TABLE `f_display`
   ADD KEY `FColumnsFK` (`FColumnFK`);
 
 --
--- A tábla indexei `f_form_inputs`
+-- Indexes for table `f_form_inputs`
 --
 ALTER TABLE `f_form_inputs`
   ADD PRIMARY KEY (`FFormInputId`),
@@ -1817,7 +1861,7 @@ ALTER TABLE `f_form_inputs`
   ADD KEY `FColumnFK` (`FColumnFK`);
 
 --
--- A tábla indexei `f_module_plugins`
+-- Indexes for table `f_module_plugins`
 --
 ALTER TABLE `f_module_plugins`
   ADD PRIMARY KEY (`FModulePluginId`),
@@ -1825,7 +1869,7 @@ ALTER TABLE `f_module_plugins`
   ADD KEY `CPluginFK` (`CPluginFK`);
 
 --
--- A tábla indexei `f_plugin_cards`
+-- Indexes for table `f_plugin_cards`
 --
 ALTER TABLE `f_plugin_cards`
   ADD PRIMARY KEY (`FPluginCardId`),
@@ -1834,7 +1878,7 @@ ALTER TABLE `f_plugin_cards`
   ADD KEY `f_plugin_cards_ibfk_3` (`CCardFK`);
 
 --
--- A tábla indexei `f_plugin_display`
+-- Indexes for table `f_plugin_display`
 --
 ALTER TABLE `f_plugin_display`
   ADD PRIMARY KEY (`FPluginDisplayId`),
@@ -1842,7 +1886,7 @@ ALTER TABLE `f_plugin_display`
   ADD KEY `FPluginPluginFK` (`FPluginPluginFK`);
 
 --
--- A tábla indexei `f_plugin_form_inputs`
+-- Indexes for table `f_plugin_form_inputs`
 --
 ALTER TABLE `f_plugin_form_inputs`
   ADD PRIMARY KEY (`FPluginFormInputId`),
@@ -1850,7 +1894,7 @@ ALTER TABLE `f_plugin_form_inputs`
   ADD KEY `FPluginPluginFK` (`FPluginPluginFK`);
 
 --
--- A tábla indexei `f_plugin_plugins`
+-- Indexes for table `f_plugin_plugins`
 --
 ALTER TABLE `f_plugin_plugins`
   ADD PRIMARY KEY (`FPluginPluginId`),
@@ -1859,7 +1903,7 @@ ALTER TABLE `f_plugin_plugins`
   ADD KEY `FModulePluginFK` (`FModulePluginFK`);
 
 --
--- A tábla indexei `f_plugin_vo`
+-- Indexes for table `f_plugin_vo`
 --
 ALTER TABLE `f_plugin_vo`
   ADD PRIMARY KEY (`FPluginVoId`),
@@ -1868,7 +1912,7 @@ ALTER TABLE `f_plugin_vo`
   ADD KEY `VirtualObjectFK` (`VirtualObjectFK`);
 
 --
--- A tábla indexei `f_user_modules`
+-- Indexes for table `f_user_modules`
 --
 ALTER TABLE `f_user_modules`
   ADD PRIMARY KEY (`FUserModuleId`),
@@ -1877,25 +1921,25 @@ ALTER TABLE `f_user_modules`
   ADD KEY `TabFK` (`CTabFK`);
 
 --
--- A tábla indexei `insert_structures`
+-- Indexes for table `insert_structures`
 --
 ALTER TABLE `insert_structures`
   ADD PRIMARY KEY (`InsertStructureId`);
 
 --
--- A tábla indexei `l_input_types`
+-- Indexes for table `l_input_types`
 --
 ALTER TABLE `l_input_types`
   ADD PRIMARY KEY (`Id`);
 
 --
--- A tábla indexei `monthly_tasks`
+-- Indexes for table `monthly_tasks`
 --
 ALTER TABLE `monthly_tasks`
   ADD PRIMARY KEY (`MonthlyTaskId`);
 
 --
--- A tábla indexei `orders`
+-- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`OrderId`),
@@ -1904,87 +1948,87 @@ ALTER TABLE `orders`
   ADD KEY `orders_ibfk_3` (`TaskFK`);
 
 --
--- A tábla indexei `order_products`
+-- Indexes for table `order_products`
 --
 ALTER TABLE `order_products`
   ADD PRIMARY KEY (`OrderProductId`);
 
 --
--- A tábla indexei `order_services`
+-- Indexes for table `order_services`
 --
 ALTER TABLE `order_services`
   ADD PRIMARY KEY (`OrderServiceId`),
   ADD KEY `ServiceFK` (`ServiceFK`);
 
 --
--- A tábla indexei `partners`
+-- Indexes for table `partners`
 --
 ALTER TABLE `partners`
   ADD PRIMARY KEY (`PartnerId`);
 
 --
--- A tábla indexei `partner_contacts`
+-- Indexes for table `partner_contacts`
 --
 ALTER TABLE `partner_contacts`
   ADD PRIMARY KEY (`PartnerContactId`),
   ADD KEY `PartnerFK` (`PartnerFK`);
 
 --
--- A tábla indexei `partner_tags`
+-- Indexes for table `partner_tags`
 --
 ALTER TABLE `partner_tags`
   ADD PRIMARY KEY (`PartnerTagId`);
 
 --
--- A tábla indexei `partner_types`
+-- Indexes for table `partner_types`
 --
 ALTER TABLE `partner_types`
   ADD PRIMARY KEY (`PartnerTypeId`);
 
 --
--- A tábla indexei `products`
+-- Indexes for table `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`ProductId`);
 
 --
--- A tábla indexei `projects`
+-- Indexes for table `projects`
 --
 ALTER TABLE `projects`
   ADD PRIMARY KEY (`ProjectId`);
 
 --
--- A tábla indexei `saved_task_ways`
+-- Indexes for table `saved_task_ways`
 --
 ALTER TABLE `saved_task_ways`
   ADD PRIMARY KEY (`SavedTaskWayId`);
 
 --
--- A tábla indexei `services`
+-- Indexes for table `services`
 --
 ALTER TABLE `services`
   ADD PRIMARY KEY (`ServiceId`);
 
 --
--- A tábla indexei `sorts`
+-- Indexes for table `sorts`
 --
 ALTER TABLE `sorts`
   ADD PRIMARY KEY (`SortId`);
 
 --
--- A tábla indexei `table_structures`
+-- Indexes for table `table_structures`
 --
 ALTER TABLE `table_structures`
   ADD PRIMARY KEY (`TableStructureId`);
 
 --
--- A tábla indexei `tags_for_partner`
+-- Indexes for table `tags_for_partner`
 --
 ALTER TABLE `tags_for_partner`
   ADD PRIMARY KEY (`TagForPartnerId`);
 
 --
--- A tábla indexei `tasks`
+-- Indexes for table `tasks`
 --
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`TaskId`),
@@ -1992,32 +2036,32 @@ ALTER TABLE `tasks`
   ADD KEY `TaskTypeFK` (`TaskTypeFK`);
 
 --
--- A tábla indexei `task_categories`
+-- Indexes for table `task_categories`
 --
 ALTER TABLE `task_categories`
   ADD PRIMARY KEY (`TaskCategoryId`);
 
 --
--- A tábla indexei `task_images`
+-- Indexes for table `task_images`
 --
 ALTER TABLE `task_images`
   ADD PRIMARY KEY (`TaskImageId`),
   ADD KEY `TaskFK` (`TaskFK`);
 
 --
--- A tábla indexei `task_steps`
+-- Indexes for table `task_steps`
 --
 ALTER TABLE `task_steps`
   ADD PRIMARY KEY (`TaskStepId`);
 
 --
--- A tábla indexei `task_types`
+-- Indexes for table `task_types`
 --
 ALTER TABLE `task_types`
   ADD PRIMARY KEY (`TaskTypeId`);
 
 --
--- A tábla indexei `task_ways`
+-- Indexes for table `task_ways`
 --
 ALTER TABLE `task_ways`
   ADD PRIMARY KEY (`TaskWayId`),
@@ -2026,382 +2070,394 @@ ALTER TABLE `task_ways`
   ADD KEY `TaskFK` (`TaskFK`);
 
 --
--- A tábla indexei `task_way_templates`
+-- Indexes for table `task_way_templates`
 --
 ALTER TABLE `task_way_templates`
   ADD PRIMARY KEY (`TaskWayId`);
 
 --
--- A tábla indexei `tools`
+-- Indexes for table `tools`
 --
 ALTER TABLE `tools`
   ADD PRIMARY KEY (`ToolId`);
 
 --
--- A tábla indexei `tool_availabilities`
+-- Indexes for table `tool_availabilities`
 --
 ALTER TABLE `tool_availabilities`
   ADD PRIMARY KEY (`ToolAvailabilityId`);
 
 --
--- A tábla indexei `tool_remarks`
+-- Indexes for table `tool_remarks`
 --
 ALTER TABLE `tool_remarks`
   ADD PRIMARY KEY (`ToolRemarkId`);
 
 --
--- A tábla indexei `tool_types`
+-- Indexes for table `tool_types`
 --
 ALTER TABLE `tool_types`
   ADD PRIMARY KEY (`ToolTypeId`);
 
 --
--- A tábla indexei `update_structures`
+-- Indexes for table `update_structures`
 --
 ALTER TABLE `update_structures`
   ADD PRIMARY KEY (`UpdateStructureId`);
 
 --
--- A tábla indexei `virtual_objects`
+-- Indexes for table `virtual_objects`
 --
 ALTER TABLE `virtual_objects`
   ADD PRIMARY KEY (`VirtualObjectId`);
 
 --
--- A tábla indexei `weekly_tasks`
+-- Indexes for table `weekly_tasks`
 --
 ALTER TABLE `weekly_tasks`
   ADD PRIMARY KEY (`WeeklyTaskId`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `customers`
+-- AUTO_INCREMENT for table `cardc_structures`
+--
+ALTER TABLE `cardc_structures`
+  MODIFY `StuctureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+
+--
+-- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
   MODIFY `CustomerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `c_cards`
+-- AUTO_INCREMENT for table `c_cards`
 --
 ALTER TABLE `c_cards`
   MODIFY `CCardId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `c_modules`
+-- AUTO_INCREMENT for table `c_modules`
 --
 ALTER TABLE `c_modules`
   MODIFY `CModuleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1015;
 
 --
--- AUTO_INCREMENT a táblához `c_plugins`
+-- AUTO_INCREMENT for table `c_plugins`
 --
 ALTER TABLE `c_plugins`
-  MODIFY `CPluginId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `CPluginId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT a táblához `device_verification`
+-- AUTO_INCREMENT for table `device_verification`
 --
 ALTER TABLE `device_verification`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
--- AUTO_INCREMENT a táblához `dtls_structures`
+-- AUTO_INCREMENT for table `dtls_structures`
 --
 ALTER TABLE `dtls_structures`
   MODIFY `StuctureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
--- AUTO_INCREMENT a táblához `employees`
+-- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `EmployeeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `EmployeeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT a táblához `employee_positions`
+-- AUTO_INCREMENT for table `employee_positions`
 --
 ALTER TABLE `employee_positions`
   MODIFY `EmployeePositionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `filters`
+-- AUTO_INCREMENT for table `filters`
 --
 ALTER TABLE `filters`
   MODIFY `FilterId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT a táblához `form_structures`
+-- AUTO_INCREMENT for table `form_structures`
 --
 ALTER TABLE `form_structures`
   MODIFY `FormStructureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT a táblához `f_columns`
+-- AUTO_INCREMENT for table `f_columns`
 --
 ALTER TABLE `f_columns`
-  MODIFY `FColumnId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `FColumnId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT a táblához `f_display`
+-- AUTO_INCREMENT for table `f_display`
 --
 ALTER TABLE `f_display`
-  MODIFY `FDisplayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `FDisplayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT a táblához `f_form_inputs`
+-- AUTO_INCREMENT for table `f_form_inputs`
 --
 ALTER TABLE `f_form_inputs`
-  MODIFY `FFormInputId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `FFormInputId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT a táblához `f_module_plugins`
+-- AUTO_INCREMENT for table `f_module_plugins`
 --
 ALTER TABLE `f_module_plugins`
-  MODIFY `FModulePluginId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `FModulePluginId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT a táblához `f_plugin_cards`
+-- AUTO_INCREMENT for table `f_plugin_cards`
 --
 ALTER TABLE `f_plugin_cards`
-  MODIFY `FPluginCardId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `FPluginCardId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `f_plugin_display`
+-- AUTO_INCREMENT for table `f_plugin_display`
 --
 ALTER TABLE `f_plugin_display`
-  MODIFY `FPluginDisplayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `FPluginDisplayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT a táblához `f_plugin_form_inputs`
+-- AUTO_INCREMENT for table `f_plugin_form_inputs`
 --
 ALTER TABLE `f_plugin_form_inputs`
-  MODIFY `FPluginFormInputId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `FPluginFormInputId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT a táblához `f_plugin_plugins`
+-- AUTO_INCREMENT for table `f_plugin_plugins`
 --
 ALTER TABLE `f_plugin_plugins`
   MODIFY `FPluginPluginId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT a táblához `f_plugin_vo`
+-- AUTO_INCREMENT for table `f_plugin_vo`
 --
 ALTER TABLE `f_plugin_vo`
   MODIFY `FPluginVoId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT a táblához `f_user_modules`
+-- AUTO_INCREMENT for table `f_user_modules`
 --
 ALTER TABLE `f_user_modules`
-  MODIFY `FUserModuleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `FUserModuleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT a táblához `insert_structures`
+-- AUTO_INCREMENT for table `insert_structures`
 --
 ALTER TABLE `insert_structures`
   MODIFY `InsertStructureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT a táblához `monthly_tasks`
+-- AUTO_INCREMENT for table `monthly_tasks`
 --
 ALTER TABLE `monthly_tasks`
   MODIFY `MonthlyTaskId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
   MODIFY `OrderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `order_products`
+-- AUTO_INCREMENT for table `order_products`
 --
 ALTER TABLE `order_products`
   MODIFY `OrderProductId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT a táblához `order_services`
+-- AUTO_INCREMENT for table `order_services`
 --
 ALTER TABLE `order_services`
   MODIFY `OrderServiceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `partners`
+-- AUTO_INCREMENT for table `partners`
 --
 ALTER TABLE `partners`
   MODIFY `PartnerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT a táblához `partner_contacts`
+-- AUTO_INCREMENT for table `partner_contacts`
 --
 ALTER TABLE `partner_contacts`
   MODIFY `PartnerContactId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `partner_tags`
+-- AUTO_INCREMENT for table `partner_tags`
 --
 ALTER TABLE `partner_tags`
   MODIFY `PartnerTagId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `partner_types`
+-- AUTO_INCREMENT for table `partner_types`
 --
 ALTER TABLE `partner_types`
   MODIFY `PartnerTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT a táblához `products`
+-- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
   MODIFY `ProductId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT a táblához `projects`
+-- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
   MODIFY `ProjectId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT a táblához `saved_task_ways`
+-- AUTO_INCREMENT for table `saved_task_ways`
 --
 ALTER TABLE `saved_task_ways`
   MODIFY `SavedTaskWayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `services`
+-- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
   MODIFY `ServiceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `sorts`
+-- AUTO_INCREMENT for table `sorts`
 --
 ALTER TABLE `sorts`
   MODIFY `SortId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT a táblához `table_structures`
+-- AUTO_INCREMENT for table `table_structures`
 --
 ALTER TABLE `table_structures`
   MODIFY `TableStructureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT a táblához `tags_for_partner`
+-- AUTO_INCREMENT for table `tags_for_partner`
 --
 ALTER TABLE `tags_for_partner`
   MODIFY `TagForPartnerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `tasks`
+-- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `TaskId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `TaskId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
--- AUTO_INCREMENT a táblához `task_categories`
+-- AUTO_INCREMENT for table `task_categories`
 --
 ALTER TABLE `task_categories`
   MODIFY `TaskCategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT a táblához `task_images`
+-- AUTO_INCREMENT for table `task_images`
 --
 ALTER TABLE `task_images`
   MODIFY `TaskImageId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `task_steps`
+-- AUTO_INCREMENT for table `task_steps`
 --
 ALTER TABLE `task_steps`
   MODIFY `TaskStepId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT a táblához `task_types`
+-- AUTO_INCREMENT for table `task_types`
 --
 ALTER TABLE `task_types`
   MODIFY `TaskTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT a táblához `task_ways`
+-- AUTO_INCREMENT for table `task_ways`
 --
 ALTER TABLE `task_ways`
   MODIFY `TaskWayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
 
 --
--- AUTO_INCREMENT a táblához `task_way_templates`
+-- AUTO_INCREMENT for table `task_way_templates`
 --
 ALTER TABLE `task_way_templates`
   MODIFY `TaskWayId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT a táblához `tools`
+-- AUTO_INCREMENT for table `tools`
 --
 ALTER TABLE `tools`
   MODIFY `ToolId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT a táblához `tool_availabilities`
+-- AUTO_INCREMENT for table `tool_availabilities`
 --
 ALTER TABLE `tool_availabilities`
   MODIFY `ToolAvailabilityId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `tool_remarks`
+-- AUTO_INCREMENT for table `tool_remarks`
 --
 ALTER TABLE `tool_remarks`
   MODIFY `ToolRemarkId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT a táblához `tool_types`
+-- AUTO_INCREMENT for table `tool_types`
 --
 ALTER TABLE `tool_types`
   MODIFY `ToolTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT a táblához `update_structures`
+-- AUTO_INCREMENT for table `update_structures`
 --
 ALTER TABLE `update_structures`
   MODIFY `UpdateStructureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `virtual_objects`
+-- AUTO_INCREMENT for table `virtual_objects`
 --
 ALTER TABLE `virtual_objects`
   MODIFY `VirtualObjectId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT a táblához `weekly_tasks`
+-- AUTO_INCREMENT for table `weekly_tasks`
 --
 ALTER TABLE `weekly_tasks`
   MODIFY `WeeklyTaskId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Megkötések a kiírt táblákhoz
+-- Constraints for dumped tables
 --
 
 --
--- Megkötések a táblához `device_verification`
+-- Constraints for table `device_verification`
 --
 ALTER TABLE `device_verification`
-  ADD CONSTRAINT `device_verification_ibfk_1` FOREIGN KEY (`EmployeeFK`) REFERENCES `employees` (`EmployeeId`);
+  ADD CONSTRAINT `EmployeeFK` FOREIGN KEY (`EmployeeFK`) REFERENCES `employees` (`EmployeeId`);
 
 --
--- Megkötések a táblához `form_structures`
+-- Constraints for table `employees`
+--
+ALTER TABLE `employees`
+  ADD CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`EmployeePositionFK`) REFERENCES `employee_positions` (`EmployeePositionId`);
+
+--
+-- Constraints for table `form_structures`
 --
 ALTER TABLE `form_structures`
   ADD CONSTRAINT `form_structures_ibfk_1` FOREIGN KEY (`Type`) REFERENCES `l_input_types` (`Id`);
 
 --
--- Megkötések a táblához `f_display`
+-- Constraints for table `f_display`
 --
 ALTER TABLE `f_display`
   ADD CONSTRAINT `f_display_ibfk_1` FOREIGN KEY (`FPluginDisplayFK`) REFERENCES `f_plugin_display` (`FPluginDisplayId`),
   ADD CONSTRAINT `f_display_ibfk_2` FOREIGN KEY (`FColumnFK`) REFERENCES `f_columns` (`FColumnId`);
 
 --
--- Megkötések a táblához `f_form_inputs`
+-- Constraints for table `f_form_inputs`
 --
 ALTER TABLE `f_form_inputs`
   ADD CONSTRAINT `f_form_inputs_ibfk_1` FOREIGN KEY (`FPluginFormInputFK`) REFERENCES `f_plugin_form_inputs` (`FPluginFormInputId`),
@@ -2409,14 +2465,14 @@ ALTER TABLE `f_form_inputs`
   ADD CONSTRAINT `f_form_inputs_ibfk_3` FOREIGN KEY (`Type`) REFERENCES `c_input_types` (`Id`);
 
 --
--- Megkötések a táblához `f_module_plugins`
+-- Constraints for table `f_module_plugins`
 --
 ALTER TABLE `f_module_plugins`
   ADD CONSTRAINT `f_module_plugins_ibfk_1` FOREIGN KEY (`FUserModuleFK`) REFERENCES `f_user_modules` (`FUserModuleId`),
   ADD CONSTRAINT `f_module_plugins_ibfk_2` FOREIGN KEY (`CPluginFK`) REFERENCES `c_plugins` (`CPluginId`);
 
 --
--- Megkötések a táblához `f_plugin_cards`
+-- Constraints for table `f_plugin_cards`
 --
 ALTER TABLE `f_plugin_cards`
   ADD CONSTRAINT `f_plugin_cards_ibfk_1` FOREIGN KEY (`FModulePluginFK`) REFERENCES `f_module_plugins` (`FModulePluginId`),
@@ -2424,21 +2480,21 @@ ALTER TABLE `f_plugin_cards`
   ADD CONSTRAINT `f_plugin_cards_ibfk_3` FOREIGN KEY (`CCardFK`) REFERENCES `c_cards` (`CCardId`);
 
 --
--- Megkötések a táblához `f_plugin_display`
+-- Constraints for table `f_plugin_display`
 --
 ALTER TABLE `f_plugin_display`
   ADD CONSTRAINT `f_plugin_display_ibfk_1` FOREIGN KEY (`FModulePluginFK`) REFERENCES `f_module_plugins` (`FModulePluginId`),
   ADD CONSTRAINT `f_plugin_display_ibfk_2` FOREIGN KEY (`FPluginPluginFK`) REFERENCES `f_plugin_plugins` (`FPluginPluginId`);
 
 --
--- Megkötések a táblához `f_plugin_form_inputs`
+-- Constraints for table `f_plugin_form_inputs`
 --
 ALTER TABLE `f_plugin_form_inputs`
   ADD CONSTRAINT `f_plugin_form_inputs_ibfk_1` FOREIGN KEY (`FModulePluginFK`) REFERENCES `f_module_plugins` (`FModulePluginId`),
   ADD CONSTRAINT `f_plugin_form_inputs_ibfk_2` FOREIGN KEY (`FPluginPluginFK`) REFERENCES `f_plugin_plugins` (`FPluginPluginId`);
 
 --
--- Megkötések a táblához `f_plugin_plugins`
+-- Constraints for table `f_plugin_plugins`
 --
 ALTER TABLE `f_plugin_plugins`
   ADD CONSTRAINT `f_plugin_plugins_ibfk_2` FOREIGN KEY (`CPluginFK`) REFERENCES `c_plugins` (`CPluginId`),
@@ -2446,7 +2502,7 @@ ALTER TABLE `f_plugin_plugins`
   ADD CONSTRAINT `f_plugin_plugins_ibfk_4` FOREIGN KEY (`FModulePluginFK`) REFERENCES `f_module_plugins` (`FModulePluginId`);
 
 --
--- Megkötések a táblához `f_plugin_vo`
+-- Constraints for table `f_plugin_vo`
 --
 ALTER TABLE `f_plugin_vo`
   ADD CONSTRAINT `f_plugin_vo_ibfk_1` FOREIGN KEY (`FModulePluginFK`) REFERENCES `f_module_plugins` (`FModulePluginId`),
@@ -2454,7 +2510,7 @@ ALTER TABLE `f_plugin_vo`
   ADD CONSTRAINT `f_plugin_vo_ibfk_3` FOREIGN KEY (`VirtualObjectFK`) REFERENCES `virtual_objects` (`VirtualObjectId`);
 
 --
--- Megkötések a táblához `f_user_modules`
+-- Constraints for table `f_user_modules`
 --
 ALTER TABLE `f_user_modules`
   ADD CONSTRAINT `f_user_modules_ibfk_1` FOREIGN KEY (`EmployeeFK`) REFERENCES `employees` (`EmployeeId`),
@@ -2462,7 +2518,7 @@ ALTER TABLE `f_user_modules`
   ADD CONSTRAINT `f_user_modules_ibfk_3` FOREIGN KEY (`CTabFK`) REFERENCES `c_tabs` (`CTabId`);
 
 --
--- Megkötések a táblához `orders`
+-- Constraints for table `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`CustomerFK`) REFERENCES `customers` (`CustomerId`),
@@ -2470,32 +2526,32 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`TaskFK`) REFERENCES `tasks` (`TaskId`);
 
 --
--- Megkötések a táblához `order_services`
+-- Constraints for table `order_services`
 --
 ALTER TABLE `order_services`
   ADD CONSTRAINT `order_services_ibfk_1` FOREIGN KEY (`ServiceFK`) REFERENCES `services` (`ServiceId`);
 
 --
--- Megkötések a táblához `partner_contacts`
+-- Constraints for table `partner_contacts`
 --
 ALTER TABLE `partner_contacts`
   ADD CONSTRAINT `partner_contacts_ibfk_1` FOREIGN KEY (`PartnerFK`) REFERENCES `partners` (`PartnerId`);
 
 --
--- Megkötések a táblához `tasks`
+-- Constraints for table `tasks`
 --
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`ProjectFK`) REFERENCES `projects` (`ProjectId`),
   ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`TaskTypeFK`) REFERENCES `task_types` (`TaskTypeId`);
 
 --
--- Megkötések a táblához `task_images`
+-- Constraints for table `task_images`
 --
 ALTER TABLE `task_images`
   ADD CONSTRAINT `task_images_ibfk_1` FOREIGN KEY (`TaskFK`) REFERENCES `tasks` (`TaskId`);
 
 --
--- Megkötések a táblához `task_ways`
+-- Constraints for table `task_ways`
 --
 ALTER TABLE `task_ways`
   ADD CONSTRAINT `task_ways_ibfk_1` FOREIGN KEY (`EmployeeFK`) REFERENCES `employees` (`EmployeeId`),
