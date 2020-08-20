@@ -22,7 +22,7 @@ export default class DinamicFormPopup {
     constructor(plugin, frameId, parentFrameId) {
         const title = plugin['Plugin name'];
         let isFullscreen = true;
-        if (plugin.Childs === []) {
+        if (plugin.Children === []) {
             isFullscreen = false;
         }
 
@@ -204,10 +204,10 @@ export default class DinamicFormPopup {
 
         CardContainerPlus.Create(formInputs, dataFrameId, DinamicFormPopup.loadFormItem);
 
-        //Childs
-        let childs = formData.Childs;
+        //Children
+        let children = formData.Children;
 
-        for (const plugin of childs) {
+        for (const plugin of children) {
             let place = plugin.Place;
             let number = plugin.Number;
             let childFrameId = `${frameId}_child_${number}`;

@@ -196,7 +196,7 @@ let Loadings = {
         let cardDesign = new CardDesigns().getSimpleCard(Varibles.FrameId);
         let cardContainer = Varibles.FrameId + '_cc';
 
-        new ElementFunctions().removeChilds(cardContainer);
+        new ElementFunctions().removeChildren(cardContainer);
         CardContainer.Create(data, cardStructure, cardDesign, cardContainer);
         CardContainer.ClickableCard(Events.cardClick, Varibles.FrameId);
         if (data[0] !== undefined) {

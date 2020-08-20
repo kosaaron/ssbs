@@ -364,9 +364,9 @@ let Local = {
         }
 
         function getDropDownClass() {
-            if (!process.hasOwnProperty('Childs')) {
+            if (!process.hasOwnProperty('Children')) {
                 return `<i class="fas fa-tasks margin-auto p-n-box-item-icon"></i>`;
-            } else if (process['Childs'].length === 0) {
+            } else if (process['Children'].length === 0) {
                 return `<i class="fas fa-project-diagram margin-auto p-n-box-item-icon"></i>`;
             } else {
                 return `<i class="far fa-plus-square margin-auto p-n-box-item-icon"></i>`;
@@ -614,7 +614,7 @@ let Functions = {
      * @param {String} path example: "1234.1235.1236"
      */
     objectFromJSON: function (array, path) {
-        let currentArray = Functions.childsFromJSON(
+        let currentArray = Functions.childrenFromJSON(
             array,
             path
         );
@@ -624,7 +624,7 @@ let Functions = {
         for (const key in currentArray[lasEntryId]) {
             if (currentArray[lasEntryId].hasOwnProperty(key)) {
                 const value = currentArray[lasEntryId][key];
-                if (key !== 'Childs') {
+                if (key !== 'Children') {
                     newProcess[key] = value;
                 }
             }
@@ -638,7 +638,7 @@ let Functions = {
      * @param {String} path example: "1234.1235.1236"
      */
     objectFromJSONWCh: function (array, path) {
-        let currentArray = Functions.childsFromJSON(
+        let currentArray = Functions.childrenFromJSON(
             array,
             path
         );
@@ -649,17 +649,17 @@ let Functions = {
         return currentArray;
     },
     /**
-     * Parent childs from JSON array by path
+     * Parent children from JSON array by path
      * @param {JSON} array 
      * @param {String} path example: "1234.1235.1236"
      */
-    childsFromJSON: function (array, path) {
+    childrenFromJSON: function (array, path) {
         let ids = path.split('.');
         let currentArray = array;
 
         for (let i = 0; i < ids.length - 1; i++) {
             const entryId = ids[i];
-            currentArray = currentArray[entryId]['Childs'];
+            currentArray = currentArray[entryId]['Children'];
         }
 
         return currentArray;
@@ -778,7 +778,7 @@ let Events = {
             processMenuItemIcon.addClass('fa-minus-square');
 
             Local.addProcess(
-                Functions.objectFromJSONWCh(Varibles.processesDataArray, prcItemPath)['Childs'],
+                Functions.objectFromJSONWCh(Varibles.processesDataArray, prcItemPath)['Children'],
                 entryId,
                 prcItemPath
             );

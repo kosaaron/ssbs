@@ -13,6 +13,14 @@ export default class CardBox {
      * @param {String} parentFrameId 
      */
     constructor(plugin, frameId, parentFrameId) {
+        if (!plugin.hasOwnProperty('Data')) {
+            console.log('There is no data in CardBox');
+            return;
+        } else if (!plugin.Data.hasOwnProperty('1')) {
+            console.log('There is no data in CardBox');
+            return;
+        }
+
         let isMore = false;
         let newData = plugin.Data['1'].Display.Data;
         if (newData.length === 21) {

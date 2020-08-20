@@ -21,7 +21,7 @@ export default class Filter {
         filterHTML = `<h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>`;
         filterHTML += `<div id="${filterShellId}" class="task-filters"> </div>`;
         filterHTML += `<h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>`;
-        filterHTML += `<div class="task-orders"> </div>`;
+        //filterHTML += `<div class="task-orders"> </div>`;
         filterHTML += `<div id="${sortShellId}" class="task-filters"> </div>`;
         document.getElementById(frameId).innerHTML = filterHTML;
         CardContainerPlus.Create(plugin.Data[1].Inputs, filterShellId, this.getFilterHTML);

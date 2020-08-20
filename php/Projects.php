@@ -20,7 +20,7 @@ foreach ($projects as $p_key => $p_value) {
     unset($projects[$p_key]);
 
     $new_prjct_arr['Level'] = $lvl;
-    $new_prjct_arr['Childs'] = childProjects($projects, $projectId, $lvl, $pdo);
+    $new_prjct_arr['Children'] = childProjects($projects, $projectId, $lvl, $pdo);
 
     $n_projects[$p_value['ProjectId']] = $new_prjct_arr;
 }
@@ -33,7 +33,7 @@ function childProjects(&$data, $parentFK, $lvl, $pdo)
     $lvl++;
     //without any child
     $n_projects_s = [];
-    //with childs
+    //with children
     $n_projects_ch = [];
     //all projects and tasks
     $n_projects = [];
@@ -51,9 +51,9 @@ function childProjects(&$data, $parentFK, $lvl, $pdo)
         unset($data[$entry_key]);
 
         $new_entry_arr['Level'] = $lvl;
-        $new_entry_arr['Childs'] = childProjects($data, $projectId, $lvl, $pdo);
+        $new_entry_arr['Children'] = childProjects($data, $projectId, $lvl, $pdo);
 
-        if (empty($new_entry_arr['Childs'])) {
+        if (empty($new_entry_arr['Children'])) {
             $n_projects_s[$projectId] = $new_entry_arr;
         } else {
             $n_projects_ch[$projectId] = $new_entry_arr;

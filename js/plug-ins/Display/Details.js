@@ -18,7 +18,7 @@ export default class Details {
     constructor(plugin, frameId, parentFrameId) {
         Details.create(plugin, frameId, parentFrameId);
         this.events(plugin, frameId, parentFrameId);
-        Details.callChilds(plugin, frameId);
+        Details.callChildren(plugin, frameId);
 
         AutoScroll.Integration(`${frameId}_content`);
     }
@@ -30,6 +30,14 @@ export default class Details {
      * @param {String} parentFrameId 
      */
     static create(plugin, frameId, parentFrameId) {
+        if (!plugin.hasOwnProperty('Data')) {
+            console.log('There is no data in Details');
+            return;
+        } else if (!plugin.Data.hasOwnProperty('1')) {
+            console.log('There is no data in Details[1]');
+            return;
+        }
+
         //save data to filled form
         let dataDetails = {};
         let dDValue = plugin.Data['1'].Display.Data[0]['1'];
@@ -48,6 +56,11 @@ export default class Details {
         let changeData = {};
         changeData = plugin;
         localStorage.setItem(frameId, JSON.stringify(changeData));
+
+        if (plugin.Data.hasOwnProperty('2')) {
+            console.log('There is no data in Details[2]');
+            return;
+        }
 
         let headerData = plugin.Data['1'].Display;
         let detailsDesigns = new DetailsDesigns;
@@ -74,13 +87,18 @@ export default class Details {
         )
     }
     /**
-     * CallChilds
+     * CallChildren
      * @param {JSON} plugin 
      * @param {String} frameId 
      */
-    static callChilds(plugin, frameId) {
-        let childs = plugin.Data.Childs;
-        for (const childPlugin of childs) {
+    static callChildren(plugin, frameId) {
+        if (!plugin.Data.hasOwnProperty('Children')) {
+            console.log('There is no data in CardBox');
+            return;
+        }
+
+        let children = plugin.Data.Children;
+        for (const childPlugin of children) {
             let switchPlugin = new SwitchPlugin();
             let childPluginId = `${frameId}_content_${childPlugin.Number}`;
             switchPlugin.Create(childPlugin, childPluginId, frameId);
@@ -111,7 +129,7 @@ export default class Details {
             let currentPlugin = JSON.parse(localStorage.getItem(frameId));
 
             let pluginNumber = eventResult.PluginNumber;
-            let plugins = currentPlugin.Data.Childs;
+            let plugins = currentPlugin.Data.Children;
             let targetId = `${frameId}_content`;
 
             let childPluginId = `${frameId}_content_${pluginNumber}`;
@@ -181,7 +199,7 @@ export default class Details {
                 document.getElementById(frameId).innerHTML = '';
                 Details.create(newPlugin, frameId, parentFrameId);
 
-                //Send to childs
+                //Send to children
                 $(`#${frameId}`).trigger(`${frameId}_change_details_co`);
             },
             dataType: 'json'

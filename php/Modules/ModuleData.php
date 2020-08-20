@@ -227,7 +227,7 @@ class ModuleData
 
             $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
             $dinamicForm['Inputs'] = $fDinamicFormInputs;
-            $dinamicForm['Childs'] = $this->checkChild(
+            $dinamicForm['Children'] = $this->checkChild(
                 $fModulePluginFK,
                 $fPluginPluginFK,
                 '1'
@@ -294,7 +294,7 @@ class ModuleData
             $dinamicForm[$formInputMetaData['Number']]['Inputs'] = $formInputs;
         }
 
-        $dinamicForm['Childs'] = $this->checkChild(
+        $dinamicForm['Children'] = $this->checkChild(
             $fModulePluginFK,
             $fPluginPluginFK,
             '1'

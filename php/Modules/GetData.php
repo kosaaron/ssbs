@@ -47,8 +47,8 @@ class GetData
             $main_data[$number]['Title'] = $fPluginDisplay['Title'];
             $main_data[$number]['Display'] = $this->getDisplayColumns($fPluginDisplayId, $pluginTable);
 
-            //Childs
-            $main_data['Childs'] = $this->switchPlugin->checkChild(
+            //Children
+            $main_data['Children'] = $this->switchPlugin->checkChild(
                 $fModulePluginFK,
                 $fPluginPluginFK,
                 '1'
