@@ -71,7 +71,7 @@ iframe[seamless] {
     width: 100%;
 }
 
-.full-width-i{
+.full-width-i {
     width: 100% !important;
 }
 
@@ -91,6 +91,10 @@ iframe[seamless] {
 
 .display-none {
     display: none;
+}
+
+.display-none-i {
+    display: none !important;
 }
 
 .p-relative {
@@ -317,6 +321,7 @@ iframe[seamless] {
     background: #FFFEFC;
     width: 100%;
     height: 20%;
+    position: relative;
     justify-content: center;
     color: #01043F;
 }
@@ -345,6 +350,53 @@ iframe[seamless] {
 
 .menu-item-text {
     padding-top: 3px;
+}
+
+.menu-item-more, .submenu-item-more {
+    display: none;
+}
+
+.menu-item-active .menu-item-more, .finance-subtab-active .submenu-item-more {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    right: 4%;
+    top: 12px;
+    padding: 0 10px;
+}
+
+.menu-popup {
+    position: absolute;
+    width: 200px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+.menu-popup-header {
+    padding: 5px 5px 5px 10px;
+}
+
+.menu-popup-h-icon {
+    float: right;
+    cursor: pointer;
+    margin-top: 2px;
+    margin-right: 2px;
+    font-size: 18px;
+    color: #b90000;
+}
+
+.menu-popup ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-popup ul li {
+    padding: 5px 10px;
+    cursor: pointer;
+    border-top: 1px solid #ddd;
 }
 
 .submenu-title {
@@ -583,6 +635,7 @@ iframe[seamless] {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    position: relative;
 }
 
 .finance-subtab-active {

@@ -1,6 +1,9 @@
 /** Imports **/
 import FrameDesign from "../designs/FrameDesign.js";
 import AutoScroll from "./AutoScroll.js";
+import MenuPopup from "./objects/MenuPopup.js";
+import NewModule from "./objects/NewModule.js";
+import AddPlugin from "./objects/AddPlugin.js";
 
 export default class LoadFrame {
     /**
@@ -8,6 +11,12 @@ export default class LoadFrame {
      */
     constructor() {
         LoadFrame.load();
+        LoadFrame.events();
+    }
+    static events() {
+        $(window).click(function () {
+            //MenuPopup.events();
+        });
     }
 
     static load() {
@@ -16,6 +25,7 @@ export default class LoadFrame {
             url: "./php/GetFrameData.php",
             data: {},
             success: function (result) {
+                console.log(result)
                 LoadFrame.loadTabs(result);
                 LoadFrame.addClickEvents(result);
             },
@@ -75,6 +85,62 @@ export default class LoadFrame {
                     $('#tab_i_' + tabId).addClass('menu-item-active');
 
                     isFirst = false;
+                }
+            }
+        }
+
+        if (localStorage.getItem('DevelopMode') === 'true') {
+            let items = [];
+            let submenuItems = [];
+
+            items.push({
+                Id: 'am',
+                Title: 'Add module',
+            }, {
+                Id: 't',
+                Title: 'Test',
+            })
+
+            submenuItems.push({
+                Id: 'ap',
+                Title: 'Add plugin',
+            }, {
+                Id: 't',
+                Title: 'Test',
+            })
+
+            $('.menu-item-more').bind('click', function (e) {
+                e.stopImmediatePropagation();
+
+                let parentId = $(this).parent()[0].id;
+                let position = 'right';
+                MenuPopup.Integration(parentId, items, position, chosenItem);
+            });
+
+            $('.submenu-item-more').bind('click', function (e) {
+                e.stopImmediatePropagation();
+
+                let parentId = $(this).parent()[0].id;
+                let position = 'down';
+                MenuPopup.Integration(parentId, submenuItems, position, function (itemId) {
+                    chosenSubmenuItem(itemId, parentId);
+                });
+            });
+
+            function chosenItem(itemId) {
+                switch (itemId) {
+                    case 'am':
+                        NewModule.Integration();
+                        break;
+                }
+            }
+
+            function chosenSubmenuItem(itemId, parentId) {
+                switch (itemId) {
+                    case 'ap':
+                        let fUserModuleId = $(`#${parentId}`).attr('f-user-module-id');
+                        AddPlugin.Integration(fUserModuleId);
+                        break;
                 }
             }
         }

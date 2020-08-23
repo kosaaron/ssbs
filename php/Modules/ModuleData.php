@@ -212,9 +212,12 @@ class ModuleData
         require_once('CreateFormInputs.php');
 
         //get dinamic form(s) of plugin
+
         $fPluginDinamicForms = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
+            "SELECT * FROM f_plugin_form_inputs 
+             WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
+               . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
+               . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $dinamicForm = array();
@@ -247,15 +250,16 @@ class ModuleData
         $dinamicForm = array();
 
         $fPluginFormInput = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
+            "SELECT * FROM f_plugin_form_inputs 
+             WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
+               . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
         )->fetch(PDO::FETCH_ASSOC);
 
         $createFormInputs = new CreateFormInputs();
         $fPluginFormInputId = $fPluginFormInput['FPluginFormInputId'];
         $dinamicForm['Inputs'] = $createFormInputs->Create($this->userId, $fPluginFormInputId);
 
-
+/*
         $fPluginVO = $this->pdo->query(
             "SELECT * FROM f_plugin_vo WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
@@ -278,8 +282,9 @@ class ModuleData
 
         //get dinamic form(s) of plugin
         $formInputMetaDataArr = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
+            "SELECT * FROM f_plugin_form_inputs 
+             WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
+               . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $dinamicForm = array();

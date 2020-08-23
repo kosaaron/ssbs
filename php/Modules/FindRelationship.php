@@ -76,7 +76,11 @@ class FindRelationship
             $currentTables = $newCurrentTables;
         }
 
-        return $finalPath;
+        if ($isFinish) {
+            return $finalPath;
+        } else {
+            return '';
+        }
     }
 
     public function getFullRelationship($finalPath)

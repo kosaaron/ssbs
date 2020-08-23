@@ -48,6 +48,15 @@ switch ($module) {
         $main_data =  $insertByParam->DefaultUpload($data);
 
         print_r(json_encode($main_data));
+        break;
+    case 'CustomData':
+        require_once('Modules/CustomData.php');
+
+        $customData = new CustomData();
+        $main_data =  $customData->GetData($data);
+
+        print_r(json_encode($main_data));
+        break;
     default:
         # code...
         break;

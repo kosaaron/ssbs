@@ -5,7 +5,7 @@
     height: 100%;
     width: 100%;
     background: rgba(33, 37, 41, 0.3);
-    z-index: 800;
+    z-index: 1000;
 }
 
 .dnmcppp-container-shell {

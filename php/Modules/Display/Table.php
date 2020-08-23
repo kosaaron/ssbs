@@ -12,7 +12,7 @@ class Table
         $this->pdo = $PDOConnect->pdo;
     }
 
-    public function createData($fModulePluginFK, $fPluginPluginFK, $pluginTable)
+    public function createData($fModulePluginFK, $fPluginPluginFK, $fCustomPluginId, $pluginTable)
     {
         /** Includes */
         //GetData
@@ -22,7 +22,7 @@ class Table
         $this->switchPlugin = new SwitchPlugin();
 
         $main_data = array();
-        $main_data = $getData->Create($fModulePluginFK, $fPluginPluginFK, $pluginTable);
+        $main_data = $getData->Create($fModulePluginFK, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
 
         return $main_data;
     }

@@ -4,7 +4,7 @@ $PDOConnect = new PDOConnect();
 $pdo = $PDOConnect->pdo;
 
 $userModules = $pdo->query(
-    'SELECT CTabId, TabName, TabIcon, CModuleId, ModuleName, ModuleDescription FROM f_user_modules 
+    'SELECT FUserModuleId, CTabId, TabName, TabIcon, CModuleId, ModuleName, ModuleDescription FROM f_user_modules 
     INNER JOIN c_tabs 
     ON CTabId = CTabFK
     INNER JOIN c_modules 
@@ -14,7 +14,8 @@ $userModules = $pdo->query(
 foreach ($userModules as $key => $entry) {
     $nUserModules[$entry['CTabId']]['TabName'] = $entry['TabName'];
     $nUserModules[$entry['CTabId']]['TabIcon'] = $entry['TabIcon'];
-    $nUserModules[$entry['CTabId']]['Modules'][$entry['CModuleId']] =$entry['ModuleName'];
+    $nUserModules[$entry['CTabId']]['Modules'][$entry['CModuleId']]['FUserModuleId'] = $entry['FUserModuleId'];
+    $nUserModules[$entry['CTabId']]['Modules'][$entry['CModuleId']]['Name'] = $entry['ModuleName'];
 }
 
 print_r(json_encode($nUserModules));

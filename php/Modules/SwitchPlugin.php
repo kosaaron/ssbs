@@ -26,31 +26,45 @@ class SwitchPlugin
 
         $plugin = array();
 
-        $place = $fPlugin['Place'];
-        $cPluginFK = $fPlugin['CPluginFK'];
         $number = $fPlugin['Number'];
+        $cPluginFK = $fPlugin['CPluginFK'];
         $pluginTable = $fPlugin['TableName'];
-
-        $plugin['Place'] = $place;
-        $plugin['Number'] = $number;
-        $plugin['CPluginId'] = $cPluginFK;
-        $plugin['CModuleId'] = ModuleMetadata::$cModuleId;
-        $plugin['RequestType'] = $type;
 
         switch ($type) {
             case 'MP':
-                $fModulePluginId = $fPlugin['FModulePluginId'];
+                $place = $fPlugin['Place'];
+                $plugin['Place'] = $place;
+
+                $plugin['CModuleId'] = ModuleMetadata::$cModuleId;
+
                 $fPluginPluginFK = null;
+                $fCustomPluginId = null;
+                $fModulePluginId = $fPlugin['FModulePluginId'];
 
                 $plugin['FModulePluginId'] = $fModulePluginId;
                 break;
             case 'PP':
+                $place = $fPlugin['Place'];
+                $plugin['Place'] = $place;
+
                 $fModulePluginId = null;
+                $fCustomPluginId = null;
                 $fPluginPluginFK = $fPlugin['FPluginPluginId'];
 
                 $plugin['FPluginPluginId'] = $fPluginPluginFK;
                 break;
+            case 'CP':
+                $fModulePluginId = null;
+                $fPluginPluginFK = null;
+                $fCustomPluginId = $fPlugin['FCustomPluginId'];
+
+                $plugin['FCustomPluginId'] = $fCustomPluginId;
+                break;
         }
+
+        $plugin['Number'] = $number;
+        $plugin['CPluginId'] = $cPluginFK;
+        $plugin['RequestType'] = $type;
 
         $cPlugin = $this->pdo->query(
             "SELECT * FROM c_plugins WHERE CPluginId='$cPluginFK'"
@@ -62,51 +76,51 @@ class SwitchPlugin
         switch ($cPluginFK) {
             case '1':
                 # Step Box
-                $pluginData = $this->creatStepBox($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                $pluginData = $this->creatStepBox($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             case '2':
                 # Dinamic Popup Form
-                $pluginData = $this->creatDinamicForm($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                $pluginData = $this->creatDinamicForm($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             case '3':
                 # Filter And Sort
-                $pluginData = $this->creatFilter($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                $pluginData = $this->creatFilter($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             case '4':
                 # Card box
                 require_once('Display/CardBox.php');
                 $cardBox = new CardBox();
-                $pluginData = $cardBox->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                $pluginData = $cardBox->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             case '5':
                 # Details
                 require_once('Display/Details.php');
                 $details = new Details();
-                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                $pluginData = $details->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             case '6':
                 # Connected object
                 require_once('Display/ConnectedObject.php');
                 $connectedObject = new ConnectedObject();
-                $pluginData = $connectedObject->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                $pluginData = $connectedObject->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             case '7':
                 # Table
                 require_once('Display/Table.php');
                 $table = new Table();
-                $pluginData = $table->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                $pluginData = $table->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             case '8':
                 # Step Box (display)
                 require_once('Display/StepBox.php');
                 $stepBox = new StepBox();
-                $pluginData = $stepBox->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                $pluginData = $stepBox->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             case '9':
                 # Gallery (input)
                 require_once('Input/Gallery.php');
                 $gallery = new Gallery();
-                $pluginData = $gallery->createData($fModulePluginId, $fPluginPluginFK, $pluginTable);
+                $pluginData = $gallery->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             default:
                 //error
@@ -154,7 +168,7 @@ class SwitchPlugin
 
     /** Plugins **/
     # Dinamic Popup Form
-    function creatDinamicForm($fModulePluginFK, $fPluginPluginFK, $pluginTable)
+    function creatDinamicForm($fModulePluginFK, $fPluginPluginFK, $fCustomPluginId, $pluginTable)
     {
         //includes
         //GetData
@@ -167,8 +181,10 @@ class SwitchPlugin
 
         //get dinamic form(s) of plugin
         $fPluginDinamicForms = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
+            "SELECT * FROM f_plugin_form_inputs 
+             WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
+                . " && FCustomPluginFK" . $this->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $dinamicForm = array();
@@ -181,18 +197,20 @@ class SwitchPlugin
 
             $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
 
-            $formData = $getData->getDisplayColumns(
-                $fPluginFormInputId,
-                $pluginTable,
-                true
-            );
+            if (ModuleMetadata::$disableFormFill !== true) {
+                $formData = $getData->getDisplayColumns(
+                    $fPluginFormInputId,
+                    $pluginTable,
+                    true
+                );
 
-            foreach ($fDinamicFormInputs as $fDFIKey => $fDFInput) {
-                $fDFINumber = $fDFInput['Number'];
+                foreach ($fDinamicFormInputs as $fDFIKey => $fDFInput) {
+                    $fDFINumber = $fDFInput['Number'];
 
-                $itemFromTree = new ItemFromTree();
-                $fDFIValue = $itemFromTree->Find($formData['Data'][0], $fDFINumber);
-                $fDinamicFormInputs[$fDFIKey]['DefaultValue'] = $fDFIValue;
+                    $itemFromTree = new ItemFromTree();
+                    $fDFIValue = $itemFromTree->Find($formData['Data'][0], $fDFINumber);
+                    $fDinamicFormInputs[$fDFIKey]['DefaultValue'] = $fDFIValue;
+                }
             }
 
             $dinamicForm['Inputs'] = $fDinamicFormInputs;
@@ -208,7 +226,7 @@ class SwitchPlugin
     }
 
     # Step Box
-    function creatStepBox($fModulePluginFK, $fPluginPluginFK, $pluginTable)
+    function creatStepBox($fModulePluginFK, $fPluginPluginFK, $fCustomPluginId, $pluginTable)
     {
         //includes
         require_once('CreateFormInputs.php');
@@ -217,14 +235,16 @@ class SwitchPlugin
         $dinamicForm = array();
 
         $fPluginFormInput = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
+            "SELECT * FROM f_plugin_form_inputs 
+             WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
+                . " && FCustomPluginFK" . $this->ifNull($fCustomPluginId)
         )->fetch(PDO::FETCH_ASSOC);
 
         $createFormInputs = new CreateFormInputs();
         $fPluginFormInputId = $fPluginFormInput['FPluginFormInputId'];
         $dinamicForm['Inputs'] = $createFormInputs->Create($fPluginFormInputId);
-
+        /*
         $fPluginVO = $this->pdo->query(
             "SELECT * FROM f_plugin_vo WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
@@ -240,15 +260,17 @@ class SwitchPlugin
     }
 
     # Filter And Sort
-    function creatFilter($fModulePluginFK, $fPluginPluginFK, $pluginTable)
+    function creatFilter($fModulePluginFK, $fPluginPluginFK, $fCustomPluginId, $pluginTable)
     {
         //includes
         require_once('CreateFormInputs.php');
 
         //get dinamic form(s) of plugin
         $formInputMetaDataArr = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
+            "SELECT * FROM f_plugin_form_inputs 
+             WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
+                . " && FCustomPluginFK" . $this->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $dinamicForm = array();

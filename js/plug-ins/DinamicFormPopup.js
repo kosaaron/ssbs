@@ -4,7 +4,6 @@
 /** Imports */
 import CardContainerPlus from './CardContainerPlus.js';
 import NameAndText from './NameAndText.js';
-import ArrayFunctions from './ArrayFunctions.js';
 import FormInputs from './../designs/FormInputs.js';
 import StepBox from './Input/StepBox.js';
 import SwitchPlugin from './SwitchPlugin.js';
@@ -48,11 +47,15 @@ export default class DinamicFormPopup {
      * @param {String} frameId 
      * @param {String} parentFrameId 
      * @param {String} title 
-     * @param {String} isFullscreen 
+     * @param {Boolean} isFullscreen 
      */
     events(frameId, parentFrameId, title, isFullscreen) {
         document.getElementById(`${frameId}_btn`).addEventListener('click', function (e) {
             DinamicFormPopup.open(frameId, parentFrameId, title, isFullscreen);
+
+            let detailsIdData = {};
+            detailsIdData = JSON.parse(localStorage.getItem(`${parentFrameId}_data_details_id`));
+            DinamicFormPopup.loadFormData(frameId, detailsIdData, parentFrameId);
         });
     }
 
@@ -81,54 +84,6 @@ export default class DinamicFormPopup {
         document.getElementById(`${frameId}_data`).innerHTML = '<img class="loader-gif" src="images/gifs/loader.gif" alt="Italian Trulli"></img>';
 
         this.setPopupSize(frameId);
-
-        let detailsIdData = {};
-        detailsIdData = JSON.parse(localStorage.getItem(`${parentFrameId}_data_details_id`));
-        //this.createFormData(data, structure);
-        this.loadFormData(frameId, detailsIdData, parentFrameId);
-
-        AutoScroll.Integration(frameId);
-    }
-
-    /**
-     * CreateFormData
-     * @param {JSON} data 
-     * @param {JSON} structure 
-     */
-    static createFormData(data, structure) {
-        let result = {};
-        for (const object of structure) {
-            let number = object.Number;
-            let columnFull = `${object.TableName}.${object.ColumnName}`;
-            result[columnFull] = getValue(number, data);
-        }
-
-        alert(JSON.stringify(result));
-        return result;
-
-        /**
-         * getValue
-         * @param {String} number 
-         * @param {JSON} data 
-         */
-        function getValue(number, data) {
-            if (data.hasOwnProperty(number)) {
-                return data[number];
-            } else {
-                for (const key in data) {
-                    if (data.hasOwnProperty(key)) {
-                        const item = data[key];
-                        if (typeof item === "object" && item !== null) {
-                            let resultValue = getValue(number, item);
-                            if (resultValue !== null) {
-                                return resultValue;
-                            }
-                        }
-                    }
-                }
-            }
-            return null;
-        }
     }
 
     /**
@@ -162,7 +117,6 @@ export default class DinamicFormPopup {
 
         let module = 'ModuleData';
         let data = {};
-        data['CTabId'] = '102';
         data['CModuleId'] = '1004';
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
         data['RequestType'] = 'MP';
@@ -181,8 +135,6 @@ export default class DinamicFormPopup {
         });
 
         function success(plugin, entryIdJSON, parentFrameId) {
-            let number = '1';
-            let place = '100';
             let formData = plugin.Data;
 
             DinamicFormPopup.onLoad(formData, frameId, parentFrameId, entryIdJSON);
@@ -196,7 +148,21 @@ export default class DinamicFormPopup {
      * @param {JSON} entryId 
      */
     static onLoad(formData, frameId, parentFrameId, entryId = null) {
+        AutoScroll.Integration(frameId);
+
         const dataFrameId = frameId + '_data';
+
+        if (formData === undefined || formData === null) {
+            console.warn('No data at dinamic popup.')
+            formData = { Inputs: [] }
+        }
+
+        if (!formData.hasOwnProperty('Inputs')) {
+            console.warn('No data at dinamic popup.')
+
+            formData['Inputs'] = [];
+        }
+
         let formInputs = formData.Inputs;
 
         document.getElementById(dataFrameId).innerHTML =
@@ -205,6 +171,12 @@ export default class DinamicFormPopup {
         CardContainerPlus.Create(formInputs, dataFrameId, DinamicFormPopup.loadFormItem);
 
         //Children
+        if (!formData.hasOwnProperty('Children')) {
+            console.warn('No data at dinamic popup.')
+
+            formData['Children'] = [];
+        }
+
         let children = formData.Children;
 
         for (const plugin of children) {

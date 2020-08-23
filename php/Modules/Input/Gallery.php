@@ -12,7 +12,7 @@ class Gallery
         $this->pdo = $PDOConnect->pdo;
     }
 
-    public function createData($fModulePluginFK, $fPluginPluginFK, $pluginTable)
+    public function createData($fModulePluginFK, $fPluginPluginFK, $fCustomPluginId, $pluginTable)
     {
         /** Includes */
         //GetData
@@ -20,7 +20,7 @@ class Gallery
         $getData = new GetData('AutoFiltering', false);
 
         $main_data = array();
-        $main_data = $getData->Create($fModulePluginFK, $fPluginPluginFK, $pluginTable);
+        $main_data = $getData->Create($fModulePluginFK, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
 
         return $main_data;
     }

@@ -57,7 +57,7 @@ export default class Details {
         changeData = plugin;
         localStorage.setItem(frameId, JSON.stringify(changeData));
 
-        if (plugin.Data.hasOwnProperty('2')) {
+        if (!plugin.Data.hasOwnProperty('2')) {
             console.log('There is no data in Details[2]');
             return;
         }

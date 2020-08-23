@@ -6,6 +6,8 @@ class ModuleMetadata
     static $cModuleId;
     static $fUserModuleId;
     static $uplodedData;
+    static $mainTable;
+    static $disableFormFill;
 
     public function setDefaultData($userId, $cModuleId, $fUserModuleId)
     {

@@ -109,6 +109,7 @@ let FormInputs = {
             name = objectItem.Name,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
+            visible = objectItem.Visible,
             defaultValue = objectItem.DefaultValue,
             tableName = objectItem.TableName,
             columnName = objectItem.ColumnName;
@@ -116,9 +117,15 @@ let FormInputs = {
         if (defaultValue === null) {
             defaultValue = '';
         }
+
+        let visibility = '';
+        if (visible === '0') {
+            visibility = 'display-none-i';
+        }
+
         let readyHTML = "";
-        readyHTML += '<div class="form-group input-row">';
-        readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
+        readyHTML += `<div class="form-group input-row ${visibility}">`;
+        readyHTML += `<label for="${shellId}_${id}" class="newtask-label">${name}</label>`;
         readyHTML += `<input value="${defaultValue}" type="text" id="${shellId}_${id}" 
             class="newtask-formcontrol" upload-name="${uploadName}" data-place="${shellId}"
             table-name="${tableName}" column-name="${columnName}">`;
@@ -136,6 +143,7 @@ let FormInputs = {
             name = objectItem.Name,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
+            visible = objectItem.Visible,
             defaultValue = objectItem.DefaultValue,
             tableName = objectItem.TableName,
             columnName = objectItem.ColumnName;
@@ -143,8 +151,14 @@ let FormInputs = {
         if (defaultValue === null) {
             defaultValue = '';
         }
+
+        let visibility = '';
+        if (visible === '0') {
+            visibility = 'display-none-i';
+        }
+
         let readyHTML = "";
-        readyHTML += '<div class="form-group input-row">';
+        readyHTML += `<div class="form-group input-row ${visibility}">`;
         //select
         readyHTML += '<div class="form-group input-row">';
         readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
@@ -172,7 +186,13 @@ let FormInputs = {
             opportunities = objectItem.Opportunities,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
+            visible = objectItem.Visible,
             defaultValue = objectItem.DefaultValue;
+
+        let visibility = '';
+        if (visible === '0') {
+            visibility = 'display-none-i';
+        }
 
         let readyHTML = '',
             fullWidth = '',
@@ -185,7 +205,7 @@ let FormInputs = {
             fullWidth = 'full-width-i';
         }
 
-        readyHTML += `<div class="${formGroup} input-row">`;
+        readyHTML += `<div class="${formGroup} input-row ${visibility}">`;
         readyHTML += label;
         readyHTML += `<select id="${shellId}_${id}" required="${required}" 
                         class="newtask-formcontrol ${fullWidth}" 
@@ -217,11 +237,17 @@ let FormInputs = {
             opportunities = objectItem.Opportunities,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
+            visible = objectItem.Visible,
             defaultValue = objectItem.DefaultValue;
+
+        let visibility = '';
+        if (visible === '0') {
+            visibility = 'display-none-i';
+        }
 
         let readyHTML = "";
         //select
-        readyHTML += '<div class="form-group input-row">';
+        readyHTML += `<div class="form-group input-row ${visibility}">`;
         readyHTML += '<label for="taskCat" class="newtask-label">' + name + '</label>';
         readyHTML += '<div class="tasktype-group">';
         readyHTML += '<div class="input-group">';
@@ -320,7 +346,7 @@ let FormInputs = {
                     `<option value="${optionId}">${collapseInputElement.value}</option>`
                 );
 
-                document.querySelector(`#${shellId}_${id} [value="${optionId}"]`).selected = true;
+                document.querySelector(`[id="${shellId}_${id}"]  [value="${optionId}"]`).selected = true;
                 document.getElementById(`${shellId}_i_${id}_upl`).click();
             })
         });
@@ -340,16 +366,22 @@ let FormInputs = {
             name = objectItem.Name,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
+            visible = objectItem.Visible,
             defaultValue = objectItem.DefaultValue;
 
         if (defaultValue === null) {
             defaultValue = new Date();
         }
 
+        let visibility = '';
+        if (visible === '0') {
+            visibility = 'display-none-i';
+        }
+
         defaultValue = DateFunctions.dateToString(defaultValue);
 
         let readyHTML = "";
-        readyHTML += '<div class="form-group input-row">';
+        readyHTML += `<div class="form-group input-row ${visibility}">`;
         readyHTML += '<label for="' + shellId + '_' + id + '" class="newtask-label">' + name + '</label>';
         readyHTML += '<input type="date" id="' + shellId + '_' + id + '" value="' + defaultValue + '" class="newtask-formcontrol" upload-name="' + uploadName + '" data-place="' + shellId + '">';
         readyHTML += '</div>';
@@ -416,7 +448,13 @@ let FormInputs = {
             opportunities = objectItem.Opportunities,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
+            visible = objectItem.Visible,
             defaultValue = objectItem.DefaultValue;
+
+        let visibility = '';
+        if (visible === '0') {
+            visibility = 'display-none-i';
+        }
 
         let readyHTML = '',
             fullWidth = '',
@@ -429,7 +467,7 @@ let FormInputs = {
             fullWidth = 'full-width-i';
         }
 
-        readyHTML += `<div class="${formGroup} input-row">`;
+        readyHTML += `<div class="${formGroup} input-row ${visibility}">`;
         readyHTML += label;
         readyHTML += `<select id="${shellId}_${id}" required="${required}" 
                         class="selectpicker my-0 form-control taskfilter ${fullWidth}" 
@@ -461,7 +499,13 @@ let FormInputs = {
             name = objectItem.Name,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
+            visible = objectItem.Visible,
             defaultValue = objectItem.DefaultValue;
+
+        let visibility = '';
+        if (visible === '0') {
+            visibility = 'display-none-i';
+        }
 
         let readyHTML = '',
             fullWidth = '',
@@ -474,7 +518,7 @@ let FormInputs = {
             fullWidth = 'full-width-i';
         }
 
-        readyHTML += `<div class="${formGroup} input-row">`;
+        readyHTML += `<div class="${formGroup} input-row ${visibility}">`;
         readyHTML += label;
 
         readyHTML += `<select id="${shellId}_${id}" required="${required}"

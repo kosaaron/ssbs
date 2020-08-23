@@ -31,13 +31,15 @@ class GetData
      * {string} fPluginPluginFK
      * {string} pluginTable
      */
-    function Create($fModulePluginFK, $fPluginPluginFK, $pluginTable)
+    function Create($fModulePluginFK, $fPluginPluginFK, $fCustomPluginId, $pluginTable)
     {
         $main_data = array();
 
         $fPluginDisplays = $this->pdo->query(
-            "SELECT * FROM f_plugin_display WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
+            "SELECT * FROM f_plugin_display 
+             WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->switchPlugin->ifNull($fPluginPluginFK)
+                . " && FCustomPluginFK" . $this->switchPlugin->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($fPluginDisplays as $fPluginDisplay) {
@@ -96,11 +98,14 @@ class GetData
         }
 
         //Get main table
-        $cModuleId = ModuleMetadata::$cModuleId;
-        $cModule = $this->pdo->query(
-            "SELECT * FROM c_modules WHERE CModuleId" . $this->switchPlugin->ifNull($cModuleId)
-        )->fetch(PDO::FETCH_ASSOC);
-        $mainTable = $cModule['MainTable'];
+        if (isset(ModuleMetadata::$mainTable)) {
+            $mainTable = ModuleMetadata::$mainTable;
+        } else {
+            $cModule = $this->pdo->query(
+                "SELECT * FROM c_modules WHERE CModuleId" . $this->switchPlugin->ifNull($cModuleId)
+            )->fetch(PDO::FETCH_ASSOC);
+            $mainTable = $cModule['MainTable'];
+        }
 
         //Get main table primary key
         $tableIdQueary = $this->pdo->prepare("SHOW KEYS FROM $mainTable WHERE Key_name = 'PRIMARY'");
@@ -256,13 +261,23 @@ class GetData
         $relationships = $this->findRelationship->getFullRelationship($pathIds);
 
         //Processes the database connections
-        foreach ($relationships as $relationship) {
+        foreach ($relationships as $key => $relationship) {
             $innnerJoin .= ' LEFT JOIN ';
-            if ($relationship['TABLE_NAME'] === $realtiveTable) {
-                $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
+            if ($key === 0) {
+                if ($relationship['TABLE_NAME'] === $realtiveTable) {
+                    $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
+                } else {
+                    $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
+                }
             } else {
-                $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
+                if ($relationship['TABLE_NAME'] === $relationships[$key - 1]['REFERENCED_TABLE_NAME']
+                    || $relationship['TABLE_NAME'] === $realtiveTable) {
+                    $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
+                } else {
+                    $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
+                }
             }
+
             $innnerJoin .= $relationship['COLUMN_NAME'] . '=' . $relationship['REFERENCED_COLUMN_NAME'];
         }
 
@@ -295,7 +310,7 @@ class GetData
         $innnerJoin = '';
         $relationships = $this->findRelationship->getFullRelationship($pathIds);
         foreach ($relationships as $relationship) {
-            $innnerJoin .= ' INNER JOIN ';
+            $innnerJoin .= ' LEFT123 JOIN ';
             if ($relationship['TABLE_NAME'] === $realtiveTable) {
                 $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
             } else {
