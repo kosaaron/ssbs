@@ -7,6 +7,7 @@ body {
     padding-bottom: 3rem;
     color: #5a5a5a;
     overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 
@@ -25,7 +26,6 @@ font-weight: 400;
 margin-right: .75rem;
 margin-left: .75rem;
 }
-
 
 /* Featurettes
 ------------------------- */
@@ -239,7 +239,7 @@ flex: 1;
     margin-left: 56%;
 }
 .menulec{
-    opacity: 0.97;
+    opacity: 0.95;
     padding-top: 0px;
     padding-bottom: 0px;
     background-color: #1A1D40;
@@ -335,6 +335,12 @@ flex: 1;
 @media (min-width: 1200px) {
     .navbar-right{
         margin-left: 66%;
+    }
+
+}
+@media (min-width: 1450px) {
+    .module-card-title{
+        margin-bottom: 40px;
     }
 
 }
