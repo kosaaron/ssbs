@@ -167,7 +167,8 @@ user-select: none;
 
 
 .container {
-max-width: 960px;
+    padding-top: 4%;
+    padding-bottom: 1%;
 }
 
 /*
@@ -264,11 +265,16 @@ flex: 1;
     height: 300px;
     margin: 4% 2%;
 }
-.ssbs-card:hover {
+/* .ssbs-card:hover {
     cursor: pointer;
     box-shadow: 0 0 1px rgba(39,44,49,.1), 0 3px 16px rgba(39,44,49,.07);
     transition: all .3s ease;
     transform: translate3D(0,-1px,0);
+} */
+.ssbs-card-prices {
+    width: 100%;
+    height: auto;
+    margin: 4% 2%;
 }
 .blured-mid{
     background-color: rgb(230, 230, 230);
@@ -296,10 +302,11 @@ flex: 1;
 }
 .deep-grey-container{
     background-color: rgba(160, 160, 160, 0.95);
-    color: rgb(230, 230, 230);
+    color: #f2f2f2;
 }
 .blue-container{
     background-color: #0067A5;
+    color: #f2f2f2;
 }
 .marketing-title{
     margin-bottom: 32px
@@ -316,7 +323,34 @@ flex: 1;
 }
 .section-title-container{
     text-align: center;
-    padding: 6% 0;
+    padding: 4% 0;
+}
+.card-header-fixed-height{
+    height: 110px;
+}
+.price-calculator-input{
+    width: 100%;
+}
+.calculator-checkbox{
+    margin-right: 10px;
+}
+.calculator-summary-footer{
+    width: 100%;
+    border-top: 1px solid #838383;
+    padding: 2% 4%;
+}
+.summary-footer-container{
+    width: 100%;
+    padding: 0 2%
+}
+.summary-button-container{
+    padding-top: 2%;
+}
+.module-card-main-title{
+    margin-bottom: 40px;
+}
+#sum{
+    margin-left: 5rem;
 }
 @media (min-width: 768px) {
     .flex-md-equal > * {
@@ -330,19 +364,16 @@ flex: 1;
         padding-top: 0px;
         padding-bottom: 0px;
     }
-
 }
 @media (min-width: 1200px) {
     .navbar-right{
         margin-left: 66%;
     }
-
 }
 @media (min-width: 1450px) {
     .module-card-title{
         margin-bottom: 40px;
     }
-
 }
 @media (max-width: 962px){
     .navbar-right{
