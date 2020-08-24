@@ -127,7 +127,8 @@
                         object-id="2">
                         <div class="card-body">
                             <div class="text-center">
-                                <h2 class="text-o-ellipsis card-title font-weight-light module-card-main-title">Kalkulátor
+                                <h2 class="text-o-ellipsis card-title font-weight-light module-card-main-title">
+                                    Árkalkulátor
                                 </h2>
                             </div>
 
@@ -138,7 +139,14 @@
                                             Felhasználói típusok száma:</h3>
                                     </div>
                                     <div class="card-body">
-                                        <input type="text" class="form-control price-calculator-input" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <div class="input-group mb-3 price-calculator-input">
+                                            <input type="text" class="form-control price-calculator-input"
+                                                id="user_types_number">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">darab</span>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -147,7 +155,12 @@
                                             Felhasználók száma:</h3>
                                     </div>
                                     <div class="card-body">
-                                        <input type="text" class="form-control price-calculator-input" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <div class="input-group mb-3 price-calculator-input">
+                                            <input type="text" class="form-control" id="user_amount_number">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">darab</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -188,16 +201,25 @@
                                     <div class="col-12 calculator-summary-footer">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <h2 class="text-o-ellipsis card-title font-weight-light module-card-title">Tervezett havidíj:</h2>
+                                                <h2
+                                                    class="text-o-ellipsis card-title font-weight-light module-card-title">
+                                                    Tervezett havidíj:
+                                                </h2>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="d-flex flex-row-reverse bd-highlight">
-                                                    <h2 id="sum" class="text-o-ellipsis card-title font-weight-light module-card-title">9850 Ft</h2>
+                                                    <h2
+                                                        class="text-o-ellipsis card-title font-weight-light module-card-title">
+                                                        <span id="sum">--</span> Ft/hó
+                                                        <a id="sync_button" class="font-weight-light sync-button"><i
+                                                                class="fas fa-sync"></i></a>
+                                                    </h2>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="d-flex flex-row-reverse bd-highlight summary-button-container">
-                                            <button id="order_button" class="btn btn-outline-secondary">Megrendelem</button>
+                                            <button id="order_button"
+                                                class="btn btn-outline-secondary">Megrendelem</button>
                                         </div>
                                     </div>
                                 </div>
@@ -220,11 +242,61 @@
 </body>
 
 <script>
-window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')
+    window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')
 
-document.getElementById('order_button').addEventListener("click", function (event) {
+    document.getElementById('order_button').addEventListener("click", function (event) {
         alert('Erre majd feljön egy emailes popup');
-});
+    });
+
+    //Price calculation
+
+    document.getElementById('sync_button').addEventListener("click", function (event) {
+        var sumCosts = 0;
+
+        //User type price (szerintem ez inkább egyszeri bevezetési költség kéne legyen)
+        var nUserTypes = document.getElementById("user_types_number").value;
+        sumCosts += nUserTypes * 500;
+
+        //User number price
+        var nUserNo = document.getElementById("user_amount_number").value;
+        sumCosts += nUserNo * 500;
+
+        // Task module price
+        if (document.getElementById("module1").checked) {
+            sumCosts += 990;
+        }
+
+        // Partners module price
+        if (document.getElementById("module2").checked) {
+            sumCosts += 690;
+        }
+
+        // Processes module price
+        if (document.getElementById("module3").checked) {
+            sumCosts += 1190;
+        }
+
+        // Tools module price
+        if (document.getElementById("module4").checked) {
+            sumCosts += 690;
+        }
+
+        // Products module price
+        if (document.getElementById("module5").checked) {
+            sumCosts += 1190;
+        }
+
+        // Galery module price
+        if (document.getElementById("module6").checked) {
+            sumCosts += 690;
+        }
+
+
+        //Write monthly fee calculation
+        document.getElementById("sum").innerText = sumCosts;
+
+    });
+
 
 </script>
 

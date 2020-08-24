@@ -352,6 +352,10 @@ flex: 1;
 #sum{
     margin-left: 5rem;
 }
+.sync-button{
+    color: #838383;
+    margin-left: 1rem;
+}
 @media (min-width: 768px) {
     .flex-md-equal > * {
         -ms-flex: 1;
