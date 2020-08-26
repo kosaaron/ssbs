@@ -93,9 +93,19 @@ export default class SwitchPlugin {
                     new Gallery(plugin, frameId, parentFrameId);
                 });
                 break;
+            /** Logout */
             case '11':
                 let logout = new Logout();
                 logout.Create(frameId, parentFrameId);
+                break;
+            /** Sending user invitation */
+            case '15':
+                Promise.all([
+                    import('./InvitationEmail.js'),
+                ]).then(([Module]) => {
+                    let Invitationemail = Module.default;
+                    new Invitationemail(plugin, frameId, parentFrameId);
+                });
                 break;
             default:
                 break;
