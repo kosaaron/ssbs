@@ -1,5 +1,4 @@
 <?php
-
 class VirtualObject
 {
     //Public varibles
@@ -17,14 +16,12 @@ class VirtualObject
         $this->main_data = array();
 
         /** Includes */
-        require_once('Connect.php');
+        require_once('Modules/Connect.php');
         $PDOConnect = new PDOConnect();
         $this->pdo = $PDOConnect->pdo;
 
-        $vOQuery = $this->pdo->query('SELECT * FROM virtual_objects WHERE VirtualObjectId="' . $vOId . '"')->fetchAll(PDO::FETCH_ASSOC);
-        $this->mainData['Card'] = $vOQuery[0]['Card'];
-        $this->mainData['NameAlias'] = $vOQuery[0]['ObjNameAlias'];
-        $this->queryString = $vOQuery[0]['QueryString'];
+        $vOQuery = $this->pdo->query('SELECT * FROM f_virtual_objects WHERE FVirtualObjectId="' . $vOId . '"')->fetch(PDO::FETCH_ASSOC);
+        $this->queryString = $vOQuery['QueryString'];
     }
 
     /**
@@ -46,7 +43,7 @@ class VirtualObject
         }
 
         $queryResult = $this->pdo->query($queryString)->fetchAll(PDO::FETCH_ASSOC);
-        $this->mainData['Data'] = $queryResult;
+        $this->mainData = $queryResult;
         return $this->mainData;
     }
 

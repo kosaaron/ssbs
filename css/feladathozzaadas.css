@@ -42,6 +42,13 @@
     /*display: flex;*/
 }
 
+.add-input-btn {
+    text-align: center;
+    font-size: 25px;
+    cursor: pointer;
+    color: #666;
+}
+
 .newtask-formcontrol {
     width: 60%;
     height: calc(1.5em + .75rem + 2px);

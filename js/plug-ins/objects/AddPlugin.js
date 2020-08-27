@@ -19,8 +19,8 @@ export default class AddPlugin {
             data: { 'Module': module, 'Data': data },
             success: function (plugins) {
                 //console.log(data);
-
                 console.log(JSON.stringify(plugins));
+
                 let dcmpPlugin = plugins[1];
 
                 if (dcmpPlugin === undefined) {
@@ -50,12 +50,42 @@ export default class AddPlugin {
                 let title = 'Add plugin to module'
                 DinamicFormPopup.open(frameId, parentFrameId, title, false);
                 DinamicFormPopup.onLoad(dcmpPlugin.Data, frameId, parentFrameId);
+
+                AddPlugin.events(frameId);
             },
             dataType: 'json'
         });
     }
 
-    static events() {
+    static events(frameId) {
+        $(`#${frameId}`).bind(`${frameId}_save`, function (e) {
+            let resultIdObject = JSON.parse(localStorage.getItem(`${frameId}_save`));
+            let id = resultIdObject['LastId'];
 
+            let pluginSelect = $(`[upload-name="f_module_plugins.CPluginFK"][data-place="${frameId}_data"]`);
+            let pluginId = pluginSelect.val();
+
+            AddPlugin.switchPlugin(pluginId, id, frameId);
+        });
+    }
+
+    /**
+     * SwitchPlugin
+     * @param {String} pluginId 
+     * @param {String} id 
+     * @param {String} frameId 
+     */
+    static switchPlugin(pluginId, id,  frameId) {
+        switch (pluginId) {
+            case '3':
+                Promise.all([
+                    import('./APFilterAndSort.js'),
+                ]).then(([Module]) => {
+                    Module.default.Create(id, frameId);
+                });
+                break;
+            default:
+                break;
+        }
     }
 }

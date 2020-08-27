@@ -8,6 +8,7 @@ $data = $_POST['Data'];
 require_once('Modules/ModuleMetadata.php');
 $moduleMetadata = new ModuleMetadata();
 $moduleMetadata->setUplodedData($data);
+ModuleMetadata::$disableFormFill = $data['disableFormFill'];
 
 switch ($module) {
     case 'AutoDataRequest':
@@ -54,6 +55,22 @@ switch ($module) {
 
         $customData = new CustomData();
         $main_data =  $customData->GetData($data);
+
+        print_r(json_encode($main_data));
+        break;
+    case 'AddTable':
+        require_once('Modules/Objects/AddTable.php');
+
+        $addTable = new AddTable();
+        $main_data =  $addTable->Create($data);
+
+        print_r(json_encode($main_data));
+        break;
+    case 'AddColumn':
+        require_once('Modules/Objects/AddColumn.php');
+
+        $addColumn = new AddColumn();
+        $main_data =  $addColumn->Create($data);
 
         print_r(json_encode($main_data));
         break;

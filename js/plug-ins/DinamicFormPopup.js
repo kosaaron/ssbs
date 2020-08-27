@@ -279,6 +279,12 @@ export default class DinamicFormPopup {
                     shellId
                 );
                 break;
+            case "SC":
+                FormInputs.SelectColumn(
+                    objectItem,
+                    shellId
+                );
+                break;
             case "DT":
                 FormInputs.DateTime(
                     objectItem,
@@ -365,6 +371,25 @@ export default class DinamicFormPopup {
                     });
                 }
             });
+
+            if (saveEventMax === 0) {
+                let text = '';
+                if (isNew) {
+                    text = 'A feladat létrehozása sikeres volt!';
+                } else {
+                    text = 'A feladat sikeresen frissült!';
+                }
+
+                Swal.fire({
+                    type: 'success',
+                    title: 'Siker',
+                    text: text,
+                    heightAuto: false
+                });
+                DinamicFormPopup.cancel(frameId);
+
+                $(`#${parentFrameId}`).trigger(`${parentFrameId}_data_reload`);
+            }
 
             let resultIdObject = {};
             resultIdObject['LastId'] = tableResultData['LastId'];

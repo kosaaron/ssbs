@@ -80,8 +80,10 @@ class GetData
 
         if ($isFormInputs) {
             $fDisplays = $this->pdo->query(
-                "SELECT * FROM f_form_inputs INNER JOIN f_columns ON FColumnId=FColumnFK"
-                    . " WHERE FPluginFormInputFK" . $this->switchPlugin->ifNull($fPluginDisplayId)
+                "SELECT * FROM f_form_inputs 
+                 INNER JOIN f_columns ON FColumnId=FColumnFK
+                 INNER JOIN c_tables ON CTableId=CTableFK 
+                 WHERE FPluginFormInputFK" . $this->switchPlugin->ifNull($fPluginDisplayId)
             )->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($fDisplays as $fDKey => $fDValue) {
@@ -92,8 +94,10 @@ class GetData
         } else {
             //Get display columns metadata
             $fDisplays = $this->pdo->query(
-                "SELECT * FROM f_display INNER JOIN f_columns ON FColumnId=FColumnFK"
-                    . " WHERE FPluginDisplayFK" . $this->switchPlugin->ifNull($fPluginDisplayId)
+                "SELECT * FROM f_display 
+                 INNER JOIN f_columns ON FColumnId=FColumnFK
+                 INNER JOIN c_tables ON CTableId=CTableFK 
+                 WHERE FPluginDisplayFK" . $this->switchPlugin->ifNull($fPluginDisplayId)
             )->fetchAll(PDO::FETCH_ASSOC);
         }
 
@@ -270,8 +274,10 @@ class GetData
                     $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
                 }
             } else {
-                if ($relationship['TABLE_NAME'] === $relationships[$key - 1]['REFERENCED_TABLE_NAME']
-                    || $relationship['TABLE_NAME'] === $realtiveTable) {
+                if (
+                    $relationship['TABLE_NAME'] === $relationships[$key - 1]['REFERENCED_TABLE_NAME']
+                    || $relationship['TABLE_NAME'] === $realtiveTable
+                ) {
                     $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
                 } else {
                     $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';

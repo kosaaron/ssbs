@@ -20,7 +20,7 @@ class CustomData
         $place = $data['Place'];
         //Result form structure
         $costumPlugins = $pdo->query(
-            "SELECT * FROM f_custom_plugins  WHERE Place='$place';"
+            "SELECT * FROM f_custom_plugins WHERE Place='$place';"
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($costumPlugins as $costumPlugin) {
@@ -38,4 +38,19 @@ class CustomData
 
         return $main_data;
     }
+/*
+    function switchObject($objectName, $costumPlugins)
+    {
+        switch ($objectName) {
+            case 'AddPlugin':
+                //Switch plugin
+                require_once('Objects/AddPlugin.php');
+                $addPlugin = new AddPlugin();
+                $addPlugin->Create($costumPlugins);
+                break;
+            default:
+                # code...
+                break;
+        }
+    }*/
 }

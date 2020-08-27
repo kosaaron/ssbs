@@ -122,6 +122,31 @@ class SwitchPlugin
                 $gallery = new Gallery();
                 $pluginData = $gallery->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
+            case '10':
+                # Gallery (display)
+                require_once('Input/Gallery.php');
+                $gallery = new Gallery();
+                $pluginData = $gallery->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
+                break;
+            case '13':
+                # Get Inputs
+                require_once('Input/GetInputs.php');
+                $getInputs = new GetInputs();
+                $pluginData = $getInputs->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
+                break;
+            case '14':
+                # Get Display
+                /*
+                require_once('Input/Gallery.php');
+                $gallery = new Gallery();
+                $pluginData = $gallery->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);*/
+                break;
+            case '16':
+                # Get Virtual Objects
+                require_once('Modules/Display/GetVirtualObjects.php');
+                $getVirtualObjects = new GetVirtualObjects();
+                $pluginData = $getVirtualObjects->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
+                break;
             default:
                 //error
                 break;
@@ -230,7 +255,6 @@ class SwitchPlugin
     {
         //includes
         require_once('CreateFormInputs.php');
-        require_once('VirtualObject.php');
 
         $dinamicForm = array();
 
@@ -281,6 +305,7 @@ class SwitchPlugin
             $createFormInputs = new CreateFormInputs();
             $formInputs = $createFormInputs->Create($fPluginFormInputId);
 
+            $dinamicForm[$formInputMetaData['Number']]['FPluginFormInputId'] = $fPluginFormInputId;
             $dinamicForm[$formInputMetaData['Number']]['Title'] = $formInputMetaData['Title'];
             $dinamicForm[$formInputMetaData['Number']]['Inputs'] = $formInputs;
         }

@@ -6,6 +6,7 @@ import CardContainerPlus from './CardContainerPlus.js';
 import FormInputs from '../designs/FormInputs.js';
 import { addListenerByAttr } from '../common.js';
 import GlobalVaribles from './GlobalVaribles.js';
+import AddInput from './objects/AddInput.js';
 
 export default class Filter {
     /**
@@ -18,12 +19,26 @@ export default class Filter {
         let filterShellId = `${parentFrameId}_filters`;
         let sortShellId = `${parentFrameId}_sorts`;
         let filterHTML = "";
-        filterHTML = `<h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>`;
-        filterHTML += `<div id="${filterShellId}" class="task-filters"> </div>`;
-        filterHTML += `<h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>`;
-        //filterHTML += `<div class="task-orders"> </div>`;
-        filterHTML += `<div id="${sortShellId}" class="task-filters"> </div>`;
+        let fPluginFormInputId1 = plugin.Data[1].FPluginFormInputId;
+        let fPluginFormInputId2 = plugin.Data[2].FPluginFormInputId;
+
+        //Clear shell
         document.getElementById(frameId).innerHTML = filterHTML;
+
+        filterHTML = '<h5 class="taskfilter-title"><i class="fas fa-filter"></i>Szűrők</h5>';
+        filterHTML += `<div id="${filterShellId}" class="task-filters" fPluginFormInputId="${fPluginFormInputId1}"> </div>`;
+        document.getElementById(frameId).insertAdjacentHTML('beforeend', filterHTML);
+        if (localStorage.getItem('DevelopMode') === 'true') {
+            AddInput.Integration(frameId, fPluginFormInputId1);
+        }
+
+        filterHTML = `<h5 class="taskfilter-title"><i class="fas fa-sort-amount-down-alt"></i>Rendezés</h5>`;
+        filterHTML += `<div id="${sortShellId}" class="task-filters" fPluginFormInputId="${fPluginFormInputId2}"> </div>`;
+        document.getElementById(frameId).insertAdjacentHTML('beforeend', filterHTML);
+        if (localStorage.getItem('DevelopMode') === 'true') {
+            AddInput.Integration(frameId, fPluginFormInputId2);
+        }
+
         CardContainerPlus.Create(plugin.Data[1].Inputs, filterShellId, this.getFilterHTML);
         CardContainerPlus.Create(plugin.Data[2].Inputs, sortShellId, this.getFilterHTML);
 

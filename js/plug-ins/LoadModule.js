@@ -72,7 +72,6 @@ let Framework = {
 
         for (const plugin of plugins) {
             let childFrameId = `${frameId}_${plugin.Number}`;
-            let testText = plugin.Plugin_name;
 
             //Load frame for child by place
             let screenModules = "";
@@ -82,16 +81,16 @@ let Framework = {
                 case '1':
                     screenModules += `
                         <div id="${childFrameId}" class="display-flex flex-row full-screen" 
-                            style="background-color:#888;">${testText}</div>`;
+                            style="background-color:#888;"></div>`;
                     break;
                 case '2':
                     screenModules += `
-                        <div id="${childFrameId}" class="flex-fill col-2 filter-box">${testText}</div>`;
+                        <div id="${childFrameId}" class="flex-fill col-2 filter-box"></div>`;
                     break;
                 case '3':
                     screenModules += `
                         <div id="${childFrameId}" class="flex-fill table-container-xscroll" 
-                            style="background-color:#888;">${testText}</div>`;
+                            style="background-color:#888;"></div>`;
                     break;
                 case '4':
                     screenModules += `

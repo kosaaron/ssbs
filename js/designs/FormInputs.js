@@ -36,6 +36,8 @@ let FormInputs = {
         let insertData = [FormInputs.CreateJSON(placeName)],
             className = 'InsertByParam';
 
+        console.log(insertData);
+
         $.ajax({
             type: "POST",
             url: "./php/Router.php",
@@ -238,11 +240,17 @@ let FormInputs = {
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
             visible = objectItem.Visible,
+            upload = objectItem.Upload,
             defaultValue = objectItem.DefaultValue;
 
         let visibility = '';
         if (visible === '0') {
             visibility = 'display-none-i';
+        }
+
+        let customInput = '';
+        if (upload === '0') {
+            customInput = '_cstm';
         }
 
         let readyHTML = "";
@@ -251,7 +259,7 @@ let FormInputs = {
         readyHTML += '<label for="taskCat" class="newtask-label">' + name + '</label>';
         readyHTML += '<div class="tasktype-group">';
         readyHTML += '<div class="input-group">';
-        readyHTML += '<select id="' + shellId + '_' + id + '" class="form-control newtask-formcontrol" aria-describedby="button-addon2" upload-name="' + uploadName + '" data-place="' + shellId + '">';
+        readyHTML += `<select id="${shellId}_${id}" class="form-control newtask-formcontrol" aria-describedby="button-addon2" upload-name="${uploadName}" data-place="${shellId}${customInput}">`;
 
         if (required === '0') {
             readyHTML += '<option value="null" selected>---</option>';
@@ -279,7 +287,7 @@ let FormInputs = {
      * @param {JSON} objectItem 
      * @param {String} shellId 
      */
-    SelectOrNew: function (objectItem, shellId) {
+    SelectOrNew: function (objectItem, shellId, isInsert = true) {
         let id = objectItem.FFormInputId,
             name = objectItem.Name,
             tableName = objectItem.TableName,
@@ -321,39 +329,152 @@ let FormInputs = {
             }
         });
 
-        document.getElementById(`${shellId}_i_${id}_collapse_btn`).addEventListener('click', function () {
-            let collapseInputElement = document.getElementById(collapseInputId);
-            if (collapseInputElement.value === "") {
-                collapseInputElement.style.border = "1px solid #ca3333";
-                return;
-            } else {
-                collapseInputElement.style.border = "1px solid #aaa";
-            }
-
-            FormInputs.InsertInputs(collapseInputId, function (result) {
-                let tableResultData = {};
-
-                for (const table in result[0]) {
-                    if (result[0].hasOwnProperty(table)) {
-                        tableResultData = result[0][table];
-                    }
+        if (isInsert) {
+            document.getElementById(`${shellId}_i_${id}_collapse_btn`).addEventListener('click', function (e) {
+                let collapseInputElement = document.getElementById(collapseInputId);
+                if (collapseInputElement.value === "") {
+                    collapseInputElement.style.border = "1px solid #ca3333";
+                    return;
+                } else {
+                    collapseInputElement.style.border = "1px solid #aaa";
                 }
 
-                let optionId = tableResultData['LastId'];
+                FormInputs.InsertInputs(collapseInputId, function (result) {
+                    let tableResultData = {};
 
-                document.getElementById(shellId + '_' + id).insertAdjacentHTML(
-                    'beforeend',
-                    `<option value="${optionId}">${collapseInputElement.value}</option>`
-                );
+                    for (const table in result[0]) {
+                        if (result[0].hasOwnProperty(table)) {
+                            tableResultData = result[0][table];
+                        }
+                    }
 
-                document.querySelector(`[id="${shellId}_${id}"]  [value="${optionId}"]`).selected = true;
-                document.getElementById(`${shellId}_i_${id}_upl`).click();
-            })
-        });
+                    let optionId = tableResultData['LastId'];
+
+                    document.getElementById(shellId + '_' + id).insertAdjacentHTML(
+                        'beforeend',
+                        `<option value="${optionId}">${collapseInputElement.value}</option>`
+                    );
+
+                    document.querySelector(`[id="${shellId}_${id}"]  [value="${optionId}"]`).selected = true;
+                    document.getElementById(`${shellId}_i_${id}_upl`).click();
+                })
+            });
+        }
 
         //default value
         if (defaultValue !== 'null' && defaultValue !== null && defaultValue !== '') {
             $('#' + shellId + '_' + id).val(defaultValue);
+        }
+    },
+    /**
+     * Select ro create new entry
+     * @param {JSON} objectItem 
+     * @param {String} shellId 
+     */
+    SelectColumn: function (objectItem, shellId) {
+        let id = objectItem.FFormInputId,
+            name = objectItem.Name,
+            tableName = objectItem.TableName,
+            columnName = objectItem.ColumnName,
+            defaultValue = objectItem.DefaultValue;
+
+        let readyHTML = "";
+        let collapseInputId = `${shellId}_collapse_inp_${id}`;
+
+        FormInputs.SelectOrNew(objectItem, shellId, false);
+
+        objectItem = {};
+        objectItem.FFormInputId = `${id}_c`;
+        objectItem.Name = 'Select column';
+        objectItem.TableName = 'f_columns';
+        objectItem.ColumnName = 'Name';
+        objectItem.Opportunities = [{ Id: 'null', Name: '--' }];
+        objectItem.UploadName = 'f_form_inputs.FColumnFK';
+        objectItem.Required = '1';
+        objectItem.Visible = '1';
+        objectItem.Upload = '1';
+        objectItem.DefaultValue = '';
+        FormInputs.SelectOrNew(objectItem, shellId, false);
+
+        document.getElementById(`${collapseInputId}_c`).style.width = '48%';
+        document.getElementById(`${collapseInputId}_c`).insertAdjacentHTML('afterend',
+            `<input id="${collapseInputId}_c_s" class="sn-collapse-input" type="text" placeholder="Length" style="width: 15%;">`
+        )
+
+        //Events
+        //Table
+        document.getElementById(`${shellId}_i_${id}_collapse_btn`).addEventListener('click', function (e) {
+            let module = 'AddTable';
+            let data = {};
+            data['Name'] = document.getElementById(collapseInputId).value;
+
+            $.ajax({
+                type: "POST",
+                url: "./php/Router.php",
+                data: { 'Module': module, 'Data': data },
+                success: function (plugins) {
+                    //console.log(data);
+                    console.log(JSON.stringify(plugins));
+                },
+                dataType: 'json'
+            });
+        });
+        //Column
+        document.getElementById(`${shellId}_i_${id}_c_collapse_btn`).addEventListener('click', function (e) {
+            let module = 'AddColumn';
+            let data = {};
+            alert(document.getElementById(collapseInputId).value);
+            data['TableId'] = document.getElementById(`${shellId}_${id}`).value;
+            data['Name'] = document.getElementById(`${collapseInputId}_c`).value;
+            data['Size'] = document.getElementById(`${collapseInputId}_c_s`).value;
+
+            $.ajax({
+                type: "POST",
+                url: "./php/Router.php",
+                data: { 'Module': module, 'Data': data },
+                success: function (plugins) {
+                    //console.log(data);
+                    console.log(JSON.stringify(plugins));
+                },
+                dataType: 'json'
+            });
+        });
+
+        document.getElementById(`${shellId}_${id}`).addEventListener('change', function (e) {
+            changeTable(this.value);
+        });
+
+        //Change table
+        function changeTable(tableId) {
+            let module = 'CustomData';
+            let data = {};
+            data['Place'] = '4';
+            data['VO'] = {};
+            data['VO']['1'] = {};
+            data['VO']['1']['1'] = tableId;
+
+            $.ajax({
+                type: "POST",
+                url: "./php/Router.php",
+                data: { 'Module': module, 'Data': data },
+                success: function (plugins) {
+                    //console.log(data);
+                    console.log(JSON.stringify(plugins));
+
+                    let plugin = plugins[1];
+                    let columnOpp = plugin.Data.VO;
+
+                    document.getElementById(`${shellId}_${id}_c`).innerHTML = '';
+                    for (const option of columnOpp) {
+                        document.getElementById(`${shellId}_${id}_c`).insertAdjacentHTML(
+                            'beforeend',
+                            `<option value="${option.Id}">${option.Name}</option>`
+                        );
+                    }
+                },
+                dataType: 'json'
+            });
+            document.getElementById(shellId).insertAdjacentHTML('beforeend', readyHTML);
         }
     },
     /**

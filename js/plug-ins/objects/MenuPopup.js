@@ -20,7 +20,7 @@ export default class MenuPopup {
 
         switch (postition) {
             case 'right':
-                srcPosition.top;
+                newTop = srcPosition.top;
                 newleft = srcPosition.left + sorceElement.outerWidth(true);
                 break;
             case 'down':
