@@ -106,21 +106,21 @@ export default class DinamicFormPopup {
         entryIdJSON = null,
         parentFrameId
     ) {
-        /*
+
         let plugin = localStorage.getItem(frameId);
 
         if (plugin !== null) {
             plugin = JSON.parse(plugin);
             success(plugin);
             return;
-        }*/
+        }
 
         let module = 'ModuleData';
         let data = {};
-        data['CModuleId'] = '1004';
+        data['CModuleId'] = plugin['CModuleId'];
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
-        data['RequestType'] = 'MP';
-        data['FModulePluginId'] = '1';
+        data['RequestType'] = plugin['RequestType'];
+        data['FModulePluginId'] = plugin['FModulePluginId'];
         data['IdOfData'] = entryIdJSON['Id'];
 
         $.ajax({
