@@ -8,7 +8,6 @@ $data = $_POST['Data'];
 require_once('Modules/ModuleMetadata.php');
 $moduleMetadata = new ModuleMetadata();
 $moduleMetadata->setUplodedData($data);
-ModuleMetadata::$disableFormFill = $data['disableFormFill'];
 
 switch ($module) {
     case 'AutoDataRequest':

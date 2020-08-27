@@ -21,7 +21,7 @@ export default class DinamicFormPopup {
     constructor(plugin, frameId, parentFrameId) {
         const title = plugin['Plugin name'];
         let isFullscreen = true;
-        if (plugin.Children === []) {
+        if (plugin.Data.Children.length === 0) {
             isFullscreen = false;
         }
 
@@ -121,7 +121,10 @@ export default class DinamicFormPopup {
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
         data['RequestType'] = plugin['RequestType'];
         data['FModulePluginId'] = plugin['FModulePluginId'];
-        data['IdOfData'] = entryIdJSON['Id'];
+
+        if (entryIdJSON === null) {
+            data['IdOfData'] = null;
+        }
 
         $.ajax({
             type: "POST",

@@ -59,14 +59,14 @@ class GetInputs
             }
 
             $dinamicForm['Inputs'] = $fDinamicFormInputs;
-
-            $dinamicForm['Children'] = $this->switchPlugin->checkChild(
-                $fModulePluginFK,
-                $fPluginPluginFK,
-                '1'
-            );
         }
 
+        $dinamicForm['Children'] = $this->switchPlugin->checkChild(
+            $fModulePluginFK,
+            $fPluginPluginFK,
+            '1'
+        );
+        
         return $dinamicForm;
     }
 }

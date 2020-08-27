@@ -38,14 +38,14 @@ class GetVirtualObjects
 
             $virtualObject = new VirtualObject($fVirtualObjectId);
             $mainData['VO'] = $virtualObject->CreateVO($uploadedVOData[$fPluginVO['Number']]);
-
-            $mainData['Children'] = $this->switchPlugin->checkChild(
-                $fModulePluginFK,
-                $fPluginPluginFK,
-                '1'
-            );
         }
 
+        $mainData['Children'] = $this->switchPlugin->checkChild(
+            $fModulePluginFK,
+            $fPluginPluginFK,
+            '1'
+        );
+        
         return $mainData;
     }
 }

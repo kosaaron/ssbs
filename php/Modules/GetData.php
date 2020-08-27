@@ -48,15 +48,13 @@ class GetData
 
             $main_data[$number]['Title'] = $fPluginDisplay['Title'];
             $main_data[$number]['Display'] = $this->getDisplayColumns($fPluginDisplayId, $pluginTable);
-
-            //Children
-            $main_data['Children'] = $this->switchPlugin->checkChild(
-                $fModulePluginFK,
-                $fPluginPluginFK,
-                '1'
-            );
         }
-
+        //Children
+        $main_data['Children'] = $this->switchPlugin->checkChild(
+            $fModulePluginFK,
+            $fPluginPluginFK,
+            '1'
+        );
         return $main_data;
     }
 

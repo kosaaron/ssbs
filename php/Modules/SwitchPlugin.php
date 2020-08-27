@@ -212,6 +212,19 @@ class SwitchPlugin
                 . " && FCustomPluginFK" . $this->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
+
+        if (array_key_exists('IdOfData', ModuleMetadata::$uplodedData)) {
+            if (
+                ModuleMetadata::$uplodedData['IdOfData'] === 'null'
+                || ModuleMetadata::$uplodedData['IdOfData'] === ''
+                || ModuleMetadata::$uplodedData['IdOfData'] === null
+            ) {
+                ModuleMetadata::$disableFormFill = true;
+            }
+        } else {
+            ModuleMetadata::$disableFormFill = true;
+        }
+
         $dinamicForm = array();
 
         foreach ($fPluginDinamicForms as $fPluginDinamicForm) {
@@ -222,7 +235,7 @@ class SwitchPlugin
 
             $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
 
-            if (ModuleMetadata::$disableFormFill !== true) {
+            if (ModuleMetadata::$disableFormFill === false) {
                 $formData = $getData->getDisplayColumns(
                     $fPluginFormInputId,
                     $pluginTable,
@@ -239,13 +252,13 @@ class SwitchPlugin
             }
 
             $dinamicForm['Inputs'] = $fDinamicFormInputs;
-
-            $dinamicForm['Children'] = $this->checkChild(
-                $fModulePluginFK,
-                $fPluginPluginFK,
-                '1'
-            );
         }
+        
+        $dinamicForm['Children'] = $this->checkChild(
+            $fModulePluginFK,
+            $fPluginPluginFK,
+            '1'
+        );
 
         return $dinamicForm;
     }
