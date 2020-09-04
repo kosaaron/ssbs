@@ -5,28 +5,7 @@
     overflow-y: auto;
 }
 
-.fixedaddbutton {
-    position: fixed;
-    width: 50px;
-    height: 50px;
-    border-radius: 60px;
-    bottom: 6%;
-    right: 28%;
-    z-index: 1;
-    transition: 0.5s;
-    background-size: 200% auto;
-    background-image: linear-gradient(to right, rgb(43, 65, 107) 0%, rgb(28, 110, 177) 51%, rgb(67, 75, 117) 100%);
-    border: none;
-    font-size: 20px;
-    -webkit-box-shadow: 2px 2px 10px 5px rgba(255, 255, 255, 0.72);
-    -moz-box-shadow: 2px 2px 10px 5px rgba(255, 255, 255, 0.72);
-    box-shadow: 0px 0px 5px 6px #ddd;
-}
 
-.fixedaddbutton:hover {
-    background-position: right center;
-    
-}
 
 .table-fxd-add-tbn {
     position: fixed;
@@ -116,24 +95,7 @@
     padding: 6% 0 6% 0;
 }
 
-.filter-box {
-    padding: 7px 1% 0 2%;
-    width: 200px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-right: 1px solid #ddd;
-    box-shadow: 0 8px 4px rgba(255, 255, 255, 0.9);
-    z-index: 700;
-    /*-webkit-box-shadow: inset 110px 0px 100px -180px #01043F;
-    -moz-box-shadow: inset 110px 0px 100px -180px #01043F;
-    box-shadow: inset 110px 0px 100px -180px #01043F;*/
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
-}
 
-.filter-box::-webkit-scrollbar {
-    width: 0 !important
-}
 
 .taskfilter-label {
     color: #555;

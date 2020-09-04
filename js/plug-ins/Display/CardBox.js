@@ -249,6 +249,7 @@ export default class CardBox {
                 changeData['ObjectId'] = this.getAttribute('object-id');
                 localStorage.setItem(`${parentFrameId}_change_details`, JSON.stringify(changeData));
                 $(`#${parentFrameId}`).trigger(`${parentFrameId}_change_details`);
+                $(`.cc-details-container`).show();
             })
         }
 

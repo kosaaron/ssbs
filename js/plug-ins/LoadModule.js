@@ -85,7 +85,12 @@ let Framework = {
                     break;
                 case '2':
                     screenModules += `
-                        <div id="${childFrameId}" class="flex-fill col-2 filter-box"></div>`;
+                        <div id="${childFrameId}_container" class="col-12 col-sm-4 col-lg-2 filter-box-container display-element">
+                            <div id="${childFrameId}" class="filter-box"></div>
+                        </div>
+                        <button id="${childFrameId}_filter_btn" class="btn btn-primary fixedaddbutton fixedfilterbutton">
+                        <i class="fas fa-filter"></i>
+                        </button>`;
                     break;
                 case '3':
                     screenModules += `
@@ -94,12 +99,18 @@ let Framework = {
                     break;
                 case '4':
                     screenModules += `
-                    <div class="card-container col-7">
+                    <div class="card-container col-12 col-sm-8 col-lg-7">
                         <div id="${childFrameId}" class="row"></div>
                     </div>`;
                     break;
                 case '5':
-                    screenModules += `<div id="${childFrameId}" class="col-3 cc-details"></div>`;
+                    screenModules += `
+                    <div class="col-12 col-lg-3 cc-details-container">
+                        <div id="${childFrameId}" class="cc-details"></div>
+                        <button id="${childFrameId}_back_btn" class="btn btn-primary fixedaddbutton fixedbackbutton">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>`;
                     break;
             }
             document.getElementById(frameId).insertAdjacentHTML('beforeend', screenModules);

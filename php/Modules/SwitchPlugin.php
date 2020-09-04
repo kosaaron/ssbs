@@ -233,7 +233,12 @@ class SwitchPlugin
             $createFormInputs = new CreateFormInputs();
             $fDinamicFormInputs = $createFormInputs->Create($fPluginFormInputId);
 
-            $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
+            if (true) {
+                $dinamicForm[$fPluginDinamicForm['Number']]['Title'] = $fPluginDinamicForm['Title'];
+                $dinamicForm[$fPluginDinamicForm['Number']]['FPluginFormInputId'] = $fPluginFormInputId;
+            }else {
+                $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
+            }
 
             if (ModuleMetadata::$disableFormFill === false) {
                 $formData = $getData->getDisplayColumns(
@@ -250,8 +255,11 @@ class SwitchPlugin
                     $fDinamicFormInputs[$fDFIKey]['DefaultValue'] = $fDFIValue;
                 }
             }
-
-            $dinamicForm['Inputs'] = $fDinamicFormInputs;
+            if (true) {
+                $dinamicForm[$fPluginDinamicForm['Number']]['Inputs'] = $fDinamicFormInputs;
+            }else {
+                $dinamicForm['Inputs'] = $fDinamicFormInputs;
+            }
         }
         
         $dinamicForm['Children'] = $this->checkChild(
