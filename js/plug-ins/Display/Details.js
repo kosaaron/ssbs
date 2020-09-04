@@ -85,6 +85,15 @@ export default class Details {
                 $(`#${frameId}_data_btn`).addClass('btn-detail-menu-active');
             }
         )
+
+        // Backward navigation to button
+        let backBtn = document.getElementById(`${frameId}_back_btn`);
+        backBtn.addEventListener(
+            'click',
+            function (params) {
+                $(`.cc-details-container`).hide();
+            }
+        )
     }
     /**
      * CallChildren

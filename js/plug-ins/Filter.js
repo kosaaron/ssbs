@@ -64,6 +64,25 @@ export default class Filter {
 
             Filter.createLimiter(targetId, parentFrameId, filterShellId, sortShellId);
         })
+
+        let filterBtn = document.getElementById(`${frameId}_filter_btn`);
+        filterBtn.addEventListener(
+            'click',
+            function (params) {
+                var fltrcontainer = document.getElementById(`${frameId}_container`);
+                if ($(fltrcontainer).is(":visible")) {
+                    // $(fltrcontainer).addClass("hide-element");
+                    // $(fltrcontainer).removeClass("display-element"); --- classes don't exist anymore
+                    $(fltrcontainer).hide();
+                    this.innerHTML = '<i class="fas fa-filter"></i>';
+                }else{
+                    // $(fltrcontainer).removeClass("hide-element");
+                    // $(fltrcontainer).addClass("display-element");
+                    $(fltrcontainer).show();
+                    this.innerHTML = '<i class="fas fa-th-large"></i>';
+                }
+            }
+        )
     }
     /**
      * ResetLimiter
