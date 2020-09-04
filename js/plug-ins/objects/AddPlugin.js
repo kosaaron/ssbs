@@ -19,7 +19,7 @@ export default class AddPlugin {
             data: { 'Module': module, 'Data': data },
             success: function (plugins) {
                 //console.log(data);
-                console.log(JSON.stringify(plugins));
+                console.log(JSON.stringify("Ez tényleg az: " + plugins));
 
                 let dcmpPlugin = plugins[1];
 
@@ -34,22 +34,21 @@ export default class AddPlugin {
                     dcmpPlugin = { Data: null }
                 }
 
-                for (const key in dcmpPlugin.Data.Inputs) {
-                    if (dcmpPlugin.Data.Inputs.hasOwnProperty(key)) {
-                        const object = dcmpPlugin.Data.Inputs[key];
+                for (const key in dcmpPlugin.Data['1'].Inputs) {
+                    if (dcmpPlugin.Data['1'].Inputs.hasOwnProperty(key)) {
+                        const object = dcmpPlugin.Data['1'].Inputs[key];
 
                         if (object.UploadName === 'f_module_plugins.FUserModuleFK') {
-                            dcmpPlugin.Data.Inputs[key].DefaultValue = fUserModuleId;
+                            dcmpPlugin.Data['1'].Inputs[key].DefaultValue = fUserModuleId;
                             break;
                         }
                     }
                 }
-
                 let frameId = 'add_plugin';
                 let parentFrameId = 'content_frame';
-                let title = 'Add plugin to module'
+                let title = 'Add plugin to module';
                 DinamicFormPopup.open(frameId, parentFrameId, title, false);
-                DinamicFormPopup.onLoad(dcmpPlugin.Data, frameId, parentFrameId);
+                DinamicFormPopup.onLoad(dcmpPlugin.Data['1'], frameId, parentFrameId);
 
                 AddPlugin.events(frameId);
             },
@@ -80,6 +79,14 @@ export default class AddPlugin {
             case '3':
                 Promise.all([
                     import('./APFilterAndSort.js'),
+                ]).then(([Module]) => {
+                    Module.default.Create(id, frameId);
+                });
+                break;
+            case '2':
+                alert("DinamicPoup meghívás");
+                Promise.all([
+                    import('./APDinamicPopup.js'),
                 ]).then(([Module]) => {
                     Module.default.Create(id, frameId);
                 });

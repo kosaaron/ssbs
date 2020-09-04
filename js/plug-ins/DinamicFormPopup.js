@@ -8,6 +8,7 @@ import FormInputs from './../designs/FormInputs.js';
 import StepBox from './Input/StepBox.js';
 import SwitchPlugin from './SwitchPlugin.js';
 import AutoScroll from './AutoScroll.js';
+import AddInput from './objects/AddInput.js';
 
 export default class DinamicFormPopup {
     static saveEventMax = 0;
@@ -138,7 +139,7 @@ export default class DinamicFormPopup {
         });
 
         function success(plugin, entryIdJSON, parentFrameId) {
-            let formData = plugin.Data;
+            let formData = plugin.Data['1'];
 
             DinamicFormPopup.onLoad(formData, frameId, parentFrameId, entryIdJSON);
         }
@@ -172,7 +173,13 @@ export default class DinamicFormPopup {
             '<h2 id="ntsk_steps_title" class="new-obj-subtitle">Adatok</h2>';
 
         CardContainerPlus.Create(formInputs, dataFrameId, DinamicFormPopup.loadFormItem);
-
+        let plugin = JSON.parse(localStorage.getItem(`${frameId}`));
+        console.log(JSON.stringify(plugin));
+        if (!(plugin === undefined || plugin === null) && localStorage.getItem('DevelopMode') === 'true') {
+            let FPluginFormInputId = plugin.Data[1].FPluginFormInputId;
+            console.log("Teszt:" + FPluginFormInputId + " Frameid:" + frameId);
+            AddInput.Integration(`${frameId}_data`, FPluginFormInputId);
+        }
         //Children
         if (!formData.hasOwnProperty('Children')) {
             console.warn('No data at dinamic popup.')

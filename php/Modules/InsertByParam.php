@@ -50,7 +50,7 @@ class InsertByParam
             $values .= ');';
             $finalSQL .= $columnNames . $values;
 
-            $finalQueary = $pdo->prepare($finalSQL);
+           $finalQueary = $pdo->prepare($finalSQL);
             $finalQueary->execute();
             $lastId = $pdo->lastInsertId();
 
