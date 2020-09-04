@@ -11,6 +11,10 @@ class GetInputs
         //SwitchPlugin
         require_once('Modules/SwitchPlugin.php');
         $this->switchPlugin = new SwitchPlugin();
+        //PDO connection
+        require_once('Modules/Connect.php');
+        $PDOConnect = new PDOConnect();
+        $this->pdo = $PDOConnect->pdo;
     }
 
     public function createData($fModulePluginFK, $fPluginPluginFK, $fCustomPluginId, $pluginTable)
@@ -20,9 +24,9 @@ class GetInputs
         require_once('Modules/GetData.php');
         $getData = new GetData('ManualFiltering', true);
         //CreateFormInputs
-        require_once('CreateFormInputs.php');
+        require_once('Modules/CreateFormInputs.php');
         //ItemFromTree
-        require_once('ItemFromTree.php');
+        require_once('Modules/ItemFromTree.php');
 
         //get dinamic form(s) of plugin
         $fPluginDinamicForms = $this->pdo->query(
@@ -40,7 +44,7 @@ class GetInputs
             $createFormInputs = new CreateFormInputs();
             $fDinamicFormInputs = $createFormInputs->Create($fPluginFormInputId);
 
-            $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
+            $dinamicForm[$fPluginDinamicForm['Number']]['Title'] = $fPluginDinamicForm['Title'];
 
             if (ModuleMetadata::$disableFormFill !== true) {
                 $formData = $getData->getDisplayColumns(
@@ -58,7 +62,7 @@ class GetInputs
                 }
             }
 
-            $dinamicForm['Inputs'] = $fDinamicFormInputs;
+            $dinamicForm[$fPluginDinamicForm['Number']]['Inputs'] = $fDinamicFormInputs;
         }
 
         $dinamicForm['Children'] = $this->switchPlugin->checkChild(
@@ -66,7 +70,7 @@ class GetInputs
             $fPluginPluginFK,
             '1'
         );
-        
+
         return $dinamicForm;
     }
 }

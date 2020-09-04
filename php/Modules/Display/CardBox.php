@@ -34,9 +34,12 @@ class CardBox
              WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->switchPlugin->ifNull($fPluginPluginFK)
                 . " && fCustomPluginFK" . $this->switchPlugin->ifNull($fCustomPluginId)
-        )->fetch(PDO::FETCH_ASSOC);
+        )->fetchAll(PDO::FETCH_ASSOC);
 
-        $main_data['CCardId'] = $fPluginCards['CCardFK'];
+        foreach ($fPluginCards as $fPluginCard) {
+            $main_data['FPluginCardId'][$fPluginCard['Number']] = $fPluginCard['FPluginCardId'];
+            $main_data['CCardId'][$fPluginCard['Number']] = $fPluginCard['CCardFK'];
+        }
 
         return $main_data;
     }

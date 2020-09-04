@@ -47,6 +47,7 @@ class GetData
             $number = $fPluginDisplay['Number'];
 
             $main_data[$number]['Title'] = $fPluginDisplay['Title'];
+            $main_data[$number]['FPluginDisplayId'] = $fPluginDisplay['FPluginDisplayId'];
             $main_data[$number]['Display'] = $this->getDisplayColumns($fPluginDisplayId, $pluginTable);
         }
         //Children

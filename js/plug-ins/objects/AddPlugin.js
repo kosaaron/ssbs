@@ -75,11 +75,18 @@ export default class AddPlugin {
      * @param {String} id 
      * @param {String} frameId 
      */
-    static switchPlugin(pluginId, id,  frameId) {
+    static switchPlugin(pluginId, id, frameId) {
         switch (pluginId) {
             case '3':
                 Promise.all([
                     import('./APFilterAndSort.js'),
+                ]).then(([Module]) => {
+                    Module.default.Create(id, frameId);
+                });
+                break;
+            case '4':
+                Promise.all([
+                    import('./APCardBox.js'),
                 ]).then(([Module]) => {
                     Module.default.Create(id, frameId);
                 });
