@@ -46,12 +46,12 @@ export default class AddInput {
                     dcmpPlugin = { Data: null }
                 }
 
-                for (const key in dcmpPlugin.Data.Inputs) {
-                    if (dcmpPlugin.Data.Inputs.hasOwnProperty(key)) {
-                        const object = dcmpPlugin.Data.Inputs[key];
+                for (const key in dcmpPlugin.Data['1'].Inputs) {
+                    if (dcmpPlugin.Data['1'].Inputs.hasOwnProperty(key)) {
+                        const object = dcmpPlugin.Data['1'].Inputs[key];
 
                         if (object.UploadName === 'f_form_inputs.FPluginFormInputFK') {
-                            dcmpPlugin.Data.Inputs[key].DefaultValue = fPluginFormInputId;
+                            dcmpPlugin.Data['1'].Inputs[key].DefaultValue = fPluginFormInputId;
                             break;
                         }
                     }
@@ -61,7 +61,7 @@ export default class AddInput {
                 let parentFrameId = 'content_frame';
                 let title = 'Insert input to plugin'
                 DinamicFormPopup.open(frameId, parentFrameId, title, false);
-                DinamicFormPopup.onLoad(dcmpPlugin.Data, frameId, parentFrameId);
+                DinamicFormPopup.onLoad(dcmpPlugin.Data['1'], frameId, parentFrameId);
             },
             dataType: 'json'
         });
