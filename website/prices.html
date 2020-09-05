@@ -44,7 +44,7 @@
                     <div class="collapse navbar-collapse navbar-right" id="navbarCollapse">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item nav-elem">
-                                <a class="nav-link menupont-link" href="website.html">
+                                <a class="nav-link menupont-link" href="index.html">
                                     Termékünk
                                 </a>
                             </li>
@@ -105,7 +105,7 @@
                             </h3>
                             <p class="card-text">Válogassa össze, milyen modulokra szeretne előfizetni.</p>
                             <div class="d-flex flex-row-reverse bd-highlight summary-button-container">
-                                <a class="btn btn-outline-yellow" href="website.html#modullist">Moduljaink listája</a>
+                                <a class="btn btn-outline-yellow" href="index.html#modullist">Moduljaink listája</a>
                             </div>
                         </div>
                     </div>
@@ -218,8 +218,8 @@
                                             </div>
                                         </div>
                                         <div class="d-flex flex-row-reverse bd-highlight summary-button-container">
-                                            <button id="order_button"
-                                                class="btn btn-outline-secondary">Megrendelem</button>
+                                            <a id="order_button"
+                                                class="btn btn-outline-secondary" href="about.html">Megrendelem</a>
                                         </div>
                                     </div>
                                 </div>
@@ -245,9 +245,9 @@
 <script>
     window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')
 
-    document.getElementById('order_button').addEventListener("click", function (event) {
-        alert('Erre majd feljön egy emailes popup');
-    });
+    // document.getElementById('order_button').addEventListener("click", function (event) {
+    //     alert('Erre majd feljön egy emailes popup');
+    // });
 
     //Price calculation
 
