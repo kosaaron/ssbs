@@ -108,13 +108,14 @@ export default class DinamicFormPopup {
         parentFrameId
     ) {
 
-        let plugin = localStorage.getItem(frameId);
+        let plugin = JSON.parse(localStorage.getItem(frameId));
 
+        /*
         if (plugin !== null) {
             plugin = JSON.parse(plugin);
             success(plugin);
             return;
-        }
+        }*/
 
         let module = 'ModuleData';
         let data = {};
@@ -126,7 +127,7 @@ export default class DinamicFormPopup {
         if (entryIdJSON === null) {
             data['IdOfData'] = null;
         }
-
+        console.log(data);
         $.ajax({
             type: "POST",
             url: "./php/Router.php",
@@ -140,8 +141,9 @@ export default class DinamicFormPopup {
 
         function success(plugin, entryIdJSON, parentFrameId) {
             let formData = plugin.Data['1'];
+            let children = plugin.Data['Children'];
 
-            DinamicFormPopup.onLoad(formData, frameId, parentFrameId, entryIdJSON);
+            DinamicFormPopup.onLoad(formData, frameId, parentFrameId, children, entryIdJSON);
         }
     }
 
@@ -151,7 +153,7 @@ export default class DinamicFormPopup {
      * @param {String} frameId 
      * @param {JSON} entryId 
      */
-    static onLoad(formData, frameId, parentFrameId, entryId = null) {
+    static onLoad(formData, frameId, parentFrameId, children, entryId = null) {
         AutoScroll.Integration(frameId);
 
         const dataFrameId = frameId + '_data';
@@ -173,21 +175,11 @@ export default class DinamicFormPopup {
             '<h2 id="ntsk_steps_title" class="new-obj-subtitle">Adatok</h2>';
 
         CardContainerPlus.Create(formInputs, dataFrameId, DinamicFormPopup.loadFormItem);
-        let plugin = JSON.parse(localStorage.getItem(`${frameId}`));
-        console.log(JSON.stringify(plugin));
-        if (!(plugin === undefined || plugin === null) && localStorage.getItem('DevelopMode') === 'true') {
-            let FPluginFormInputId = plugin.Data[1].FPluginFormInputId;
-            console.log("Teszt:" + FPluginFormInputId + " Frameid:" + frameId);
+
+        if (localStorage.getItem('DevelopMode') === 'true') {
+            let FPluginFormInputId = formData.FPluginFormInputId;
             AddInput.Integration(`${frameId}_data`, FPluginFormInputId);
         }
-        //Children
-        if (!formData.hasOwnProperty('Children')) {
-            console.warn('No data at dinamic popup.')
-
-            formData['Children'] = [];
-        }
-
-        let children = formData.Children;
 
         for (const plugin of children) {
             let place = plugin.Place;

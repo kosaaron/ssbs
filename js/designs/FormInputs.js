@@ -372,12 +372,20 @@ let FormInputs = {
      * @param {JSON} objectItem 
      * @param {String} shellId 
      */
-    SelectColumn: function (objectItem, shellId, isFormInput = true) {
+    SelectColumn: function (objectItem, shellId) {
         let id = objectItem.FFormInputId,
             name = objectItem.Name,
             tableName = objectItem.TableName,
             columnName = objectItem.ColumnName,
             defaultValue = objectItem.DefaultValue;
+
+        let transferData = JSON.parse(localStorage.getItem(shellId));
+        let isFormInput = false;
+        if (transferData !== null) {
+            if (transferData.hasOwnProperty('IsFormInput')) {
+                isFormInput = transferData['IsFormInput'];
+            }
+        }
 
         let readyHTML = "";
         let collapseInputId = `${shellId}_collapse_inp_${id}`;

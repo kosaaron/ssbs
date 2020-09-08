@@ -73,6 +73,14 @@ switch ($module) {
 
         print_r(json_encode($main_data));
         break;
+    case 'InsertImage':
+        require_once('Modules/Objects/InsertImage.php');
+
+        $insertImage = new InsertImage();
+        $main_data =  $insertImage->Create($data);
+
+        print_r(json_encode($main_data));
+        break;
     default:
         # code...
         break;

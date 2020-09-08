@@ -8,9 +8,10 @@ function loadLogin() {
     document.getElementById("btn_login").addEventListener("click", checkLogin, false);
 
     /** Push notification testing */
+    /*
     checkSW();
     askPermission();
-
+*/
 }
 window.onload = loadLogin;
 

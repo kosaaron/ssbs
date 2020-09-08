@@ -2,6 +2,7 @@ import CardDesigns from "../../designs/CardDesigns.js";
 import CreateBox from "../CreateBox.js";
 import FormInputs from "../../designs/FormInputs.js";
 import CardNumber from "../objects/CardNumber.js";
+import DinamicFormPopup from "../DinamicFormPopup.js";
 
 export default class CardBox {
     /**
@@ -82,9 +83,22 @@ export default class CardBox {
                 if (cBDevPlugin.Data.hasOwnProperty('1')) {
                     cBDevInputs = cBDevPlugin.Data['1'].Inputs;
                 }
+                if (cBDevPlugin.Data.hasOwnProperty('2')) {
+                    let displayInput = {};
+                    displayInput['FFormInputId'] = '1';
+                    displayInput['Type'] = 'W';
+                    displayInput['Name'] = 'FPluginDisplayFK';
+                    displayInput['UploadName'] = 'f_display.FPluginDisplayFK';
+                    displayInput['Required'] = '1';
+                    displayInput['Visible'] = '0';
+                    displayInput['DefaultValue'] = fPluginDisplayId;
+                    displayInput['TableName'] = 'f_plugin_display';
+                    displayInput['ColumnName'] = 'FPluginDisplayId';
+
+                    cBDevPlugin.Data['2'].Inputs.push(displayInput);
+                }
 
                 let cardNumberInpt = {};
-                let dataInpt = {};
 
                 for (const cBDevInput of cBDevInputs) {
                     if (cBDevInput.Number === '2') {
@@ -93,9 +107,6 @@ export default class CardBox {
                     switch (cBDevInput.Number) {
                         case '2':
                             cardNumberInpt = cBDevInput;
-                            break;
-                        case '3':
-                            dataInpt = cBDevInput;
                             break;
                     }
                 }
@@ -122,21 +133,47 @@ export default class CardBox {
 
                     let devCard = CardDesigns.getCardById(cardId, cardShellId);
                     devCard = devCard.replaceAll('!', '');
+
+                    let cardNumbers = CardNumber.GetNumbers(devCard);
+                    for (const cardNumber of cardNumbers) {
+                        devCard = devCard.replaceAll(`*${cardNumber}*`, `<span number="${cardNumber}" data-place="${inputsShellId}_place">*${cardNumber}*</span>`);
+                    }
+
                     document.getElementById(cardShellId).insertAdjacentHTML(
                         'beforeend',
                         devCard
                     );
 
-                    let cardNumbers = CardNumber.GetNumbers(devCard);
-                    for (const cardNumber of cardNumbers) {
-                        let inputShellId = `${inputsShellId}_${cardNumber}`
+                    $(`[data-place="${inputsShellId}_place"]`).click(function () {
+                        let parentFrameId = 'content_frame';
+                        let number = $(this).attr('number');
+                        let title = `${number}. place`;
 
-                        document.getElementById(inputsShellId).insertAdjacentHTML(
-                            'beforeend',
-                            `<div number="${cardNumber}"><label>${cardNumber}. place</label><div id="${inputShellId}"></div></div>`
-                        );
-                        FormInputs.SelectColumn(dataInpt, inputShellId, false);
-                    }
+                        let displayInput = {};
+                        displayInput['FFormInputId'] = '2';
+                        displayInput['Type'] = 'W';
+                        displayInput['Name'] = 'Number';
+                        displayInput['UploadName'] = 'f_display.Number';
+                        displayInput['Required'] = '1';
+                        displayInput['Visible'] = '0';
+                        displayInput['DefaultValue'] = number;
+                        displayInput['TableName'] = 'f_display';
+                        displayInput['ColumnName'] = 'Number';
+
+                        if (cBDevPlugin.Data['2'].Inputs.length > 2) {
+                            cBDevPlugin.Data['2'].Inputs.pop();
+                        }
+                        cBDevPlugin.Data['2'].Inputs.push(displayInput);
+
+                        let childFrameId = `${frameId}_card_dev`;
+                        let popupInputsShellId = `${childFrameId}_data`;
+                        let transferData = {};
+                        transferData['IsFormInput'] = false;
+                        localStorage.setItem(popupInputsShellId, JSON.stringify(transferData));
+
+                        DinamicFormPopup.open(childFrameId, parentFrameId, title, false);
+                        DinamicFormPopup.onLoad(cBDevPlugin.Data['2'], childFrameId, parentFrameId, []);
+                    });
                 }
             },
             dataType: 'json'
@@ -180,25 +217,6 @@ export default class CardBox {
                 },
                 dataType: 'json'
             });
-
-            let displayData = [];
-            let devInputs = document.getElementById(`${frameId}_dev_inputs`);
-            /*
-            devInputs.children.forEach(devInput => {
-                let number = devInputs.getAttribute('number');
-                let selectedColumn = devInput.querySelector(`[upload-name="f_display.FColumnFK"]`).value;
-
-                console.log(number);
-                console.log(selectedColumn);
-            });*/
-            for (let i = 0; i < devInputs.children.length; i++) {
-                let devInput = devInputs.children[i];
-                let number = devInput.getAttribute('number');
-                let selectedColumn = devInput.querySelector(`[upload-name="f_display.FColumnFK"]`).value;
-
-                console.log(number);
-                console.log(selectedColumn);
-            }
         });
     }
 

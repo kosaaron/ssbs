@@ -60,8 +60,15 @@ export default class AddInput {
                 let frameId = 'add_input';
                 let parentFrameId = 'content_frame';
                 let title = 'Insert input to plugin'
-                DinamicFormPopup.open(frameId, parentFrameId, title, false);
-                DinamicFormPopup.onLoad(dcmpPlugin.Data['1'], frameId, parentFrameId);
+
+                let childFrameId = `${frameId}_card_dev`;
+                let popupInputsShellId = `${childFrameId}_data`;
+                let transferData = {};
+                transferData['IsFormInput'] = true;
+                localStorage.setItem(popupInputsShellId, JSON.stringify(transferData));
+
+                DinamicFormPopup.open(childFrameId, parentFrameId, title, false);
+                DinamicFormPopup.onLoad(dcmpPlugin.Data['1'], childFrameId, parentFrameId, []);
             },
             dataType: 'json'
         });

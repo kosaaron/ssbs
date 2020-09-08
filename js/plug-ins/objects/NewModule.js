@@ -35,8 +35,15 @@ export default class NewModule {
                 let frameId = 'add_module';
                 let parentFrameId = 'content_frame';
                 let title = 'Add module to tab'
-                DinamicFormPopup.open(frameId, parentFrameId, title, false);
-                DinamicFormPopup.onLoad(dcmpPlugin.Data, frameId, parentFrameId);
+
+                let childFrameId = `${frameId}_card_dev`;
+                let popupInputsShellId = `${childFrameId}_data`;
+                let transferData = {};
+                transferData['IsFormInput'] = true;
+                localStorage.setItem(popupInputsShellId, JSON.stringify(transferData));
+
+                DinamicFormPopup.open(childFrameId, parentFrameId, title, false);
+                DinamicFormPopup.onLoad(dcmpPlugin.Data, childFrameId, parentFrameId, []);
             },
             dataType: 'json'
         });

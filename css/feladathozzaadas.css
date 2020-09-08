@@ -375,9 +375,17 @@ input:checked[type="checkbox"]:before {
     padding: 5px 10px;
 }
 
+.img-upload-icon {
+    font-size: 35px;
+}
+
+.img-upload-text {
+    font-size: 14px;
+}
+
 .upload-img-shell {
-    width: 150px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     float: left;
     margin: 0px 20px 20px 0px
 }
