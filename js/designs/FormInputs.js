@@ -16,6 +16,8 @@ let FormInputs = {
     UpdateInputs: function (placeName, entryId, refreshFn) {
         let updateData = FormInputs.CreateJSON(placeName);
 
+        console.log(updateData);
+
         $.ajax({
             type: "POST",
             url: "./php/UpdateDataWithParam.php",
@@ -108,7 +110,7 @@ let FormInputs = {
      * @param {String} shellId 
      */
     Write: function (objectItem, shellId) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
@@ -142,7 +144,7 @@ let FormInputs = {
      * @param {String} shellId  
      */
     WritePlus: function (objectItem, shellId) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
@@ -184,7 +186,7 @@ let FormInputs = {
      * @param {String} shellId 
      */
     Select: function (objectItem, shellId) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             opportunities = objectItem.Opportunities,
             uploadName = objectItem.UploadName,
@@ -235,7 +237,7 @@ let FormInputs = {
      * @param {String} shellId 
      */
     SelectPlus: function (objectItem, shellId) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             opportunities = objectItem.Opportunities,
             uploadName = objectItem.UploadName,
@@ -289,7 +291,7 @@ let FormInputs = {
      * @param {String} shellId 
      */
     SelectOrNew: function (objectItem, shellId, isInsert = true) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             tableName = objectItem.TableName,
             columnName = objectItem.ColumnName,
@@ -373,7 +375,7 @@ let FormInputs = {
      * @param {String} shellId 
      */
     SelectColumn: function (objectItem, shellId) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             tableName = objectItem.TableName,
             columnName = objectItem.ColumnName,
@@ -398,26 +400,26 @@ let FormInputs = {
         );
 
         let cTNumber = 1;
-        objectItem.FFormInputId = `${id}_${cTNumber}`;
+        objectItem.c_103_id = `${id}_${cTNumber}`;
         objectItem.Name = 'Connect table';
         FormInputs.Select(objectItem, `${collapseInputId}_ct`, false);
 
         document.getElementById(`${collapseInputId}_ct_p`).addEventListener('click', function (e) {
             cTNumber++;
-            objectItem.FFormInputId = `${id}_${cTNumber}`;
+            objectItem.c_103_id = `${id}_${cTNumber}`;
             FormInputs.Select(objectItem, `${collapseInputId}_ct`, false);
         });
 
         let cObjectItem = {};
-        cObjectItem.FFormInputId = `${id}_c`;
+        cObjectItem.c_103_id = `${id}_c`;
         cObjectItem.Name = 'Select column';
-        cObjectItem.TableName = 'f_columns';
+        cObjectItem.TableName = 't_7';
         cObjectItem.ColumnName = 'Name';
         cObjectItem.Opportunities = [{ Id: 'null', Name: '--' }];
         if (isFormInput) {
-            cObjectItem.UploadName = 'f_form_inputs.FColumnFK';
+            cObjectItem.UploadName = 't_103.c_7_fk';
         } else {
-            cObjectItem.UploadName = 'f_display.FColumnFK';
+            cObjectItem.UploadName = 't_102.c_7_fk';
         }
         cObjectItem.Required = '1';
         cObjectItem.Visible = '1';
@@ -484,7 +486,7 @@ let FormInputs = {
         });
 
         if (isFormInput) {
-            document.querySelector(`[upload-name="f_form_inputs.Type"][data-place="${shellId}"]`).addEventListener(
+            document.querySelector(`[upload-name="t_103.Type"][data-place="${shellId}"]`).addEventListener(
                 'change',
                 function () {
                     setUploadName(shellId);
@@ -530,16 +532,16 @@ let FormInputs = {
         }
 
         function setUploadName(shellId) {
-            let frgnTableId = document.querySelector(`[upload-name="f_form_inputs.CTableFK"][data-place="${shellId}_cstm"]`).value;
+            let frgnTableId = document.querySelector(`[upload-name="t_103.c_5_fk"][data-place="${shellId}_cstm"]`).value;
             console.log(frgnTableId);
-            let inputType = document.querySelector(`[upload-name="f_form_inputs.Type"][data-place="${shellId}"]`).value;
+            let inputType = document.querySelector(`[upload-name="t_103.Type"][data-place="${shellId}"]`).value;
             console.log(inputType);
 
-            let uploadName = document.querySelector(`[upload-name="f_form_inputs.UploadName"][data-place="${shellId}"]`);
+            let uploadName = document.querySelector(`[upload-name="t_103.UploadName"][data-place="${shellId}"]`);
             if (SelectInput.Decide(inputType)) {
                 uploadName.value = `t_${frgnTableId}.c_${frgnTableId}_fk`
             } else {
-                let columnName = document.querySelector(`[upload-name="f_form_inputs.FColumnFK"][data-place="${shellId}"]`).value;
+                let columnName = document.querySelector(`[upload-name="t_103.c_7_fk"][data-place="${shellId}"]`).value;
                 console.log(inputType);
                 uploadName.value = `t_${frgnTableId}.${columnName}`;
             }
@@ -551,7 +553,7 @@ let FormInputs = {
      * @param {String} shellId 
      */
     DateTime: function (objectItem, shellId) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,
@@ -608,7 +610,7 @@ let FormInputs = {
      * @param {String} shellId 
      */
     WriteFilter: function (objectItem, shellId) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             uploadName = objectItem.UploadName,
             defaultValue = objectItem.DefaultValue;
@@ -632,7 +634,7 @@ let FormInputs = {
      * @param {String} shellId 
      */
     SelectFilter: function (objectItem, shellId) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             opportunities = objectItem.Opportunities,
             uploadName = objectItem.UploadName,
@@ -684,7 +686,7 @@ let FormInputs = {
      * @param {String} shellId 
      */
     SelectSort: function (objectItem, shellId) {
-        let id = objectItem.FFormInputId,
+        let id = objectItem.c_103_id,
             name = objectItem.Name,
             uploadName = objectItem.UploadName,
             required = objectItem.Required,

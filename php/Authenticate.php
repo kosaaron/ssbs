@@ -14,7 +14,7 @@ $PDOConnect = new PDOConnect();
 $pdo = $PDOConnect->pdo;
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $pdo->prepare("SELECT EmployeeId, UserPassword, FirstName FROM employees WHERE Email = ?")) {
+if ($stmt = $pdo->prepare("SELECT c_200_id, UserPassword, FirstName FROM t_200 WHERE Email = ?")) {
 	$stmt->execute([$_POST['Email']]);
 	$user = $stmt->fetch();
 }
@@ -24,7 +24,7 @@ if ($user)
 	if (password_verify($_POST['Password'], $user['UserPassword'])) {
 		$_SESSION['loggedin'] = TRUE;
 		$_SESSION['name'] = $user['FirstName'];
-		$_SESSION['id'] = $user['EmployeeId'];
+		$_SESSION['id'] = $user['c_200_id'];
 		$main_data['Message'] = 'Welcome ' . $_SESSION['name'] . '!';
 		$main_data['LoggedIn'] = TRUE;
 	}

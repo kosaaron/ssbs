@@ -23,13 +23,13 @@ export default class NewModule {
 
                 if (dcmpPlugin === undefined) {
                     console.warn('No data at popup.')
-                    dcmpPlugin = { Data: null }
+                    dcmpPlugin = { Data: { 1: { FPluginFormInputId: null, Inputs: [], Title: null } } }
                 }
 
                 if (!dcmpPlugin.hasOwnProperty('Data')) {
                     console.warn('No data at popup.')
 
-                    dcmpPlugin = { Data: null }
+                    dcmpPlugin = { Data: { 1: { FPluginFormInputId: null, Inputs: [], Title: null } } }
                 }
 
                 let frameId = 'add_module';
@@ -43,7 +43,7 @@ export default class NewModule {
                 localStorage.setItem(popupInputsShellId, JSON.stringify(transferData));
 
                 DinamicFormPopup.open(childFrameId, parentFrameId, title, false);
-                DinamicFormPopup.onLoad(dcmpPlugin.Data, childFrameId, parentFrameId, []);
+                DinamicFormPopup.onLoad(dcmpPlugin.Data[1], childFrameId, parentFrameId, []);
             },
             dataType: 'json'
         });

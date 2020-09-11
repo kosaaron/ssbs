@@ -85,15 +85,15 @@ export default class CardBox {
                 }
                 if (cBDevPlugin.Data.hasOwnProperty('2')) {
                     let displayInput = {};
-                    displayInput['FFormInputId'] = '1';
+                    displayInput['c_103_id'] = '1';
                     displayInput['Type'] = 'W';
-                    displayInput['Name'] = 'FPluginDisplayFK';
-                    displayInput['UploadName'] = 'f_display.FPluginDisplayFK';
+                    displayInput['Name'] = 'c_106_fk';
+                    displayInput['UploadName'] = 't_102.c_106_fk';
                     displayInput['Required'] = '1';
                     displayInput['Visible'] = '0';
                     displayInput['DefaultValue'] = fPluginDisplayId;
-                    displayInput['TableName'] = 'f_plugin_display';
-                    displayInput['ColumnName'] = 'FPluginDisplayId';
+                    displayInput['TableName'] = 't_106';
+                    displayInput['ColumnName'] = 'c_106_id';
 
                     cBDevPlugin.Data['2'].Inputs.push(displayInput);
                 }
@@ -114,7 +114,7 @@ export default class CardBox {
                 let shellId = `${frameId}_dev_card_id`;
                 FormInputs.Select(cardNumberInpt, shellId);
 
-                let cardIdDOM = document.querySelector(`[upload-name="f_plugin_cards.CCardFK"][data-place="${shellId}"]`);
+                let cardIdDOM = document.querySelector(`[upload-name="t_105.c_1_fk"][data-place="${shellId}"]`);
                 let cardId = cardIdDOM.value;
 
                 changeCard(frameId, cardId);
@@ -150,14 +150,14 @@ export default class CardBox {
                         let title = `${number}. place`;
 
                         let displayInput = {};
-                        displayInput['FFormInputId'] = '2';
+                        displayInput['c_103_id'] = '2';
                         displayInput['Type'] = 'W';
                         displayInput['Name'] = 'Number';
-                        displayInput['UploadName'] = 'f_display.Number';
+                        displayInput['UploadName'] = 't_102.Number';
                         displayInput['Required'] = '1';
                         displayInput['Visible'] = '0';
                         displayInput['DefaultValue'] = number;
-                        displayInput['TableName'] = 'f_display';
+                        displayInput['TableName'] = 't_102';
                         displayInput['ColumnName'] = 'Number';
 
                         if (cBDevPlugin.Data['2'].Inputs.length > 2) {
@@ -196,16 +196,16 @@ export default class CardBox {
     static devSaveEvent(plugin, frameId) {
         document.getElementById(`${frameId}_dev_save`).addEventListener('click', function () {
             let shellId = `${frameId}_dev_card_id`;
-            let CCardFK = document.querySelector(`[upload-name="f_plugin_cards.CCardFK"][data-place="${shellId}"]`).value;
+            let CCardFK = document.querySelector(`[upload-name="t_105.c_1_fk"][data-place="${shellId}"]`).value;
             let updateData = [];
             let tables = {};
 
-            tables['f_plugin_cards'] = {};
-            tables['f_plugin_cards']['CCardFK'] = CCardFK;
+            tables['t_105'] = {};
+            tables['t_105']['c_1_fk'] = CCardFK;
             updateData.push(tables);
 
             let entryId = {};
-            entryId['IdColumn'] = 'FPluginCardId';
+            entryId['IdColumn'] = 'c_105_id';
             entryId['Id'] = plugin.Data.FPluginCardId[1];
 
             $.ajax({

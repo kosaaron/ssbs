@@ -30,7 +30,7 @@ class SendEmail
 		$this->pdo = $PDOConnect->pdo;
 
 		$query = "SELECT * FROM employees 
-                    WHERE EmployeeId = :employeeId";
+                    WHERE c_200_id = :employeeId";
 
 		$statement = $this->pdo->prepare($query);
 		$statement->execute(

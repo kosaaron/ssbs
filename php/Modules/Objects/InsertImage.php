@@ -27,19 +27,19 @@ class InsertImage
         $tableId = $data['TableId'];
         $size = $data['Size'];
 
-        $finalSQL = "INSERT INTO `f_columns`(`Name`) VALUES ('$name');";
+        $finalSQL = "INSERT INTO `t_7`(`Name`) VALUES ('$name');";
         $finalQueary = $this->pdo->prepare($finalSQL);
         $finalQueary->execute();
         $lastId = $this->pdo->lastInsertId();
 
         $columnName = "c_$lastId";
 
-        $tableQueary = $this->pdo->query("SELECT * FROM c_tables WHERE CTableId=$tableId");
+        $tableQueary = $this->pdo->query("SELECT * FROM t_5 WHERE c_5_id=$tableId");
         $table = $tableQueary->fetch()['TableName'];
         $newColumnSQL = "ALTER TABLE $table ADD $columnName varchar($size)";
         $this->pdo->exec($newColumnSQL);
 
-        $updateSQL = "UPDATE `f_columns` SET `CTableFK`='$tableId',`ColumnName`='$columnName' WHERE `FColumnId`='$lastId';";
+        $updateSQL = "UPDATE `t_7` SET `c_5_fk`='$tableId',`ColumnName`='$columnName' WHERE `c_7_id`='$lastId';";
         $updateQueary = $this->pdo->prepare($updateSQL);
         $updateQueary->execute();
 

@@ -36,18 +36,18 @@ class GetData
         $main_data = array();
 
         $fPluginDisplays = $this->pdo->query(
-            "SELECT * FROM f_plugin_display 
-             WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->switchPlugin->ifNull($fPluginPluginFK)
-                . " && FCustomPluginFK" . $this->switchPlugin->ifNull($fCustomPluginId)
+            "SELECT * FROM t_106 
+             WHERE c_104_fk" . $this->switchPlugin->ifNull($fModulePluginFK)
+                . " && c_108_fk" . $this->switchPlugin->ifNull($fPluginPluginFK)
+                . " && c_101_fk" . $this->switchPlugin->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($fPluginDisplays as $fPluginDisplay) {
-            $fPluginDisplayId = $fPluginDisplay['FPluginDisplayId'];
+            $fPluginDisplayId = $fPluginDisplay['c_106_id'];
             $number = $fPluginDisplay['Number'];
 
             $main_data[$number]['Title'] = $fPluginDisplay['Title'];
-            $main_data[$number]['FPluginDisplayId'] = $fPluginDisplay['FPluginDisplayId'];
+            $main_data[$number]['FPluginDisplayId'] = $fPluginDisplay['c_106_id'];
             $main_data[$number]['Display'] = $this->getDisplayColumns($fPluginDisplayId, $pluginTable);
         }
         //Children
@@ -79,13 +79,17 @@ class GetData
 
         if ($isFormInputs) {
             $fDisplays = $this->pdo->query(
-                "SELECT * FROM f_form_inputs 
-                 INNER JOIN f_columns ON FColumnId=FColumnFK
-                 INNER JOIN c_tables ON CTableId=CTableFK 
-                 WHERE FPluginFormInputFK" . $this->switchPlugin->ifNull($fPluginDisplayId)
+                "SELECT * FROM t_103 
+                 INNER JOIN t_7 ON c_7_id=c_7_fk
+                 INNER JOIN t_5 ON c_5_id=c_5_fk 
+                 WHERE c_107_fk" . $this->switchPlugin->ifNull($fPluginDisplayId)
             )->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($fDisplays as $fDKey => $fDValue) {
+                $fDValue['CTableFK'] = $fDValue['c_7_fk'];
+                $fDValue['FColumnFK'] = $fDValue['c_5_fk'];
+                $fDisplays[$fDKey] = $fDValue;
+
                 if ($isSelectItem->Decide($fDValue['Type'])) {
                     $fDisplays[$fDKey]['ColumnName'] = $fDValue['TableIdName'];
                 }
@@ -93,11 +97,17 @@ class GetData
         } else {
             //Get display columns metadata
             $fDisplays = $this->pdo->query(
-                "SELECT * FROM f_display 
-                 INNER JOIN f_columns ON FColumnId=FColumnFK
-                 INNER JOIN c_tables ON CTableId=CTableFK 
-                 WHERE FPluginDisplayFK" . $this->switchPlugin->ifNull($fPluginDisplayId)
+                "SELECT * FROM t_102 
+                 INNER JOIN t_7 ON c_7_id=c_7_fk
+                 INNER JOIN t_5 ON c_5_id=c_5_fk 
+                 WHERE c_106_fk" . $this->switchPlugin->ifNull($fPluginDisplayId)
             )->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($fDisplays as $fDKey => $fDValue) {
+                $fDValue['CTableFK'] = $fDValue['c_7_fk'];
+                $fDValue['FColumnFK'] = $fDValue['c_5_fk'];
+                $fDisplays[$fDKey] = $fDValue;
+            }
         }
 
         //Get main table
@@ -105,7 +115,7 @@ class GetData
             $mainTable = ModuleMetadata::$mainTable;
         } else {
             $cModule = $this->pdo->query(
-                "SELECT * FROM c_modules WHERE CModuleId" . $this->switchPlugin->ifNull($cModuleId)
+                "SELECT * FROM t_3 WHERE c_3_id" . $this->switchPlugin->ifNull($cModuleId)
             )->fetch(PDO::FETCH_ASSOC);
             $mainTable = $cModule['MainTable'];
         }
@@ -454,14 +464,14 @@ class GetData
         //Filter plugin ID
         $cPluginFK = '3';
 
-        $queryString = "SELECT f_plugin_form_inputs.Number AS 'FilterOrSort', 
-                            f_form_inputs.Number, f_form_inputs.UploadName,
-                            f_form_inputs.Type, f_form_inputs.DefaultValue
-                        FROM f_module_plugins 
-                        INNER JOIN f_plugin_form_inputs ON FModulePluginId=FModulePluginFK
-                        INNER JOIN f_form_inputs ON FPluginFormInputFK=FPluginFormInputId
-                        WHERE FUserModuleFK='$fUserModuleId' && CPluginFK=$cPluginFK 
-                        ORDER BY f_plugin_form_inputs.Number ASC, f_form_inputs.Number ASC;";
+        $queryString = "SELECT t_107.Number AS 'FilterOrSort', 
+                            t_103.Number, t_103.UploadName,
+                            t_103.Type, t_103.DefaultValue
+                        FROM t_104 
+                        INNER JOIN t_107 ON c_104_id=c_104_fk
+                        INNER JOIN t_103 ON c_107_fk=c_107_id
+                        WHERE c_110_fk='$fUserModuleId' && c_4_fk=$cPluginFK 
+                        ORDER BY t_107.Number ASC, t_103.Number ASC;";
         return $this->pdo->query($queryString)->fetchAll(PDO::FETCH_ASSOC);
     }
 

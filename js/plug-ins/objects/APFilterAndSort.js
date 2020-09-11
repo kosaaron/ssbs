@@ -11,14 +11,14 @@ export default class APFilterAndSort {
             filter = {},
             order = {},
             className = 'InsertByParam',
-            table = 'f_plugin_form_inputs',
+            table = 't_107',
             c_title = 'Title',
             v_title = 'Filter',
-            c_fModulePluginFK = 'FModulePluginFK',
+            c_fModulePluginFK = 'c_104_fk',
             v_fModulePluginFK = fModulePluginFK,
-            c_fPluginPluginFK = 'FPluginPluginFK',
+            c_fPluginPluginFK = 'c_108_fk',
             v_fPluginPluginFK = 'null',
-            c_fCustomPluginFK = 'FCustomPluginFK',
+            c_fCustomPluginFK = 'c_101_fk',
             v_fCustomPluginFK = 'null',
             c_number = 'Number',
             v_number = '1';
@@ -39,6 +39,8 @@ export default class APFilterAndSort {
 
         insertData[0] = filter;
         insertData[1] = order;
+
+        console.log(insertData);
 
         $.ajax({
             type: "POST",

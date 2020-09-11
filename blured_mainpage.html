@@ -7,7 +7,7 @@ class Verification{
         
         $act_code = $_GET['act_code'];
         
-        $query = "SELECT * FROM device_verification
+        $query = "SELECT * FROM t_100
                     WHERE ActivationCode = :ActivationCode && VerificationStatus=0";
                     
         $resultSet = $this->pdo->prepare($query);
@@ -22,7 +22,7 @@ class Verification{
         if($no_of_row == 1){
             $password = $_POST['password'];
             $password_encrypted = password_hash($password,  PASSWORD_DEFAULT);
-            $query = "UPDATE device_verification SET Password = :Password, VerificationStatus=1, ActivationCode=NULL 
+            $query = "UPDATE t_100 SET Password = :Password, VerificationStatus=1, ActivationCode=NULL 
                         WHERE ActivationCode = :ActivationCode";
             
             $update = $this->pdo->prepare($query);

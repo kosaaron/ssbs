@@ -67,7 +67,7 @@ class SwitchPlugin
         $plugin['RequestType'] = $type;
 
         $cPlugin = $this->pdo->query(
-            "SELECT * FROM c_plugins WHERE CPluginId='$cPluginFK'"
+            "SELECT * FROM t_4 WHERE c_4_id='$cPluginFK'"
         )->fetch(PDO::FETCH_ASSOC);
 
         $plugin['Plugin name'] = $cPlugin['Name'];
@@ -166,13 +166,20 @@ class SwitchPlugin
         }
 
         $fPluginPlugins = $this->pdo->query(
-            "SELECT f_plugin_plugins.*, TableName FROM f_plugin_plugins 
-             LEFT JOIN c_tables on CTableId=CTableFK 
-             WHERE FModulePluginFK='$fModulePluginFK' && 
-             FPluginPluginFK" . $this->ifNull($fPluginPluginFK) . " $defScreenCond"
+            "SELECT t_108.*, TableName FROM t_108 
+             LEFT JOIN t_5 on c_5_id=c_5_fk 
+             WHERE c_104_fk='$fModulePluginFK' && 
+             c_108_fk" . $this->ifNull($fPluginPluginFK) . " $defScreenCond"
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($fPluginPlugins as $fPluginPlugin) {
+            $fPluginPlugin['FPluginPluginId'] = $fPluginPlugin['c_108_id'];
+            $fPluginPlugin['CTableId'] = $fPluginPlugin['c_5_fk'];
+            $fPluginPlugin['CPluginFK'] = $fPluginPlugin['c_4_fk'];
+            unset($fPluginPlugin['c_108_id']);
+            unset($fPluginPlugin['c_5_fk']);
+            unset($fPluginPlugin['c_4_fk']);
+
             $data[] = $this->switch(
                 $fPluginPlugin,
                 'PP'
@@ -206,10 +213,10 @@ class SwitchPlugin
 
         //get dinamic form(s) of plugin
         $fPluginDinamicForms = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs 
-             WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
-                . " && FCustomPluginFK" . $this->ifNull($fCustomPluginId)
+            "SELECT * FROM t_107 
+             WHERE c_104_fk" . $this->ifNull($fModulePluginFK)
+                . " && c_108_fk" . $this->ifNull($fPluginPluginFK)
+                . " && c_101_fk" . $this->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -228,7 +235,7 @@ class SwitchPlugin
         $dinamicForm = array();
 
         foreach ($fPluginDinamicForms as $fPluginDinamicForm) {
-            $fPluginFormInputId = $fPluginDinamicForm['FPluginFormInputId'];
+            $fPluginFormInputId = $fPluginDinamicForm['c_107_id'];
 
             $createFormInputs = new CreateFormInputs();
             $fDinamicFormInputs = $createFormInputs->Create($fPluginFormInputId);
@@ -236,7 +243,7 @@ class SwitchPlugin
             if (true) {
                 $dinamicForm[$fPluginDinamicForm['Number']]['Title'] = $fPluginDinamicForm['Title'];
                 $dinamicForm[$fPluginDinamicForm['Number']]['FPluginFormInputId'] = $fPluginFormInputId;
-            }else {
+            } else {
                 $dinamicForm['Title'] = $fPluginDinamicForm['Title'];
             }
 
@@ -257,11 +264,11 @@ class SwitchPlugin
             }
             if (true) {
                 $dinamicForm[$fPluginDinamicForm['Number']]['Inputs'] = $fDinamicFormInputs;
-            }else {
+            } else {
                 $dinamicForm['Inputs'] = $fDinamicFormInputs;
             }
         }
-        
+
         $dinamicForm['Children'] = $this->checkChild(
             $fModulePluginFK,
             $fPluginPluginFK,
@@ -280,18 +287,18 @@ class SwitchPlugin
         $dinamicForm = array();
 
         $fPluginFormInput = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs 
-             WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
-                . " && FCustomPluginFK" . $this->ifNull($fCustomPluginId)
+            "SELECT * FROM t_107 
+             WHERE c_104_fk" . $this->ifNull($fModulePluginFK)
+                . " && c_108_fk" . $this->ifNull($fPluginPluginFK)
+                . " && c_101_fk" . $this->ifNull($fCustomPluginId)
         )->fetch(PDO::FETCH_ASSOC);
 
         $createFormInputs = new CreateFormInputs();
-        $fPluginFormInputId = $fPluginFormInput['FPluginFormInputId'];
+        $fPluginFormInputId = $fPluginFormInput['c_107_id'];
         $dinamicForm['Inputs'] = $createFormInputs->Create($fPluginFormInputId);
         /*
         $fPluginVO = $this->pdo->query(
-            "SELECT * FROM f_plugin_vo WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
+            "SELECT * FROM t_109 WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
                 . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
         )->fetch(PDO::FETCH_ASSOC);
 
@@ -312,16 +319,16 @@ class SwitchPlugin
 
         //get dinamic form(s) of plugin
         $formInputMetaDataArr = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs 
-             WHERE FModulePluginFK" . $this->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->ifNull($fPluginPluginFK)
-                . " && FCustomPluginFK" . $this->ifNull($fCustomPluginId)
+            "SELECT * FROM t_107 
+             WHERE c_104_fk" . $this->ifNull($fModulePluginFK)
+                . " && c_108_fk" . $this->ifNull($fPluginPluginFK)
+                . " && c_101_fk" . $this->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $dinamicForm = array();
 
         foreach ($formInputMetaDataArr as $formInputMetaData) {
-            $fPluginFormInputId = $formInputMetaData['FPluginFormInputId'];
+            $fPluginFormInputId = $formInputMetaData['c_107_id'];
 
             $createFormInputs = new CreateFormInputs();
             $formInputs = $createFormInputs->Create($fPluginFormInputId);

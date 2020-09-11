@@ -11,8 +11,8 @@ class CreateFilter
         $PDOConnect = new PDOConnect();
         $pdo = $PDOConnect->pdo;
 
-        $resultFltrStructure = $pdo->query('SELECT * FROM filters WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
-        $resultSrtStructure = $pdo->query('SELECT * FROM sorts WHERE (' . $employee . '=EmployeeFK && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
+        $resultFltrStructure = $pdo->query('SELECT * FROM filters WHERE (' . $employee . '=c_200_id && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
+        $resultSrtStructure = $pdo->query('SELECT * FROM sorts WHERE (' . $employee . '=c_200_id && Place="' . $place . '") ORDER BY Number;')->fetchAll(PDO::FETCH_ASSOC);
 
         $main_data = array();
         $main_data["Filters"] = array();

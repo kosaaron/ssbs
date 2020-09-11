@@ -23,10 +23,10 @@ class GetVirtualObjects
     {
         //get dinamic form(s) of plugin
         $fPluginVOs = $this->pdo->query(
-            "SELECT * FROM f_plugin_vo 
-             WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->switchPlugin->ifNull($fPluginPluginFK)
-                . " && FCustomPluginFK" . $this->switchPlugin->ifNull($fCustomPluginId)
+            "SELECT * FROM t_109 
+             WHERE c_104_fk" . $this->switchPlugin->ifNull($fModulePluginFK)
+                . " && c_108_fk" . $this->switchPlugin->ifNull($fPluginPluginFK)
+                . " && c_101_fk" . $this->switchPlugin->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $mainData = array();
@@ -34,7 +34,7 @@ class GetVirtualObjects
         $uploadedVOData = ModuleMetadata::$uplodedData['VO'];
 
         foreach ($fPluginVOs as $fPluginVO) {
-            $fVirtualObjectId = $fPluginVO['FVirtualObjectFK'];
+            $fVirtualObjectId = $fPluginVO['c_111_fk'];
 
             $virtualObject = new VirtualObject($fVirtualObjectId);
             $mainData['VO'] = $virtualObject->CreateVO($uploadedVOData[$fPluginVO['Number']]);

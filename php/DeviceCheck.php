@@ -14,7 +14,7 @@ $pdo = $PDOConnect->pdo;
 
 
 
-$query = "SELECT * FROM device_verification WHERE Id = :id_dev";
+$query = "SELECT * FROM t_100 WHERE c_100_id = :id_dev";
 $statement = $pdo->prepare($query);
 $statement->execute(
     array(

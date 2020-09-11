@@ -30,15 +30,15 @@ class CardBox
 
         //Get card design for CardBox
         $fPluginCards = $this->pdo->query(
-            "SELECT * FROM f_plugin_cards 
-             WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->switchPlugin->ifNull($fPluginPluginFK)
-                . " && fCustomPluginFK" . $this->switchPlugin->ifNull($fCustomPluginId)
+            "SELECT * FROM t_105 
+             WHERE c_104_fk" . $this->switchPlugin->ifNull($fModulePluginFK)
+                . " && c_108_fk" . $this->switchPlugin->ifNull($fPluginPluginFK)
+                . " && c_101_fk" . $this->switchPlugin->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($fPluginCards as $fPluginCard) {
-            $main_data['FPluginCardId'][$fPluginCard['Number']] = $fPluginCard['FPluginCardId'];
-            $main_data['CCardId'][$fPluginCard['Number']] = $fPluginCard['CCardFK'];
+            $main_data['FPluginCardId'][$fPluginCard['Number']] = $fPluginCard['c_105_id'];
+            $main_data['CCardId'][$fPluginCard['Number']] = $fPluginCard['c_1_fk'];
         }
 
         return $main_data;

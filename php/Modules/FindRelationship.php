@@ -99,7 +99,7 @@ class FindRelationship
 /** Example **/
 /*
 $findRelatioinship = new FindRelationship();
-$finalPath = $findRelatioinship->findPath('f_form_inputs', 'f_user_modules');
+$finalPath = $findRelatioinship->findPath('t_103', 't_110');
 $mainData = $findRelatioinship->getFullRelationship($finalPath);
 print_r(json_encode($mainData));
 */

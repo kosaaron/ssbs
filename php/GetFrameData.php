@@ -4,18 +4,19 @@ $PDOConnect = new PDOConnect();
 $pdo = $PDOConnect->pdo;
 
 $userModules = $pdo->query(
-    'SELECT FUserModuleId, CTabId, TabName, TabIcon, CModuleId, ModuleName, ModuleDescription FROM f_user_modules 
-    INNER JOIN c_tabs 
-    ON CTabId = CTabFK
-    INNER JOIN c_modules 
-    ON CModuleId = CModuleFK'
+    'SELECT c_110_id, c_6_fk, TabName, TabIcon, c_3_fk, ModuleName, ModuleDescription 
+     FROM t_110 
+     INNER JOIN t_6 
+     ON c_6_id = c_6_fk
+     INNER JOIN t_3 
+     ON c_3_id = c_3_fk'
 )->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($userModules as $key => $entry) {
-    $nUserModules[$entry['CTabId']]['TabName'] = $entry['TabName'];
-    $nUserModules[$entry['CTabId']]['TabIcon'] = $entry['TabIcon'];
-    $nUserModules[$entry['CTabId']]['Modules'][$entry['CModuleId']]['FUserModuleId'] = $entry['FUserModuleId'];
-    $nUserModules[$entry['CTabId']]['Modules'][$entry['CModuleId']]['Name'] = $entry['ModuleName'];
+    $nUserModules[$entry['c_6_fk']]['TabName'] = $entry['TabName'];
+    $nUserModules[$entry['c_6_fk']]['TabIcon'] = $entry['TabIcon'];
+    $nUserModules[$entry['c_6_fk']]['Modules'][$entry['c_3_fk']]['FUserModuleId'] = $entry['c_110_id'];
+    $nUserModules[$entry['c_6_fk']]['Modules'][$entry['c_3_fk']]['Name'] = $entry['ModuleName'];
 }
 
 print_r(json_encode($nUserModules));

@@ -41,9 +41,9 @@ export default class StepBox {
             nIputFrameId
         );
 
-        document.getElementById(`${nIputFrameId}_i_${stepNameWrite.FFormInputId}_upl`).addEventListener(
+        document.getElementById(`${nIputFrameId}_i_${stepNameWrite.c_103_id}_upl`).addEventListener(
             'click', function (e) {
-                let inputId = `${nIputFrameId}_${stepNameWrite.FFormInputId}`;
+                let inputId = `${nIputFrameId}_${stepNameWrite.c_103_id}`;
                 StepBox.uploadNewStep(frameId, inputId);
             }
         );
@@ -56,9 +56,9 @@ export default class StepBox {
             sIputFrameId
         );
 
-        document.getElementById(`${sIputFrameId}_i_${stepNameList.FFormInputId}_upl`).addEventListener(
+        document.getElementById(`${sIputFrameId}_i_${stepNameList.c_103_id}_upl`).addEventListener(
             'click', function (e) {
-                let inputId = `${sIputFrameId}_${stepNameList.FFormInputId}`;
+                let inputId = `${sIputFrameId}_${stepNameList.c_103_id}`;
                 StepBox.addSavedStepClick(frameId, inputId, subitemList);
             }
         );
@@ -286,7 +286,7 @@ export default class StepBox {
 
         subitemList.Opportunities;
 
-        subitemList.FFormInputId = currentStepNumber;
+        subitemList.c_103_id = currentStepNumber;
         subitemList.Name = null;
 
         let employeeSelectShellId = `${stepShellId}_subitem_select_${currentStepNumber}`;

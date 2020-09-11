@@ -38,7 +38,7 @@ export default class AddPlugin {
                     if (dcmpPlugin.Data['1'].Inputs.hasOwnProperty(key)) {
                         const object = dcmpPlugin.Data['1'].Inputs[key];
 
-                        if (object.UploadName === 'f_module_plugins.FUserModuleFK') {
+                        if (object.UploadName === 't_104.c_110_fk') {
                             dcmpPlugin.Data['1'].Inputs[key].DefaultValue = fUserModuleId;
                             break;
                         }
@@ -58,21 +58,21 @@ export default class AddPlugin {
                 DinamicFormPopup.open(childFrameId, parentFrameId, title, false);
                 DinamicFormPopup.onLoad(dcmpPlugin.Data['1'], childFrameId, parentFrameId, []);
 
-                AddPlugin.events(frameId);
+                AddPlugin.events(childFrameId);
             },
             dataType: 'json'
         });
     }
 
-    static events(frameId) {
-        $(`#${frameId}`).bind(`${frameId}_save`, function (e) {
-            let resultIdObject = JSON.parse(localStorage.getItem(`${frameId}_save`));
+    static events(childFrameId) {
+        $(`#${childFrameId}`).bind(`${childFrameId}_save`, function (e) {
+            let resultIdObject = JSON.parse(localStorage.getItem(`${childFrameId}_save`));
             let id = resultIdObject['LastId'];
 
-            let pluginSelect = $(`[upload-name="f_module_plugins.CPluginFK"][data-place="${frameId}_data"]`);
+            let pluginSelect = $(`[upload-name="t_104.c_4_fk"][data-place="${childFrameId}_data"]`);
             let pluginId = pluginSelect.val();
 
-            AddPlugin.switchPlugin(pluginId, id, frameId);
+            AddPlugin.switchPlugin(pluginId, id, childFrameId);
         });
     }
 

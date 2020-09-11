@@ -18,18 +18,18 @@ class AddTable
         $tName = $data['Name'];
         $connTableIds = $data['ConnTableIds'];
 
-        $cTSql = "SELECT * FROM c_tables WHERE CTableId IN (" . implode(',', $connTableIds) . ")";
+        $cTSql = "SELECT * FROM t_5 WHERE c_5_id IN (" . implode(',', $connTableIds) . ")";
         $cTQueary = $this->pdo->prepare($cTSql);
         $cTQueary->execute();
         $cTData = $cTQueary->fetchAll(PDO::FETCH_ASSOC);
 
         $ctResult = "";
         foreach ($cTData as $cTRow) {
-            $ctResult .= ", c_" . $cTRow['CTableId'] . "_fk INT(11) NULL, INDEX fk_" . $cTRow['CTableId'] . " (c_" . $cTRow['CTableId'] . "_fk), FOREIGN KEY (c_" . $cTRow['CTableId'] . "_fk) REFERENCES " . $cTRow['TableName'] . "(" . $cTRow['TableIdName'] . ") ON DELETE SET NULL";//CONSTRAINT fk_" . $cTRow['CTableId'] . " FOREIGN KEY (c_" . $cTRow['CTableId'] . "_fk) REFERENCES " . $cTRow['TableName'] . "(" . $cTRow['TableIdName'] . ")";
+            $ctResult .= ", c_" . $cTRow['c_5_id'] . "_fk INT(11) NULL, INDEX fk_" . $cTRow['c_5_id'] . " (c_" . $cTRow['c_5_id'] . "_fk), FOREIGN KEY (c_" . $cTRow['c_5_id'] . "_fk) REFERENCES " . $cTRow['TableName'] . "(" . $cTRow['TableIdName'] . ") ON DELETE SET NULL";//CONSTRAINT fk_" . $cTRow['c_5_id'] . " FOREIGN KEY (c_" . $cTRow['c_5_id'] . "_fk) REFERENCES " . $cTRow['TableName'] . "(" . $cTRow['TableIdName'] . ")";
         }
 
         //Upload to list
-        $finalSQL = "INSERT INTO `c_tables`(`TName`) VALUES ('$tName');";
+        $finalSQL = "INSERT INTO `t_5`(`TName`) VALUES ('$tName');";
         $finalQueary = $this->pdo->prepare($finalSQL);
         $finalQueary->execute();
         $lastId = $this->pdo->lastInsertId();
@@ -43,7 +43,7 @@ class AddTable
         $this->pdo->exec($newTableSQL);
 
         //Update list by id
-        $updateSQL = "UPDATE `c_tables` SET `TableName`='$tableName',`TableIdName`='$tableIdName' WHERE `CTableId`='$lastId';";
+        $updateSQL = "UPDATE `t_5` SET `TableName`='$tableName',`TableIdName`='$tableIdName' WHERE `c_5_id`='$lastId';";
         $updateQueary = $this->pdo->prepare($updateSQL);
         $updateQueary->execute();
 

@@ -12,28 +12,33 @@ class CreateFormInputs
         $pdo = $PDOConnect->pdo;
         //Result form structure
         $resultFormStructure = $pdo->query(
-            "SELECT * FROM f_form_inputs 
-             INNER JOIN f_columns ON FColumnId=FColumnFK 
-             INNER JOIN c_tables ON CTableId=CTableFK 
-             WHERE FPluginFormInputFK='$fPluginFormInputFK' 
+            "SELECT * FROM t_103 
+             INNER JOIN t_7 ON c_7_id=c_7_fk 
+             INNER JOIN t_5 ON c_5_id=c_5_fk 
+             WHERE c_107_fk='$fPluginFormInputFK' 
              ORDER BY Number;"
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $mainResult = array();
 
         //Form structure add opportunities
-        foreach ($resultFormStructure as $input) {
+        foreach ($resultFormStructure as $key => $input) {
             $new_input = $input;
             //opportunities
             if (
-                $input['Type'] == 'S' || $input['Type'] == 'SN' || $input['Type'] == 'SP' 
+                $input['Type'] == 'S' || $input['Type'] == 'SN' || $input['Type'] == 'SP'
                 || $input['Type'] == 'SC'
             ) {
+                $input['CTableFK'] = $input['c_7_fk'];
+                $input['FColumnFK'] = $input['c_5_fk'];
+                $resultFormStructure[$key] = $input;
+
                 $oppArr = array();
 
                 $oppTable = $input['TableName'];
                 $oppTableId = $input['TableIdName'];
                 $oppColumn = $input['ColumnName'];
+
                 $oppStructure = $pdo->query(
                     "SELECT DISTINCT $oppTableId, $oppColumn FROM $oppTable"
                 )->fetchAll();

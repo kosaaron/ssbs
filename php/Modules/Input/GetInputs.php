@@ -30,16 +30,16 @@ class GetInputs
 
         //get dinamic form(s) of plugin
         $fPluginDinamicForms = $this->pdo->query(
-            "SELECT * FROM f_plugin_form_inputs 
-             WHERE FModulePluginFK" . $this->switchPlugin->ifNull($fModulePluginFK)
-                . " && FPluginPluginFK" . $this->switchPlugin->ifNull($fPluginPluginFK)
-                . " && FCustomPluginFK" . $this->switchPlugin->ifNull($fCustomPluginId)
+            "SELECT * FROM t_107 
+             WHERE c_104_fk" . $this->switchPlugin->ifNull($fModulePluginFK)
+                . " && c_108_fk" . $this->switchPlugin->ifNull($fPluginPluginFK)
+                . " && c_101_fk" . $this->switchPlugin->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
         $dinamicForm = array();
 
         foreach ($fPluginDinamicForms as $fPluginDinamicForm) {
-            $fPluginFormInputId = $fPluginDinamicForm['FPluginFormInputId'];
+            $fPluginFormInputId = $fPluginDinamicForm['c_107_id'];
 
             $createFormInputs = new CreateFormInputs();
             $fDinamicFormInputs = $createFormInputs->Create($fPluginFormInputId);

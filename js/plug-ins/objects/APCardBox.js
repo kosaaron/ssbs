@@ -12,14 +12,14 @@ export default class APCardBox {
             display = {},
             className = 'InsertByParam',
             //Card data
-            table = 'f_plugin_cards',
+            table = 't_105',
             c_title = 'Title',
             v_title = 'Card',
-            c_fModulePluginFK = 'FModulePluginFK',
+            c_fModulePluginFK = 'c_104_fk',
             v_fModulePluginFK = fModulePluginFK,
-            c_fPluginPluginFK = 'FPluginPluginFK',
+            c_fPluginPluginFK = 'c_108_fk',
             v_fPluginPluginFK = 'null',
-            c_fCustomPluginFK = 'FCustomPluginFK',
+            c_fCustomPluginFK = 'c_101_fk',
             v_fCustomPluginFK = 'null',
             c_number = 'Number',
             v_number = '1';
@@ -34,7 +34,7 @@ export default class APCardBox {
         /** Display */
         // Display data
         v_title = 'Display';
-        table = 'f_plugin_display';
+        table = 't_106';
 
         display[table] = {};
         display[table][c_title] = v_title;

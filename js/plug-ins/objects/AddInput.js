@@ -50,7 +50,7 @@ export default class AddInput {
                     if (dcmpPlugin.Data['1'].Inputs.hasOwnProperty(key)) {
                         const object = dcmpPlugin.Data['1'].Inputs[key];
 
-                        if (object.UploadName === 'f_form_inputs.FPluginFormInputFK') {
+                        if (object.UploadName === 't_103.c_107_fk') {
                             dcmpPlugin.Data['1'].Inputs[key].DefaultValue = fPluginFormInputId;
                             break;
                         }
