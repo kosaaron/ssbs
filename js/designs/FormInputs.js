@@ -383,9 +383,13 @@ let FormInputs = {
 
         let transferData = JSON.parse(localStorage.getItem(shellId));
         let isFormInput = false;
+        let pluginTable = '';
         if (transferData !== null) {
             if (transferData.hasOwnProperty('IsFormInput')) {
                 isFormInput = transferData['IsFormInput'];
+            }
+            if (transferData.hasOwnProperty('TableName')) {
+                pluginTable = transferData['TableName'];
             }
         }
 
@@ -539,7 +543,7 @@ let FormInputs = {
 
             let uploadName = document.querySelector(`[upload-name="t_103.UploadName"][data-place="${shellId}"]`);
             if (SelectInput.Decide(inputType)) {
-                uploadName.value = `t_${frgnTableId}.c_${frgnTableId}_fk`
+                uploadName.value = `${pluginTable}.c_${frgnTableId}_fk`
             } else {
                 let columnName = document.querySelector(`[upload-name="t_103.c_7_fk"][data-place="${shellId}"]`).value;
                 console.log(inputType);

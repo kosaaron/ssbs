@@ -9,7 +9,8 @@ $userModules = $pdo->query(
      INNER JOIN t_6 
      ON c_6_id = c_6_fk
      INNER JOIN t_3 
-     ON c_3_id = c_3_fk'
+     ON c_3_id = c_3_fk
+     ORDER BY t_110.Number'
 )->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($userModules as $key => $entry) {

@@ -3,14 +3,14 @@ import DinamicFormPopup from "../DinamicFormPopup.js";
 /**
  * New module
  */
-export default class NewModule {
+export default class AddModule {
     /**
      * Integration
      */
     static Integration() {
         let module = 'CustomData';
         let data = {};
-        data['Place'] = '6';
+        data['Place'] = '1';
 
         $.ajax({
             type: "POST",
@@ -32,9 +32,9 @@ export default class NewModule {
                     dcmpPlugin = { Data: { 1: { FPluginFormInputId: null, Inputs: [], Title: null } } }
                 }
 
-                let frameId = 'new_module';
+                let frameId = 'add_module';
                 let parentFrameId = 'content_frame';
-                let title = 'New module'
+                let title = 'Add module to tab'
 
                 let childFrameId = `${frameId}_dev`;
                 let popupInputsShellId = `${childFrameId}_data`;

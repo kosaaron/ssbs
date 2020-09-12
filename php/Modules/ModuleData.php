@@ -78,7 +78,7 @@ class ModuleData
     function getFUserModuleId($userId, $cModuleId)
     {
         $fUserModule = $this->pdo->query(
-            "SELECT * FROM t_110 WHERE c_200_fk='$userId' && c_3_fk='$cModuleId'"
+            "SELECT * FROM t_110 WHERE c_200_fk='$userId' && c_3_fk='$cModuleId' ORDER BY t_110.Number"
         )->fetch(PDO::FETCH_ASSOC);
 
         return $fUserModule['c_110_id'];

@@ -65,6 +65,7 @@ class SwitchPlugin
         $plugin['Number'] = $number;
         $plugin['CPluginId'] = $cPluginFK;
         $plugin['RequestType'] = $type;
+        $plugin['TableName'] = $pluginTable;
 
         $cPlugin = $this->pdo->query(
             "SELECT * FROM t_4 WHERE c_4_id='$cPluginFK'"

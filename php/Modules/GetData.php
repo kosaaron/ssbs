@@ -115,9 +115,10 @@ class GetData
             $mainTable = ModuleMetadata::$mainTable;
         } else {
             $cModule = $this->pdo->query(
-                "SELECT * FROM t_3 WHERE c_3_id" . $this->switchPlugin->ifNull($cModuleId)
+                "SELECT * FROM t_3 INNER JOIN t_5 ON c_5_id=c_5_fk WHERE c_3_id" 
+                 . $this->switchPlugin->ifNull($cModuleId)
             )->fetch(PDO::FETCH_ASSOC);
-            $mainTable = $cModule['MainTable'];
+            $mainTable = $cModule['TableName'];
         }
 
         //Get main table primary key

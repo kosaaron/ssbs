@@ -4,6 +4,7 @@ import AutoScroll from "./AutoScroll.js";
 import MenuPopup from "./objects/MenuPopup.js";
 import NewModule from "./objects/NewModule.js";
 import AddPlugin from "./objects/AddPlugin.js";
+import AddModule from "./objects/AddModule.js";
 
 export default class LoadFrame {
     /**
@@ -97,8 +98,8 @@ export default class LoadFrame {
                 Id: 'am',
                 Title: 'Add module',
             }, {
-                Id: 't',
-                Title: 'Test',
+                Id: 'nm',
+                Title: 'New module',
             })
 
             submenuItems.push({
@@ -130,6 +131,9 @@ export default class LoadFrame {
             function chosenItem(itemId) {
                 switch (itemId) {
                     case 'am':
+                        AddModule.Integration();
+                        break;
+                    case 'nm':
                         NewModule.Integration();
                         break;
                 }

@@ -65,6 +65,7 @@ export default class AddInput {
                 let popupInputsShellId = `${childFrameId}_data`;
                 let transferData = {};
                 transferData['IsFormInput'] = true;
+                transferData['TableName'] = dcmpPlugin['TableName'];
                 localStorage.setItem(popupInputsShellId, JSON.stringify(transferData));
 
                 DinamicFormPopup.open(childFrameId, parentFrameId, title, false);

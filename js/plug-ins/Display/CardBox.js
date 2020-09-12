@@ -135,6 +135,7 @@ export default class CardBox {
                     devCard = devCard.replaceAll('!', '');
 
                     let cardNumbers = CardNumber.GetNumbers(devCard);
+
                     for (const cardNumber of cardNumbers) {
                         devCard = devCard.replaceAll(`*${cardNumber}*`, `<span number="${cardNumber}" data-place="${inputsShellId}_place">*${cardNumber}*</span>`);
                     }
@@ -169,6 +170,7 @@ export default class CardBox {
                         let popupInputsShellId = `${childFrameId}_data`;
                         let transferData = {};
                         transferData['IsFormInput'] = false;
+                        transferData['TableName'] = cBDevPlugin['TableName'];
                         localStorage.setItem(popupInputsShellId, JSON.stringify(transferData));
 
                         DinamicFormPopup.open(childFrameId, parentFrameId, title, false);

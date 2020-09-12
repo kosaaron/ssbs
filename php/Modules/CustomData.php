@@ -20,7 +20,10 @@ class CustomData
         $place = $data['Place'];
         //Result form structure
         $costumPlugins = $pdo->query(
-            "SELECT * FROM t_101 WHERE Place='$place';"
+            "SELECT * FROM t_101 
+             INNER JOIN t_5
+             ON c_5_fk=c_5_id
+             WHERE Place='$place';"
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($costumPlugins as $costumPlugin) {
@@ -38,7 +41,7 @@ class CustomData
 
         return $main_data;
     }
-/*
+    /*
     function switchObject($objectName, $costumPlugins)
     {
         switch ($objectName) {
