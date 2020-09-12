@@ -16,9 +16,6 @@ if (!isset($_POST['EmployeeId'])) {
 	die('No employee found!');
 }
 
-
-
-
 class SendEmail
 {
 	function __construct()
@@ -29,7 +26,7 @@ class SendEmail
 		$PDOConnect = new PDOConnect();
 		$this->pdo = $PDOConnect->pdo;
 
-		$query = "SELECT * FROM employees 
+		$query = "SELECT * FROM t_200 
                     WHERE c_200_id = :employeeId";
 
 		$statement = $this->pdo->prepare($query);
@@ -45,7 +42,7 @@ class SendEmail
 			$userEmail = $result['Email'];
 		}
 
-		$query = "SELECT * FROM employees 
+		$query = "SELECT * FROM t_200 
 		WHERE Email = :useremail";
 
 		$statement = $this->pdo->prepare($query);
@@ -71,7 +68,7 @@ class SendEmail
         	$user_encrypted_password = password_hash($user_password, PASSWORD_DEFAULT);
         	$user_activation_code = hash("sha256", "valami");
         	$insert_query = "
-        	INSERT INTO employees 
+        	INSERT INTO t_200 
         	(Email, FirstName, LastName, ActivationCode, VerificationStatus) 
         	VALUES (:user_email, :user_fname, :user_lname, :user_activation_code, :user_email_status)
         	";
