@@ -1,0 +1,391 @@
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
+
+body {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    color: #5a5a5a;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+
+/* MARKETING CONTENT
+-------------------------------------------------- */
+
+/* Center align the text within the three columns below the carousel */
+.marketing .col-lg-4 {
+margin-bottom: 1.5rem;
+text-align: center;
+}
+.marketing h2 {
+font-weight: 400;
+}
+.marketing .col-lg-4 p {
+margin-right: .75rem;
+margin-left: .75rem;
+}
+
+/* Featurettes
+------------------------- */
+
+.featurette-divider {
+margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+font-weight: 300;
+line-height: 1;
+letter-spacing: -.05rem;
+}
+
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (min-width: 40em) {
+/* Bump up size of carousel content */
+
+.featurette-heading {
+    font-size: 50px;
+}
+}
+
+@media (min-width: 62em) {
+.featurette-heading {
+    margin-top: 7rem;
+}
+}
+/* HTML-ből átvett*/
+.bd-placeholder-img {
+font-size: 1.125rem;
+color: #cc6c13;
+text-anchor: middle;
+}
+
+/*Menü elemek*/
+.logoszoveg{
+    color: #e2e2e2;
+    font-size: 2em;
+    padding: 2px 30px;
+}
+.nav-elem.nav-elem{
+padding: 10px 0px;
+margin-left: 8px;
+margin-right: 8px;
+border-bottom: 4px solid transparent;
+}
+.nav-elem:hover{
+border-bottom: 4px solid #eee;
+}
+.ritkitott{
+letter-spacing: 3px;
+}
+.dropdown-menu-hatter{
+background-color: #eee;
+border: 1px solid #4C2807;
+border-radius: 0;
+}
+.dropdown-menu-elem{
+padding-bottom: 10px;
+}
+.dropdown-menu-elem:hover{
+background-color: #4C2807;
+color: #eee;
+}
+.lenyilo-ikon{
+padding-right: 25px;
+}
+
+
+/*Cégünkről carousel*/
+.carousel-szoveg.carousel-szoveg{
+padding:  auto;
+}
+
+/*Cégünkről oldal fontjai*/
+.cegunkrol-font{
+font-size: 7em;
+margin: auto;
+padding-top: 30px;
+color: #cc6c13;
+padding-bottom: 40px;
+}
+/*Cégünkről kártyák*/
+.card-cegunkrol{
+transition: 0.5s;
+cursor: pointer;
+text-decoration: none;
+color: #777;
+text-align: center;
+}
+.card-cegunkrol:hover{
+transform: scale(1.03);
+box-shadow: #888 2px 1px;
+text-decoration: none;
+color: #777;
+}
+.kiemelt{
+font-size: 1.2em;
+font-weight: 700;
+letter-spacing: 2px;
+}
+
+/*Cégünkről featurette*/
+.kep-kozepre{
+margin-top: 10%;
+border: 3px solid #4C2807;
+}
+.dolt{
+font-style: italic;
+}
+.featurette-cim{
+margin-bottom: 3%;
+}
+/*Footer*/
+.footer-szoveg{
+margin: auto;
+padding-top: 20px;
+}
+
+/*Aloldalak*/
+.aloldal{
+margin-top: 60px;
+}
+
+
+.bd-placeholder-img {
+font-size: 1.125rem;
+text-anchor: middle;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+
+.container {
+    padding-top: 4%;
+    padding-bottom: 1%;
+}
+
+/*
+* Custom translucent site header
+*/
+
+.site-header {
+background-color: rgba(0, 0, 0, .85);
+-webkit-backdrop-filter: saturate(180%) blur(20px);
+backdrop-filter: saturate(180%) blur(20px);
+}
+.site-header a {
+color: #999;
+transition: ease-in-out color .15s;
+}
+.site-header a:hover {
+color: #fff;
+text-decoration: none;
+}
+  
+/*
+* Dummy devices (replace them with your own or something else entirely!)
+*/
+  
+.product-device {
+position: absolute;
+right: 10%;
+bottom: -30%;
+width: 300px;
+height: 540px;
+background-color: #333;
+border-radius: 21px;
+-webkit-transform: rotate(30deg);
+transform: rotate(30deg);
+}
+
+.product-device::before {
+position: absolute;
+top: 10%;
+right: 10px;
+bottom: 10%;
+left: 10px;
+content: "";
+background-color: rgba(255, 255, 255, .1);
+border-radius: 5px;
+}
+
+.product-device-2 {
+top: -25%;
+right: auto;
+bottom: 0;
+left: 5%;
+background-color: #e5e5e5;
+}
+  
+  
+/*
+* Extra utilities
+*/
+  
+.flex-equal > * {
+-ms-flex: 1;
+flex: 1;
+}
+  
+.overflow-hidden { overflow: hidden; }
+
+.navbar-right{
+    margin-left: 56%;
+}
+.menulec{
+    opacity: 0.95;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: #1A1D40;
+}
+.welcome-container{
+    z-index: 1000;
+}
+.ssbs-card {
+    height: 100px;
+    margin: 10% 10%;
+    padding: 0px;
+    position: relative;
+    background: #fff 50%;
+    background-size: cover;
+    border-radius: .25rem;
+    box-shadow: 0 0 0.25rem rgba(0,0,0,.08), 0 0.5rem 0.75rem rgba(0,0,0,.14);
+    transition: all .2s ease;
+    width: 80%;
+}
+.ssbs-card-modullist {
+    width: 100%;
+    height: 300px;
+    margin: 4% 2%;
+}
+/* .ssbs-card:hover {
+    cursor: pointer;
+    box-shadow: 0 0 1px rgba(39,44,49,.1), 0 3px 16px rgba(39,44,49,.07);
+    transition: all .3s ease;
+    transform: translate3D(0,-1px,0);
+} */
+.ssbs-card-prices {
+    width: 100%;
+    height: auto;
+    margin: 4% 2%;
+}
+.blured-mid{
+    background-color: rgb(230, 230, 230);
+    border-radius: 5px;
+    width: 40%;
+    height: 24px;
+    margin-bottom: 10px;;
+    clear: both;
+}
+.blured-small{
+    background-color: rgb(230, 230, 230);
+    border-radius: 5px;
+    width: 55%;
+    height: 14px;
+    margin-bottom: 5px;
+    clear: both;
+}
+.big-logo{
+    font-size: 12rem;
+    
+}
+.grey-container{
+    background-color: rgb(230, 230, 230);
+    color:rgba(160, 160, 160, 0.95);
+}
+.deep-grey-container{
+    background-color: rgba(160, 160, 160, 0.95);
+    color: #f2f2f2;
+}
+.blue-container{
+    background-color: #0067A5;
+    color: #f2f2f2;
+}
+.marketing-title{
+    margin-bottom: 32px
+}
+.btn-outline-yellow {
+    color: #F2C318;
+    border-color: #F2C318;
+    margin-bottom: 30px;
+}
+.btn-outline-yellow:hover {
+    color: #1A1D40;
+    background-color: #F2C318;
+    border-color: #F2C318;
+}
+.section-title-container{
+    text-align: center;
+    padding: 4% 0;
+}
+.card-header-fixed-height{
+    height: 110px;
+}
+.price-calculator-input{
+    width: 100%;
+}
+.calculator-checkbox{
+    margin-right: 10px;
+}
+.calculator-summary-footer{
+    width: 100%;
+    border-top: 1px solid #838383;
+    padding: 2% 4%;
+}
+.summary-footer-container{
+    width: 100%;
+    padding: 0 2%
+}
+.summary-button-container{
+    padding-top: 2%;
+}
+.module-card-main-title{
+    margin-bottom: 40px;
+}
+#sum{
+    margin-left: 5rem;
+}
+.sync-button{
+    color: #838383;
+    margin-left: 1rem;
+}
+@media (min-width: 768px) {
+    .flex-md-equal > * {
+        -ms-flex: 1;
+        flex: 1;
+    }
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+    .menupont-link{
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+}
+@media (min-width: 1200px) {
+    .navbar-right{
+        margin-left: 66%;
+    }
+}
+@media (min-width: 1450px) {
+    .module-card-title{
+        margin-bottom: 40px;
+    }
+}
+@media (max-width: 962px){
+    .navbar-right{
+        margin-left: 48%;
+    }
+}
+@media (max-width: 768px){
+    .navbar-right{
+        margin-left: 0px;
+    }
+}

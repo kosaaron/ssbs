@@ -10,19 +10,19 @@
  */
 
 /** Imports */
-import partnersManager from './partners_manager.js';
-import Projects from './projects.js';
-import TaskManager from './tasks_manager.js';
-import OrderManager from './order_manager.js';
-import { addListenerByAttr2, addListener } from './common.js';
-import showCharts from './show_charts.js';
-import Tools from './tools.js';
-import Employees from './employees.js';
-import ProductsOverview from './products_overview.js';
-import newTable from './testproducttable.js';
+// import partnersManager from './partners_manager.js';
+// import Projects from './projects.js';
+// import TaskManager from './tasks_manager.js';
+// import OrderManager from './order_manager.js';
+// import { addListenerByAttr2, addListener } from './common.js';
+// import showCharts from './show_charts.js';
+// import Tools from './tools.js';
+// import Employees from './employees.js';
+// import ProductsOverview from './products_overview.js';
+// import newTable from './testproducttable.js';
 import GlobalVaribles from './plug-ins/GlobalVaribles.js';
-import Notifications from './notification.js';
-import notifications from './notification.js';
+// import Notifications from './notification.js';
+// import notifications from './notification.js';
 import LoadFrame from './plug-ins/LoadFrame.js';
 
 /** Varibles */
@@ -285,16 +285,6 @@ window.onresize = function (event) {
 
 /** Ready document */
 $(document).ready(function () {
-    let loadFrame = new LoadFrame();
-
-    addClickEvents(menuItemClick, "menu-item");
-    addClickEvents(processesModulClick, "processes-mo-click");
-    addClickEvents(prodMenuChange, "prod-subm-i");
-    addClickEvents(settingsModulClick, "settings-mo-click");
-    addListener('finance-subtab', 'click', FinanceSubtabClick);
-
-    addProductsClick();
-    addResourcesClick();
-    showCharts.loadCharts();
+    new LoadFrame();
 });
 /** Events end */
