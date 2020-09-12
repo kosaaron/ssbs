@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AddPlugin
+ * Add Column
  */
 class AddColumn
 {
