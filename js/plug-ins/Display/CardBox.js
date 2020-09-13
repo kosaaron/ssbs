@@ -310,6 +310,8 @@ export default class CardBox {
             url: "./php/Router.php",
             data: { 'Module': className, 'Data': uploadData },
             success: function (result) {
+                console.log(JSON.stringify(result));
+
                 let newPlugin = result[0];
                 let newData = newPlugin.Data['1'].Display.Data;
                 let isMore = false;
@@ -326,8 +328,6 @@ export default class CardBox {
                 }
 
                 //console.log(result);
-                console.log(JSON.stringify(plugin));
-                console.log(JSON.stringify(result));
                 document.getElementById(frameId).innerHTML = '';
                 CardBox.createBox(plugin, frameId, parentFrameId, isMore);
             },

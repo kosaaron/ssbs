@@ -21,7 +21,11 @@ export default class CreateBox {
         //Calculate indexes of usless units
         //let removeIndexes = cardIndexes.filter(n => !dataIndexes.includes(n));
         let removeIndexes = CreateBox.getRemoveIndexes(cardIndexes, dataIndexes, firstObj);
-        
+        console.log(cardIndexes);
+        console.log(dataIndexes);
+        console.log(firstObj);
+        console.log(removeIndexes);
+
         //Get ready card 
         let readyCard = this.getReadyCard(card, removeIndexes);
 
@@ -59,7 +63,10 @@ export default class CreateBox {
             for (const dataIndex of dataIndexes) {
                 let value = firstObj[dataIndex];
                 if (value && typeof value === 'object' && value.constructor === Object) {
-                    return getIsRemoveIndex(cardIndex, Object.keys(value), value);
+                    let isRemoveIndex = getIsRemoveIndex(cardIndex, Object.keys(value), value);
+                    if (!isRemoveIndex) {
+                        return isRemoveIndex;
+                    }
                 }
 
                 if (dataIndex === cardIndex) {

@@ -117,11 +117,23 @@ class ModuleData
      */
     function getFModulePluginById($fModulePluginId)
     {
-        return $this->pdo->query(
+        $fModulePlugin = $this->pdo->query(
             "SELECT t_104.*, TableName FROM t_104 
              LEFT JOIN t_5 on c_5_id=c_5_fk 
              WHERE c_104_id='$fModulePluginId'"
         )->fetch(PDO::FETCH_ASSOC);
+
+        $fModulePlugin['FModulePluginId'] = $fModulePlugin['c_104_id'];
+        $fModulePlugin['FUserModuleFK'] = $fModulePlugin['c_110_fk'];
+        $fModulePlugin['CPluginFK'] = $fModulePlugin['c_4_fk'];
+        $fModulePlugin['CTableFK'] = $fModulePlugin['c_5_fk'];
+        
+        unset($fModulePlugin['c_104_id']);
+        unset($fModulePlugin['c_108_fk']);
+        unset($fModulePlugin['c_4_fk']);
+        unset($fModulePlugin['c_5_fk']);
+
+        return $fModulePlugin;
     }
 
     /**
@@ -130,11 +142,25 @@ class ModuleData
      */
     function getFPluginPluginById($fPluginPluginId)
     {
-        return $this->pdo->query(
+        $fPluginPlugin = $this->pdo->query(
             "SELECT t_108.*, TableName FROM t_108 
              LEFT JOIN t_5 on c_5_id=c_5_fk 
              WHERE c_108_id='$fPluginPluginId'"
         )->fetch(PDO::FETCH_ASSOC);
+
+        $fPluginPlugin['FPluginPluginId'] = $fPluginPlugin['c_108_id'];
+        $fPluginPlugin['FModulePluginFK'] = $fPluginPlugin['c_104_fk'];
+        $fPluginPlugin['FPluginPluginFK'] = $fPluginPlugin['c_108_fk'];
+        $fPluginPlugin['CPluginFK'] = $fPluginPlugin['c_4_fk'];
+        $fPluginPlugin['CTableFK'] = $fPluginPlugin['c_5_fk'];
+
+        unset($fPluginPlugin['c_108_id']);
+        unset($fPluginPlugin['c_104_fk']);
+        unset($fPluginPlugin['c_108_fk']);
+        unset($fPluginPlugin['c_4_fk']);
+        unset($fPluginPlugin['c_5_fk']);
+
+        return $fPluginPlugin;
     }
 
     /**
