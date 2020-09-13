@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if (isset($_SESSION['loggedin'])) {
-    if (!$_SESSION['loggedin']) {
+if (isset($_SESSION['LoggedIn'])) {
+    if (!$_SESSION['LoggedIn']) {
         $url = 'http://localhost/login.php';
         header("Location: $url");
     }
