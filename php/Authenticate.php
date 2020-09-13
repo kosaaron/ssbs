@@ -25,7 +25,7 @@ if ($user)
 		$_SESSION['LoggedIn'] = TRUE;
 		$_SESSION['Name'] = $user['FirstName'];
 		$_SESSION['UserId'] = $user['c_200_id'];
-		$main_data['Message'] = 'Welcome ' . $_SESSION['name'] . '!';
+		$main_data['Message'] = 'Welcome ' . $_SESSION['Name'] . '!';
 		$main_data['LoggedIn'] = TRUE;
 	}
 	else{
