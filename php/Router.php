@@ -1,7 +1,12 @@
 <?php
 
 //Post varibles
-$userId = 1;
+session_start();
+
+if (!isset($_POST['UserId']))
+    die('No session!');
+
+$userId = $_SESSION['UserId'];
 $module = $_POST['Module'];
 $data = $_POST['Data'];
 
