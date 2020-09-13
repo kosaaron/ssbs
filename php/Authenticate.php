@@ -22,9 +22,9 @@ if ($stmt = $pdo->prepare("SELECT c_200_id, UserPassword, FirstName FROM t_200 W
 if ($user)
 {
 	if (password_verify($_POST['Password'], $user['UserPassword'])) {
-		$_SESSION['loggedin'] = TRUE;
-		$_SESSION['name'] = $user['FirstName'];
-		$_SESSION['id'] = $user['c_200_id'];
+		$_SESSION['LoggedIn'] = TRUE;
+		$_SESSION['Name'] = $user['FirstName'];
+		$_SESSION['UserId'] = $user['c_200_id'];
 		$main_data['Message'] = 'Welcome ' . $_SESSION['name'] . '!';
 		$main_data['LoggedIn'] = TRUE;
 	}
