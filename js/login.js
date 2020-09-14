@@ -58,22 +58,19 @@ function openHelp(){
 }
 function checkLogin(){
     var email = document.getElementById("login_input_email").value;
-    var password = document.getElementById("login_input_password").value;
 
-    //Connect to Filter.php
     $.ajax({
         type: "POST",
-        url: "./php/Authenticate.php",
+        url: "./php/SendVerification.php",
         data: { 
-            Email: email,
-            Password: password
+            Email: email
         },
         success: function (data) {
             var x = document.getElementById('login_message_container')
-            if(data['LoggedIn']){
+            if(data['EmailSent']){
                 x.innerHTML='<p>' + data['Message'] + '</p>'; //<i class="fas fa-check-circle"></i>
                 x.style.display= "block";
-                window.location.replace("index.php");
+                document.getElementById("login_input_email").value = "";
             }
             else{
                 x.style.display= "block";

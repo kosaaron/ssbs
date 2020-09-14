@@ -43,8 +43,6 @@ if (isset($_SESSION['LoggedIn'])) {
             <i class="fas fa-user-circle profile-picture"></i>
             <label for="inputEmail" class="sr-only">Email cím</label>
             <input type="text" name="email" id="login_input_email" class="form-control" placeholder="Email cím" required autofocus>
-            <!-- <label for="inputPassword" class="sr-only">Jelszó</label>
-            <input type="password" name="password" id="login_input_password" class="form-control" placeholder="Jelszó" required> -->
             <button id="btn_login" class="btn btn-outline-light">Meghívó küldése</button>
         </div>
         <div class="footer">
