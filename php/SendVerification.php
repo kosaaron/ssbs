@@ -18,7 +18,7 @@ require_once('../PHPMailer/PHPMailer.php');
 require_once('../PHPMailer/SMTP.php');
 require_once('../PHPMailer/Exception.php');
 
-require_once('Modules/Connect.php');
+require_once('./Modules/Connect.php');
 
 $PDOConnect = new PDOConnect();
 $pdo = $PDOConnect->pdo;
@@ -100,11 +100,17 @@ else
 	$mail->IsHTML(true);							//Sets message type to HTML				
 	$mail->Subject = 'Email Verification';			//Sets the Subject of the message
 	$mail->Body = $mail_body;							//An HTML or plain text message body
+
+	//Just for testing!!!!
+	$main_data['Message'] = 'Your are on localhost!';
+	$main_data['EmailSent'] = TRUE;
+
+	/*
 	if($mail->Send())								//Send an Email. Return true on success or false on error
 	{
 	    $main_data['EmailSent'] = TRUE;
 		$main_data['Message'] = 'Please, check your mailbox!';
-	}
+	}*/
 }
 
 $json = json_encode($main_data);
