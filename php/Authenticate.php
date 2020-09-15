@@ -25,15 +25,15 @@ if ($user)
 		$_SESSION['LoggedIn'] = TRUE;
 		$_SESSION['Name'] = $user['FirstName'];
 		$_SESSION['UserId'] = $user['c_200_id'];
-		$main_data['Message'] = 'Welcome ' . $_SESSION['Name'] . '!';
+		$main_data['Message'] = 'Üdvözöljük ' . $_SESSION['Name'] . '!';
 		$main_data['LoggedIn'] = TRUE;
 	}
 	else{
-		$main_data['Message'] = 'Incorrect password!';
+		$main_data['Message'] = 'Helytelen jelszó!';
 		$main_data['LoggedIn'] = FALSE;
 	}
 } else {
-	$main_data['Message'] = 'Incorrect username!';
+	$main_data['Message'] = 'Helytelen felhasználó!';
 	$main_data['LoggedIn'] = FALSE;
 }
 $json = json_encode($main_data);

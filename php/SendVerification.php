@@ -1,11 +1,12 @@
 <?php
 session_start();
 
-if ( !isset($_POST['Email']) ) {
+if (!isset($_POST['Email']) || !isset($_POST['NewPassword'])) {
 	// Could not get the data that should have been sent.
-	die ('Please fill the email address.');
+	die ('Something went wrong...');
 }else{
-    $emailAddress = $_POST['Email'];
+	$emailAddress = $_POST['Email'];
+	$newPassword = $_POST['NewPassword'];
 }
 
 // Import PHPMailer classes into the global namespace
@@ -39,7 +40,7 @@ $no_of_row = $statement->rowCount();
 if($no_of_row = 0)
 {
     $main_data['EmailSent'] = FALSE;
-	$main_data['Message'] = 'Email does not exist';
+	$main_data['Message'] = 'Email címe nincs felvéve a rendszerbe. Lépjen kapcsolatba a rendszergazdával!';
 }
 
 else
@@ -81,7 +82,7 @@ else
 	
 	require_once('EmailTemplates.php');
 	$emailTemplates = new EmailTemplates();
-	$mail_body = $emailTemplates->verification($userFName, $base_url, $user_activation_code);
+	$mail_body = $emailTemplates->verification($userFName, $base_url, $user_activation_code, $newPassword);
 	
 	$mail = new PHPMailer;
 	
@@ -102,14 +103,15 @@ else
 	$mail->Body = $mail_body;							//An HTML or plain text message body
 
 	//Just for testing!!!!
-	$main_data['Message'] = 'Your are on localhost!';
+	$testlink = 'localhost/login.php?act_code=' . $user_activation_code . '&new_pass=' . $newPassword;
+	$main_data['Message'] = 'Verification link: ' . $testlink;
 	$main_data['EmailSent'] = TRUE;
 
 	/*
 	if($mail->Send())								//Send an Email. Return true on success or false on error
 	{
 	    $main_data['EmailSent'] = TRUE;
-		$main_data['Message'] = 'Please, check your mailbox!';
+		$main_data['Message'] = 'Email elküdlve, nézze meg bejövő üzeneteit.';
 	}*/
 }
 

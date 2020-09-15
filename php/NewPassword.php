@@ -12,9 +12,7 @@ if ( !isset($_POST['Password'], $_POST['UserId']) ) {
     $userid = $_POST['UserId'];
 }
 
-// Ezt vissza kell majd írni teszt után az update-be , VerificationStatus=1, ActivationCode=NULL 
-
-
+/*Set new password*/
 $password_encrypted = password_hash($password,  PASSWORD_DEFAULT);
 $query = "UPDATE t_200 SET UserPassword = :Password, VerificationStatus=1, ActivationCode=NULL
                         WHERE c_200_id = :UserId";
@@ -26,6 +24,7 @@ $update->execute(
     )
 );
 
+/* New device verification*/
 $device_code = rand(10000, 99999);
 $device_hash = hash("sha256", $device_code);
 $device_hash_encrypted = password_hash($device_hash, PASSWORD_DEFAULT);

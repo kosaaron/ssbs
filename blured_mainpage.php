@@ -1,59 +1,80 @@
-<!-- <?php
-class Verification{
-    function __construct(){
-        require_once('../test.php');
-        $PDOConnect = new PDOConnect();
-        $this->pdo = $PDOConnect->pdo;
-        
-        $act_code = $_GET['act_code'];
-        
+<?php
+if(isset($_GET['act_code'])){
+    /* Register Device if needed */
+    require_once('php/Modules/Connect.php');
+
+    $PDOConnect = new PDOConnect();
+    $pdo = $PDOConnect->pdo;
+
+    $act_code = $_GET['act_code'];
+
+    $query = "SELECT * FROM t_200
+            WHERE ActivationCode = :ActivationCode && VerificationStatus=0";
+            
+    $resultSet = $pdo->prepare($query);
+    $resultSet->execute(
+    array(
+        ':ActivationCode'	=>	$act_code
+    )    
+    );
+
+    $no_of_row = $resultSet->rowCount();
+
+    if(!($no_of_row == 1)){
+        echo $no_of_row;
+        die("Invalid validation or already validated device");
+    }else{
+        foreach($resultSet as $result){
+            $userId = $result['c_200_id'];
+            $userFName = $result['FirstName'];
+            $userEmail = $result['Email'];
+        }
+        /* New device verification*/
+        $device_code = rand(10000, 99999);
+        $device_hash = hash("sha256", $device_code);
+        $device_hash_encrypted = password_hash($device_hash, PASSWORD_DEFAULT);
+
+        $query = "INSERT INTO t_100 
+        (DeviceId, c_200_fk) 
+        VALUES (:device_code, :user_id)";
+
+        $update = $pdo->prepare($query);
+        $update->execute(
+            array(
+                ':device_code'  =>  $device_hash_encrypted,
+                ':user_id'	=>	$userId
+            )
+        );
+
         $query = "SELECT * FROM t_100
-                    WHERE ActivationCode = :ActivationCode && VerificationStatus=0";
-                    
-        $resultSet = $this->pdo->prepare($query);
+                WHERE DeviceId = :device_code";
+
+        $resultSet = $pdo->prepare($query);
         $resultSet->execute(
             array(
-        		':ActivationCode'	=>	$act_code
-        	)    
+                ':device_code'	=>	$device_hash_encrypted
+            )    
         );
-        
-        $no_of_row = $resultSet->rowCount();
-        
-        if($no_of_row == 1){
-            $password = $_POST['password'];
-            $password_encrypted = password_hash($password,  PASSWORD_DEFAULT);
-            $query = "UPDATE t_100 SET Password = :Password, VerificationStatus=1, ActivationCode=NULL 
-                        WHERE ActivationCode = :ActivationCode";
-            
-            $update = $this->pdo->prepare($query);
-            $update->execute(
-                array(
-                    ':Password'         =>  $password_encrypted,
-                    ':ActivationCode'	=>	$act_code
-                )
-            );
-            foreach ($resultSet as $result) {
-                $deviceCode = $result['DeviceId']; 
-            }
-            echo '<script type="text/javascript">',
-                        'localStorage.setItem("devicecode", "' . $deviceCode . '");',
-                        'let dc = localStorage.getItem("devicecode");',
-                 '</script>';
-            
-        }else{
-            echo "Invalid validation or already validated device";
+
+        foreach ($resultSet as $result)
+        {
+            $id_dev = $result['c_100_id'];
         }
+
+        echo '<script>
+        localStorage.setItem("id_dev", '.  $id_dev . ');
+        localStorage.setItem("devicecode", "'.  $device_hash . '");
+        localStorage.setItem("userId", "'.  $userId . '");
+        localStorage.setItem("firstname", "'.  $userFName . '");
+        localStorage.setItem("email", "'.  $userEmail . '");
+        </script>';
     }
+
+
 }
-if(isset($_GET['act_code'])){
-    if(isset($_POST["register"]))
-    {
-        $verification = new Verification();
-    }
-}else{
-    die("Something went wrong... :(");
-}
-?> -->
+
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -532,7 +553,7 @@ if(isset($_GET['act_code'])){
 
     </div>
     <div class="dnmcppp-container display-flex flex-column new-employee-popup">
-        <div class="dnmcppp-header">Inaktivitás</div>
+        <div class="dnmcppp-header">Bejelentkezés</div>
         <div class="dnmcppp-content flex-1 password-popup-content">
             <div class="new-password-form-container">
                     <div class="password-form">

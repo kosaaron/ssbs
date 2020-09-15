@@ -275,8 +275,8 @@
     background-color: #FFF;
 }
 
-/*Switch design*/
-
+/*Switch design --- disabled because login page layout concerns
+/*
 input[type="checkbox"] {
     position: relative;
     width: 40px;
@@ -310,6 +310,7 @@ input[type="checkbox"]:before {
 input:checked[type="checkbox"]:before {
     left: 20px;
 }
+*/
 
 .sortable-drag {
     background: #01043F;

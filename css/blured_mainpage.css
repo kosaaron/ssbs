@@ -135,11 +135,11 @@
 }
 .toast-message{
     text-align: center;
-    width: 250px;
+    width: 95%;
     height: 50px;
     position: absolute;
     left: 50%;
-    top: 5%;
+    bottom: 5%;
     transform: translate(-50%, -50%);
     border-radius: 5px;
     background-color: #eee;
@@ -147,18 +147,16 @@
     padding-bottom: 11px;
     padding-left: 15px;
     padding-right: 15px;
+    z-index: 1200;
 }
 .toast-message p{
-    float: left;
     font-size: 16px;
-    margin: 0;
 }
 .toast-message i{
     position: absolute;
     font-size: 22px;
     margin: 0;
-    color: rgba(197, 25, 25, 0.76);
-    right: 15px;
+    left: 15px;
     top: 14px;
 }
 

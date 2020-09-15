@@ -78,3 +78,10 @@
     padding-top: 12px;
     text-align: center;
 }
+.login-checkbox-label{
+    padding: 3px 0;
+    color: white;
+}
+.want-new-password-container{
+    padding-top: 0.6rem;
+}

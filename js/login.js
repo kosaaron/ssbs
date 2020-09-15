@@ -18,6 +18,7 @@ window.onload = loadLogin;
 function checkDevice(){
     var devicecode = localStorage.getItem("devicecode");
     var id_dev = localStorage.getItem("id_dev");
+    var x = document.getElementById('login_message_container')
     if(devicecode !== null){
         $.ajax({
             type: "POST",
@@ -28,11 +29,10 @@ function checkDevice(){
             },
             success: function (data) {
                 console.log(data);
-                var x = document.getElementById('login_message_container')
                 if(data['VerifiedDevice']){
-                    x.innerHTML='<p>Továbbirányítjuk az Ön SSBS rendszerébe</p>'; //<i class="fas fa-check-circle"></i>
+                    x.innerHTML='<p>Továbbirányítjuk az Ön SSBS rendszerébe!</p>'; //<i class="fas fa-check-circle"></i>
                     x.style.display= "block";
-                    window.location.replace("blured_mainpage.html");
+                    window.location.replace("blured_mainpage.php");
                 }
                 else{
                     x.style.display= "block";
@@ -43,6 +43,9 @@ function checkDevice(){
             dataType: 'json'
         });  
 
+    }else{
+        x.innerHTML='<i class="fas fa-cogs"></i><p class="text-center">Eszköz nincs regisztrálva! Kérjük adja meg email címét!</p>';
+        x.style.display= "block";
     }
 }
 
@@ -58,28 +61,30 @@ function openHelp(){
 }
 function checkLogin(){
     var email = document.getElementById("login_input_email").value;
+    var newpassword = document.getElementById("new_password_checkbox").checked;
 
     $.ajax({
         type: "POST",
         url: "./php/SendVerification.php",
         data: { 
-            Email: email
+            Email: email,
+            NewPassword: newpassword
         },
         success: function (data) {
             var x = document.getElementById('login_message_container')
             if(data['EmailSent']){
-                x.innerHTML='<p>' + data['Message'] + '</p>'; //<i class="fas fa-check-circle"></i>
+                x.innerHTML='<i class="fas fa-check-circle"></i><p>' + data['Message'] + '</p>';
                 x.style.display= "block";
                 document.getElementById("login_input_email").value = "";
             }
             else{
                 x.style.display= "block";
-                x.innerHTML='<p>' + data['Message'] + '</p><i class="fas fa-times-circle"></i>';
+                x.innerHTML='<i class="fas fa-times-circle"><p>' + data['Message'] + '</p></i>';
             }
             
         },
         dataType: 'json'
-    });    
+    });
 }
 
 
