@@ -552,7 +552,7 @@ if(isset($_GET['act_code'])){
     <div class="darkened-bg">
 
     </div>
-    <div class="dnmcppp-container display-flex flex-column new-employee-popup">
+    <div class="dnmcppp-container display-flex flex-column login-popup">
         <div class="dnmcppp-header">Bejelentkezés</div>
         <div class="dnmcppp-content flex-1 password-popup-content">
             <div class="new-password-form-container">

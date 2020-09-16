@@ -508,7 +508,7 @@ if(!($no_of_row == 1)){
     <div class="darkened-bg">
 
     </div>
-    <div class="dnmcppp-container display-flex flex-column new-employee-popup">
+    <div class="dnmcppp-container display-flex flex-column login-popup">
         <div class="dnmcppp-header">Jelszó létrehozása</div>
         <div class="dnmcppp-content flex-1 password-popup-content">
             <div class="new-password-form-container">
