@@ -1,4 +1,10 @@
 <?php
+if (isset($_SESSION['LoggedIn'])) {
+    if ($_SESSION['LoggedIn']) {
+        $url = 'http://localhost/index.php';
+        header("Location: $url");
+    }
+}
 if(isset($_GET['act_code'])){
     /* Register Device if needed */
     require_once('php/Modules/Connect.php');
@@ -569,7 +575,7 @@ if(isset($_GET['act_code'])){
             </div>
         </div>
     </div>
-    <div id="password_message" class="toast-message" style="display: none;">
+    <div id="password_message" class="toast-message">
             
     </div>
     <script src="js/blured_mainpage.js"></script>

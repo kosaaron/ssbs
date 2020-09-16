@@ -36,14 +36,11 @@ $statement->execute(
 );
 
 $no_of_row = $statement->rowCount();
-
-if($no_of_row = 0)
+if($no_of_row == 0)
 {
     $main_data['EmailSent'] = FALSE;
 	$main_data['Message'] = 'Email címe nincs felvéve a rendszerbe. Lépjen kapcsolatba a rendszergazdával!';
-}
-
-else
+}else
 {
     
 	$user_actcode_seed = rand(100000,999999);

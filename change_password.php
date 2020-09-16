@@ -526,7 +526,7 @@ if(!($no_of_row == 1)){
             </div>
         </div>
     </div>
-    <div id="password_message" class="toast-message" style="display: none;">
+    <div id="password_message" class="toast-message">
             
     </div>
     <script src="js/new_password.js"></script>

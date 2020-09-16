@@ -30,13 +30,15 @@ function checkDevice(){
             success: function (data) {
                 console.log(data);
                 if(data['VerifiedDevice']){
-                    x.innerHTML='<p>Továbbirányítjuk az Ön SSBS rendszerébe!</p>'; //<i class="fas fa-check-circle"></i>
-                    x.style.display= "block";
+                    x.innerHTML='<i class="fas fa-check-circle"></i><p>Továbbirányítjuk az Ön SSBS rendszerébe!</p>';
+                    x.classList.add("toast-message-displayed");
                     window.location.replace("blured_mainpage.php");
+                    setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 }
                 else{
-                    x.style.display= "block";
                     x.innerHTML='<p>' + data['Message'] + '</p><i class="fas fa-times-circle"></i>';
+                    x.classList.add("toast-message-displayed");
+                    setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 }
                 
             },
@@ -45,7 +47,8 @@ function checkDevice(){
 
     }else{
         x.innerHTML='<i class="fas fa-cogs"></i><p class="text-center">Eszköz nincs regisztrálva! Kérjük adja meg email címét!</p>';
-        x.style.display= "block";
+        x.classList.add("toast-message-displayed");
+        setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
     }
 }
 
@@ -74,12 +77,15 @@ function checkLogin(){
             var x = document.getElementById('login_message_container')
             if(data['EmailSent']){
                 x.innerHTML='<i class="fas fa-check-circle"></i><p>' + data['Message'] + '</p>';
-                x.style.display= "block";
+                x.classList.add("toast-message-displayed");
                 document.getElementById("login_input_email").value = "";
+                setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
             }
             else{
                 x.style.display= "block";
-                x.innerHTML='<i class="fas fa-times-circle"><p>' + data['Message'] + '</p></i>';
+                x.innerHTML='<i class="fas fa-times-circle"></i><p>' + data['Message'] + '</p>';
+                x.classList.add("toast-message-displayed");
+                setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
             }
             
         },

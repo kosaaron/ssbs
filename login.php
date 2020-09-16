@@ -67,7 +67,7 @@ if (isset($_GET['act_code']) and isset($_GET['new_pass'])) {
             <p class="help-text">Egyéb probléma bejelentéséhez</br>
                 kattints <a href="https://m.blog.hu/az/aztadom/image/junius/problemafa.jpg">ide!</a></p>
         </div>
-        <div id="login_message_container" class="toast-message" style="display: none;">
+        <div id="login_message_container" class="toast-message">
 
         </div>
     </div>

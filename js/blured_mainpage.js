@@ -27,11 +27,12 @@ function checkDevice(){
                 
                 if(data['VerifiedDevice']){
                     x.innerHTML='<i class="far fa-check-circle"></i><p class="text-center">Eszköz regisztrációja aktív!</p>'; //<i class="fas fa-check-circle"></i>
-                    x.style.display= "block";
+                    x.classList.add("toast-message-displayed");
+                    setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 }
                 else{
                     x.innerHTML='<i class="fas fa-cogs"></i><p class="text-center">Eszköz nincs regisztrálva! Átirányítás...</p>';
-                    x.style.display= "block";
+                    x.classList.add("toast-message-displayed");
                     setTimeout(function(){ window.location.replace("login.php"); }, 3000);
                 }
                 
@@ -40,9 +41,8 @@ function checkDevice(){
         });  
 
     }else{
-        
         x.innerHTML='<i class="fas fa-cogs"></i><p class="text-center">Eszköz nincs regisztrálva! Átirányítás...</p>';
-        x.style.display= "block";
+        x.classList.add("toast-message-displayed");
         setTimeout(function(){ window.location.replace("login.php"); }, 3000);
         
     }
@@ -62,12 +62,14 @@ function checkPassword() {
             var x = document.getElementById('password_message')
             if (data['LoggedIn']) {
                 x.innerHTML = '<p class="text-center">' + data['Message'] + '</p>'; //<i class="fas fa-check-circle"></i>
-                x.style.display = "block";
+                x.classList.add("toast-message-displayed");
+                setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 window.location.replace("index.php");
             }
             else {
-                x.style.display = "block";
+                x.classList.add("toast-message-displayed");
                 x.innerHTML = '<p class="text-center">' + data['Message'] + '</p><i class="fas fa-times-circle"></i>';
+                setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
             }
 
         },

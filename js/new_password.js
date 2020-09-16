@@ -47,19 +47,23 @@ function savePassword() {
                     localStorage.setItem('devicecode', data['devicecode']);
                     localStorage.setItem('firstname', data['firstname']);
                     localStorage.setItem('email', data['email']);
-                    x.innerHTML = '<p>Sikeres jelszómódosítás!</p><i class="fas fa-check-circle"></i>';
-                    x.style.display = "block";
+                    x.innerHTML = '<i class="fas fa-check-circle"></i><p>Sikeres jelszómódosítás!</p>';
+                    x.classList.add("toast-message-displayed");
                     window.location.replace("index.php");
+                    setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 }
                 else {
-                    x.style.display = "block";
-                    x.innerHTML = '<p>Sikertelen próbálkozás</p><i class="fas fa-times-circle"></i>';
+                    x.innerHTML = '<i class="fas fa-times-circle"><p>Sikertelen próbálkozás</p>';
+                    x.classList.add("toast-message-displayed");
+                    setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 }
     
             },
             dataType: 'json'
         });
     }else{
-        x.innerHTML = '<p>A két jelszó nem azonos</p>';
+        x.innerHTML = '<i class="fas fa-times-circle"><p>A két jelszó nem azonos</p>';
+        x.classList.add("toast-message-displayed");
+                    setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
     }
 }
