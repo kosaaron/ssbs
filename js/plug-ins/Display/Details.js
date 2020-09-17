@@ -3,6 +3,7 @@ import CreateBox from "../CreateBox.js";
 import CreateDBox from "../CreateDBox.js";
 import AutoScroll from "../AutoScroll.js";
 import SwitchPlugin from "../SwitchPlugin.js";
+import FillCard from "../objects/FillCard.js";
 
 export default class Details {
     /**
@@ -21,6 +22,18 @@ export default class Details {
         Details.callChildren(plugin, frameId);
 
         AutoScroll.Integration(`${frameId}_content`);
+
+        if (localStorage.getItem('DevelopMode') === 'true') {
+            //Create add card frame
+            document.getElementById(frameId).insertAdjacentHTML(
+                'beforebegin',
+                Details.getDevFrame1(frameId)
+            );
+
+            let fPluginDisplayId1 = plugin.Data['1'].FPluginDisplayId;
+            let fPluginDisplayId2 = plugin.Data['2'].FPluginDisplayId;
+            Details.devSaveEvent(plugin, frameId);
+        }
     }
 
     /**
@@ -63,16 +76,15 @@ export default class Details {
         }
 
         let headerData = plugin.Data['1'].Display;
-        let detailsDesigns = new DetailsDesigns;
-        let detailsHTML = detailsDesigns.getDefaultDetails(frameId);
+        let detailsHTML = DetailsDesigns.getDefaultDetails(frameId);
         let createBox = new CreateBox();
         createBox.create(headerData, detailsHTML, frameId);
 
         let contentData = plugin.Data['2'].Display;
         let dataFrameId = `${frameId}_cdb_g`;
         let createDBox = new CreateDBox();
-        let detailsObjectFrame = detailsDesigns.getDefaultObjectFrame(dataFrameId);
-        let detailsObject = detailsDesigns.getDefaultObject(dataFrameId);
+        let detailsObjectFrame = DetailsDesigns.getDefaultObjectFrame(dataFrameId);
+        let detailsObject = DetailsDesigns.getDefaultObject(dataFrameId);
         createDBox.create(contentData, detailsObjectFrame, detailsObject, dataFrameId);
 
         let dataBtn = document.getElementById(`${frameId}_data_btn`);
@@ -94,6 +106,36 @@ export default class Details {
                 $(`.cc-details-container`).hide();
             }
         )
+    }
+
+    static getDevFrame1(frameId) {
+        return `
+        <div>
+            <button id="${frameId}_edit_details_1">Details1</button>
+            <button id="${frameId}_edit_details_2">Details2</button>
+        </div>
+        `
+    }
+
+    /**
+     * DevSaveEvent
+     * @param {JSON} plugin 
+     * @param {String} frameId 
+     */
+    static devSaveEvent(plugin, frameId) {
+        document.getElementById(`${frameId}_edit_details_1`).addEventListener('click', function () {
+            let card = DetailsDesigns.getDefaultDetails(frameId);
+
+            let fPluginDisplayId1 = plugin.Data['1'].FPluginDisplayId;
+            FillCard.Integrate(card, fPluginDisplayId1);
+        });
+
+        document.getElementById(`${frameId}_edit_details_2`).addEventListener('click', function () {
+            let card = DetailsDesigns.getDefaultDetails(frameId);
+
+            let fPluginDisplayId1 = plugin.Data['2'].FPluginDisplayId;
+            FillCard.Integrate(card, fPluginDisplayId1);
+        });
     }
     /**
      * CallChildren

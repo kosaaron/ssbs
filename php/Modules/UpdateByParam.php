@@ -12,12 +12,10 @@ class UpdateByParam
         $PDOConnect = new PDOConnect();
         $pdo = $PDOConnect->pdo;
 
-        $finalSQL = '';
-
         //UPDATE `projects` SET `ProjectId`=[value-1] WHERE 1;
 
         foreach ($data as $table => $columns) {
-            $finalSQL .= 'UPDATE ' . $table . ' SET ';
+            $finalSQL = 'UPDATE ' . $table . ' SET ';
 
             $isFirst = true;
             foreach ($columns as $column => $value) {

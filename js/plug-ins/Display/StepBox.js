@@ -25,12 +25,10 @@ export default class StepBox {
     }
 
     static create(plugin, frameId, parentFrameId, titleFrameId) {
-        let detailsDesigns = new DetailsDesigns();
-
         //Tab title
         document.getElementById(titleFrameId).insertAdjacentHTML(
             'beforeend',
-            detailsDesigns.getSimpleTitleFrame(frameId, parentFrameId, plugin.Data['1'].Title)
+            DetailsDesigns.getSimpleTitleFrame(frameId, parentFrameId, plugin.Data['1'].Title)
         )
         document.getElementById(`${frameId}_tab`).addEventListener(
             'click',
@@ -44,8 +42,8 @@ export default class StepBox {
 
         //Tab content
         let contentData = plugin.Data['1'].Display;
-        let detailsObjectFrame = detailsDesigns.getSimpleObjectFrame(frameId);
-        let detailsObject = detailsDesigns.getDefaultObject(frameId);
+        let detailsObjectFrame = DetailsDesigns.getSimpleObjectFrame(frameId);
+        let detailsObject = DetailsDesigns.getDefaultObject(frameId);
 
         /*
         let createDBox = new CreateDBox();
