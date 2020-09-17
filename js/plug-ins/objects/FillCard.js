@@ -10,8 +10,9 @@ export default class FillCard {
      * Create
      * @param {String} card 
      * @param {String} fPluginDisplayId 
+     * @param {Boolean} isG 
      */
-    static Integrate(card, fPluginDisplayId) {
+    static Integrate(card, fPluginDisplayId, isG) {
         console.log(fPluginDisplayId);
         let parentFrameId = 'content_frame';
         let frameId = 'dev_fil_card';
@@ -31,7 +32,11 @@ export default class FillCard {
                 //console.log(data);
                 console.log(JSON.stringify(plugins));
 
-                FillCard.createFrame(plugins, frameId, parentFrameId, card, fPluginDisplayId);
+                if (isG) {
+                    FillCard.createFrameG(plugins, frameId, parentFrameId, fPluginDisplayId);
+                } else {
+                    FillCard.createFrame(plugins, frameId, parentFrameId, card, fPluginDisplayId);
+                }
             },
             dataType: 'json'
         });
@@ -217,6 +222,134 @@ export default class FillCard {
             return `
                 <button number="${cardNumber}" data-place="${frameId}_ins_num">Add</button>
             `;
+        }
+
+        FillCard.events(pluginInpt, frameId, parentFrameId, fPluginDisplayId);
+    }
+
+    /**
+    * CreateFrame
+    * @param {JSON} plugins 
+    * @param {String} frameId 
+    * @param {String} parentFrameId 
+    * @param {String} card 
+    * @param {String} fPluginDisplayId 
+    */
+    static createFrame(plugins, frameId, parentFrameId, card, fPluginDisplayId) {
+        let pluginVO = plugins[1];
+        let pluginInpt = plugins[2];
+
+        let title = 'Fill the card with data';
+        let cardNumbers = CardNumber.GetNumbers(card);
+        cardNumbers = cardNumbers.filter((v, i, a) => a.indexOf(v) === i);
+
+        card = card.replaceAll('!', '');
+        document.getElementById(parentFrameId).insertAdjacentHTML(
+            'beforeend',
+            FillCard.getFrame(frameId, title, card)
+        )
+        AutoScroll.Integration(frameId);
+
+        let pluginVOData = pluginVO.Data['1'].VO;
+
+        for (const cardNumber of cardNumbers) {
+            document.getElementById(`${frameId}_data`).insertAdjacentHTML(
+                'beforeend',
+                `<p>${cardNumber}. place</p><div>${getAction(pluginVOData, frameId, cardNumber)}</div>`
+            )
+        }
+
+        /**
+         * getAction
+         * @param {JSON} data 
+         * @param {String} frameId 
+         * @param {String} cardNumber
+         */
+        function getAction(data, frameId, cardNumber) {
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const object = data[key];
+
+                    if (object.Number === cardNumber) {
+                        //Update
+                        return `
+                            <div>
+                                <span>${object.TName} - </span><span>${object.CName}</span>
+                            </div>
+                            <div>
+                                <button f-display-id="${object.FDisplayId}" number="${object.Number}" data-place="${frameId}_upd_num">Update</button>
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            //Insert
+            return `
+                <button number="${cardNumber}" data-place="${frameId}_ins_num">Add</button>
+            `;
+        }
+
+        FillCard.events(pluginInpt, frameId, parentFrameId, fPluginDisplayId);
+    }
+
+    /**
+    * CreateFrameG
+    * @param {JSON} plugins 
+    * @param {String} frameId 
+    * @param {String} parentFrameId 
+    * @param {String} fPluginDisplayId 
+    */
+    static createFrameG(plugins, frameId, parentFrameId, fPluginDisplayId) {
+        let pluginVO = plugins[1];
+        let pluginInpt = plugins[2];
+
+        let title = 'Fill the card with data';
+
+        document.getElementById(parentFrameId).insertAdjacentHTML(
+            'beforeend',
+            FillCard.getFrame(frameId, title, card)
+        )
+        AutoScroll.Integration(frameId);
+
+        let pluginVOData = pluginVO.Data['1'].VO;
+
+        for (const cardNumber of cardNumbers) {
+            document.getElementById(`${frameId}_data`).insertAdjacentHTML(
+                'beforeend',
+                `<p>${cardNumber}. place</p><div>${getAction(pluginVOData, frameId, cardNumber)}</div>`
+            )
+        }
+
+        /**
+         * getAction
+         * @param {JSON} data 
+         * @param {String} frameId 
+         * @param {String} cardNumber
+         */
+        function getAction(data, frameId, cardNumber) {
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const object = data[key];
+
+                    if (object.Number === cardNumber) {
+                        //Update
+                        return `
+                        <div>
+                            <span>${object.TName} - </span><span>${object.CName}</span>
+                        </div>
+                        <div>
+                            <button f-display-id="${object.FDisplayId}" number="${object.Number}" data-place="${frameId}_upd_num">Update</button>
+                        </div>
+                    `;
+                    }
+                }
+            }
+
+            //Insert
+            return `
+            <button number="${cardNumber}" data-place="${frameId}_ins_num">Add</button>
+        `;
         }
 
         FillCard.events(pluginInpt, frameId, parentFrameId, fPluginDisplayId);

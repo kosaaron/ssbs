@@ -3,7 +3,7 @@ export default class DetailsDesigns {
      * getDefaultDetails
      * @param {String} frameId 
      */
-    getDefaultDetails(frameId) {
+    static getDefaultDetails(frameId) {
         let result = '';
         //result = `<div id="${frameId}" class="col-4 cc-details" object-id="*1*">`;
         result += `<h3 id="${frameId}_title" class="details-title name-grey">*2*</h3>`;
@@ -23,7 +23,7 @@ export default class DetailsDesigns {
      * getDefaultObjectFrame
      * @param {String} frameId 
      */
-    getDefaultObjectFrame(frameId) {
+    static getDefaultObjectFrame(frameId) {
         let result = '';
         result += `<div id="${frameId}_*1*"></div>`;
         return result;
@@ -33,7 +33,7 @@ export default class DetailsDesigns {
      * getSimpleObjectFrame
      * @param {String} frameId 
      */
-    getSimpleObjectFrame(frameId) {
+    static getSimpleObjectFrame(frameId) {
         let result = '';
         result += `<div class="row">`;
         result += `<div class="${frameId}_contactcard card contactcard">`;
@@ -49,7 +49,7 @@ export default class DetailsDesigns {
      * @param {String} parentFrameId 
      * @param {String} title 
      */
-    getSimpleTitleFrame(frameId, parentFrameId, title) {
+    static getSimpleTitleFrame(frameId, parentFrameId, title) {
         let result = '';
         result += `<label id="${frameId}_tab"`;
         result += ` class="${parentFrameId}_tab btn btn-detail-menu">`;
@@ -61,7 +61,7 @@ export default class DetailsDesigns {
      * getDefaultObject
      * @param {String} frameId 
      */
-    getDefaultObject(frameId) {
+    static getDefaultObject(frameId) {
         let result = '';
         result += `<p id="${frameId}_*c*_*n*" class="co-card-item">`;
         result += `<label class="title-text">*l*</label><br>`;
@@ -70,7 +70,7 @@ export default class DetailsDesigns {
         return result;
     }
 
-    getSimpleDetails(shellId) {
+    static getSimpleDetails(shellId) {
         return `
             <h3 id="${shellId}_title" class="details-title name-grey">*1*</h3>
             !<p><label class="employee-position">*2*</label></p>

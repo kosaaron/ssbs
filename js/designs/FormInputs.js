@@ -8,7 +8,7 @@ import SelectInput from '../plug-ins/objects/SelectInput.js';
  */
 let FormInputs = {
     /**
-     * 
+     * Update Inputs
      * @param {String} placeName 
      * @param {JSON} entryId 
      * @param {Function} refreshFn 
@@ -31,7 +31,7 @@ let FormInputs = {
         });
     },
     /**
-     * 
+     * Insert Inputs
      * @param {String} placeName 
      * @param {Function} refreshFn 
      */

@@ -3,7 +3,7 @@
 /**
  * Update by parameters
  */
-class UpdateByParam
+class DeleteByParam
 {
     public function
     Default($data, $entryId)

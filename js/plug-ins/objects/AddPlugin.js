@@ -106,6 +106,13 @@ export default class AddPlugin {
                     Module.default.Create(id, frameId);
                 });
                 break;
+            case '5':
+                Promise.all([
+                    import('./APDetails.js'),
+                ]).then(([Module]) => {
+                    Module.default.Create(id, frameId);
+                });
+                break;
             default:
                 break;
         }
