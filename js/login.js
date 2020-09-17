@@ -18,6 +18,7 @@ window.onload = loadLogin;
 function checkDevice(){
     var devicecode = localStorage.getItem("devicecode");
     var id_dev = localStorage.getItem("id_dev");
+    var x = document.getElementById('login_message_container')
     if(devicecode !== null){
         $.ajax({
             type: "POST",
@@ -28,21 +29,26 @@ function checkDevice(){
             },
             success: function (data) {
                 console.log(data);
-                var x = document.getElementById('login_message_container')
                 if(data['VerifiedDevice']){
-                    x.innerHTML='<p>Továbbirányítjuk az Ön SSBS rendszerébe</p>'; //<i class="fas fa-check-circle"></i>
-                    x.style.display= "block";
-                    window.location.replace("blured_mainpage.html");
+                    x.innerHTML='<i class="fas fa-check-circle"></i><p>Továbbirányítjuk az Ön SSBS rendszerébe!</p>';
+                    x.classList.add("toast-message-displayed");
+                    window.location.replace("blured_mainpage.php");
+                    setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 }
                 else{
-                    x.style.display= "block";
                     x.innerHTML='<p>' + data['Message'] + '</p><i class="fas fa-times-circle"></i>';
+                    x.classList.add("toast-message-displayed");
+                    setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 }
                 
             },
             dataType: 'json'
         });  
 
+    }else{
+        x.innerHTML='<i class="fas fa-cogs"></i><p class="text-center">Eszköz nincs regisztrálva! Kérjük adja meg email címét!</p>';
+        x.classList.add("toast-message-displayed");
+        setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
     }
 }
 
@@ -58,31 +64,33 @@ function openHelp(){
 }
 function checkLogin(){
     var email = document.getElementById("login_input_email").value;
-    var password = document.getElementById("login_input_password").value;
+    var newpassword = document.getElementById("new_password_checkbox").checked;
 
-    //Connect to Filter.php
     $.ajax({
         type: "POST",
-        url: "./php/Authenticate.php",
+        url: "./php/SendVerification.php",
         data: { 
             Email: email,
-            Password: password
+            NewPassword: newpassword
         },
         success: function (data) {
             var x = document.getElementById('login_message_container')
-            if(data['LoggedIn']){
-                x.innerHTML='<p>' + data['Message'] + '</p>'; //<i class="fas fa-check-circle"></i>
-                x.style.display= "block";
-                window.location.replace("index.php");
+            if(data['EmailSent']){
+                x.innerHTML='<i class="fas fa-check-circle"></i><p>' + data['Message'] + '</p>';
+                x.classList.add("toast-message-displayed");
+                document.getElementById("login_input_email").value = "";
+                setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
             }
             else{
                 x.style.display= "block";
-                x.innerHTML='<p>' + data['Message'] + '</p><i class="fas fa-times-circle"></i>';
+                x.innerHTML='<i class="fas fa-times-circle"></i><p>' + data['Message'] + '</p>';
+                x.classList.add("toast-message-displayed");
+                setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
             }
             
         },
         dataType: 'json'
-    });    
+    });
 }
 
 
