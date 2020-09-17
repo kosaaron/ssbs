@@ -3,6 +3,7 @@ import CreateBox from "../CreateBox.js";
 import FormInputs from "../../designs/FormInputs.js";
 import CardNumber from "../objects/CardNumber.js";
 import DinamicFormPopup from "../DinamicFormPopup.js";
+import FillCard from "../objects/FillCard.js";
 
 export default class CardBox {
     /**
@@ -31,9 +32,10 @@ export default class CardBox {
                 CardBox.getDevFrame(frameId)
             );
 
+            let cCardId = plugin.Data.CCardId['1'];
             let fPluginDisplayId = plugin.Data['1'].FPluginDisplayId;
 
-            CardBox.getDevData(frameId, fPluginDisplayId);
+            CardBox.getDevData(frameId, fPluginDisplayId, cCardId);
             CardBox.devSaveEvent(plugin, frameId);
         }
 
@@ -52,8 +54,9 @@ export default class CardBox {
      * GetDevData
      * @param {String} frameId 
      * @param {String} fPluginDisplayId 
+     * @param {String} cCardId 
      */
-    static getDevData(frameId, fPluginDisplayId) {
+    static getDevData(frameId, fPluginDisplayId, cCardId) {
         let module = 'CustomData';
         let data = {};
         data['Place'] = '5';
@@ -101,9 +104,6 @@ export default class CardBox {
                 let cardNumberInpt = {};
 
                 for (const cBDevInput of cBDevInputs) {
-                    if (cBDevInput.Number === '2') {
-                        cardNumberInpt = cBDevInput;
-                    }
                     switch (cBDevInput.Number) {
                         case '2':
                             cardNumberInpt = cBDevInput;
@@ -112,6 +112,7 @@ export default class CardBox {
                 }
 
                 let shellId = `${frameId}_dev_card_id`;
+                cardNumberInpt.DefaultValue = cCardId;
                 FormInputs.Select(cardNumberInpt, shellId);
 
                 let cardIdDOM = document.querySelector(`[upload-name="t_105.c_1_fk"][data-place="${shellId}"]`);
@@ -187,7 +188,10 @@ export default class CardBox {
                     <div id="${frameId}_dev_card_id"></div>
                     <div id="${frameId}_dev_card"></div>
                     <div id="${frameId}_dev_inputs"></div>
-                    <div><button id="${frameId}_dev_save">Save</button></div>
+                    <div>
+                        <button id="${frameId}_edit_card">Edit card</button>
+                        <button id="${frameId}_dev_save">Save</button>
+                    </div>
                 </div>`;
     }
 
@@ -216,9 +220,25 @@ export default class CardBox {
                 data: { 'Data': tables, 'EntryId': entryId },
                 success: function (result) {
                     console.log(result);
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Success',
+                        text: 'Success update!',
+                        heightAuto: false
+                    });
                 },
                 dataType: 'json'
             });
+        });
+
+        document.getElementById(`${frameId}_edit_card`).addEventListener('click', function () {
+            let shellId = `${frameId}_dev_card_id`;
+            let cCardFK = document.querySelector(`[upload-name="t_105.c_1_fk"][data-place="${shellId}"]`).value;
+
+            let card = CardDesigns.getCardById(cCardFK, frameId)
+
+            let fPluginDisplayId = plugin.Data['1'].FPluginDisplayId;
+            FillCard.Integrate(card, fPluginDisplayId)
         });
     }
 

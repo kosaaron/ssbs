@@ -516,7 +516,7 @@ let FormInputs = {
                     console.log(JSON.stringify(plugins));
 
                     let plugin = plugins[1];
-                    let columnOpp = plugin.Data.VO;
+                    let columnOpp = plugin.Data['1'].VO;
 
                     document.getElementById(`${shellId}_${id}_c`).innerHTML = '';
                     for (const option of columnOpp) {
