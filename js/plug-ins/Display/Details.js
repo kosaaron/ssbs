@@ -17,12 +17,6 @@ export default class Details {
      * @param {String} parentFrameId 
      */
     constructor(plugin, frameId, parentFrameId) {
-        Details.create(plugin, frameId, parentFrameId);
-        this.events(plugin, frameId, parentFrameId);
-        Details.callChildren(plugin, frameId);
-
-        AutoScroll.Integration(`${frameId}_content`);
-
         if (localStorage.getItem('DevelopMode') === 'true') {
             //Create add card frame
             document.getElementById(frameId).insertAdjacentHTML(
@@ -30,10 +24,14 @@ export default class Details {
                 Details.getDevFrame1(frameId)
             );
 
-            let fPluginDisplayId1 = plugin.Data['1'].FPluginDisplayId;
-            let fPluginDisplayId2 = plugin.Data['2'].FPluginDisplayId;
             Details.devSaveEvent(plugin, frameId);
         }
+
+        Details.create(plugin, frameId, parentFrameId);
+        this.events(plugin, frameId, parentFrameId);
+        Details.callChildren(plugin, frameId);
+
+        AutoScroll.Integration(`${frameId}_content`);
     }
 
     /**
@@ -133,8 +131,8 @@ export default class Details {
         document.getElementById(`${frameId}_edit_details_2`).addEventListener('click', function () {
             let card = DetailsDesigns.getDefaultDetails(frameId);
 
-            let fPluginDisplayId1 = plugin.Data['2'].FPluginDisplayId;
-            FillCard.Integrate(card, fPluginDisplayId1);
+            let fPluginDisplayId2 = plugin.Data['2'].FPluginDisplayId;
+            FillCard.Integrate(card, fPluginDisplayId2);
         });
     }
     /**
