@@ -125,8 +125,8 @@ class SwitchPlugin
                 break;
             case '10':
                 # Gallery (display)
-                require_once('Input/Gallery.php');
-                $gallery = new Gallery();
+                require_once('Display/GetDisplayGallery.php');
+                $gallery = new DisplayGallery();
                 $pluginData = $gallery->createData($fModulePluginId, $fPluginPluginFK, $fCustomPluginId, $pluginTable);
                 break;
             case '13':

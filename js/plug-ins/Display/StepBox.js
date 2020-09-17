@@ -1,6 +1,5 @@
 import DetailsDesigns from "../../designs/DetailsDesigns.js";
 import CreateDBox from "../CreateDBox.js";
-import Limiter from "../Limiter.js";
 import AutoScroll from "../AutoScroll.js";
 import { addListener } from "../../common.js";
 
@@ -207,6 +206,5 @@ export default class StepBox {
             $(`#${parentFrameId}`).trigger(`${parentFrameId}_child_loaded`);
         });
 
-        let limiter = new Limiter();
     }
 }
