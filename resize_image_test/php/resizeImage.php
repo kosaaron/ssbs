@@ -16,7 +16,6 @@ $photo->PhotoId = '1';
 $photo->PhotoURL = '../images/';
 $photo->PhotoName = 'testpic1.jpg';
 
-
 $path = $photo->PhotoURL . $photo->PhotoName;
 $type = pathinfo($path, PATHINFO_EXTENSION);
 $photodata = file_get_contents($path);
