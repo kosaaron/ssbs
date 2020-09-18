@@ -1,4 +1,5 @@
 import DetailsDesigns from "../../designs/DetailsDesigns.js";
+import AutoScroll from "../AutoScroll.js";
 
 export default class DisplayGallery {
     /**
@@ -21,12 +22,10 @@ export default class DisplayGallery {
     }
 
     static create(plugin, frameId, parentFrameId, titleFrameId) {
-        let detailsDesigns = new DetailsDesigns();
-
         //Tab title
         document.getElementById(titleFrameId).insertAdjacentHTML(
             'beforeend',
-            detailsDesigns.getSimpleTitleFrame(frameId, parentFrameId, plugin.Data['1'].Title)
+            DetailsDesigns.getSimpleTitleFrame(frameId, parentFrameId, plugin.Data['1'].Title)
         )
         document.getElementById(`${frameId}_tab`).addEventListener(
             'click',
@@ -40,8 +39,8 @@ export default class DisplayGallery {
 
         //Tab content
         let contentData = plugin.Data['1'].Display;
-        let detailsObjectFrame = detailsDesigns.getSimpleObjectFrame(frameId);
-        let detailsObject = detailsDesigns.getDefaultObject(frameId);
+        let detailsObjectFrame = DetailsDesigns.getSimpleObjectFrame(frameId);
+        let detailsObject = DetailsDesigns.getDefaultObject(frameId);
 
         /*
         let createDBox = new CreateDBox();
@@ -53,15 +52,24 @@ export default class DisplayGallery {
         // frameElement.classList.add('task-timeline');
 
         let data = contentData.Data;
-
-        for (const object of data) {
-            //step number & name
-            frameElement.insertAdjacentHTML(
-                'beforeend',
-                DisplayGallery.getImage(frameId, object)
-            )
+        if (DisplayGallery.isIterable(data)) {
+            for (const object of data) {
+                //step number & name
+                frameElement.insertAdjacentHTML(
+                    'beforeend',
+                    DisplayGallery.getImage(frameId, object)
+                )
+            }
         }
+
     }
+    static isIterable(obj) {
+        // checks for null and undefined
+        if (obj == null) {
+          return false;
+        }
+        return typeof obj[Symbol.iterator] === 'function';
+      }
 
     static getImage(frameId, object) {
         let imgId = object["imgId"];
@@ -69,9 +77,14 @@ export default class DisplayGallery {
         let imgAlt = object["imgAlt"];
 
         return `
-            <div class=row>
-                <div class=col-12>
-                    <img src="${blobFile}" id=${frameId}_${imgId} class="img-fluid" alt="${imgAlt}">
+            <div class="row">
+                <div class="col-12 gallery-image-container">
+                    <div class="d-flex justify-content-center gallery-image-content">
+                        <img src="${blobFile}" id=${frameId}_${imgId} class="img-fluid" alt="${imgAlt}">
+                    </div>
+                    <div class="d-flex justify-content-center gallery-image-footer">
+                        <p>${imgAlt}</p>
+                    </div>
                 </div>
             </div>
             `;
@@ -99,6 +112,30 @@ export default class DisplayGallery {
             changeData.PluginNumber = plugin.Number;
             localStorage.setItem(`${parentFrameId}_child_loaded`, JSON.stringify(changeData));
             $(`#${parentFrameId}`).trigger(`${parentFrameId}_child_loaded`);
+
+            let uploadData = {};
+            let className = 'ModuleData';
+
+
+            uploadData['isDownload'] = true;
+            uploadData['RequestType'] = 'PP';
+            uploadData['FPluginPluginId'] = plugin['FPluginPluginId'];
+
+            $.ajax({
+                type: "POST",
+                url: "./php/Router.php",
+                data: { 'Module': className, 'Data': uploadData },
+                success: function (result) {
+                    let newPlugin = result[0].Data['1'].Display;
+                    //console.log(result);
+                    console.log(JSON.stringify(result));
+                    document.getElementById(frameId).innerHTML = '';
+                    DisplayGallery.createContent(newPlugin, frameId);
+                },
+                dataType: 'json'
+            });
+
+
         });
     }
 

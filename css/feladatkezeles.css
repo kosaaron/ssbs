@@ -266,3 +266,20 @@
 .co-shell{
     padding-top: 6px;
 }
+.gallery-image-container{
+    background-color: #ddd;
+    margin-bottom: 1.8rem;
+}
+.gallery-image-content{
+    padding: 2%;
+    width: 100%;
+}
+.gallery-image-footer{
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-bottom: 3%;
+    width: 100%;
+}
+.gallery-image-footer p{
+    margin-bottom: 0.5rem;
+}

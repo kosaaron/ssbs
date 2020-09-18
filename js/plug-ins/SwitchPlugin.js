@@ -93,6 +93,15 @@ export default class SwitchPlugin {
                     new Gallery(plugin, frameId, parentFrameId);
                 });
                 break;
+            /** Display Gallery */
+            case '10':
+                Promise.all([
+                    import('./Display/DisplayGallery.js'),
+                ]).then(([Module]) => {
+                    let Gallery = Module.default;
+                    new Gallery(plugin, frameId, parentFrameId);
+                });
+                break;
             /** Logout */
             case '11':
                 let logout = new Logout();
