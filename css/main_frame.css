@@ -540,8 +540,9 @@ iframe[seamless] {
 }
 
 .cc-details {
-    overflow: hidden;
     padding-top: 5px;
+    height: 100%;
+    overflow: hidden;
 }
 .cc-details-container{
     height: 100%;

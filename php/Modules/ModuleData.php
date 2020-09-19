@@ -21,7 +21,7 @@ class ModuleData
      * @param string $userId User ID
      * @param string $cModuleId Module ID (frame)
      */
-    function __construct($userId, $cModuleId)
+    function __construct($userId, $cModuleId = null)
     {
         /** Includes */
         //Switch plugin
@@ -42,12 +42,14 @@ class ModuleData
         $this->main_data = array();
 
         /** Create frame data object */
-        $this->fUserModuleId = $this->getFUserModuleId(
-            $userId,
-            $cModuleId
-        );
+        if (isset($cModuleId)) {
+            $this->fUserModuleId = $this->getFUserModuleId(
+                $userId,
+                $cModuleId
+            );
 
-        $moduleMetadata->setDefaultData($userId, $cModuleId, $this->fUserModuleId);
+            $moduleMetadata->setDefaultData($userId, $cModuleId, $this->fUserModuleId);
+        }
     }
 
     function createData()

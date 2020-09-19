@@ -21,7 +21,11 @@ switch ($module) {
         break;
     case 'ModuleData':
         require_once('Modules/ModuleData.php');
-        $cModuleId = $data['CModuleId'];
+        if (isset($data['CModuleId'])) {
+            $cModuleId = $data['CModuleId'];
+        }else {
+            $cModuleId = null;
+        }
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
         $requestType = $data['RequestType'];
         // $moduleData = new ModuleData(1, 102, 1004);

@@ -106,7 +106,7 @@ let Framework = {
                 case '5':
                     screenModules += `
                     <div class="col-12 col-lg-3 cc-details-container">
-                        <div id="${childFrameId}" class="cc-details"></div>
+                        <div id="${childFrameId}" class="cc-details align-items-stretch"></div>
                         <button id="${childFrameId}_back_btn" class="btn btn-primary fixedaddbutton fixedbackbutton">
                             <i class="fas fa-arrow-left"></i>
                         </button>
