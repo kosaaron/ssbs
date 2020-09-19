@@ -115,8 +115,8 @@ class GetData
             $mainTable = ModuleMetadata::$mainTable;
         } else {
             $cModule = $this->pdo->query(
-                "SELECT * FROM t_3 INNER JOIN t_5 ON c_5_id=c_5_fk WHERE c_3_id" 
-                 . $this->switchPlugin->ifNull($cModuleId)
+                "SELECT * FROM t_3 INNER JOIN t_5 ON c_5_id=c_5_fk WHERE c_3_id"
+                    . $this->switchPlugin->ifNull($cModuleId)
             )->fetch(PDO::FETCH_ASSOC);
             $mainTable = $cModule['TableName'];
         }
@@ -277,24 +277,29 @@ class GetData
         //Processes the database connections
         foreach ($relationships as $key => $relationship) {
             $innnerJoin .= ' LEFT JOIN ';
-            if ($key === 0) {
-                if ($relationship['TABLE_NAME'] === $realtiveTable) {
-                    $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
-                } else {
-                    $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
-                }
-            } else {
+
+            //start
+            if ($relationship['TABLE_NAME'] === $realtiveTable) {
+                $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
+            } else if ($relationship['REFERENCED_TABLE_NAME'] === $realtiveTable) {
+                $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
+            } else if ($key !== 0) {
+                //middle
                 if (
                     $relationship['TABLE_NAME'] === $relationships[$key - 1]['REFERENCED_TABLE_NAME']
-                    || $relationship['TABLE_NAME'] === $realtiveTable
+                    || $relationship['TABLE_NAME'] === $relationships[$key - 1]['TABLE_NAME']
                 ) {
                     $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
-                } else {
+                } else if (
+                    $relationship['REFERENCED_TABLE_NAME'] === $relationships[$key - 1]['TABLE_NAME']
+                    || $relationship['REFERENCED_TABLE_NAME'] === $relationships[$key - 1]['REFERENCED_TABLE_NAME']
+                ) {
                     $innnerJoin .= $relationship['TABLE_NAME'] . ' ON ';
                 }
             }
 
-            $innnerJoin .= $relationship['COLUMN_NAME'] . '=' . $relationship['REFERENCED_COLUMN_NAME'];
+            $innnerJoin .= $relationship['TABLE_NAME'] . '.' . $relationship['COLUMN_NAME'] . '='
+                . $relationship['REFERENCED_TABLE_NAME'] . '.' . $relationship['REFERENCED_COLUMN_NAME'];
         }
 
         //Select data
@@ -326,7 +331,7 @@ class GetData
         $innnerJoin = '';
         $relationships = $this->findRelationship->getFullRelationship($pathIds);
         foreach ($relationships as $relationship) {
-            $innnerJoin .= ' LEFT123 JOIN ';
+            $innnerJoin .= ' LEFT JOIN ';
             if ($relationship['TABLE_NAME'] === $realtiveTable) {
                 $innnerJoin .= $relationship['REFERENCED_TABLE_NAME'] . ' ON ';
             } else {

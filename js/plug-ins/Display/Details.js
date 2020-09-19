@@ -21,7 +21,7 @@ export default class Details {
             //Create add card frame
             document.getElementById(frameId).insertAdjacentHTML(
                 'beforebegin',
-                Details.getDevFrame1(frameId)
+                Details.getDevFrame(frameId)
             );
 
             Details.devSaveEvent(plugin, frameId);
@@ -106,7 +106,7 @@ export default class Details {
         )
     }
 
-    static getDevFrame1(frameId) {
+    static getDevFrame(frameId) {
         return `
         <div>
             <button id="${frameId}_edit_details_1">Details1</button>
@@ -132,7 +132,7 @@ export default class Details {
             let card = DetailsDesigns.getDefaultDetails(frameId);
 
             let fPluginDisplayId2 = plugin.Data['2'].FPluginDisplayId;
-            FillCard.Integrate(card, fPluginDisplayId2);
+            FillCard.Integrate(card, fPluginDisplayId2, true);
         });
     }
     /**
