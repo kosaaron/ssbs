@@ -31,7 +31,6 @@ $device_hash_encrypted = password_hash($device_hash, PASSWORD_DEFAULT);
 
 $query = "SELECT 
             c_200_id,
-            c_200_fk,
             c_8 AS FirstName,
             c_74 AS LastName,
             c_75 AS UserPassword,
@@ -71,7 +70,7 @@ $query = "SELECT
               c_200_fk,
               c_55 AS DeviceId
           FROM t_100
-          WHERE DeviceId = :device_code";
+          WHERE c_55 = :device_code";
 
 $resultSet = $pdo->prepare($query);
 $resultSet->execute(
