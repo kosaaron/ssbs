@@ -27,7 +27,6 @@ $pdo = $PDOConnect->pdo;
 
 $query = "SELECT 
 			c_200_id,
-			c_200_fk,
 			c_8 AS FirstName,
 			c_74 AS LastName,
 			c_75 AS UserPassword,
@@ -108,8 +107,9 @@ if($no_of_row == 0)
 	$mail->Subject = 'Email Verification';			//Sets the Subject of the message
 	$mail->Body = $mail_body;							//An HTML or plain text message body
 
+
 	//Just for testing!!!!
-	$testlink = 'localhost/login.php?act_code=' . $user_activation_code . '&new_pass=' . $newPassword;
+	$testlink = '/login.php?act_code=' . $user_activation_code . '&new_pass=' . $newPassword;
 	$main_data['Message'] = 'Verification link: ' . $testlink;
 	$main_data['EmailSent'] = TRUE;
 
