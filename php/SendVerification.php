@@ -98,7 +98,7 @@ if($no_of_row == 0)
 	$mail->Port = 465;								//Sets the default SMTP server port
 	$mail->SMTPAuth = true;							//Sets SMTP authentication. Utilizes the Username and Password variables
 	$mail->Username = 'info@ssbsystem.com';					//Sets SMTP username
-	$mail->Password = 'Sport2018';					//Sets SMTP password
+	$mail->Password = 'Fradi2021BLGyőztes';					//Sets SMTP password
 	$mail->SMTPSecure = 'ssl';							//Sets connection prefix. Options are "", "ssl" or "tls"
 	$mail->setFrom('info@ssbsystem.com', 'SSB System');
 	$mail->addAddress($emailAddress, "SSBS User");		//Adds a "To" address			
@@ -106,19 +106,18 @@ if($no_of_row == 0)
 	$mail->IsHTML(true);							//Sets message type to HTML				
 	$mail->Subject = 'Email Verification';			//Sets the Subject of the message
 	$mail->Body = $mail_body;							//An HTML or plain text message body
-
-
+    /*
 	//Just for testing!!!!
 	$testlink = '/login.php?act_code=' . $user_activation_code . '&new_pass=' . $newPassword;
 	$main_data['Message'] = 'Verification link: ' . $testlink;
 	$main_data['EmailSent'] = TRUE;
-
-	/*
+    */
+	
 	if($mail->Send())								//Send an Email. Return true on success or false on error
 	{
 	    $main_data['EmailSent'] = TRUE;
 		$main_data['Message'] = 'Email elküdlve, nézze meg bejövő üzeneteit.';
-	}*/
+	}
 }
 
 $json = json_encode($main_data);

@@ -2,7 +2,7 @@
 
 class EmailTemplates
 {
-    public function verification($userName, $baseUrl, $activationCode)
+    public function verification($userName, $baseUrl, $activationCode, $newPassword)
     {
         
         $mail_text = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -67,7 +67,7 @@ class EmailTemplates
                         </tr>
                         <tr>
                           <td width="90"></td> 
-                          <td align="left" style="font-family:Helvetica Neue, Helvetica, Roboto, Segoe UI, sans-serif;font-size:18px;line-height:24px;-webkit-font-smoothing:antialiased;color:rgb(173, 173, 173);"> '.$baseUrl.'verification.php?act_code='.$activationCode.' </td>
+                          <td align="left" style="font-family:Helvetica Neue, Helvetica, Roboto, Segoe UI, sans-serif;font-size:18px;line-height:24px;-webkit-font-smoothing:antialiased;color:rgb(173, 173, 173);"> '.$baseUrl.'login.php?act_code='.$activationCode.'&new_pass='.$newPassword.' </td>
                           <td width="90"></td> 
                         </tr>
                         <tr>
