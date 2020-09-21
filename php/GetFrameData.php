@@ -4,13 +4,22 @@ $PDOConnect = new PDOConnect();
 $pdo = $PDOConnect->pdo;
 
 $userModules = $pdo->query(
-    'SELECT c_110_id, c_6_fk, TabName, TabIcon, c_3_fk, ModuleName, ModuleDescription 
+    "SELECT 
+        c_110_id, 
+        c_200_fk, 
+        c_6_fk, 
+        c_25 AS TabName, 
+        c_53 AS TabIcon, 
+        c_3_fk, 
+        c_24 AS ModuleName, 
+        c_49 AS ModuleDescription,
+        c_72 AS 'Number'
      FROM t_110 
      INNER JOIN t_6 
      ON c_6_id = c_6_fk
      INNER JOIN t_3 
      ON c_3_id = c_3_fk
-     ORDER BY t_110.Number'
+     ORDER BY t_110.c_72"
 )->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($userModules as $key => $entry) {

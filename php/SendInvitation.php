@@ -26,8 +26,17 @@ class SendEmail
 		$PDOConnect = new PDOConnect();
 		$this->pdo = $PDOConnect->pdo;
 
-		$query = "SELECT * FROM t_200 
-                    WHERE c_200_id = :employeeId";
+		$query = "SELECT 
+					c_200_id,
+					c_200_fk,
+					c_8 AS FirstName,
+					c_74 AS LastName,
+					c_75 AS UserPassword,
+					c_76 AS Email,
+					c_77 AS ActivationCode,
+					c_78 AS VerificationStatus
+				  FROM t_200 
+             	  WHERE c_200_id = :employeeId";
 
 		$statement = $this->pdo->prepare($query);
 		$statement->execute(
@@ -42,8 +51,17 @@ class SendEmail
 			$userEmail = $result['Email'];
 		}
 
-		$query = "SELECT * FROM t_200 
-		WHERE Email = :useremail";
+		$query = "SELECT 
+					c_200_id,
+					c_200_fk,
+					c_8 AS FirstName,
+					c_74 AS LastName,
+					c_75 AS UserPassword,
+					c_76 AS Email,
+					c_77 AS ActivationCode,
+					c_78 AS VerificationStatus
+				  FROM t_200 
+				  WHERE Email = :useremail";
 
 		$statement = $this->pdo->prepare($query);
 		$statement->execute(
@@ -69,7 +87,7 @@ class SendEmail
         	$user_activation_code = hash("sha256", "valami");
         	$insert_query = "
         	INSERT INTO t_200 
-        	(Email, FirstName, LastName, ActivationCode, VerificationStatus) 
+        	(c_76, c_8, c_74, c_77, c_78) 
         	VALUES (:user_email, :user_fname, :user_lname, :user_activation_code, :user_email_status)
         	";
         	

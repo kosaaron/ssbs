@@ -25,8 +25,17 @@ $PDOConnect = new PDOConnect();
 $pdo = $PDOConnect->pdo;
 
 
-$query = "SELECT * FROM t_200 
-            WHERE Email = :user_email";
+$query = "SELECT 
+			c_200_id,
+			c_200_fk,
+			c_8 AS FirstName,
+			c_74 AS LastName,
+			c_75 AS UserPassword,
+			c_76 AS Email,
+			c_77 AS ActivationCode,
+			c_78 AS VerificationStatus
+		  FROM t_200 
+          WHERE c_76 = :user_email";
 
 $statement = $pdo->prepare($query);
 $statement->execute(
@@ -52,8 +61,8 @@ if($no_of_row == 0)
 	
 	$insert_query = "
 	UPDATE t_200
-	SET ActivationCode = :user_activation_code, VerificationStatus=0
-    WHERE Email = :user_email
+	SET c_77 = :user_activation_code, c_78=0
+    WHERE c_76 = :user_email
 	";
 	
 	$statement = $pdo->prepare($insert_query);

@@ -23,7 +23,13 @@ class GetVirtualObjects
     {
         //get dinamic form(s) of plugin
         $fPluginVOs = $this->pdo->query(
-            "SELECT * FROM t_109 
+            "SELECT
+                c_104_fk,
+                c_108_fk,
+                c_101_fk,
+                c_111_fk,
+                c_71 AS 'Number'
+             FROM t_109 
              WHERE c_104_fk" . $this->switchPlugin->ifNull($fModulePluginFK)
                 . " && c_108_fk" . $this->switchPlugin->ifNull($fPluginPluginFK)
                 . " && c_101_fk" . $this->switchPlugin->ifNull($fCustomPluginId)

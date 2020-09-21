@@ -20,7 +20,13 @@ class VirtualObject
         $PDOConnect = new PDOConnect();
         $this->pdo = $PDOConnect->pdo;
 
-        $vOQuery = $this->pdo->query('SELECT * FROM t_111 WHERE c_111_id="' . $vOId . '"')->fetch(PDO::FETCH_ASSOC);
+        $vOQuery = $this->pdo->query(
+            "SELECT 
+                c_111_id,
+                c_73 AS QueryString
+             FROM t_111 
+             WHERE c_111_id=$vOId"
+        )->fetch(PDO::FETCH_ASSOC);
         $this->queryString = $vOQuery['QueryString'];
     }
 

@@ -91,12 +91,12 @@ export default class FillCard {
                 displayInput['c_103_id'] = '2';
                 displayInput['Type'] = 'W';
                 displayInput['Name'] = 'Number';
-                displayInput['UploadName'] = 't_102.Number';
+                displayInput['UploadName'] = 't_102.c_60';
                 displayInput['Required'] = '1';
                 displayInput['Visible'] = '0';
                 displayInput['DefaultValue'] = number;
                 displayInput['TableName'] = 't_102';
-                displayInput['ColumnName'] = 'Number';
+                displayInput['ColumnName'] = 'c_60';
                 pluginInpt.Data['1'].Inputs.push(displayInput);
             } else {
                 let keys = Object.keys(pluginInpt.Data['1'].Inputs);
@@ -128,12 +128,12 @@ export default class FillCard {
                 displayInput['c_103_id'] = '2';
                 displayInput['Type'] = 'W';
                 displayInput['Name'] = 'Number';
-                displayInput['UploadName'] = 't_102.Number';
+                displayInput['UploadName'] = 't_102.c_60';
                 displayInput['Required'] = '1';
                 displayInput['Visible'] = '0';
                 displayInput['DefaultValue'] = number;
                 displayInput['TableName'] = 't_102';
-                displayInput['ColumnName'] = 'Number';
+                displayInput['ColumnName'] = 'c_60';
                 pluginInpt.Data['1'].Inputs.push(displayInput);
             } else {
                 let keys = Object.keys(pluginInpt.Data['1'].Inputs);

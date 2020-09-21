@@ -14,7 +14,12 @@ $pdo = $PDOConnect->pdo;
 
 
 
-$query = "SELECT * FROM t_100 WHERE c_100_id = :id_dev";
+$query = "SELECT 
+              c_100_id,
+              c_200_fk,
+              c_55 AS DeviceId
+          FROM t_100 
+          WHERE c_100_id = :id_dev";
 $statement = $pdo->prepare($query);
 $statement->execute(
     array(

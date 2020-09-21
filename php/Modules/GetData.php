@@ -36,7 +36,14 @@ class GetData
         $main_data = array();
 
         $fPluginDisplays = $this->pdo->query(
-            "SELECT * FROM t_106 
+            "SELECT 
+                c_104_fk,
+                c_108_fk,
+                c_101_fk,
+                c_106_id,
+                c_64 AS Title,
+                c_65 AS 'Number'
+             FROM t_106 
              WHERE c_104_fk" . $this->switchPlugin->ifNull($fModulePluginFK)
                 . " && c_108_fk" . $this->switchPlugin->ifNull($fPluginPluginFK)
                 . " && c_101_fk" . $this->switchPlugin->ifNull($fCustomPluginId)
@@ -79,7 +86,24 @@ class GetData
 
         if ($isFormInputs) {
             $fDisplays = $this->pdo->query(
-                "SELECT * FROM t_103 
+                "SELECT 
+                    c_107_fk,
+                    c_5_fk,
+                    c_31 AS TName,
+                    c_51 AS TableName,
+                    c_52 AS TableIdName,
+                    c_7_fk,
+                    c_33 AS 'Name',
+                    c_54 AS ColumnName,
+                    c_103_id,
+                    c_32 AS 'Number',
+                    c_61 AS 'Type',
+                    c_35 AS 'DefaultValue',
+                    c_36 AS 'UploadName',
+                    c_37 AS 'Required',
+                    c_38 AS 'Visible',
+                    c_62 AS 'Upload'
+                 FROM t_103 
                  INNER JOIN t_7 ON c_7_id=c_7_fk
                  INNER JOIN t_5 ON c_5_id=c_5_fk 
                  WHERE c_107_fk" . $this->switchPlugin->ifNull($fPluginDisplayId)
@@ -97,7 +121,17 @@ class GetData
         } else {
             //Get display columns metadata
             $fDisplays = $this->pdo->query(
-                "SELECT * FROM t_102 
+                "SELECT 
+                    c_106_fk,
+                    c_5_fk,
+                    c_31 AS TName,
+                    c_51 AS TableName,
+                    c_52 AS TableIdName,
+                    c_7_fk,
+                    c_33 AS 'Name',
+                    c_54 AS ColumnName,
+                    c_60 AS 'Number'
+                 FROM t_102 
                  INNER JOIN t_7 ON c_7_id=c_7_fk
                  INNER JOIN t_5 ON c_5_id=c_5_fk 
                  WHERE c_106_fk" . $this->switchPlugin->ifNull($fPluginDisplayId)
@@ -115,8 +149,17 @@ class GetData
             $mainTable = ModuleMetadata::$mainTable;
         } else {
             $cModule = $this->pdo->query(
-                "SELECT * FROM t_3 INNER JOIN t_5 ON c_5_id=c_5_fk WHERE c_3_id"
-                    . $this->switchPlugin->ifNull($cModuleId)
+                "SELECT 
+                    c_3_id,
+                    c_24 AS ModuleName, 
+                    c_49 AS ModuleDescription,
+                    c_5_fk,
+                    c_31 AS TName,
+                    c_51 AS TableName,
+                    c_52 AS TableIdName
+                 FROM t_3 
+                 INNER JOIN t_5 ON c_5_id=c_5_fk 
+                 WHERE c_3_id" . $this->switchPlugin->ifNull($cModuleId)
             )->fetch(PDO::FETCH_ASSOC);
             $mainTable = $cModule['TableName'];
         }
@@ -470,14 +513,25 @@ class GetData
         //Filter plugin ID
         $cPluginFK = '3';
 
-        $queryString = "SELECT t_107.Number AS 'FilterOrSort', 
-                            t_103.Number, t_103.UploadName,
-                            t_103.Type, t_103.DefaultValue
+        $queryString = "SELECT 
+                            t_104.c_4_fk,
+                            t_104.c_5_fk,
+                            t_104.c_110_fk,
+                            t_103.c_107_fk,
+                            t_107.c_67 AS 'FilterOrSort', 
+                            c_32 AS 'Number',
+                            c_61 AS 'Type',
+                            c_35 AS 'DefaultValue',
+                            c_36 AS 'UploadName',
+                            c_104_id,
+                            c_28 AS 'Number',
+                            c_27 AS Place,
+                            c_29 AS 'DefaultScreen'
                         FROM t_104 
                         INNER JOIN t_107 ON c_104_id=c_104_fk
                         INNER JOIN t_103 ON c_107_fk=c_107_id
                         WHERE c_110_fk='$fUserModuleId' && c_4_fk=$cPluginFK 
-                        ORDER BY t_107.Number ASC, t_103.Number ASC;";
+                        ORDER BY t_107.c_67 ASC, t_103.c_32 ASC;";
         return $this->pdo->query($queryString)->fetchAll(PDO::FETCH_ASSOC);
     }
 

@@ -18,7 +18,14 @@ class AddTable
         $tName = $data['Name'];
         $connTableIds = $data['ConnTableIds'];
 
-        $cTSql = "SELECT * FROM t_5 WHERE c_5_id IN (" . implode(',', $connTableIds) . ")";
+        $cTSql = "SELECT 
+                    c_5_fk,
+                    c_31 AS TName,
+                    c_51 AS TableName,
+                    c_52 AS TableIdName,
+                  FROM t_5 
+                  WHERE c_5_id 
+                  IN (" . implode(',', $connTableIds) . ")";
         $cTQueary = $this->pdo->prepare($cTSql);
         $cTQueary->execute();
         $cTData = $cTQueary->fetchAll(PDO::FETCH_ASSOC);
@@ -29,7 +36,7 @@ class AddTable
         }
 
         //Upload to list
-        $finalSQL = "INSERT INTO `t_5`(`TName`) VALUES ('$tName');";
+        $finalSQL = "INSERT INTO `t_5`(`c_31`) VALUES ('$tName');";
         $finalQueary = $this->pdo->prepare($finalSQL);
         $finalQueary->execute();
         $lastId = $this->pdo->lastInsertId();
@@ -43,7 +50,7 @@ class AddTable
         $this->pdo->exec($newTableSQL);
 
         //Update list by id
-        $updateSQL = "UPDATE `t_5` SET `TableName`='$tableName',`TableIdName`='$tableIdName' WHERE `c_5_id`='$lastId';";
+        $updateSQL = "UPDATE `t_5` SET `c_51`='$tableName',`c_52`='$tableIdName' WHERE `c_5_id`='$lastId';";
         $updateQueary = $this->pdo->prepare($updateSQL);
         $updateQueary->execute();
 

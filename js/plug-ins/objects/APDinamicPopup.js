@@ -11,7 +11,7 @@ export default class APDinamicPopup {
             popup = {},
             className = 'InsertByParam',
             table = 't_107',
-            c_title = 'Title',
+            c_title = 'c_66',
             v_title = 'Dinamic Popup',
             c_fModulePluginFK = 'c_104_fk',
             v_fModulePluginFK = fModulePluginFK,
@@ -19,7 +19,7 @@ export default class APDinamicPopup {
             v_fPluginPluginFK = 'null',
             c_fCustomPluginFK = 'c_101_fk',
             v_fCustomPluginFK = 'null',
-            c_number = 'Number',
+            c_number = 'c_67',
             v_number = '1';
 
         popup[table] = {};

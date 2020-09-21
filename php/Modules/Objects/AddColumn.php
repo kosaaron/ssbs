@@ -26,7 +26,15 @@ class AddColumn
 
         $columnName = "c_$lastId";
 
-        $tableQueary = $this->pdo->query("SELECT * FROM t_5 WHERE c_5_id=$tableId");
+        $tableQueary = $this->pdo->query(
+            "SELECT 
+                c_5_fk,
+                c_31 AS TName,
+                c_51 AS TableName,
+                c_52 AS TableIdName,
+            FROM t_5 
+            WHERE c_5_id=$tableId"
+        );
         $table = $tableQueary->fetch()['TableName'];
         $newColumnSQL = "ALTER TABLE $table ADD $columnName varchar($size)";
         $this->pdo->exec($newColumnSQL);

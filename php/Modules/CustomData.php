@@ -20,10 +20,20 @@ class CustomData
         $place = $data['Place'];
         //Result form structure
         $costumPlugins = $pdo->query(
-            "SELECT * FROM t_101 
+            "SELECT 
+                c_4_fk,
+                c_5_fk,
+                c_31 AS TName,
+                c_51 AS TableName,
+                c_52 AS TableIdName,
+                c_101_id,
+                c_56 AS Place,
+                c_57 AS 'Number',
+                c_58 AS Privilege
+             FROM t_101 
              INNER JOIN t_5
              ON c_5_fk=c_5_id
-             WHERE Place='$place';"
+             WHERE c_56='$place';"
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($costumPlugins as $costumPlugin) {

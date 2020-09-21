@@ -13,7 +13,7 @@ export default class APDetails {
             className = 'InsertByParam',
             //Card data
             table = 't_106',
-            c_title = 'Title',
+            c_title = 'c_64',
             v_title = 'Display',
             c_fModulePluginFK = 'c_104_fk',
             v_fModulePluginFK = fModulePluginFK,
@@ -21,7 +21,7 @@ export default class APDetails {
             v_fPluginPluginFK = 'null',
             c_fCustomPluginFK = 'c_101_fk',
             v_fCustomPluginFK = 'null',
-            c_number = 'Number',
+            c_number = 'c_65',
             v_number = '1';
 
         /** Display */

@@ -155,12 +155,12 @@ export default class CardBox {
                         displayInput['c_103_id'] = '2';
                         displayInput['Type'] = 'W';
                         displayInput['Name'] = 'Number';
-                        displayInput['UploadName'] = 't_102.Number';
+                        displayInput['UploadName'] = 't_102.c_60';
                         displayInput['Required'] = '1';
                         displayInput['Visible'] = '0';
                         displayInput['DefaultValue'] = number;
                         displayInput['TableName'] = 't_102';
-                        displayInput['ColumnName'] = 'Number';
+                        displayInput['ColumnName'] = 'c_60';
 
                         if (cBDevPlugin.Data['2'].Inputs.length > 2) {
                             cBDevPlugin.Data['2'].Inputs.pop();

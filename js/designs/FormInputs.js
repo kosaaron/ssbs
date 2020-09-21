@@ -490,7 +490,7 @@ let FormInputs = {
         });
 
         if (isFormInput) {
-            document.querySelector(`[upload-name="t_103.Type"][data-place="${shellId}"]`).addEventListener(
+            document.querySelector(`[upload-name="t_103.c_61"][data-place="${shellId}"]`).addEventListener(
                 'change',
                 function () {
                     setUploadName(shellId);
@@ -538,16 +538,16 @@ let FormInputs = {
         function setUploadName(shellId) {
             let frgnTableId = document.querySelector(`[upload-name="t_103.c_5_fk"][data-place="${shellId}_cstm"]`).value;
             console.log(frgnTableId);
-            let inputType = document.querySelector(`[upload-name="t_103.Type"][data-place="${shellId}"]`).value;
+            let inputType = document.querySelector(`[upload-name="t_103.c_61"][data-place="${shellId}"]`).value;
             console.log(inputType);
 
-            let uploadName = document.querySelector(`[upload-name="t_103.UploadName"][data-place="${shellId}"]`);
+            let uploadName = document.querySelector(`[upload-name="t_103.c_36"][data-place="${shellId}"]`);
             if (SelectInput.Decide(inputType)) {
                 uploadName.value = `${pluginTable}.c_${frgnTableId}_fk`
             } else {
                 let columnName = document.querySelector(`[upload-name="t_103.c_7_fk"][data-place="${shellId}"]`).value;
                 console.log(inputType);
-                uploadName.value = `t_${frgnTableId}.${columnName}`;
+                uploadName.value = `t_${frgnTableId}.c_${columnName}`;
             }
         }
     },

@@ -12,7 +12,24 @@ class CreateFormInputs
         $pdo = $PDOConnect->pdo;
         //Result form structure
         $resultFormStructure = $pdo->query(
-            "SELECT * FROM t_103 
+            "SELECT 
+                c_107_fk,
+                c_5_fk,
+                c_31 AS TName,
+                c_51 AS TableName,
+                c_52 AS TableIdName,
+                c_7_fk,
+                c_33 AS 'Name',
+                c_54 AS ColumnName,
+                c_103_id,
+                c_32 AS 'Number',
+                c_61 AS 'Type',
+                c_35 AS 'DefaultValue',
+                c_36 AS 'UploadName',
+                c_37 AS 'Required',
+                c_38 AS 'Visible',
+                c_62 AS 'Upload'
+             FROM t_103 
              INNER JOIN t_7 ON c_7_id=c_7_fk 
              INNER JOIN t_5 ON c_5_id=c_5_fk 
              WHERE c_107_fk='$fPluginFormInputFK' 

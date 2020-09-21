@@ -14,7 +14,7 @@ if ( !isset($_POST['Password'], $_POST['UserId']) ) {
 
 /*Set new password*/
 $password_encrypted = password_hash($password,  PASSWORD_DEFAULT);
-$query = "UPDATE t_200 SET UserPassword = :Password, VerificationStatus=1, ActivationCode=NULL
+$query = "UPDATE t_200 SET c_75 = :Password, c_78=1, c_77=NULL
                         WHERE c_200_id = :UserId";
 $update = $pdo->prepare($query);
 $update->execute(
@@ -29,8 +29,17 @@ $device_code = rand(10000, 99999);
 $device_hash = hash("sha256", $device_code);
 $device_hash_encrypted = password_hash($device_hash, PASSWORD_DEFAULT);
 
-$query = "SELECT * FROM t_200
-            WHERE c_200_id = :UserId";
+$query = "SELECT 
+            c_200_id,
+            c_200_fk,
+            c_8 AS FirstName,
+            c_74 AS LastName,
+            c_75 AS UserPassword,
+            c_76 AS Email,
+            c_77 AS ActivationCode,
+            c_78 AS VerificationStatus
+          FROM t_200
+          WHERE c_200_id = :UserId";
 
 $resultSet = $pdo->prepare($query);
 $resultSet->execute(
@@ -46,7 +55,7 @@ foreach ($resultSet as $result) {
 
 
 $query = "INSERT INTO t_100 
-(DeviceId, c_200_fk) 
+(c_55, c_200_fk) 
 VALUES (:device_code, :user_id)";
 
 $update = $pdo->prepare($query);
@@ -57,8 +66,12 @@ $update->execute(
     )
 );
 
-$query = "SELECT * FROM t_100
-        WHERE DeviceId = :device_code";
+$query = "SELECT 
+              c_100_id,
+              c_200_fk,
+              c_55 AS DeviceId
+          FROM t_100
+          WHERE DeviceId = :device_code";
 
 $resultSet = $pdo->prepare($query);
 $resultSet->execute(

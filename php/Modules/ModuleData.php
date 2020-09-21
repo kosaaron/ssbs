@@ -80,7 +80,13 @@ class ModuleData
     function getFUserModuleId($userId, $cModuleId)
     {
         $fUserModule = $this->pdo->query(
-            "SELECT * FROM t_110 WHERE c_200_fk='$userId' && c_3_fk='$cModuleId' ORDER BY t_110.Number"
+            "SELECT 
+                c_110_id,
+                c_200_fk,
+                c_6_fk,
+                c_3_fk,
+                c_72 AS 'Number'
+             FROM t_110 WHERE c_200_fk='$userId' && c_3_fk='$cModuleId' ORDER BY t_110.c_72"
         )->fetch(PDO::FETCH_ASSOC);
 
         return $fUserModule['c_110_id'];
@@ -93,10 +99,19 @@ class ModuleData
     function getFModulePlugins($fUserModuleId)
     {
         $modulePlugins = $this->pdo->query(
-            "SELECT t_104.*, TableName FROM t_104 
+            "SELECT 
+                c_104_id,
+                t_104.c_4_fk,
+                t_104.c_5_fk,
+                t_104.c_110_fk,    
+                c_28 AS 'Number',
+                c_27 AS Place,
+                c_29 AS 'DefaultScreen',
+                c_51 AS TableName
+             FROM t_104 
              LEFT JOIN t_5 on c_5_id=c_5_fk 
-             WHERE c_110_fk='$fUserModuleId' && DefaultScreen='1' 
-             ORDER BY t_104.Number ASC"
+             WHERE c_110_fk='$fUserModuleId' && c_29='1' 
+             ORDER BY t_104.c_28 ASC"
         )->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($modulePlugins as $key => $modulePlugin) {
@@ -120,7 +135,16 @@ class ModuleData
     function getFModulePluginById($fModulePluginId)
     {
         $fModulePlugin = $this->pdo->query(
-            "SELECT t_104.*, TableName FROM t_104 
+            "SELECT 
+                c_104_id,
+                t_104.c_4_fk,
+                t_104.c_5_fk,
+                t_104.c_110_fk,         
+                c_28 AS 'Number',
+                c_27 AS Place,
+                c_29 AS 'DefaultScreen',
+                c_51 AS TableName
+             FROM t_104 
              LEFT JOIN t_5 on c_5_id=c_5_fk 
              WHERE c_104_id='$fModulePluginId'"
         )->fetch(PDO::FETCH_ASSOC);
@@ -145,7 +169,17 @@ class ModuleData
     function getFPluginPluginById($fPluginPluginId)
     {
         $fPluginPlugin = $this->pdo->query(
-            "SELECT t_108.*, TableName FROM t_108 
+            "SELECT 
+                c_104_fk, 
+                c_108_fk, 
+                c_4_fk, 
+                c_5_fk, 
+                c_108_id, 
+                c_68 AS Place, 
+                c_69 AS 'Number', 
+                c_70 AS DefaultScreen, 
+                c_51 AS TableName
+             FROM t_108 
              LEFT JOIN t_5 on c_5_id=c_5_fk 
              WHERE c_108_id='$fPluginPluginId'"
         )->fetch(PDO::FETCH_ASSOC);
