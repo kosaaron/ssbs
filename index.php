@@ -3,11 +3,11 @@ session_start();
 
 if (isset($_SESSION['LoggedIn'])) {
     if (!$_SESSION['LoggedIn']) {
-        $url = 'http://localhost/login.php';
+        $url = "index.php";
         header("Location: $url");
     }
 } else {
-    $url = 'http://localhost/login.php';
+    $url = 'login.php';
     header("Location: $url");
 }
 ?>
@@ -53,7 +53,7 @@ if (isset($_SESSION['LoggedIn'])) {
         </div>
         <div id="content_shell" class="flex-1">
             <div id="content">
-                
+
             </div>
         </div>
     </div>

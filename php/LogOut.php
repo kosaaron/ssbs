@@ -2,5 +2,5 @@
 session_start();
 session_unset();
 session_destroy();
-$url = 'http://localhost/login.php';
+$url = 'login.php';
 header("Location: $url");

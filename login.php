@@ -3,7 +3,7 @@ session_start();
 
 if (isset($_SESSION['LoggedIn'])) {
     if ($_SESSION['LoggedIn']) {
-        $url = 'http://localhost/index.php';
+        $url = 'index.php';
         header("Location: $url");
     }
 }

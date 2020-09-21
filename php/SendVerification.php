@@ -27,7 +27,6 @@ $pdo = $PDOConnect->pdo;
 
 $query = "SELECT 
 			c_200_id,
-			c_200_fk,
 			c_8 AS FirstName,
 			c_74 AS LastName,
 			c_75 AS UserPassword,
