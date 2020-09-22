@@ -5,16 +5,18 @@ class PDOConnect
     function __construct()
     {
         $host = $_SERVER['HTTP_HOST'];
-        if ($host=="localhost") {
+        if ($host == "localhost") {
             $servername = "localhost";
             $username = "root";
             $password = "";
             $database = "ssbsyste_ssbs";
-        }else {
+        } else {
+            $subdomain = explode('.', $_SERVER['HTTP_HOST'])[0];
+            
             $servername = "ssbsystem.com";
             $username = "ssbsyste_server";
             $password = "Sport2018";
-            $database = "ssbsyste_ssbs";
+            $database = "ssbsyste_$subdomain";
         }
 
         try {
