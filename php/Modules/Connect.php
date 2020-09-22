@@ -4,16 +4,18 @@ class PDOConnect
     public $pdo;
     function __construct()
     {
-/*
-        $servername = "ssbsystem.com";
-        $username = "ssbsyste_server";
-        $password = "Sport2018";
-        $database = "ssbsyste_ssbs";
-        */
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "ssbsyste_ssbs";
+        $host = $_SERVER['HTTP_HOST'];
+        if ($host=="localhost") {
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $database = "ssbsyste_ssbs";
+        }else {
+            $servername = "ssbsystem.com";
+            $username = "ssbsyste_server";
+            $password = "Sport2018";
+            $database = "ssbsyste_ssbs";
+        }
 
         try {
             $pdo = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);

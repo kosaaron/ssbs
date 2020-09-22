@@ -36,7 +36,7 @@ function checkDevice(){
                     setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 }
                 else{
-                    x.innerHTML='<p>' + data['Message'] + '</p><i class="fas fa-times-circle"></i>';
+                    x.innerHTML='<p class="text-center">Eszköz nincs regisztrálva! Kérjük adja meg email címét!</p><i class="fas fa-times-circle"></i>';
                     x.classList.add("toast-message-displayed");
                     setTimeout(function(){ x.classList.remove("toast-message-displayed"); }, 3000);
                 }

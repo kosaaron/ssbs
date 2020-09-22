@@ -7,7 +7,7 @@ export default class CardDesigns {
      * @param {String} id 
      */
     static getNewEntryCard(id) {
-        return `<div class="col-lg-6"> <div id="${id}" class="card taskcard"> </div></div>`;
+        return `<div class="col-12"> <div id="${id}" class="card taskcard"><span class="absolute-add-button">+ Add item</span></div></div>`;
     }
 
     /**
