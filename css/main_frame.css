@@ -700,8 +700,10 @@ iframe[seamless] {
 .fixedaddbutton:hover {
     background-position: right center;
 }
-.fixededitbutton{
+
+.fixededitbutton {
     position: fixed;
+    background: #fff;
     width: 110px;
     height: 42px;
     bottom: 4%;
@@ -709,22 +711,24 @@ iframe[seamless] {
     border: 2px solid;
     border-image-slice: 1;
     border-width: 2px;
-    border-image-source: linear-gradient(to right,#2b416b, #1c6eb1);
-    color: #555;
+    border-image-source: linear-gradient(to right, #2b416b, #1c6eb1);
+    color: #2b416b;
 }
-.fixededitbutton:hover{
+
+.fixededitbutton:hover {
     background-image: linear-gradient(to right, rgb(43, 65, 107) 0%, rgb(28, 110, 177) 100%);
     color: white;
     border: 2px solid !important;
     border-image-slice: 1 !important;
     border-width: 2px !important;
-    border-image-source: linear-gradient(to right,#2b416b, #1c6eb1) !important;
+    border-image-source: linear-gradient(to right, #2b416b, #1c6eb1) !important;
 }
 
-.fixededitbutton i{
+.fixededitbutton i {
     padding-left: 12px;
     margin-bottom: 2px;
 }
+
 .filter-box-container {
     width: 100%;
     border-right: 1px solid #ddd;
@@ -749,7 +753,8 @@ iframe[seamless] {
     width: 0 !important
 }
 
-.absolute-add-button{
+.absolute-add-button {
+    font-weight: 600 !important;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -802,7 +807,7 @@ iframe[seamless] {
         bottom: 6%;
         right: 6%;
     }
-    .fixededitbutton{
+    .fixededitbutton {
         bottom: 6%;
         left: 20%;
     }
@@ -930,7 +935,7 @@ iframe[seamless] {
         bottom: 10%;
         right: 8%;
     }
-    .fixededitbutton{
+    .fixededitbutton {
         bottom: 11%;
         left: 5%;
     }
