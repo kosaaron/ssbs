@@ -27,22 +27,11 @@ export default class DinamicFormPopup {
         }
 
         localStorage.setItem(frameId, JSON.stringify(plugin));
+        localStorage.setItem(`${parentFrameId}_edit_mode`, 'true');
 
-        this.create(frameId, parentFrameId);
         this.events(frameId, parentFrameId, title, isFullscreen);
     }
 
-    /**
-     * Create
-     * @param {String} frameId 
-     * @param {String} parentFrameId 
-     */
-    create(frameId, parentFrameId) {
-        document.getElementById(parentFrameId).insertAdjacentHTML(
-            'beforeend',
-            this.getPlusBtnCard(frameId),
-        );
-    }
     /**
      * Events
      * @param {String} frameId 
@@ -51,16 +40,6 @@ export default class DinamicFormPopup {
      * @param {Boolean} isFullscreen 
      */
     events(frameId, parentFrameId, title, isFullscreen) {
-        document.getElementById(`${frameId}_btn`).addEventListener('click', function (e) {
-            DinamicFormPopup.open(frameId, parentFrameId, title, isFullscreen);
-
-            let detailsIdData = {};
-            console.log(`${parentFrameId}_data_details_id`);
-            detailsIdData = JSON.parse(localStorage.getItem(`${parentFrameId}_data_details_id`));
-            console.log(detailsIdData);
-            DinamicFormPopup.loadFormData(frameId, detailsIdData, parentFrameId);
-        });
-
         $(`#${parentFrameId}`).bind(`${parentFrameId}_open_form`, function () {
             DinamicFormPopup.open(frameId, parentFrameId, title, isFullscreen);
 
@@ -74,16 +53,6 @@ export default class DinamicFormPopup {
 
             DinamicFormPopup.loadFormData(frameId, detailsIdData, parentFrameId);
         });
-    }
-
-    /**
-     * GetPlusBtnCard
-     * @param {String} frameId 
-     */
-    getPlusBtnCard(frameId) {
-        return `<button id="${frameId}_btn" class="btn btn-primary fixedaddbutton">
-                <i class="fas fa-plus"></i>
-            </button>`;
     }
 
     /**
@@ -142,7 +111,7 @@ export default class DinamicFormPopup {
 
         if (entryIdJSON !== null) {
             data['IdOfData'] = entryIdJSON.Id;
-        } 
+        }
 
         $.ajax({
             type: "POST",
