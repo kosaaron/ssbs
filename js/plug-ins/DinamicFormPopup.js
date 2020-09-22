@@ -55,7 +55,23 @@ export default class DinamicFormPopup {
             DinamicFormPopup.open(frameId, parentFrameId, title, isFullscreen);
 
             let detailsIdData = {};
+            console.log(`${parentFrameId}_data_details_id`);
             detailsIdData = JSON.parse(localStorage.getItem(`${parentFrameId}_data_details_id`));
+            console.log(detailsIdData);
+            DinamicFormPopup.loadFormData(frameId, detailsIdData, parentFrameId);
+        });
+
+        $(`#${parentFrameId}`).bind(`${parentFrameId}_open_form`, function () {
+            DinamicFormPopup.open(frameId, parentFrameId, title, isFullscreen);
+
+            let openFormData = {};
+            openFormData = JSON.parse(localStorage.getItem(`${parentFrameId}_open_form`));
+
+            let detailsIdData = null;
+            if (openFormData.Type === 'update') {
+                detailsIdData = JSON.parse(localStorage.getItem(`${parentFrameId}_data_details_id`));
+            }
+
             DinamicFormPopup.loadFormData(frameId, detailsIdData, parentFrameId);
         });
     }
@@ -107,7 +123,6 @@ export default class DinamicFormPopup {
         entryIdJSON = null,
         parentFrameId
     ) {
-
         let plugin = JSON.parse(localStorage.getItem(frameId));
 
         /*
@@ -123,11 +138,12 @@ export default class DinamicFormPopup {
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
         data['RequestType'] = plugin['RequestType'];
         data['FModulePluginId'] = plugin['FModulePluginId'];
+        data['IdOfData'] = null;
 
-        if (entryIdJSON === null) {
-            data['IdOfData'] = null;
-        }
-        console.log(data);
+        if (entryIdJSON !== null) {
+            data['IdOfData'] = entryIdJSON.Id;
+        } 
+
         $.ajax({
             type: "POST",
             url: "./php/Router.php",

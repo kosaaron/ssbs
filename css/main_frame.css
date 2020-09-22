@@ -544,11 +544,13 @@ iframe[seamless] {
     height: 100%;
     overflow: hidden;
 }
-.cc-details-container{
+
+.cc-details-container {
     height: 100%;
     border-left: 1px solid #ddd;
     background-color: #FFFEFC;
 }
+
 /* ratio of 1:1
 .one-tile:before {
     content: "";
@@ -676,6 +678,7 @@ iframe[seamless] {
 .empl-status-work {
     color: #101010;
 }
+
 .fixedaddbutton {
     position: fixed;
     width: 50px;
@@ -697,7 +700,8 @@ iframe[seamless] {
 .fixedaddbutton:hover {
     background-position: right center;
 }
-.filter-box-container{
+
+.filter-box-container {
     width: 100%;
     border-right: 1px solid #ddd;
     background-color: #FFFEFC;
@@ -722,13 +726,14 @@ iframe[seamless] {
 }
 
 @media only screen and (min-width: 992px) {
-    .fixedbackbutton{
+    .fixedbackbutton {
         display: none;
     }
     .cc-details-container {
         display: block;
     }
 }
+
 @media only screen and (max-width: 992px) {
     .item-icon {
         font-size: 40px;
@@ -755,7 +760,7 @@ iframe[seamless] {
         position: absolute;
         overflow: hidden;
         padding-top: none;
-        padding: 5% 16%;
+        padding: 2% 16%;
         border: none;
         z-index: 780;
     }
@@ -906,14 +911,16 @@ iframe[seamless] {
         /* NEW, Spec - Opera 12.1, Firefox 20+ */
     }
 }
+
 @media only screen and (min-width: 576px) {
-    .fixedfilterbutton{
+    .fixedfilterbutton {
         display: none;
     }
-    .filter-box-container{
+    .filter-box-container {
         display: block;
     }
 }
+
 @media only screen and (max-width: 576px) {
     #main_menu {
         height: 45px;
@@ -947,15 +954,14 @@ iframe[seamless] {
     .cc-details-container {
         padding: 0 4%;
     }
-    .filter-box-container{
+    .filter-box-container {
         display: none;
         width: 100%;
         height: 100%;
         z-index: 800;
     }
-    .fixedfilterbutton{
+    .fixedfilterbutton {
         bottom: 20%;
         z-index: 1000;
     }
-
 }

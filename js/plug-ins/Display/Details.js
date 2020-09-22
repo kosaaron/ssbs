@@ -30,8 +30,6 @@ export default class Details {
         Details.create(plugin, frameId, parentFrameId);
         this.events(plugin, frameId, parentFrameId);
         Details.callChildren(plugin, frameId);
-
-        AutoScroll.Integration(`${frameId}_content`);
     }
 
     /**
@@ -104,6 +102,8 @@ export default class Details {
                 $(`.cc-details-container`).hide();
             }
         )
+
+        AutoScroll.Integration(`${frameId}_content`);
     }
 
     static getDevFrame(frameId) {

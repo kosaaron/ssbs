@@ -14,14 +14,18 @@ let FormInputs = {
      * @param {Function} refreshFn 
      */
     UpdateInputs: function (placeName, entryId, refreshFn) {
-        let updateData = FormInputs.CreateJSON(placeName);
-
-        console.log(updateData);
+        let updateData = FormInputs.CreateJSON(placeName),
+            className = 'UpdateByParam',
+            uploadData = {};
+        uploadData['UpdateByParamData'] = updateData;
+        uploadData['EntryId'] = entryId;
+        
+        console.log(uploadData);
 
         $.ajax({
             type: "POST",
-            url: "./php/UpdateDataWithParam.php",
-            data: { 'Data': updateData, 'EntryId': entryId },
+            url: "./php/Router.php",
+            data: { 'Module': className, 'Data': uploadData },
             success: function (result) {
                 if (refreshFn !== null && refreshFn !== undefined) {
                     refreshFn(result);

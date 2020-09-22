@@ -23,7 +23,7 @@ switch ($module) {
         require_once('Modules/ModuleData.php');
         if (isset($data['CModuleId'])) {
             $cModuleId = $data['CModuleId'];
-        }else {
+        } else {
             $cModuleId = null;
         }
         // RequestType: D - default frame, MP - module's plugin, PP plugin's plugin
@@ -87,6 +87,20 @@ switch ($module) {
 
         $insertImage = new InsertImage();
         $main_data =  $insertImage->Create($data);
+
+        print_r(json_encode($main_data));
+        break;
+    case 'UpdateByParam':
+        //Includes
+        require_once('Modules/UpdateByParam.php');
+
+        //Post varibles
+        $updateData = $data['UpdateByParamData'];
+        $entryId = $data['EntryId'];
+
+        //Call upload function
+        $updateByParam = new UpdateByParam();
+        $main_data = [$updateByParam->Default($updateData, $entryId)];
 
         print_r(json_encode($main_data));
         break;

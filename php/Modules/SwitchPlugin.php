@@ -240,7 +240,6 @@ class SwitchPlugin
                 . " && c_101_fk" . $this->ifNull($fCustomPluginId)
         )->fetchAll(PDO::FETCH_ASSOC);
 
-
         if (array_key_exists('IdOfData', ModuleMetadata::$uplodedData)) {
             if (
                 ModuleMetadata::$uplodedData['IdOfData'] === 'null'
@@ -248,6 +247,8 @@ class SwitchPlugin
                 || ModuleMetadata::$uplodedData['IdOfData'] === null
             ) {
                 ModuleMetadata::$disableFormFill = true;
+            } else {
+                ModuleMetadata::$disableFormFill = false;
             }
         } else {
             ModuleMetadata::$disableFormFill = true;

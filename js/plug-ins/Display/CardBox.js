@@ -4,6 +4,7 @@ import FormInputs from "../../designs/FormInputs.js";
 import CardNumber from "../objects/CardNumber.js";
 import DinamicFormPopup from "../DinamicFormPopup.js";
 import FillCard from "../objects/FillCard.js";
+import { addListener } from "../../common.js";
 
 export default class CardBox {
     /**
@@ -265,7 +266,6 @@ export default class CardBox {
 
             CardBox.filtering(plugin, frameId, parentFrameId, filterData, sortData, limiterData);
         });
-
     }
 
     /**
@@ -277,14 +277,43 @@ export default class CardBox {
      */
     static createBox(plugin, frameId, parentFrameId, isMore) {
         let card = CardBox.getCard(plugin, frameId);
+
+        //New entry
+        let newEntryCardId = `${frameId}_new_entry`;
+        document.getElementById(frameId).insertAdjacentHTML(
+            'afterbegin',
+            CardDesigns.getNewEntryCard(newEntryCardId)
+        );
+
         //First data package
         let displayObject = plugin.Data['1'].Display;
         let createBox = new CreateBox();
         createBox.create(displayObject, card, frameId);
 
+        //Cards
         let cards = document.querySelectorAll(`[data-place="${frameId}"]`);
+
+        //First card design
+        let firstCard = cards[0],
+            firstCardFullId = firstCard.id;
+        $(`#${firstCardFullId}`).addClass("selected-taskcard");
+
+        /* Events */
+        //New entry
+        document.getElementById(newEntryCardId).addEventListener('click', function () {
+            let openFormData = {};
+            openFormData.Type = 'new';
+            localStorage.setItem(`${parentFrameId}_open_form`, JSON.stringify(openFormData));
+            $(`#${parentFrameId}`).trigger(`${parentFrameId}_open_form`);
+        });
+
+        //Add click event to cards
         for (const card of cards) {
             card.addEventListener('click', function (e) {
+                let cardFullId = this.id;
+                $(".selected-taskcard").removeClass("selected-taskcard");
+                $(`#${cardFullId}`).addClass("selected-taskcard");
+
                 let changeData = {};
                 changeData['ObjectId'] = this.getAttribute('object-id');
                 localStorage.setItem(`${parentFrameId}_change_details`, JSON.stringify(changeData));

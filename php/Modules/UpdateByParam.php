@@ -33,7 +33,6 @@ class UpdateByParam
             }
 
             $finalSQL .= ' WHERE ' . $entryId['IdColumn'] . '=' . $entryId['Id'] . ';';
-
             $finalQueary = $pdo->prepare($finalSQL);
             $finalQueary->execute();
 
